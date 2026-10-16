@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>USA Anime Club</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f3eeff;--ink:#1a1033;--panel:#fff;--pink:#ff2e88;--blue:#2d5bff;--yellow:#ffd93b;--mint:#19e3b1;--muted:#5b4f7a;--dot:rgba(26,16,51,.14);
+--d:'Dela Gothic One','Impact','Arial Black',sans-serif;--b:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150b2e;--ink:#fff3ff;--panel:#241347;--muted:#b9a9e0;--dot:rgba(255,255,255,.1)}}
+:root[data-theme="dark"]{--bg:#150b2e;--ink:#fff3ff;--panel:#241347;--muted:#b9a9e0;--dot:rgba(255,255,255,.1)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 var(--b);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.4px);background-size:14px 14px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;flex-wrap:wrap}
+.logo{font:1.25rem var(--d);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:50%;background:conic-gradient(var(--pink),var(--yellow),var(--mint),var(--blue),var(--pink));border:3px solid var(--ink)}
+nav div{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-weight:700}
+nav a{text-decoration:none}nav a:hover{color:var(--pink)}
+button{font:inherit;cursor:pointer}
+.tog{border:3px solid var(--ink);background:var(--panel);color:var(--ink);border-radius:99px;padding:4px 12px;font-weight:700}
+.btn{display:inline-block;border:3px solid var(--ink);background:var(--yellow);color:#1a1033;font:1rem var(--d);padding:12px 22px;border-radius:12px;box-shadow:5px 5px 0 var(--ink);text-decoration:none;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn.pink{background:var(--pink);color:#fff}
+/* manga page hero */
+.page{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(150px,auto);gap:14px;margin:10px 0 0}
+.p{position:relative;overflow:hidden;border:4px solid var(--ink);background:var(--panel);padding:22px;transition:transform .2s}
+.p:hover{transform:rotate(-.6deg) scale(1.01)}
+.a{grid-column:1/5;grid-row:1/3;clip-path:polygon(0 0,100% 0,96% 100%,0 100%);background:var(--panel);display:flex;flex-direction:column;justify-content:center}
+.a h1{font:clamp(2.6rem,8vw,5.6rem)/.92 var(--d);margin:0 0 16px;letter-spacing:-.02em}
+.a h1 span{display:block;color:var(--pink);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:5px 5px 0 var(--ink)}
+.a p{max-width:46ch;margin:0 0 20px;color:var(--muted);font-weight:500}
+.b{grid-column:5/7;grid-row:1/2;background:var(--pink);color:#fff;clip-path:polygon(4% 0,100% 0,100% 100%,0 100%);background-image:repeating-conic-gradient(from 0deg at 50% 120%,rgba(255,255,255,.22) 0 3deg,transparent 3deg 9deg)}
+.b b{font:1.5rem/1.1 var(--d);display:block}
+.c{grid-column:5/7;grid-row:2/3;background:var(--yellow);color:#1a1033;display:grid;place-items:center;text-align:center;clip-path:polygon(0 0,100% 6%,100% 100%,0 100%)}
+.c span{font:clamp(3.5rem,9vw,6rem)/1 var(--d);transform:rotate(-8deg);color:var(--blue);-webkit-text-stroke:2px #1a1033;paint-order:stroke fill;text-shadow:4px 4px 0 #1a1033;animation:thump 1.6s ease-in-out infinite}
+.c small{font-weight:700}
+@keyframes thump{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(-5deg) scale(1.12)}}
+.d{grid-column:1/3;background:var(--mint);color:#1a1033}
+.e{grid-column:3/7;background:var(--blue);color:#fff;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.d b,.e b{font:1.35rem/1.15 var(--d);display:block}
+.e .btn{background:#fff}
+/* marquee */
+.mq{margin:34px -20px;border-block:4px solid var(--ink);background:var(--ink);color:var(--bg);overflow:hidden;white-space:nowrap;transform:rotate(-1.2deg)}
+.mq div{display:inline-block;padding:10px 0;font:1.1rem var(--d);animation:slide 26s linear infinite}
+.mq span{margin:0 18px}.mq span:nth-child(3n){color:var(--pink)}.mq span:nth-child(3n+1){color:var(--mint)}.mq span:nth-child(3n+2){color:var(--yellow)}
+@keyframes slide{to{transform:translateX(-50%)}}
+h2{font:clamp(1.8rem,5vw,3rem)/1.05 var(--d);margin:70px 0 22px}
+.what{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.what .p{display:flex;flex-direction:column;gap:6px}
+.what h3{font:1.4rem/1.1 var(--d);margin:0}
+.what p{margin:0;font-weight:500}
+.w1{grid-column:span 3;background:var(--pink);color:#fff}
+.w2{grid-column:span 3;background:var(--yellow);color:#1a1033}
+.w3{grid-column:span 2;background:var(--mint);color:#1a1033}
+.w4{grid-column:span 4;background:var(--panel)}
+.big{font:3rem/1 var(--d)}
+/* schedule */
+.sched{display:grid;gap:12px}
+.ev{display:grid;grid-template-columns:96px 1fr auto;gap:18px;align-items:center;border:4px solid var(--ink);background:var(--panel);padding:14px 18px;border-radius:14px;box-shadow:6px 6px 0 var(--ink)}
+.ev time{font:1.1rem/1.1 var(--d);text-align:center;background:var(--pink);color:#fff;border:3px solid var(--ink);border-radius:10px;padding:8px 4px}
+.ev:nth-child(2) time{background:var(--blue)}.ev:nth-child(3) time{background:var(--mint);color:#1a1033}
+.ev b{font-size:1.15rem}.ev p{margin:0;color:var(--muted)}
+.tag{border:3px solid var(--ink);border-radius:99px;padding:2px 12px;font-weight:700;font-size:.9rem;background:var(--yellow);color:#1a1033;white-space:nowrap}
+.note{color:var(--muted);font-size:.9rem;margin-top:12px}
+/* genre picker */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{border:3px solid var(--ink);background:var(--panel);color:var(--ink);border-radius:99px;padding:6px 16px;font-weight:700}
+.chip[aria-pressed="true"]{background:var(--pink);color:#fff;box-shadow:3px 3px 0 var(--ink)}
+#pick{min-height:96px;border:4px dashed var(--ink);border-radius:14px;padding:18px;background:var(--panel);font-weight:500}
+/* join */
+.join{margin:80px 0 40px;background:var(--pink);color:#fff;padding:clamp(22px,5vw,48px);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);border-radius:18px;background-image:repeating-conic-gradient(from 0deg at 100% 0%,rgba(255,255,255,.16) 0 4deg,transparent 4deg 10deg)}
+.join h2{margin-top:0}
+form{display:grid;gap:12px;grid-template-columns:1fr 1fr;max-width:720px}
+label{font-weight:700;display:grid;gap:4px}
+input,select{font:inherit;padding:12px;border:3px solid var(--ink);border-radius:10px;background:#fff;color:#1a1033;width:100%}
+.full{grid-column:1/-1}
+#ok{display:none;font:1.2rem/1.3 var(--d)}
+footer{padding:30px 0 50px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:760px){
+.page,.what{grid-template-columns:1fr}
+.page>.p,.what>.p{grid-column:1!important;grid-row:auto!important;clip-path:none}
+.ev{grid-template-columns:78px 1fr}.ev .tag{grid-column:2;justify-self:start}
+form{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+<a class="logo" href="#top"><i></i>USA Anime Club</a>
+<div><a href="#what">What we do</a><a href="#events">Events</a><a href="#taste">Your taste</a><a href="#join">Join</a>
+<button class="tog" id="tog" aria-label="Switch between light and dark theme">Dark mode</button></div>
+</nav>
+
+<main id="top">
+<section class="page" aria-label="Welcome">
+<div class="p a">
+<h1>Your anime<span>crew</span> starts here.</h1>
+<p>Watch parties, cosplay days, manga swaps and tournaments for fans across the USA. Beginners and lifelong otaku sit at the same table.</p>
+<div><a class="btn pink" href="#join">Join the club</a></div>
+</div>
+<div class="p b"><small>Next watch party</small><b>Friday, 7 PM</b><small>Snacks provided, subtitles on</small></div>
+<div class="p c"><div><span>ドン!</span><br><small>Members vote on every season pick</small></div></div>
+<div class="p d"><b>Free to join</b>No gatekeeping. Ask what to watch first.</div>
+<div class="p e"><b>Never seen a single episode? Perfect. We have a starter list.</b><a class="btn" href="#taste">Find my genre</a></div>
+</section>
+
+<div class="mq" aria-hidden="true"><div id="mq"></div></div>
+
+<h2 id="what">What we do</h2>
+<section class="what">
+<div class="p w1"><span class="big">1</span><h3>Watch parties</h3><p>Weekly screenings, in person or online, with a new series every season.</p></div>
+<div class="p w2"><h3>Cosplay days</h3><p>Build, trade tips and show off. Props workshops for every skill level.</p></div>
+<div class="p w3"><h3>Manga swap</h3><p>Bring a volume, take a volume.</p></div>
+<div class="p w4"><h3>Tournaments and trivia</h3><p>Fighting games, rhythm games and opening-song quizzes. Prizes are bragging rights and a trophy shaped like a fish.</p></div>
+</section>
+
+<h2 id="events">Coming up</h2>
+<div class="sched">
+<div class="ev"><time>FRI<br>7 PM</time><div><b>Season Premiere Night</b><p>Two first episodes, one vote on which gets a full run.</p></div><span class="tag">Watch party</span></div>
+<div class="ev"><time>SAT<br>1 PM</time><div><b>Cosplay Workshop</b><p>Foam armor basics and wig styling.</p></div><span class="tag">Workshop</span></div>
+<div class="ev"><time>SUN<br>4 PM</time><div><b>Opening Song Showdown</b><p>Name that anime in five seconds or less.</p></div><span class="tag">Trivia</span></div>
+</div>
+<p class="note">Sample schedule. Replace with your real dates before launch.</p>
+
+<h2 id="taste">What should you watch first?</h2>
+<div class="chips" id="chips"></div>
+<div id="pick" aria-live="polite">Pick a genre and we'll point you to a starting place.</div>
+
+<section class="join" id="join">
+<h2>Join USA Anime Club</h2>
+<form id="f">
+<label>Name<input name="n" required autocomplete="name"></label>
+<label>Email<input name="e" type="email" required autocomplete="email"></label>
+<label class="full">Favorite genre<select name="g"><option>Action</option><option>Romance</option><option>Slice of life</option><option>Sports</option><option>Horror</option><option>Sci-fi</option><option>I'm new, surprise me</option></select></label>
+<div class="full"><button class="btn" type="submit">Join the club</button></div>
+</form>
+<p id="ok" role="status"></p>
+</section>
+</main>
+
+<footer><span>© 2026 USA Anime Club</span><span>usaanimeclub.com</span></footer>
+</div>
+
+<script>
+var w=["Action","Romance","Cosplay","Slice of life","Mecha","Shonen","Isekai","Sports","Horror","Manga","Karaoke","Fighting games"];
+document.getElementById('mq').innerHTML=w.concat(w).map(function(x){return '<span>'+x+'</span>'}).join('');
+var picks={
+"Action":"Start with a tournament-style fighter series. Fast fights, clear stakes, easy to follow week to week.",
+"Romance":"Pick a school-life romance with a short run. Twelve episodes, one big confession, snacks required.",
+"Slice of life":"Try a quiet seasonal show about friends and food. Great for a first watch party.",
+"Sports":"Choose a volleyball or basketball series. You'll be shouting at the screen by episode three.",
+"Horror":"Go for a short psychological thriller. Lights off, group seating recommended.",
+"Sci-fi":"Begin with a space-crew series, then move to mecha once you're hooked."
+};
+var cs=document.getElementById('chips'),pk=document.getElementById('pick');
+Object.keys(picks).forEach(function(k){var b=document.createElement('button');b.className='chip';b.textContent=k;b.setAttribute('aria-pressed','false');
+b.onclick=function(){cs.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');pk.textContent=picks[k]};cs.appendChild(b)});
+document.getElementById('f').onsubmit=function(e){e.preventDefault();var n=this.n.value.split(' ')[0];this.style.display='none';var o=document.getElementById('ok');o.style.display='block';o.textContent='Welcome, '+n+'! Watch your inbox for the next watch party.'};
+var t=document.getElementById('tog'),r=document.documentElement;
+t.onclick=function(){var dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=dark?'light':'dark';t.textContent=dark?'Dark mode':'Light mode'};
+if(matchMedia('(prefers-color-scheme:dark)').matches)t.textContent='Light mode';
+</script>
+</body>
+</html>
