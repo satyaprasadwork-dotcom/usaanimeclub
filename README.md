@@ -9,7 +9,8 @@ An independent, US-focused anime editorial site built from source content into f
 - `templates/layout.html`: one shared page shell for nav, footer, consent, analytics and metadata
 - `scripts/build.mjs`: generates static pages, article cards, structured data, filters and sitemap
 - `scripts/validate.mjs`: verifies content structure, local links, sitemap, metadata and disabled advertising
-- `assets/site.css`, `assets/site.js`: shared styles, functionality and optional analytics
+- `assets/site.css`, `assets/site.js`: shared styles and interface functionality
+- `assets/tracking.js`: **one** consent-aware Google Analytics / Microsoft Clarity implementation on every page (including the 404 page)
 - `assets/covers/*.svg`, `assets/logo.svg`: original owned topic illustrations and logo
 - `content/review-register.json`: manual fact/source-review status; **not a completed fact check**
 - `tools/convention-budget/`: free in-browser cost worksheet
@@ -26,8 +27,8 @@ Do **not** hand-edit generated `guides/*/index.html`, `index.html`, article-dire
 
 ## Analytics and advertising
 
-- Google Analytics GA4: `G-G0TNMR0FQL` and Microsoft Clarity: `yyqq9cryjc` load only after the optional analytics choice is accepted.
-- AdSense publisher verification meta tag: `ca-pub-7937216909291905`. There is no ad loader or inserted ad slots until the relevant AdSense and consent requirements are configured.
+- Google Analytics GA4: `G-G0TNMR0FQL` and Microsoft Clarity: `yyqq9cryjc` are configured once in `assets/tracking.js`, imported by the shared layout. Both load **only** after an affirmative analytics choice; denying consent keeps their external scripts unloaded. The preference is changeable via the footer on every page, including the 404 page.
+- AdSense publisher verification meta tag: `ca-pub-7937216909291905`, included once in the shared layout on every published page (and the 404 page). Google allows meta-tag verification during review. The AdSense **ad-serving script** is deliberately not loaded until the site is approved and the relevant certified CMP is configured.
 - A Google-certified CMP integrated with the IAB TCF is required when serving personalized ads in the EEA, UK and Switzerland. The native analytics preference control is **not** a certified CMP. Configure a certified solution via AdSense Privacy & messaging (or a certified third party) before activating ads where required.
 - Verify actual hosting/log policies, regional privacy obligations, `ads.txt` ownership and contact email delivery against the live service. None can be proved from GitHub alone.
 

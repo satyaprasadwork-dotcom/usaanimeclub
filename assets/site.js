@@ -30,31 +30,25 @@ if(chooser){
   if(b)choose(b.dataset.category);
  }
 }
+/* UI for the single, consent-aware tracking service. No tracker is loaded here. */
 const panel=document.getElementById("consent-panel");
 const accept=document.getElementById("accept-optional");
 const decline=document.getElementById("reject-optional");
 const privacy=document.getElementById("privacy-reopen");
-function enableAnalytics(){
- if(window.__uacAnalyticsLoaded)return;
- window.__uacAnalyticsLoaded=true;
- window.dataLayer=window.dataLayer||[];
- window.gtag=function(){window.dataLayer.push(arguments)};
- window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
- window.gtag("consent","update",{analytics_storage:"granted"});
- window.gtag("js",new Date());
- window.gtag("config","G-G0TNMR0FQL");
- const g=document.createElement("script");g.async=true;g.src="https://www.googletagmanager.com/gtag/js?id=G-G0TNMR0FQL";document.head.appendChild(g);
- (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","yyqq9cryjc");
-}
-const choice=store.get("uac-analytics-consent");
-if(choice==="yes")enableAnalytics();
-else if(choice!=="no"&&panel)panel.hidden=false;
-if(privacy&&panel)privacy.addEventListener("click",()=>{panel.hidden=false;accept?.focus()});
-if(accept&&panel)accept.addEventListener("click",()=>{store.set("uac-analytics-consent","yes");panel.hidden=true;enableAnalytics()});
+const measurement=window.UACTracking;
+if(panel&&measurement&&measurement.preference()===null)panel.hidden=false;
+if(privacy&&panel)privacy.addEventListener("click",()=>{
+  panel.hidden=false;
+  accept?.focus();
+});
+if(accept&&panel)accept.addEventListener("click",()=>{
+  measurement?.accept();
+  panel.hidden=true;
+});
 if(decline&&panel)decline.addEventListener("click",()=>{
- const wasAllowed=store.get("uac-analytics-consent")==="yes";
- store.set("uac-analytics-consent","no");panel.hidden=true;
- if(wasAllowed)location.reload();
+  const wasActive=measurement?.decline()??false;
+  panel.hidden=true;
+  if(wasActive)location.reload();
 });
 const budget=document.getElementById("budget-form");
 if(budget){

@@ -31,4 +31,25 @@ const xml=read("sitemap.xml"),listed=[...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].m
 if(listed.length!==pages.length)errors.push("Sitemap does not match published page count");
 for(const p of pages)if(!listed.includes("https://usaanimeclub.com"+p.path))errors.push("Sitemap missing "+p.path);
 if(!read("templates/layout.html").includes("{{MAIN}}"))errors.push("Template has no body slot");
+
+const tracking=read("assets/tracking.js"),shared=read("templates/layout.html");
+for(const key of ["G-G0TNMR0FQL","yyqq9cryjc","ca-pub-7937216909291905"])
+ if(!tracking.includes(key))errors.push("Central tracking config missing "+key);
+if(!tracking.includes("analytics_storage:"))errors.push("Central tracking script missing analytics consent default");
+if(!tracking.includes('preference()!=="yes"'))errors.push("Optional trackers are not gated by opt-in");
+if(!shared.includes('src="/assets/tracking.js"'))errors.push("Shared template missing tracking module");
+if(!shared.includes('name="google-adsense-account"'))errors.push("Shared template missing AdSense verification");
+for(const item of pages){
+ const relative=item.path==="/"? "index.html":item.path.slice(1)+"index.html";
+ const markup=read(relative);
+ const count=(needle)=>markup.split(needle).length-1;
+ if(count('src="/assets/tracking.js"')!==1)errors.push(relative+": expected exactly one central tracking module");
+ if(count('src="/assets/site.js"')!==1)errors.push(relative+": expected exactly one site module");
+ if(count('name="google-adsense-account"')!==1)errors.push(relative+": expected exactly one AdSense meta tag");
+ if(markup.includes("www.googletagmanager.com/gtag/js")||markup.includes("www.clarity.ms/tag/"))errors.push(relative+": duplicate hard-coded measurement loader");
+}
+const errorPage=read("404.html");
+for(const marker of ['src="/assets/tracking.js"','src="/assets/site.js"','name="google-adsense-account"','id="privacy-reopen"'])
+ if(!errorPage.includes(marker))errors.push("404 missing "+marker);
+
 if(errors.length){console.error(errors.join("\n"));process.exitCode=1;}else console.log("Validated "+pages.length+" pages, "+pages.filter(p=>p.kind==="article").length+" articles, navigation, metadata and sitemap.");
