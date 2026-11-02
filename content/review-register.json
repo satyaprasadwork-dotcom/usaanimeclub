@@ -1,0 +1,171 @@
+{
+  "updated": "2026-11-03",
+  "purpose": "Manual checks are separate from automated site validation. Do not claim article fact-check completion without source evidence.",
+  "guides": [
+    {
+      "path": "/guides/anime-season-terms/",
+      "title": "Anime Seasons, Cours and Simulcasts: What Release Labels Actually Mean",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/buy-anime-merch-safely/",
+      "title": "Buying Anime Merchandise Safely in the US: A Fan's Checklist",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/spoiler-etiquette/",
+      "title": "Anime Spoiler Etiquette: Discuss Stories Without Ruining Them",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/first-anime-convention/",
+      "title": "Your First Anime Convention in the US: A Practical Field Guide",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/find-anime-streaming-us/",
+      "title": "How to Find Where an Anime Streams Legally in the US",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/host-anime-watch-party/",
+      "title": "Hosting an Anime Watch Party: Rights, Captions and Comfort",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/cosplay-budget-safety/",
+      "title": "Cosplay on a Budget: Design, Safety and Convention Rules",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/manga-collecting-budget/",
+      "title": "Manga Collecting on a Budget: A Guide for US Readers",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/start-anime-club/",
+      "title": "How to Start an Anime Club That People Want to Return To",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/dub-or-sub/",
+      "title": "Dub or Sub? A More Useful Way to Choose Anime Audio",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/choose-first-anime/",
+      "title": "How to Choose Your First Anime Without Getting Overwhelmed",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/fan-art-permission-credit/",
+      "title": "Fan Art, Credits and Permissions: A Practical Guide for Anime Fans",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/anime-manga-public-library/",
+      "title": "Anime and Manga at Your Public Library: A US Reader's Guide",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/manga-editions-translations/",
+      "title": "Manga Editions and Translations: What to Compare Before You Buy",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    },
+    {
+      "path": "/guides/accessible-anime-viewing/",
+      "title": "Making Anime Viewing More Accessible: Captions, Devices and Watch Spaces",
+      "status": "requires_manual_claim_review",
+      "originality": "editorial_assistance_disclosed",
+      "primary_sources": "spot_check_needed",
+      "lastAutomatedCheck": "not_a_fact_check",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+    }
+  ]
+}

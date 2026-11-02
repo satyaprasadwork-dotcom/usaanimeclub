@@ -1,0 +1,255 @@
+[
+  {
+    "path": "/",
+    "source": "content/pages/home.html",
+    "kind": "page",
+    "title": "Anime Guides, Cosplay, Manga & Community in the US",
+    "description": "USA Anime Club publishes practical US-focused guides to anime streaming, cosplay, conventions, manga and fan communities.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/about/",
+    "source": "content/pages/about.html",
+    "kind": "page",
+    "title": "About USA Anime Club",
+    "description": "An independent editorial home for US anime fans.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/community-guidelines/",
+    "source": "content/pages/community-guidelines.html",
+    "kind": "page",
+    "title": "Community Guidelines",
+    "description": "Expectations for respectful conversations and safe fan activities.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/contact/",
+    "source": "content/pages/contact.html",
+    "kind": "page",
+    "title": "Contact USA Anime Club",
+    "description": "Send editorial feedback, corrections or general enquiries.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/disclaimer/",
+    "source": "content/pages/disclaimer.html",
+    "kind": "page",
+    "title": "Disclaimer & Fan Site Notice",
+    "description": "USA Anime Club is unofficial, independent and not an event organizer.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/editorial-policy/",
+    "source": "content/pages/editorial-policy.html",
+    "kind": "page",
+    "title": "Editorial Policy",
+    "description": "How USA Anime Club researches, publishes and corrects articles.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/",
+    "source": "content/pages/guides.html",
+    "kind": "page",
+    "title": "Anime & Manga Guides",
+    "description": "US-focused practical guides on anime streaming, cosplay, conventions, clubs, manga and getting started.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/privacy/",
+    "source": "content/pages/privacy.html",
+    "kind": "page",
+    "title": "Privacy Policy",
+    "description": "How website analytics, ads and contact emails relate to your privacy.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/terms/",
+    "source": "content/pages/terms.html",
+    "kind": "page",
+    "title": "Terms of Use",
+    "description": "Ground rules for reading and using USA Anime Club content.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/anime-season-terms/",
+    "source": "content/pages/guides--anime-season-terms.html",
+    "kind": "article",
+    "title": "Anime Seasons, Cours and Simulcasts: What Release Labels Actually Mean",
+    "description": "Understand release terms, episode counts and schedule language without mistaking marketing labels for a complete series.",
+    "category": "Viewing",
+    "cover": "season",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/buy-anime-merch-safely/",
+    "source": "content/pages/guides--buy-anime-merch-safely.html",
+    "kind": "article",
+    "title": "Buying Anime Merchandise Safely in the US: A Fan's Checklist",
+    "description": "Check seller identity, listings, payment protections and authenticity signals before buying a figure, poster or collectible.",
+    "category": "Buying",
+    "cover": "buying",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/spoiler-etiquette/",
+    "source": "content/pages/guides--spoiler-etiquette.html",
+    "kind": "article",
+    "title": "Anime Spoiler Etiquette: Discuss Stories Without Ruining Them",
+    "description": "Practical spoiler boundaries for group chats, conventions, watch parties and public posts.",
+    "category": "Community",
+    "cover": "spoilers",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/first-anime-convention/",
+    "source": "content/pages/guides--first-anime-convention.html",
+    "kind": "article",
+    "title": "Your First Anime Convention in the US: A Practical Field Guide",
+    "description": "Plan tickets, transit, spending, accessibility and your first convention schedule without turning it into a logistical marathon.",
+    "category": "Planning",
+    "cover": "convention",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/find-anime-streaming-us/",
+    "source": "content/pages/guides--find-anime-streaming-us.html",
+    "kind": "article",
+    "title": "How to Find Where an Anime Streams Legally in the US",
+    "description": "Use a repeatable search method that checks regional rights, seasons, audio tracks, subscriptions and purchase options.",
+    "category": "Streaming",
+    "cover": "streaming",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/host-anime-watch-party/",
+    "source": "content/pages/guides--host-anime-watch-party.html",
+    "kind": "article",
+    "title": "Hosting an Anime Watch Party: Rights, Captions and Comfort",
+    "description": "Build an enjoyable group viewing experience while taking screening permissions and accessibility seriously.",
+    "category": "Community",
+    "cover": "watch",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/cosplay-budget-safety/",
+    "source": "content/pages/guides--cosplay-budget-safety.html",
+    "kind": "article",
+    "title": "Cosplay on a Budget: Design, Safety and Convention Rules",
+    "description": "A step-by-step approach to planning a first cosplay without wasting money or ignoring venue policies.",
+    "category": "Cosplay",
+    "cover": "cosplay",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/manga-collecting-budget/",
+    "source": "content/pages/guides--manga-collecting-budget.html",
+    "kind": "article",
+    "title": "Manga Collecting on a Budget: A Guide for US Readers",
+    "description": "Build a collection with libraries, careful edition checks and a spending plan that still leaves room to read.",
+    "category": "Manga",
+    "cover": "manga",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/start-anime-club/",
+    "source": "content/pages/guides--start-anime-club.html",
+    "kind": "article",
+    "title": "How to Start an Anime Club That People Want to Return To",
+    "description": "Make your first gathering welcoming and sustainable without relying on expensive events or fabricated member counts.",
+    "category": "Community",
+    "cover": "club",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/dub-or-sub/",
+    "source": "content/pages/guides--dub-or-sub.html",
+    "kind": "article",
+    "title": "Dub or Sub? A More Useful Way to Choose Anime Audio",
+    "description": "Ignore the fandom argument and compare attention, translation, accessibility, setting and personal preference.",
+    "category": "Viewing",
+    "cover": "dub",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/choose-first-anime/",
+    "source": "content/pages/guides--choose-first-anime.html",
+    "kind": "article",
+    "title": "How to Choose Your First Anime Without Getting Overwhelmed",
+    "description": "Find an accessible starting series by mood, episode commitment and content preferences rather than internet rankings.",
+    "category": "Viewing",
+    "cover": "starter",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/fan-art-permission-credit/",
+    "source": "content/pages/guides--fan-art-permission-credit.html",
+    "kind": "article",
+    "title": "Fan Art, Credits and Permissions: A Practical Guide for Anime Fans",
+    "description": "Understand attribution, reposting and US copyright basics without assuming that online artwork is free to reuse.",
+    "category": "Creators",
+    "cover": "fanart",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/anime-manga-public-library/",
+    "source": "content/pages/guides--anime-manga-public-library.html",
+    "kind": "article",
+    "title": "Anime and Manga at Your Public Library: A US Reader's Guide",
+    "description": "Discover local manga, digital borrowing and community programs without assuming every library offers the same catalog.",
+    "category": "Libraries",
+    "cover": "library",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/manga-editions-translations/",
+    "source": "content/pages/guides--manga-editions-translations.html",
+    "kind": "article",
+    "title": "Manga Editions and Translations: What to Compare Before You Buy",
+    "description": "Learn how formats, language, trim size, translation and ISBN affect the reading experience of an English-language manga release.",
+    "category": "Manga",
+    "cover": "editions",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/guides/accessible-anime-viewing/",
+    "source": "content/pages/guides--accessible-anime-viewing.html",
+    "kind": "article",
+    "title": "Making Anime Viewing More Accessible: Captions, Devices and Watch Spaces",
+    "description": "A practical accessibility checklist covering captions, readable interfaces, audio options and comfortable shared viewing.",
+    "category": "Accessibility",
+    "cover": "accessible",
+    "published": "2026-11-03",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/tools/convention-budget/",
+    "source": "content/pages/tools--convention-budget.html",
+    "kind": "page",
+    "title": "Anime Convention Budget Planner",
+    "description": "Estimate the complete cost of attending an anime convention in the US. A private in-browser worksheet for tickets, travel, lodging, food, cosplay and extras.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/editorial-review/",
+    "source": "content/pages/editorial-review.html",
+    "kind": "page",
+    "title": "Research Notes and Editorial Review",
+    "description": "Our anime guide research approach, editorial disclosure, verification priorities and corrections process.",
+    "modified": "2026-11-03"
+  }
+]

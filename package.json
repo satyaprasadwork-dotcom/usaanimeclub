@@ -1,0 +1,13 @@
+{
+  "name": "usa-anime-club",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:check": "node scripts/build.mjs --check",
+    "new:guide": "node scripts/new-guide.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/validate.mjs"
+  }
+}

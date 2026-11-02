@@ -1,15 +1,34 @@
-import fs from "node:fs";import path from "node:path";
-const root=process.cwd();const errors=[],pages=[];
-function walk(dir){for(const item of fs.readdirSync(dir,{withFileTypes:true})){if(item.name===".git"||item.name==="node_modules")continue;const f=path.join(dir,item.name);if(item.isDirectory())walk(f);else if(f.endsWith(".html")&&path.basename(f)!=="404.html")pages.push(f)}}walk(root);
-const existing=p=>fs.existsSync(path.join(root,p.replace(/^\//,"")));
-const canonical=new Set();
-for(const file of pages){const s=fs.readFileSync(file,"utf8");const rel=path.relative(root,file).replaceAll(path.sep,"/");const url=rel==="index.html"?"/":"/"+rel.replace(/index\.html$/,"");if(!s.includes('rel="canonical" href="https://usaanimeclub.com'+url+'"'))errors.push(rel+" canonical missing or incorrect");if(!s.includes('name="description"'))errors.push(rel+" description missing");if(!s.includes('src="/assets/site.js"'))errors.push(rel+" site script missing");if(!s.includes("ca-pub-7937216909291905"))errors.push(rel+" AdSense loader missing");for(const match of s.matchAll(/(?:href|src)="(\/[^"#?]*)/g)){const ref=match[1];if(!existing(ref+"index.html")&&!existing(ref))errors.push(rel+" broken local reference "+ref)}canonical.add("https://usaanimeclub.com"+url)}
-const xml=fs.readFileSync(path.join(root,"sitemap.xml"),"utf8");const listed=new Set([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]));for(const url of canonical)if(!listed.has(url))errors.push("Missing sitemap URL: "+url);for(const url of listed)if(!canonical.has(url))errors.push("Sitemap URL without HTML page: "+url);
-for(const file of pages.filter(x=>x.includes("/guides/")&&!x.endsWith("/guides/index.html"))){const s=fs.readFileSync(file,"utf8");if(!s.includes('"@type":"BlogPosting"'))errors.push(file+" lacks BlogPosting JSON-LD")}
-for(const file of pages.filter(x=>x.includes("/guides/")&&!x.endsWith("/guides/index.html"))){
- const s=fs.readFileSync(file,"utf8");
- const body=s.split('<article class="prose">')[1]?.split("</article>")[0]||"";
- const words=body.replace(/<[^>]+>/g," ").trim().split(/\s+/).length;
- if(words<1000)errors.push(file+" guide under 1000 words: "+words);
+import fs from "node:fs";
+import path from "node:path";
+const errors=[],root=process.cwd();
+const read=p=>fs.readFileSync(path.join(root,p),"utf8");
+const catalog=JSON.parse(read("content/catalog.json"));
+const pages=catalog.filter(p=>p.status!=="draft"),urls=new Set();
+const localExists=p=>p==="/"||fs.existsSync(path.join(root,p.slice(1)))||fs.existsSync(path.join(root,p.slice(1),"index.html"));
+for(const page of pages){
+ const rel=page.path==="/"? "index.html":page.path.slice(1)+"index.html";
+ if(urls.has(page.path))errors.push("Duplicate URL: "+page.path);urls.add(page.path);
+ const html=read(rel);
+ const canonical="https://usaanimeclub.com"+page.path;
+ if(!html.includes('rel="canonical" href="'+canonical+'"'))errors.push(rel+": canonical mismatch");
+ if(!html.includes('name="description"'))errors.push(rel+": description absent");
+ if(!html.includes('name="google-adsense-account"'))errors.push(rel+": publisher verification missing");
+ if(html.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"))errors.push(rel+": advertising loader active before CMP");
+ if(!html.includes('src="/assets/site.js"'))errors.push(rel+": site script absent");
+ if(!html.includes('id="privacy-reopen"'))errors.push(rel+": cannot change privacy choice");
+ for(const m of html.matchAll(/(?:href|src)="(\/[^"#?]*)/g)){if(!localExists(m[1]))errors.push(rel+": broken local link "+m[1]);}
+ const matches=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+ if(matches.length!==1)errors.push(rel+": requires exactly one JSON-LD block");
+ else{try{const graph=JSON.parse(matches[0][1])["@graph"]||[];if(page.kind==="article"&&!graph.some(x=>x["@type"]==="BlogPosting"))errors.push(rel+": missing BlogPosting");}catch{errors.push(rel+": invalid structured data");}}
+ if(page.kind==="article"){
+  const body=html.split('<article class="prose">')[1]?.split("</article>")[0]||"";
+  if(body.replace(/<[^>]+>/g," ").trim().split(/\s+/).length<1000)errors.push(rel+": short guide");
+  if(!body.includes('id="sources"'))errors.push(rel+": source section absent");
+  if(!fs.existsSync(path.join(root,"assets","covers",page.cover+".svg")))errors.push(rel+": missing topic illustration");
+ }
 }
-if(errors.length){console.error(errors.join("\n"));process.exitCode=1}else console.log("OK:",pages.length,"HTML pages,",listed.size,"sitemap URLs; canonical, metadata, links and AdSense checked.");
+const xml=read("sitemap.xml"),listed=[...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map(m=>m[1]);
+if(listed.length!==pages.length)errors.push("Sitemap does not match published page count");
+for(const p of pages)if(!listed.includes("https://usaanimeclub.com"+p.path))errors.push("Sitemap missing "+p.path);
+if(!read("templates/layout.html").includes("{{MAIN}}"))errors.push("Template has no body slot");
+if(errors.length){console.error(errors.join("\n"));process.exitCode=1;}else console.log("Validated "+pages.length+" pages, "+pages.filter(p=>p.kind==="article").length+" articles, navigation, metadata and sitemap.");

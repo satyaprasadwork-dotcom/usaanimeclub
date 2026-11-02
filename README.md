@@ -1,41 +1,38 @@
 # USA Anime Club
 
-Independent US-focused anime editorial site. Static HTML, CSS and JavaScript; no package installation or build framework needed.
+An independent, US-focused anime editorial site built from source content into fast, crawlable static HTML. The public site is not a membership system, ticketing service, or authorized screening organizer.
 
-## Structure
-- `index.html` homepage
-- `guides/index.html` article directory with client-side filtering
-- `guides/<slug>/index.html` crawlable canonical editorial pages
-- `assets/site.css`, `assets/site.js` shared layout, theme and opt-in analytics behavior
-- `assets/covers/*.svg` original geometric artwork; no copyrighted character images
-- Separate About, Contact, Privacy, Terms, Editorial Policy, Community Guidelines and Disclaimer pages
-- `robots.txt`, `sitemap.xml` and `ads.txt`
+## Architecture
 
-## Hosting
-Deploy **all** repository files and directories to the public document root for `https://usaanimeclub.com/`. Configure clean directory-index routing (each folder has `index.html`). Verify that pages return HTTP 200, missing routes return genuine HTTP 404, and HTTPS/canonical redirects work. The repository has **no automatic Hostinger deployment** configured.
+- `content/catalog.json`: single source for URLs, titles, descriptions, categories, dates and publication status
+- `content/pages/*.html`: page body sources (including 15 existing editorial guides)
+- `templates/layout.html`: one shared page shell for nav, footer, consent, analytics and metadata
+- `scripts/build.mjs`: generates static pages, article cards, structured data, filters and sitemap
+- `scripts/validate.mjs`: verifies content structure, local links, sitemap, metadata and disabled advertising
+- `assets/site.css`, `assets/site.js`: shared styles, functionality and optional analytics
+- `assets/covers/*.svg`, `assets/logo.svg`: original owned topic illustrations and logo
+- `content/review-register.json`: manual fact/source-review status; **not a completed fact check**
+- `tools/convention-budget/`: free in-browser cost worksheet
 
-## Publishing a guide
-1. Write an original, fact-checked article with meaningful sources and a unique page at `guides/<slug>/index.html`.
-2. Add an original cover in `assets/covers/`, and a card in both `index.html` (if featured) and `guides/index.html`.
-3. Add the canonical URL to `sitemap.xml` with the real updated date.
-4. Check title, description, canonical, Article/BreadcrumbList JSON-LD, internal links, mobile layout and source URLs.
-5. Validate with `node scripts/validate.mjs` before uploading.
+## Edit and publish
 
-## Analytics and ads
-- Google Analytics: `G-G0TNMR0FQL` and Microsoft Clarity: `yyqq9cryjc`. Optional measurement is initialized only after the visitor accepts analytics in the simple site preference panel; the choice is saved in browser local storage.
-- Google AdSense loader is present for publisher `ca-pub-7937216909291905`. A script does **not** mean the site is approved and no ads are forcibly injected into articles.
-- **Action required:** configure Google-certified TCF CMP through AdSense Privacy & Messaging or another certified provider before serving personalized advertising in the EEA, UK or Switzerland. The built-in preference panel is for analytics only and does not satisfy that advertising CMP requirement.
-- **Action required:** verify `ads.txt` publisher relationship, account status, AdSense privacy messages, and actual domain/app configuration.
-- **Action required:** review the live privacy notice for host log handling and privacy-law compliance with the actual website operator.
+1. Edit a page in `content/pages/`, or run `npm run new:guide -- slug "Title" "Description" "Category"` to create a draft scaffold.
+2. Add or update the corresponding entry in `content/catalog.json`. Set `status: "draft"` until the article has been checked; never insert placeholders into published pages.
+3. Add an original cover image, verify claims and link primary sources. Distinguish hypotheticals from tested information.
+4. Set status to published, update dates to reflect actual editing, then run `npm run build` and `npm run check`.
+5. Commit source plus generated output. GitHub Actions can regenerate published output on pushes to `main`; review the workflow result before assuming deployment.
 
-## No fabricated activity
-The old form showed a success message without submitting anything; it has been removed. There is no sign-up database or email automation. The former sample schedule was removed. Until the operator provides a real events workflow and confirmed details, no event bookings or memberships are promised.
+Do **not** hand-edit generated `guides/*/index.html`, `index.html`, article-directory cards or `sitemap.xml`.
 
-## Post-deployment checklist
-- Confirm contact@usaanimeclub.com receives mail (the repository cannot validate mailbox delivery).
-- Check live URLs, certificates, hosting redirects, 404 behavior, all analytics preferences and Search Console/Bing verification.
-- Test Lighthouse mobile Core Web Vitals and screen-reader navigation.
-- Submit the updated sitemap via Google Search Console and Bing Webmaster Tools.
-- Review all content for changes to streaming, legal or organizer policies.
-- Obtain any legally necessary privacy/consent arrangements and audit rights to third-party images before enabling ads.
-- Google AdSense approval is solely at Google's discretion and cannot be guaranteed.
+## Analytics and advertising
+
+- Google Analytics GA4: `G-G0TNMR0FQL` and Microsoft Clarity: `yyqq9cryjc` load only after the optional analytics choice is accepted.
+- AdSense publisher verification meta tag: `ca-pub-7937216909291905`. There is no ad loader or inserted ad slots until the relevant AdSense and consent requirements are configured.
+- A Google-certified CMP integrated with the IAB TCF is required when serving personalized ads in the EEA, UK and Switzerland. The native analytics preference control is **not** a certified CMP. Configure a certified solution via AdSense Privacy & messaging (or a certified third party) before activating ads where required.
+- Verify actual hosting/log policies, regional privacy obligations, `ads.txt` ownership and contact email delivery against the live service. None can be proved from GitHub alone.
+
+## Production deployment
+
+The repository does not prove Hostinger deploys automatically. Set the hosting document root to the generated static site, including nested `index.html` files. Validate HTTPS, root and www redirects, 404 response codes, sitemap, mobile performance and real email delivery on the production domain. Submit the live sitemap to Google Search Console and Bing Webmaster Tools. AdSense and Discover approval are not guaranteed.
+
+Run `npm run check` before publishing, then review GitHub Actions logs and live paths. For detailed contributor guidance, see [content/README.md](content/README.md).
