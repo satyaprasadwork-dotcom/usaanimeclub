@@ -6,4 +6,10 @@ const canonical=new Set();
 for(const file of pages){const s=fs.readFileSync(file,"utf8");const rel=path.relative(root,file).replaceAll(path.sep,"/");const url=rel==="index.html"?"/":"/"+rel.replace(/index\.html$/,"");if(!s.includes('rel="canonical" href="https://usaanimeclub.com'+url+'"'))errors.push(rel+" canonical missing or incorrect");if(!s.includes('name="description"'))errors.push(rel+" description missing");if(!s.includes('src="/assets/site.js"'))errors.push(rel+" site script missing");if(!s.includes("ca-pub-7937216909291905"))errors.push(rel+" AdSense loader missing");for(const match of s.matchAll(/(?:href|src)="(\/[^"#?]*)/g)){const ref=match[1];if(!existing(ref+"index.html")&&!existing(ref))errors.push(rel+" broken local reference "+ref)}canonical.add("https://usaanimeclub.com"+url)}
 const xml=fs.readFileSync(path.join(root,"sitemap.xml"),"utf8");const listed=new Set([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]));for(const url of canonical)if(!listed.has(url))errors.push("Missing sitemap URL: "+url);for(const url of listed)if(!canonical.has(url))errors.push("Sitemap URL without HTML page: "+url);
 for(const file of pages.filter(x=>x.includes("/guides/")&&!x.endsWith("/guides/index.html"))){const s=fs.readFileSync(file,"utf8");if(!s.includes('"@type":"BlogPosting"'))errors.push(file+" lacks BlogPosting JSON-LD")}
+for(const file of pages.filter(x=>x.includes("/guides/")&&!x.endsWith("/guides/index.html"))){
+ const s=fs.readFileSync(file,"utf8");
+ const body=s.split('<article class="prose">')[1]?.split("</article>")[0]||"";
+ const words=body.replace(/<[^>]+>/g," ").trim().split(/\s+/).length;
+ if(words<1000)errors.push(file+" guide under 1000 words: "+words);
+}
 if(errors.length){console.error(errors.join("\n"));process.exitCode=1}else console.log("OK:",pages.length,"HTML pages,",listed.size,"sitemap URLs; canonical, metadata, links and AdSense checked.");
