@@ -1,6 +1,31 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 
+// Fingerprint CSS content, so an updated HTML page cannot silently reuse an old CDN stylesheet.
+// Homepage-only styles use an independent URL; the small inline layout fallback protects against
+// a late or failed CSS response. All other pages keep using the shared site stylesheet.
+const fingerprint=file=>createHash("sha256").update(fs.readFileSync(path.join(process.cwd(),file))).digest("hex").slice(0,12);
+const CRITICAL_HOMEPAGE_CSS=`/* Defensive first-paint layout, independent of CDN CSS cache */
+.hero-next-grid{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,.93fr);gap:32px;align-items:center;min-height:580px}
+.hero-next-copy h1{font-size:clamp(3rem,5.1vw,5.65rem);line-height:1.055;letter-spacing:-.067em;margin:0 0 26px}
+.hero-next{padding:38px 0 24px;overflow:clip}
+.hero-next-copy{min-width:0}.hero-next-lead{max-width:50ch;line-height:1.7}
+.hero-next-actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px;margin:25px 0}
+.hero-primary{display:inline-flex;align-items:center;gap:15px;padding:13px 20px;border-radius:16px;background:#24193e;color:#fff;text-decoration:none;font-weight:800}
+.hero-quick-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0}
+.hero-stage{position:relative;min-width:0;height:560px;border-radius:30px;background:linear-gradient(145deg,#352768,#d975a4);overflow:visible}
+.hero-poster-front{position:absolute;inset:10% 17% 12% 16%;transform:rotate(-7deg)}
+.hero-poster-frame,.hero-poster-frame img{display:block;width:100%;height:100%;object-fit:cover;border-radius:20px}
+.hero-float{position:absolute;display:flex;gap:7px;align-items:center;z-index:3;padding:10px;background:#fff;color:#251846;border-radius:12px;text-decoration:none;box-shadow:0 5px 0 #291d59}
+.hero-float-watch{top:17%;left:-4%}.hero-float-read{bottom:24%;right:-4%}.hero-float-create{bottom:8%;left:-4%}
+.topic-grid-next{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.topic-grid-next .topic-box{display:flex;flex-direction:column;gap:12px;padding:22px;min-height:200px}
+.home-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media(max-width:750px){.hero-next-grid{grid-template-columns:1fr;min-height:0}.hero-stage{height:min(560px,88vw);min-height:340px;width:min(100% - 14px,530px);margin:15px auto}.topic-grid-next{grid-template-columns:repeat(2,minmax(0,1fr))}.home-path-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.hero-next-copy h1{font-size:clamp(2.8rem,11vw,4.1rem)}.hero-stage{height:410px;min-height:0}.home-path-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.hero-stage *{animation:none!important}}
+`;
 function renderPage(page,main,layout,catalog){
  const escape=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const url="https://usaanimeclub.com"+page.path;
@@ -13,6 +38,14 @@ function renderPage(page,main,layout,catalog){
   main=main.replace(/(<div class="guide-grid">)[\s\S]*?(<\/div><\/div><\/section>)/,(_m,open,close)=>open+published.map(card).join("")+close);
  }
  let html=layout.replace("{{MAIN}}",main.trim());
+ // Changes to the shared stylesheet produce a new URL for every HTML page.
+ html=html.replace('href="/assets/site.css"',`href="/assets/site.css?v=${fingerprint("assets/site.css")}"`);
+ if(page.path==="/"){
+  const homeVersion=fingerprint("assets/home-next-20261103.css");
+  const extra=`<style id="home-layout-fallback">${CRITICAL_HOMEPAGE_CSS}</style><link rel="stylesheet" href="/assets/home-next-20261103.css?v=${homeVersion}">`;
+  html=html.replace("</head>",extra+"</head>");
+ }
+
  html=html.replace(/<title>[\s\S]*?<\/title>/,`<title>${escape(page.title)} | USA Anime Club</title>`);
  html=html.replace(/<meta name="description" content="[^"]*">/,`<meta name="description" content="${escape(page.description)}">`);
  html=html.replace(/<link rel="canonical" href="[^"]*">/,`<link rel="canonical" href="${url}">`);

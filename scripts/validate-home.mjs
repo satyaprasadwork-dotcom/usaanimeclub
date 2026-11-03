@@ -5,6 +5,12 @@ const home=read("index.html"),source=read("content/pages/home.html"),css=read("a
 const errors=[];
 function assert(ok,message){if(!ok)errors.push(message);}
 assert(home.includes('id="hero-title"'),"Homepage hero heading missing");
+assert(home.includes('id="home-layout-fallback"'),"Critical homepage layout fallback missing");
+assert(/href="\\/assets\\/site\\.css\\?v=[a-f0-9]{12}"/.test(home),"Shared CSS must be content fingerprinted");
+assert(/href="\\/assets\\/home-next-20261103\\.css\\?v=[a-f0-9]{12}"/.test(home),"Versioned homepage CSS link missing");
+assert(read("assets/home-next-20261103.css").includes(".hero-next-grid"),"Homepage CSS file missing grid rules");
+assert(!read("assets/site.css").includes("/* USA Anime Club: Next Chapter homepage."),"Homepage-specific CSS must not be bundled with shared styles");
+
 assert(home.includes('data-hero-stage'),"3D stage missing");
 assert(home.includes('data-motion-toggle'),"Motion pause control missing");
 assert(home.includes('aria-pressed="false"'),"Motion state semantics missing");
