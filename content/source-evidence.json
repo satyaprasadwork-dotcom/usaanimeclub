@@ -13,7 +13,8 @@
       "limitations": "Distributor announcement; this is not a claim of current availability for any title.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/buy-anime-merch-safely/",
@@ -24,7 +25,8 @@
       "limitations": "FTC guidance; does not verify any anime merchandise seller.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/spoiler-etiquette/",
@@ -35,7 +37,8 @@
       "limitations": "Site conventions are voluntary community rules, not legal requirements.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/first-anime-convention/",
@@ -46,7 +49,8 @@
       "limitations": "Event-specific accessibility, ticket policies and actual venue access require organizer verification.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/find-anime-streaming-us/",
@@ -57,7 +61,8 @@
       "limitations": "JustWatch is an aggregator; not primary proof for any episode or plan.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/host-anime-watch-party/",
@@ -68,7 +73,8 @@
       "limitations": "Whether a particular event requires permission is situation-specific; obtain legal advice where needed.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/cosplay-budget-safety/",
@@ -79,18 +85,20 @@
       "limitations": "Not an inspection of any cosplay gear, tools, props or convention.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/manga-collecting-budget/",
       "verification_scope": "one representative research claim; not a full article review",
       "research_status": "source_support_found",
       "claim": "Publication format and substantive edition changes may require separate ISBN identification.",
-      "source_url": "https://www.isbn.org/faqs_formats_reprints_editions",
-      "limitations": "Official ISBN FAQ; live prices, contents and product conditions remain unverified.",
-      "observed_at": "2026-11-03",
+      "source_url": "https://www.isbn-international.org/node/88",
+      "limitations": "International ISBN Agency source describes separate formats and editions. No individual product has been physically inspected; the VIZ publisher comparison is separately linked in the article.",
+      "observed_at": "2026-11-04",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/start-anime-club/",
@@ -101,7 +109,8 @@
       "limitations": "The proposed four-week club plan was not conducted as a real event.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/dub-or-sub/",
@@ -112,7 +121,8 @@
       "limitations": "Specific services' tracks and players need device-level checking.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/choose-first-anime/",
@@ -123,7 +133,8 @@
       "limitations": "Ratings and actual title availability require title-specific checks.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/fan-art-permission-credit/",
@@ -134,7 +145,8 @@
       "limitations": "No individualized legal determination or creator permissions have been obtained by this site.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/anime-manga-public-library/",
@@ -145,18 +157,20 @@
       "limitations": "Must confirm title, ISBN, format and borrowing rules with the actual local system.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/manga-editions-translations/",
       "verification_scope": "one representative research claim; not a full article review",
       "research_status": "source_support_found",
       "claim": "Different substantive editions or formats may have separate ISBNs; a set can have its own ISBN.",
-      "source_url": "https://www.isbn.org/faqs_formats_reprints_editions",
-      "limitations": "Does not prove individual manga edition coverage, price or translation quality.",
-      "observed_at": "2026-11-03",
+      "source_url": "https://www.isbn-international.org/node/88",
+      "limitations": "International ISBN Agency source describes separate formats and editions. No individual product has been physically inspected; the VIZ publisher comparison is separately linked in the article.",
+      "observed_at": "2026-11-04",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     },
     {
       "path": "/guides/accessible-anime-viewing/",
@@ -167,7 +181,8 @@
       "limitations": "No device-specific accessibility testing has been performed.",
       "observed_at": "2026-11-03",
       "human_reviewer": null,
-      "complete_claim_by_claim_review": false
+      "complete_claim_by_claim_review": false,
+      "human_signoff_pending": true
     }
   ]
 }

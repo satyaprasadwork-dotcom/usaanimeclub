@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-03",
-  "purpose": "Manual checks are separate from automated site validation. Do not claim article fact-check completion without source evidence.",
+  "updated": "2026-11-04",
+  "purpose": "Human factual review is required. Automated research, content generation and source-link checks do not constitute a completed human review.",
   "guides": [
     {
       "path": "/guides/anime-season-terms/",
@@ -11,7 +11,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/buy-anime-merch-safely/",
@@ -22,7 +32,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/spoiler-etiquette/",
@@ -33,7 +53,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/first-anime-convention/",
@@ -44,7 +74,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/find-anime-streaming-us/",
@@ -55,7 +95,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/host-anime-watch-party/",
@@ -66,7 +116,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/cosplay-budget-safety/",
@@ -77,7 +137,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/manga-collecting-budget/",
@@ -88,7 +158,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/start-anime-club/",
@@ -99,7 +179,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/dub-or-sub/",
@@ -110,7 +200,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/choose-first-anime/",
@@ -121,7 +221,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/fan-art-permission-credit/",
@@ -132,7 +242,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/anime-manga-public-library/",
@@ -143,7 +263,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/manga-editions-translations/",
@@ -154,7 +284,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     },
     {
       "path": "/guides/accessible-anime-viewing/",
@@ -165,7 +305,17 @@
       "lastAutomatedCheck": "not_a_fact_check",
       "reviewer": null,
       "reviewedAt": null,
-      "notes": "Check claims against original sources; do not claim original reporting or tests without evidence."
+      "notes": "Source-based additions were made on November 4, 2026. Their presence does not mean an editor has signed off. A human reviewer must confirm each claim and record evidence before changing status to reviewed.",
+      "human_review_status": "awaiting_human_sign_off",
+      "required_review_method": "named human editor checks each material claim against its exact original source",
+      "review_checklist": {
+        "factual_claims": false,
+        "time_sensitive_claims": false,
+        "source_urls": false,
+        "original_value": false,
+        "image_rights": false,
+        "corrections_applied": false
+      }
     }
   ]
 }

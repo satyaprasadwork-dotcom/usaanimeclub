@@ -78,3 +78,7 @@ The homepage header now links to actual community guides rather than implying an
 ## Hostinger AVIF MIME repair
 
 The production audit on 2026-11-03 returned HTTP 200 for the hero `.avif` but identified `Content-Type: text/plain`. Hostinger documents `.htaccess` `AddType` directives for custom MIME associations. The repository includes a deliberately **nested** `assets/.htaccess` to set `image/avif` for AVIF and `image/svg+xml` for SVG without replacing any Hostinger root redirect or security directives. Deploy hidden files along with `assets/`; if the host or CDN ignores the nested rule, configure the MIME type in the hosting/CDN dashboard. Re-run the production audit and check the actual response header before marking this fixed.
+
+## Human review and image rights gate
+
+The site's human verification status remains **pending** for every existing guide; automated assistance and link checks cannot sign off factual claims. The review procedure is `docs/human-editor-review-gate.md`; current source references are in `content/source-evidence.json` and individual review records in `content/review-register.json`. Asset origin and independent rights checks are recorded in `content/asset-provenance.json`. Claims of completed personal interviews, hands-on testing or human review must not be published until documented. The original publication dates remain unchanged; substantive editing dates are updated only on modified pages.

@@ -1,0 +1,168 @@
+{
+  "updated": "2026-11-04",
+  "purpose": "Asset origin and rights inventory. Do not treat generated assets as proof of a copyright license or originality to copyrighted source characters.",
+  "reviewed_by_human": null,
+  "all_assets_rights_approved": false,
+  "assets": [
+    {
+      "path": "assets/logo.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "favicon.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/hero-sky-traveler.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/home-concept-scene-hd-2x.avif",
+      "origin": "Generated hero illustration from project creative process",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/home-concept-scene.avif",
+      "origin": "Generated hero illustration from project creative process",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/accessible.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/buying.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/club.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/convention.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/cosplay.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/dub.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/editions.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/fanart.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/library.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/manga.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/season.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/spoilers.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/starter.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/streaming.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    },
+    {
+      "path": "assets/covers/watch.svg",
+      "origin": "Project-specific vector asset",
+      "external_copyrighted_anime_character_included": "unknown_pending_review",
+      "third_party_components": "not_independently_audited",
+      "human_rights_check": "pending",
+      "license_documentation": null
+    }
+  ]
+}
