@@ -24,8 +24,11 @@ jobs:
           node-version: "22"
       - name: Generate high-resolution WebP for reliable hosting delivery
         run: |
-          command -v ffmpeg
           if [ ! -f assets/home-concept-scene-hd-2x.webp ] || [ assets/home-concept-scene-hd-2x.avif -nt assets/home-concept-scene-hd-2x.webp ]; then
+            if ! command -v ffmpeg >/dev/null 2>&1; then
+              sudo apt-get update -qq
+              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ffmpeg
+            fi
             ffmpeg -hide_banner -loglevel error -y -i assets/home-concept-scene-hd-2x.avif -frames:v 1 -c:v libwebp -q:v 84 assets/home-concept-scene-hd-2x.webp
           fi
           test -s assets/home-concept-scene-hd-2x.webp
