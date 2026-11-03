@@ -16,8 +16,10 @@ ensure(home.includes('class="uac-hair-wind"'),"Layered wind-animated hair missin
 ensure(home.includes('class="uac-hair-crown"'),"Upper hair motion layer missing");
 ensure(home.includes('data-hero-stage')&&home.includes('data-motion-toggle'),"Accessible motion control missing");
 ensure(home.includes('aria-pressed="false"'),"Motion toggle state missing");
-ensure(home.includes('srcset="/assets/home-concept-scene.avif"'),"Exact reference artwork missing");
-ensure(home.includes('src="/assets/hero-sky-traveler.svg?v='),"Image fallback missing");
+ensure(home.includes('srcset="/assets/home-concept-scene-hd.avif"'),"Upscaled hero source missing");
+ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Reference-matched hero fallback missing");
+ensure((home.match(/<image href="\/assets\/home-concept-scene-hd\.avif"/g)||[]).length===3,"Hair layers must use the new high-quality asset");
+ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Matching reference image fallback missing");
 ensure(home.includes('class="uac-home-search"'),"Functional homepage search missing");
 ensure(home.includes('name="google-adsense-account"'),"Publisher verification missing");
 ensure(home.includes('src="/assets/tracking.js"'),"Shared tracking module missing");
@@ -39,6 +41,10 @@ ensure(!/https?:\/\/[^\s"'<>]*(three\.js|gsap|unpkg\.com|cdnjs)/i.test(home),"Un
 for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-streaming-us/","/guides/manga-collecting-budget/","/guides/cosplay-budget-safety/","/guides/start-anime-club/","/tools/","/about/","/contact/"]){
  ensure(home.includes('href="'+href+'"'),"Homepage route missing "+href);
 }
+const hd=fs.readFileSync("assets/home-concept-scene-hd.avif");
+ensure(hd.length===29816,"Expected 1400px high-quality replacement");
+ensure(createHash("sha256").update(hd).digest("hex")==="8023668f250e61c8c470e898f727b282ea982905e2a4168e71c7034397320a28","High-resolution asset checksum mismatch");
+ensure(css.includes(".uac-showcase-visual.hero-stage::after"),"Soft image boundary treatment missing");
 const bytes=fs.readFileSync("assets/home-concept-scene.avif");
 const hash=createHash("sha256").update(bytes).digest("hex");
 ensure(bytes.length===9277,"Unexpected scene image size");

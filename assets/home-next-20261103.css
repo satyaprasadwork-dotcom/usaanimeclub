@@ -111,3 +111,35 @@ body:has(.uac-concept-home) .site-head{display:none}
 @media(max-width:700px){.uac-landing-header{height:64px}.uac-header-inner{width:calc(100% - 28px)}.uac-home-mark{width:50px;height:50px}.uac-brand-text strong{font-size:1.08rem}.uac-brand-text small{font-size:.52rem}.uac-header-actions{gap:8px}.uac-showcase-shell.hero-next-grid{grid-template-columns:1fr;min-height:0}.uac-showcase-copy.hero-next-copy{padding:34px 23px 23px}.uac-showcase-copy #hero-title{font-size:clamp(2.5rem,8.8vw,4rem)}.uac-showcase-kicker{font-size:.67rem;white-space:normal}.uac-hero-swoosh{max-width:355px}.uac-showcase-description{font-size:.95rem;max-width:540px}.uac-showcase-actions{gap:12px}.uac-hero-button{font-size:.83rem}.uac-highlights{gap:13px;margin:21px 0 8px}.uac-showcase-visual.hero-stage{margin:0;width:100%;height:auto;aspect-ratio:800/499;min-height:0}.uac-feature-strip{width:calc(100% - 28px);max-width:590px;margin:14px auto 0}.uac-feature-text strong{font-size:.9rem}.uac-feature-text>span{font-size:.73rem}.uac-showcase{padding-bottom:57px}}
 @media(max-width:460px){.uac-home-mark{width:43px;height:43px}.uac-home-brand{gap:5px}.uac-brand-text strong{font-size:.91rem}.uac-brand-text small{font-size:.45rem}.uac-search-trigger{width:33px;height:33px}.uac-showcase-copy.hero-next-copy{padding:25px 17px 19px}.uac-showcase-kicker{font-size:.59rem}.uac-showcase-copy #hero-title{font-size:clamp(2.08rem,9.3vw,3.12rem)}.uac-title-line{white-space:normal}.uac-showcase-description{font-size:.9rem}.uac-showcase-actions{gap:10px}.uac-hero-button{font-size:.75rem;padding:9px 12px;min-height:40px}.uac-highlights li{font-size:.67rem}.uac-feature-strip{grid-template-columns:1fr 1fr;gap:9px}.uac-feature{padding:10px 8px;min-height:100px;align-items:flex-start;gap:5px}.uac-feature-icon{width:26px;height:28px}.uac-feature-icon svg{width:26px;height:26px}.uac-feature-text strong{font-size:.76rem;white-space:normal}.uac-feature-text>span{font-size:.63rem}.uac-feature-arrow{display:none}.uac-motion-control{opacity:.55}.uac-home-waves{height:45px}}
 @media(prefers-reduced-motion:reduce){.uac-concept-home *, .uac-concept-home *::before,.uac-concept-home *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}.uac-hair-wind g{transform:none!important}.uac-floating-petal{display:none!important}.uac-flower{animation:none!important}.uac-concept-home .home-path.reveal-ready{opacity:1!important;transform:none!important}}
+
+/* Homepage-only fidelity, image-quality, and readability refinements.
+   The shared styles, article templates and page shell remain untouched. */
+.uac-scene-picture img{image-rendering:auto;object-fit:fill;filter:contrast(1.018) saturate(1.025)}
+.uac-showcase-visual.hero-stage{background:#edfaff;isolation:isolate}
+.uac-showcase-visual.hero-stage::after{content:"";position:absolute;top:0;bottom:0;left:0;width:16%;z-index:4;pointer-events:none;background:linear-gradient(90deg,#f9fcff 0%,rgba(249,252,255,.84) 24%,rgba(249,252,255,.25) 72%,rgba(249,252,255,0) 100%)}
+.uac-motion-control{opacity:.7}
+.uac-showcase-visual:hover .uac-motion-control,.uac-motion-control:focus-visible{opacity:1}
+.uac-hair-wind image{image-rendering:auto}
+@media(min-width:1201px){
+ .uac-header-inner{width:min(1680px,calc(100% - 12vw))}
+ .uac-showcase-copy.hero-next-copy{padding-left:clamp(68px,7.9vw,152px);padding-right:27px}
+ .uac-showcase-description{max-width:625px}
+ .uac-showcase-copy #hero-title{font-size:clamp(3.2rem,4.58vw,5rem)}
+ .uac-showcase-kicker{letter-spacing:.105em}
+}
+@media(min-width:1500px){
+ .uac-showcase-copy.hero-next-copy{padding-top:50px}
+}
+@media(max-width:1200px) and (min-width:701px){
+ .uac-showcase-copy.hero-next-copy{padding-left:clamp(35px,6.7vw,84px);padding-right:24px}
+ .uac-showcase-description{max-width:530px}
+}
+@media(max-width:700px){
+ .uac-showcase-visual.hero-stage::after{width:8%;background:linear-gradient(90deg,rgba(249,252,255,.65),transparent)}
+ .uac-scene-picture img{object-fit:cover}
+ .uac-hair-wind{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .uac-hair-wind g{animation:none!important;transform:none!important}
+ .uac-floating-petal{display:none!important}
+}
