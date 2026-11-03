@@ -251,5 +251,29 @@
     "title": "Research Notes and Editorial Review",
     "description": "Our anime guide research approach, editorial disclosure, verification priorities and corrections process.",
     "modified": "2026-11-03"
+  },
+  {
+    "path": "/tools/",
+    "source": "content/pages/tools.html",
+    "kind": "page",
+    "title": "Practical Anime and Manga Tools",
+    "description": "Compare manga costs, estimate viewing plans and make convention budgets with private in-browser tools.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/tools/manga-value-lab/",
+    "source": "content/pages/tools--manga-value-lab.html",
+    "kind": "page",
+    "title": "Manga Value Lab: Compare Editions and Reading Cost",
+    "description": "Compare manga editions and total costs using your own price, included-volume and shipping figures.",
+    "modified": "2026-11-03"
+  },
+  {
+    "path": "/tools/anime-starter-planner/",
+    "source": "content/pages/tools--anime-starter-planner.html",
+    "kind": "page",
+    "title": "Anime Starter Planner: Make a Viewing Schedule",
+    "description": "Estimate weeks and hours to watch an anime using your own episode and viewing time estimates.",
+    "modified": "2026-11-03"
   }
 ]

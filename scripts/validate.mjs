@@ -15,6 +15,7 @@ for(const page of pages){
  if(!html.includes('name="google-adsense-account"'))errors.push(rel+": publisher verification missing");
  if(html.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"))errors.push(rel+": advertising loader active before CMP");
  if(!html.includes('src="/assets/site.js"'))errors.push(rel+": site script absent");
+ if(!html.includes('src="/assets/tools.js"'))errors.push(rel+": tool script absent");
  if(!html.includes('id="privacy-reopen"'))errors.push(rel+": cannot change privacy choice");
  for(const m of html.matchAll(/(?:href|src)="(\/[^"#?]*)/g)){if(!localExists(m[1]))errors.push(rel+": broken local link "+m[1]);}
  const matches=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
@@ -33,6 +34,7 @@ for(const p of pages)if(!listed.includes("https://usaanimeclub.com"+p.path))erro
 if(!read("templates/layout.html").includes("{{MAIN}}"))errors.push("Template has no body slot");
 
 const tracking=read("assets/tracking.js"),shared=read("templates/layout.html");
+for(const toolPath of ["/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/"])if(!urls.has(toolPath))errors.push("Missing expected tool page "+toolPath);
 for(const key of ["G-G0TNMR0FQL","yyqq9cryjc","ca-pub-7937216909291905"])
  if(!tracking.includes(key))errors.push("Central tracking config missing "+key);
 if(!tracking.includes("analytics_storage:"))errors.push("Central tracking script missing analytics consent default");

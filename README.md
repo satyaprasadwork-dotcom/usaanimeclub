@@ -13,7 +13,8 @@ An independent, US-focused anime editorial site built from source content into f
 - `assets/tracking.js`: **one** consent-aware Google Analytics / Microsoft Clarity implementation on every page (including the 404 page)
 - `assets/covers/*.svg`, `assets/logo.svg`: original owned topic illustrations and logo
 - `content/review-register.json`: manual fact/source-review status; **not a completed fact check**
-- `tools/convention-budget/`: free in-browser cost worksheet
+- `tools/`: three browser-only calculators for convention costs, manga edition comparisons, and anime viewing commitment
+- `assets/tools.js`: privacy-friendly calculator logic (inputs never leave the browser)
 
 ## Edit and publish
 
@@ -37,3 +38,10 @@ Do **not** hand-edit generated `guides/*/index.html`, `index.html`, article-dire
 The repository does not prove Hostinger deploys automatically. Set the hosting document root to the generated static site, including nested `index.html` files. Validate HTTPS, root and www redirects, 404 response codes, sitemap, mobile performance and real email delivery on the production domain. Submit the live sitemap to Google Search Console and Bing Webmaster Tools. AdSense and Discover approval are not guaranteed.
 
 Run `npm run check` before publishing, then review GitHub Actions logs and live paths. For detailed contributor guidance, see [content/README.md](content/README.md).
+
+## Work that cannot be verified from repository code
+
+- All fifteen published guides still have **uncompleted manual claim reviews** in `content/review-register.json`. Added sources or calculations do not mean every claim was verified.
+- Confirm the live domain is reachable, TLS is valid, hosting deploys nested paths and missing URLs return a true 404. Run `npm run audit:live` on a machine with public Internet access.
+- Confirm the real editorial contact mailbox, ownership identity, hosting logs and retention policy before declaring trust and privacy review complete.
+- Do not claim attendance, interviews, first-hand tests, live product prices or relationships with any providers without records. AdSense approval cannot be guaranteed.
