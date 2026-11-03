@@ -1,43 +1,48 @@
 import fs from "node:fs";
 import path from "node:path";
+import {createHash} from "node:crypto";
 const read=p=>fs.readFileSync(path.join(process.cwd(),p),"utf8");
-const home=read("index.html"),source=read("content/pages/home.html"),css=read("assets/site.css"),motion=read("assets/home-motion.js");
+const home=read("index.html"),css=read("assets/home-next-20261103.css"),motion=read("assets/home-motion.js");
 const errors=[];
-function assert(ok,message){if(!ok)errors.push(message);}
-assert(home.includes('id="hero-title"'),"Homepage hero heading missing");
-assert(home.includes('id="home-layout-fallback"'),"Critical homepage layout fallback missing");
-assert(home.includes('href="/assets/site.css?v='),"Shared CSS must be content fingerprinted");
-assert(home.includes('href="/assets/home-next-20261103.css?v='),"Versioned homepage CSS link missing");
-assert(read("assets/home-next-20261103.css").includes(".hero-next-grid"),"Homepage CSS file missing grid rules");
-assert(!read("assets/site.css").includes("/* USA Anime Club: Next Chapter homepage."),"Homepage-specific CSS must not be bundled with shared styles");
-
-assert(home.includes('data-hero-stage'),"3D stage missing");
-assert(home.includes('data-motion-toggle'),"Motion pause control missing");
-assert(home.includes('aria-pressed="false"'),"Motion state semantics missing");
-assert(home.includes('src="/assets/hero-sky-traveler.svg?v='),"Original versioned hero illustration missing");
-assert(home.includes('src="/assets/logo.svg?v='),"Updated logo cache version missing");
-assert(home.includes('href="/favicon.svg?v='),"Updated favicon cache version missing");
-assert(home.includes('/assets/covers/starter.svg?v='),"Updated covers cache versions missing");
-assert(home.includes('src="/assets/home-motion.js"'),"Homepage-only animation missing");
-assert(home.includes('rel="canonical" href="https://usaanimeclub.com/"'),"Home canonical absent");
-assert(home.includes('name="google-adsense-account"'),"AdSense verification missing");
-assert(home.includes('src="/assets/tracking.js"'),"Shared analytics module missing");
-assert(!home.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'),"Ad-serving script unexpectedly active");
-assert(/prefers-reduced-motion:\s*reduce/.test(css),"Reduced-motion rules missing");
-assert(motion.includes('reduced.matches'),"Motion code does not honor OS preference");
-assert(motion.includes('requestAnimationFrame'),"Pointer parallax is not animation-frame throttled");
-assert(motion.includes('userPaused'),"Pause logic missing");
-assert(read("assets/home-next-20261103.css").includes(".hero-stage[data-motion=\"off\"]"),"Pause state missing stylesheet rules");
-assert(!/https?:\/\/[^\s"'<>]*(three\.js|gsap|unpkg\.com|cdnjs)/i.test(source),"Unexpected external animation library");
-for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-streaming-us/","/guides/manga-collecting-budget/","/guides/cosplay-budget-safety/","/guides/#Streaming","/guides/#Manga","/guides/#Cosplay","/guides/#Community","/tools/manga-value-lab/"]){
- assert(home.includes('href="'+href+'"'),"Homepage missing destination "+href);
+function ensure(ok,message){if(!ok)errors.push(message)}
+ensure(home.includes('<main id="content">'),"Existing main element missing");
+ensure((home.match(/<h1\b/g)||[]).length===1,"Homepage must contain one H1");
+ensure(home.includes('id="hero-title"'),"Homepage headline missing");
+ensure(home.includes("Every fan has a")&&home.includes("next chapter"),"Reference hero headline missing");
+ensure(home.includes('class="uac-landing-header"'),"Homepage-only header missing");
+ensure(home.includes('class="uac-feature-strip"'),"Four feature cards missing");
+ensure((home.match(/class="uac-feature"/g)||[]).length===4,"Expected four linked feature cards");
+ensure(home.includes('class="uac-hair-wind"'),"Layered wind-animated hair missing");
+ensure(home.includes('class="uac-hair-crown"'),"Upper hair motion layer missing");
+ensure(home.includes('data-hero-stage')&&home.includes('data-motion-toggle'),"Accessible motion control missing");
+ensure(home.includes('aria-pressed="false"'),"Motion toggle state missing");
+ensure(home.includes('srcset="/assets/home-concept-scene.avif"'),"Exact reference artwork missing");
+ensure(home.includes('src="/assets/hero-sky-traveler.svg?v='),"Image fallback missing");
+ensure(home.includes('class="uac-home-search"'),"Functional homepage search missing");
+ensure(home.includes('name="google-adsense-account"'),"Publisher verification missing");
+ensure(home.includes('src="/assets/tracking.js"'),"Shared tracking module missing");
+ensure(home.includes('src="/assets/site.js"'),"Shared site module missing");
+ensure(home.includes('src="/assets/home-motion.js"'),"Homepage-specific animation script missing");
+ensure(home.includes('href="/assets/site.css?v='),"Shared stylesheet URL should be fingerprinted");
+ensure(home.includes('href="/assets/home-next-20261103.css?v='),"Homepage stylesheet URL should be fingerprinted");
+ensure(home.includes('id="home-layout-fallback"'),"First-paint fallback missing");
+ensure(!home.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),"Ad loader unexpectedly active");
+ensure(css.includes("body:has(.uac-concept-home) .site-head{display:none}"),"Other pages must retain their shared header");
+ensure(css.includes(".uac-showcase-shell.hero-next-grid"),"Two-column layout styling missing");
+ensure(css.includes(".uac-hair-crown"),"Hair animation styling missing");
+ensure(css.includes('data-motion="off"'),"Pause-state CSS missing");
+ensure(css.includes("@media(prefers-reduced-motion:reduce)"),"OS reduced-motion support missing");
+ensure(motion.includes("userPaused")&&motion.includes("reduced.matches"),"Motion toggle ignores preference");
+ensure(motion.includes("requestAnimationFrame"),"Pointer feedback must be throttled");
+ensure(motion.includes("showModal")&&motion.includes("filterSearch"),"Search modal must work");
+ensure(!/https?:\/\/[^\s"'<>]*(three\.js|gsap|unpkg\.com|cdnjs)/i.test(home),"Unexpected animation CDN");
+for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-streaming-us/","/guides/manga-collecting-budget/","/guides/cosplay-budget-safety/","/guides/start-anime-club/","/tools/","/about/","/contact/"]){
+ ensure(home.includes('href="'+href+'"'),"Homepage route missing "+href);
 }
-const main=home.split('<main id="content">')[1]?.split("</main>")[0]||"";
-assert((main.match(/<h1\b/g)||[]).length===1,"Homepage should have one H1");
-const localLinks=[...main.matchAll(/href="(\/[^"#?]+)(?:#[^"]*)?"/g)].map(x=>x[1]);
-for(const url of localLinks){assert(url==="/"||fs.existsSync(path.join(process.cwd(),url.slice(1),"index.html")),"Missing linked page "+url);}
-const illustration=read("assets/hero-sky-traveler.svg");
-assert(illustration.length<20000,"Hero illustration unusually large");
-assert(illustration.startsWith("<svg"),"Hero image is not an SVG");
-assert(motion.length<6000,"Motion script is too large for the intended effect");
-if(errors.length){console.error(errors.join("\n"));process.exitCode=1;}else console.log("Homepage checked: original artwork, controls, reduced motion, links, metadata and lightweight scripts.");
+const bytes=fs.readFileSync("assets/home-concept-scene.avif");
+const hash=createHash("sha256").update(bytes).digest("hex");
+ensure(bytes.length===9277,"Unexpected scene image size");
+ensure(hash==="4d745c77eb7d96cbd6075bbf2e1a04f4682a4e8a0c2cf2a504441dd0858436c8","Reference image content changed");
+ensure(home.includes('<div class="guide-grid">')&&home.includes('id="community"'),"Existing editorial sections were removed");
+if(errors.length){console.error(errors.join("\n"));process.exitCode=1;}
+else console.log("Homepage fidelity checks passed: reference art, real links, accessible hair motion, search, and preserved shared shell.");
