@@ -62,8 +62,9 @@ for(const item of pages.filter(p=>p.kind==="article")){
 const errorPage=read("404.html");
 if(!errorPage.includes('name="robots" content="noindex,follow"'))errors.push("404 must have noindex");
 if(errorPage.includes('rel="canonical"'))errors.push("404 should not have a canonical URL");
-const head=read("index.html").match(/<div class="site-head">[\\s\\S]*?<\\/div><\\/div>/)?.[0];
-const errorHead=errorPage.match(/<div class="site-head">[\\s\\S]*?<\\/div><\\/div>/)?.[0];
+const headerOf=html=>{const begin=html.indexOf('<div class="site-head">'),close=html.indexOf('</nav></div></div>',begin);return begin<0||close<0?null:html.slice(begin,close+18);};
+const head=headerOf(read("index.html"));
+const errorHead=headerOf(errorPage);
 if(!head||head!==errorHead)errors.push("404 header must match homepage header");
 for(const marker of ['src="/assets/tracking.js"','src="/assets/site.js"','src="/assets/tools.js"','name="google-adsense-account"','id="privacy-reopen"'])
  if(!errorPage.includes(marker))errors.push("404 missing "+marker);
