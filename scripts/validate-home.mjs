@@ -17,10 +17,10 @@ ensure(home.includes('class="uac-hair-wind"'),"Layered wind-animated hair missin
 ensure(home.includes('class="uac-hair-crown"'),"Upper hair motion layer missing");
 ensure(home.includes('data-hero-stage')&&home.includes('data-motion-toggle'),"Accessible motion control missing");
 ensure(home.includes('aria-pressed="false"'),"Motion toggle state missing");
-ensure(home.includes('srcset="/assets/home-concept-scene-hd-2x.avif"'),"Upscaled hero source missing");
-ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Reference-matched hero fallback missing");
-ensure(home.split('<image href="/assets/home-concept-scene-hd-2x.avif"').length-1===3,"Hair layers must use the new high-quality asset");
-ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Matching reference image fallback missing");
+ensure(home.includes('srcset="/assets/home-concept-scene-hd-2x.webp"'),"Upscaled hero source missing");
+ensure(home.includes('src="/assets/home-concept-scene-hd-2x.webp"'),"Reference-matched hero fallback missing");
+ensure(home.split('<image href="/assets/home-concept-scene-hd-2x.webp"').length-1===3,"Hair layers must use the new high-quality asset");
+ensure(home.includes('src="/assets/home-concept-scene-hd-2x.webp"'),"Matching reference image fallback missing");
 ensure(home.includes('class="uac-home-search"'),"Functional homepage search missing");
 ensure(home.includes('name="google-adsense-account"'),"Publisher verification missing");
 ensure(home.includes('src="/assets/tracking.js?v='),"Shared tracking module missing");
@@ -51,6 +51,8 @@ for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-
  ensure(home.includes('href="'+href+'"'),"Homepage route missing "+href);
 }
 const hd=fs.readFileSync("assets/home-concept-scene-hd-2x.avif");
+const webp=fs.readFileSync("assets/home-concept-scene-hd-2x.webp");
+ensure(webp.length>60000&&webp.toString("ascii",0,4)==="RIFF"&&webp.toString("ascii",8,12)==="WEBP","Upscaled WebP must be generated before build validation");
 ensure(hd.length===68208,"Expected 1600px high-quality replacement");
 ensure(createHash("sha256").update(hd).digest("hex")==="313fd6274c175f8d21f9f40fc5e4d082200926f7ea9ed3ae6a6deecdd875105e","High-resolution asset checksum mismatch");
 ensure(css.includes(".uac-showcase-visual.hero-stage::after"),"Soft image boundary treatment missing");

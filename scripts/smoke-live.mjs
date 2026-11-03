@@ -7,7 +7,7 @@ const catalog=JSON.parse(fs.readFileSync("content/catalog.json","utf8")).filter(
 const all=process.env.LIVE_AUDIT_ALL==="1";
 const critical=["/","/guides/","/guides/find-anime-streaming-us/","/guides/choose-first-anime/","/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/","/about/","/contact/","/privacy/","/editorial-policy/"];
 const pagePaths=all?catalog.map(x=>x.path):critical;
-const paths=[...new Set([...pagePaths,"/sitemap.xml","/robots.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.avif","/a-page-that-must-return-real-404-2026/"])];
+const paths=[...new Set([...pagePaths,"/sitemap.xml","/robots.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
 const pathIsPage=p=>catalog.some(x=>x.path===p);
 const publisher="ca-pub-7937216909291905";
 const failures=[],warnings=[];
@@ -37,9 +37,9 @@ async function probe(route){
   }else if(route==="/ads.txt"){
    const ads=await r.text();
    if(!ads.includes("google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0"))failures.push("ads.txt: wrong or missing publisher entry");
-  }else if(route.includes(".avif")){
+  }else if(route.includes(".webp")){
    const type=r.headers.get("content-type")||"";
-   if(!type.includes("image/avif")&&!type.includes("application/octet-stream"))warnings.push("Hero asset served with unusual type: "+type);
+   if(!type.includes("image/webp"))warnings.push("Hero asset served with unusual type: "+type);
   }
   console.log("PASS "+r.status+" "+route);
  }catch(e){failures.push(route+": "+String(e.message||e));}

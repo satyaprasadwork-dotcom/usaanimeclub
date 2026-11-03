@@ -82,3 +82,6 @@ The production audit on 2026-11-03 returned HTTP 200 for the hero `.avif` but id
 ## Human review and image rights gate
 
 The site's human verification status remains **pending** for every existing guide; automated assistance and link checks cannot sign off factual claims. The review procedure is `docs/human-editor-review-gate.md`; current source references are in `content/source-evidence.json` and individual review records in `content/review-register.json`. Asset origin and independent rights checks are recorded in `content/asset-provenance.json`. Claims of completed personal interviews, hands-on testing or human review must not be published until documented. The original publication dates remain unchanged; substantive editing dates are updated only on modified pages.
+
+## Reliable hero delivery
+GitHub Actions creates `assets/home-concept-scene-hd-2x.webp` from the existing high-resolution AVIF source using ffmpeg and commits the output. The homepage and all three animated hair overlays reference the WebP image to avoid Hostinger's inconsistent AVIF response MIME type. Existing original source assets remain in the repository. Live MIME is checked by `npm run audit:live` and is a deployment test, not proof of desktop/mobile fidelity.
