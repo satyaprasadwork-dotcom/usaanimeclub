@@ -24,7 +24,7 @@ assert(/prefers-reduced-motion:\s*reduce/.test(css),"Reduced-motion rules missin
 assert(motion.includes('reduced.matches'),"Motion code does not honor OS preference");
 assert(motion.includes('requestAnimationFrame'),"Pointer parallax is not animation-frame throttled");
 assert(motion.includes('userPaused'),"Pause logic missing");
-assert(css.includes(".hero-stage[data-motion=\"off\"]"),"Pause state missing stylesheet rules");
+assert(read("assets/home-next-20261103.css").includes(".hero-stage[data-motion=\"off\"]"),"Pause state missing stylesheet rules");
 assert(!/https?:\/\/[^\s"'<>]*(three\.js|gsap|unpkg\.com|cdnjs)/i.test(source),"Unexpected external animation library");
 for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-streaming-us/","/guides/manga-collecting-budget/","/guides/cosplay-budget-safety/","/guides/#Streaming","/guides/#Manga","/guides/#Cosplay","/guides/#Community","/tools/manga-value-lab/"]){
  assert(home.includes('href="'+href+'"'),"Homepage missing destination "+href);
