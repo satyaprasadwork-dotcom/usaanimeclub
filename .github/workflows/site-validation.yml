@@ -22,10 +22,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Check published JavaScript syntax
+        run: |
+          node --check assets/site.js
+          node --check assets/tools.js
+          node --check assets/tracking.js
+          node --check scripts/build.mjs
+          node --check scripts/validate.mjs
+          node --check scripts/check-external-links.mjs
       - name: Generate site from content
         run: npm run build
       - name: Validate published pages
         run: npm run validate
+      - name: Audit external citation URLs (advisory; not a factual review)
+        continue-on-error: true
+        run: npm run audit:external
       - name: Verify generated files
         run: npm run build:check
       - name: Commit generated output
