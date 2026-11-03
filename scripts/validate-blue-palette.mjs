@@ -1,5 +1,5 @@
 import fs from "node:fs";
-const files=["assets/site.css","assets/home-next-20261103.css","assets/logo.svg","favicon.svg",...fs.readdirSync("assets/covers").filter(p=>p.endsWith(".svg")).map(p=>"assets/covers/"+p)];
+const files=["scripts/build.mjs","assets/site.css","assets/home-next-20261103.css","assets/logo.svg","favicon.svg",...fs.readdirSync("assets/covers").filter(p=>p.endsWith(".svg")).map(p=>"assets/covers/"+p)];
 let bad=[];
 if(fs.existsSync("assets/hero-anime-scene.svg"))bad.push("Obsolete purple headphone illustration remains");
 for(const file of files){
@@ -16,4 +16,4 @@ const light=fs.readFileSync("assets/site.css","utf8"),hero=fs.readFileSync("cont
 if(!light.includes("--bg:#f3faff"))bad.push("Light theme background not set");
 if(!hero.includes("/assets/hero-sky-traveler.svg"))bad.push("New hero image not linked");
 if(bad.length){console.error(bad.slice(0,40).join("\n"));process.exit(1)}
-console.log("Blue palette verified in both stylesheets, logo, favicon, and "+(files.length-4)+" editorial covers.");
+console.log("Blue palette verified in both stylesheets, logo, favicon, and "+(files.length-5)+" editorial covers and fallback styles.");
