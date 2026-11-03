@@ -11,6 +11,7 @@ ensure(home.includes('id="hero-title"'),"Homepage headline missing");
 ensure(home.includes("Every fan has a")&&home.includes("next chapter"),"Reference hero headline missing");
 ensure(home.includes('class="uac-landing-header"'),"Homepage-only header missing");
 ensure(home.includes('class="uac-feature-strip"'),"Four feature cards missing");
+ensure(home.includes('class="uac-cta-people"'),"Community CTA icon missing");
 ensure((home.match(/class="uac-feature"/g)||[]).length===4,"Expected four linked feature cards");
 ensure(home.includes('class="uac-hair-wind"'),"Layered wind-animated hair missing");
 ensure(home.includes('class="uac-hair-crown"'),"Upper hair motion layer missing");
@@ -18,7 +19,7 @@ ensure(home.includes('data-hero-stage')&&home.includes('data-motion-toggle'),"Ac
 ensure(home.includes('aria-pressed="false"'),"Motion toggle state missing");
 ensure(home.includes('srcset="/assets/home-concept-scene-hd-2x.avif"'),"Upscaled hero source missing");
 ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Reference-matched hero fallback missing");
-ensure((home.match(/<image href="\/assets\/home-concept-scene-hd\.avif"/g)||[]).length===3,"Hair layers must use the new high-quality asset");
+ensure(home.split('<image href="/assets/home-concept-scene-hd-2x.avif"').length-1===3,"Hair layers must use the new high-quality asset");
 ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Matching reference image fallback missing");
 ensure(home.includes('class="uac-home-search"'),"Functional homepage search missing");
 ensure(home.includes('name="google-adsense-account"'),"Publisher verification missing");

@@ -143,3 +143,6 @@ body:has(.uac-concept-home) .site-head{display:none}
  .uac-hair-wind g{animation:none!important;transform:none!important}
  .uac-floating-petal{display:none!important}
 }
+
+/* Home CTA icon matches its actual community destination, not a chess piece. */
+.uac-button-light .uac-cta-people{width:19px;height:19px;display:inline-block;flex:none;color:#0482ed}
