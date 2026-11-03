@@ -27,6 +27,7 @@ jobs:
           node --check assets/site.js
           node --check assets/home-motion.js
           node --check scripts/validate-home.mjs
+          node --check scripts/validate-blue-palette.mjs
           node --check assets/tools.js
           node --check assets/tracking.js
           node --check scripts/build.mjs
@@ -38,6 +39,8 @@ jobs:
         run: npm run validate
       - name: Validate homepage motion, links and accessible controls
         run: npm run test:home
+      - name: Validate light-blue palette
+        run: node scripts/validate-blue-palette.mjs
       - name: Audit external citation URLs (advisory; not a factual review)
         continue-on-error: true
         run: npm run audit:external

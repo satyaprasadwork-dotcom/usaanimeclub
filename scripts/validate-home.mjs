@@ -14,7 +14,7 @@ assert(!read("assets/site.css").includes("/* USA Anime Club: Next Chapter homepa
 assert(home.includes('data-hero-stage'),"3D stage missing");
 assert(home.includes('data-motion-toggle'),"Motion pause control missing");
 assert(home.includes('aria-pressed="false"'),"Motion state semantics missing");
-assert(home.includes('src="/assets/hero-anime-scene.svg"'),"Original hero illustration missing");
+assert(home.includes('src="/assets/hero-sky-traveler.svg"'),"Original hero illustration missing");
 assert(home.includes('src="/assets/home-motion.js"'),"Homepage-only animation missing");
 assert(home.includes('rel="canonical" href="https://usaanimeclub.com/"'),"Home canonical absent");
 assert(home.includes('name="google-adsense-account"'),"AdSense verification missing");
@@ -33,7 +33,7 @@ const main=home.split('<main id="content">')[1]?.split("</main>")[0]||"";
 assert((main.match(/<h1\b/g)||[]).length===1,"Homepage should have one H1");
 const localLinks=[...main.matchAll(/href="(\/[^"#?]+)(?:#[^"]*)?"/g)].map(x=>x[1]);
 for(const url of localLinks){assert(url==="/"||fs.existsSync(path.join(process.cwd(),url.slice(1),"index.html")),"Missing linked page "+url);}
-const illustration=read("assets/hero-anime-scene.svg");
+const illustration=read("assets/hero-sky-traveler.svg");
 assert(illustration.length<20000,"Hero illustration unusually large");
 assert(illustration.startsWith("<svg"),"Hero image is not an SVG");
 assert(motion.length<6000,"Motion script is too large for the intended effect");

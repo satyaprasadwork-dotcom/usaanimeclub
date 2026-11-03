@@ -56,7 +56,7 @@ Run `npm run check` before publishing, then review GitHub Actions logs and live 
 
 ## Homepage: Next Chapter motion system
 - Editable source: `content/pages/home.html`; visual styles are scoped in `assets/site.css`.
-- The original, self-owned illustration is `assets/hero-anime-scene.svg`; no copyrighted anime screenshots or third-party fonts or 3D libraries are required.
+- The original, self-owned illustration is `assets/hero-sky-traveler.svg`; no copyrighted anime screenshots or third-party fonts or 3D libraries are required.
 - `assets/home-motion.js` loads only from the homepage and adds bounded pointer-based CSS 3D depth on fine-pointer devices.
 - Continuous floating animation can be paused with the visible motion toggle; system `prefers-reduced-motion` disables decorative movement automatically. No critical links or content depend on JavaScript.
 - Homepage guides and cards still come from `content/catalog.json`. Run `npm run build && npm run check` and confirm desktop/mobile layout, focus, dark mode and reduced-motion behavior before treating the production domain as deployed.
@@ -64,3 +64,6 @@ Run `npm run check` before publishing, then review GitHub Actions logs and live 
 ## Homepage CSS cache regression fix (November 3, 2026)
 
 The homepage previously referenced one unversioned `/assets/site.css` while its new HTML was already being served. This could produce an unstyled full-width hero when a hosting cache still held the older CSS. `scripts/build.mjs` now writes a content hash into the shared stylesheet URL on **every** generated page. It also injects a separately fingerprinted `/assets/home-next-20261103.css` on the homepage only. A minimal critical inline stylesheet keeps the layout in two columns even if an external CSS file is delayed or stale. New homepage changes should update `assets/home-next-20261103.css`, then run `npm run build && npm run test:home && npm run validate && npm run build:check`. Deploy the new stylesheet asset along with the HTML, not just `index.html`.
+
+## Sky blue refresh — November 2026
+The visual system uses icy blue, cyan and ocean-blue variants on a deliberately light default background. The header, cards, themes, logo, favicon and hero effects share the new palette. The original headphone image was replaced with `assets/hero-sky-traveler.svg` (original illustrated rooftop traveler). Motion remains the same and supports reduced motion and pause controls.
