@@ -33,6 +33,7 @@ jobs:
           node --check scripts/build.mjs
           node --check scripts/validate.mjs
           node --check scripts/validate-integrations.mjs
+          node --check scripts/validate-editorial.mjs
           node --check scripts/check-external-links.mjs
       - name: Generate site from content
         run: npm run build
@@ -42,6 +43,8 @@ jobs:
         run: npm run audit:integrations
       - name: Validate homepage motion, links and accessible controls
         run: npm run test:home
+      - name: Validate editorial evidence, authorship and repeated content
+        run: node scripts/validate-editorial.mjs
       - name: Validate light-blue palette
         run: node scripts/validate-blue-palette.mjs
       - name: Audit external citation URLs (advisory; not a factual review)
