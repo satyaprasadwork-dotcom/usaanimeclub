@@ -1,0 +1,51 @@
+import fs from "node:fs";
+import path from "node:path";
+import {createHash} from "node:crypto";
+const read=file=>fs.readFileSync(file,"utf8");
+const catalog=JSON.parse(read("content/catalog.json"));
+const published=catalog.filter(p=>p.status!=="draft");
+const issues=[], check=(valid,message)=>{if(!valid)issues.push(message)};
+const tracking=read("assets/tracking.js"),layout=read("templates/layout.html");
+const publisher=tracking.match(/adsensePublisher:"(ca-pub-\d+)"/)?.[1];
+const ga=tracking.match(/ga4MeasurementId:"(G-[A-Z0-9]+)"/)?.[1];
+const clarity=tracking.match(/clarityProjectId:"([a-z0-9]+)"/)?.[1];
+check(publisher==="ca-pub-7937216909291905","Incorrect AdSense publisher ID");
+check(ga==="G-G0TNMR0FQL","Incorrect GA4 ID");
+check(clarity==="yyqq9cryjc","Incorrect Clarity ID");
+check(read("ads.txt").trim()==="google.com, "+publisher?.replace("ca-","")+", DIRECT, f08c47fec0942fa0","ads.txt does not match AdSense ID");
+check(layout.includes('<meta name="google-adsense-account" content="'+publisher+'">'),"Layout publisher verification mismatch");
+check((layout.match(/src="\/assets\/tracking\.js"/g)||[]).length===1,"Shared layout must reference one tracking script");
+check(tracking.includes('preference()!=="yes"'),"Measurement must be opt-in");
+check(tracking.includes('analytics_storage:"denied"')&&tracking.includes('ad_storage:"denied"'),"Consent defaults must deny optional storage");
+check(tracking.includes('loadOnce("ga4"')&&tracking.includes("CONFIG.clarityProjectId"),"GA4/Clarity must use shared loader");
+check(!tracking.includes("adsbygoogle.js"),"Ad-serving script must remain disabled until site and CMP are ready");
+const hash=createHash("sha256").update(tracking).digest("hex").slice(0,12);
+const trackingMarkup='src="/assets/tracking.js?v='+hash+'"';
+const adMeta='<meta name="google-adsense-account" content="'+publisher+'">';
+const rendered=[...published.map(p=>({label:p.path,file:p.path==="/"?"index.html":path.posix.join(p.path.slice(1),"index.html")})),{label:"404",file:"404.html"}];
+for(const page of rendered){
+ const html=read(page.file);
+ const head=html.split("</head>")[0];
+ const count=needle=>html.split(needle).length-1;
+ check(count(trackingMarkup)===1,page.label+": expected one versioned tracking script");
+ check(count(adMeta)===1,page.label+": expected one AdSense verification meta tag");
+ check(head.includes(trackingMarkup)&&head.includes(adMeta),page.label+": missing tracking or verification in head");
+ check(count('id="consent-panel"')===1&&count('id="privacy-reopen"')===1,page.label+": privacy controls missing or duplicated");
+ check(count('src="/assets/site.js"')===1&&count('src="/assets/tools.js"')===1,page.label+": shared scripts missing or duplicated");
+ check(!html.includes("googletagmanager.com/gtag/js")&&!html.includes("clarity.ms/tag/"),page.label+": duplicate tracking snippets");
+ check(!html.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),page.label+": ad-serving script activated without approval/CMP");
+}
+const xml=read("sitemap.xml");
+const entries=[...xml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)];
+const expected=new Map(published.map(p=>["https://usaanimeclub.com"+p.path,p.modified||p.published||"2026-11-03"]));
+check(entries.length===published.length,"Sitemap count differs from published catalog");
+check(new Set(entries.map(x=>x[1])).size===entries.length,"Sitemap duplicate canonical URL");
+for(const [url,date] of expected){const match=entries.find(x=>x[1]===url);check(!!match,"Sitemap missing "+url);check(match?.[2]===date,"Sitemap lastmod differs: "+url);}
+for(const entry of entries)check(expected.has(entry[1]),"Sitemap contains unpublished URL "+entry[1]);
+check(!xml.includes("/404/")&&!xml.includes("/404.html"),"404 must be omitted from sitemap");
+const robots=read("robots.txt");
+check(/^User-agent: \*/m.test(robots)&&/^Allow: \/$/m.test(robots),"robots.txt must allow public crawling");
+check(!/^Disallow: \/$/m.test(robots),"robots.txt must not block homepage");
+check((robots.match(/^Sitemap: https:\/\/usaanimeclub\.com\/sitemap\.xml$/gm)||[]).length===1,"robots.txt sitemap reference missing or duplicated");
+if(issues.length){console.error(issues.join("\n"));process.exitCode=1;}
+else console.log("Integration audit passed: "+published.length+" public pages + 404, GA4/Clarity consent, AdSense identity, "+entries.length+" sitemap URLs and robots.txt.");
