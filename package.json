@@ -11,6 +11,7 @@
     "check": "node scripts/build.mjs --check && node scripts/validate.mjs",
     "audit:live": "node scripts/smoke-live.mjs",
     "audit:external": "node scripts/check-external-links.mjs",
-    "test:home": "node scripts/validate-home.mjs"
+    "test:home": "node scripts/validate-home.mjs",
+    "audit:integrations": "node scripts/validate-integrations.mjs"
   }
 }

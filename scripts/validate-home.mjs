@@ -23,7 +23,7 @@ ensure(home.split('<image href="/assets/home-concept-scene-hd-2x.avif"').length-
 ensure(home.includes('src="/assets/home-concept-scene.avif"'),"Matching reference image fallback missing");
 ensure(home.includes('class="uac-home-search"'),"Functional homepage search missing");
 ensure(home.includes('name="google-adsense-account"'),"Publisher verification missing");
-ensure(home.includes('src="/assets/tracking.js"'),"Shared tracking module missing");
+ensure(home.includes('src="/assets/tracking.js?v='),"Shared tracking module missing");
 ensure(home.includes('src="/assets/site.js"'),"Shared site module missing");
 ensure(home.includes('src="/assets/home-motion.js"'),"Homepage-specific animation script missing");
 ensure(home.includes('href="/assets/site.css?v='),"Shared stylesheet URL should be fingerprinted");

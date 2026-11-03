@@ -34,6 +34,7 @@ const xml=read("sitemap.xml"),listed=[...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].m
 if(listed.length!==pages.length)errors.push("Sitemap does not match published page count");
 for(const p of pages)if(!listed.includes("https://usaanimeclub.com"+p.path))errors.push("Sitemap missing "+p.path);
 if(!read("templates/layout.html").includes("{{MAIN}}"))errors.push("Template has no body slot");
+if(!read("robots.txt").includes("Sitemap: https://usaanimeclub.com/sitemap.xml"))errors.push("robots.txt sitemap directive missing");
 
 const tracking=read("assets/tracking.js"),shared=read("templates/layout.html");
 for(const toolPath of ["/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/"])if(!urls.has(toolPath))errors.push("Missing expected tool page "+toolPath);
@@ -47,7 +48,7 @@ for(const item of pages){
  const relative=item.path==="/"? "index.html":item.path.slice(1)+"index.html";
  const markup=read(relative);
  const count=(needle)=>markup.split(needle).length-1;
- if(count('src="/assets/tracking.js"')!==1)errors.push(relative+": expected exactly one central tracking module");
+ if(count('src="/assets/tracking.js?v=')!==1)errors.push(relative+": expected exactly one central tracking module");
  if(count('src="/assets/site.js"')!==1)errors.push(relative+": expected exactly one site module");
  if(count('name="google-adsense-account"')!==1)errors.push(relative+": expected exactly one AdSense meta tag");
  if(markup.includes("www.googletagmanager.com/gtag/js")||markup.includes("www.clarity.ms/tag/"))errors.push(relative+": duplicate hard-coded measurement loader");
@@ -66,7 +67,7 @@ const headerOf=html=>{const begin=html.indexOf('<div class="site-head">'),close=
 const head=headerOf(read("index.html"));
 const errorHead=headerOf(errorPage);
 if(!head||head!==errorHead)errors.push("404 header must match homepage header");
-for(const marker of ['src="/assets/tracking.js"','src="/assets/site.js"','src="/assets/tools.js"','name="google-adsense-account"','id="privacy-reopen"'])
+for(const marker of ['src="/assets/tracking.js?v=','src="/assets/site.js"','src="/assets/tools.js"','name="google-adsense-account"','id="privacy-reopen"'])
  if(!errorPage.includes(marker))errors.push("404 missing "+marker);
 
 if(errors.length){console.error(errors.join("\n"));process.exitCode=1;}else console.log("Validated "+pages.length+" pages, "+pages.filter(p=>p.kind==="article").length+" articles, navigation, metadata and sitemap.");

@@ -32,11 +32,14 @@ jobs:
           node --check assets/tracking.js
           node --check scripts/build.mjs
           node --check scripts/validate.mjs
+          node --check scripts/validate-integrations.mjs
           node --check scripts/check-external-links.mjs
       - name: Generate site from content
         run: npm run build
       - name: Validate published pages
         run: npm run validate
+      - name: Validate GA4, Clarity, AdSense and crawler consistency
+        run: npm run audit:integrations
       - name: Validate homepage motion, links and accessible controls
         run: npm run test:home
       - name: Validate light-blue palette
@@ -50,7 +53,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html 404.html guides about privacy editorial-policy editorial-review contact community-guidelines terms disclaimer tools sitemap.xml
+          git add index.html 404.html guides about privacy editorial-policy editorial-review contact community-guidelines terms disclaimer tools sitemap.xml robots.txt
           if ! git diff --cached --quiet; then
             git commit -m "Regenerate site from editorial sources [skip ci]"
             git push
