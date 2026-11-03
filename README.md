@@ -70,3 +70,7 @@ The visual system uses icy blue, cyan and ocean-blue variants on a deliberately 
 
 ## Visual asset cache versioning
 The static generator adds content-hash query strings to the logo, favicon, replacement hero and all 15 SVG covers, in addition to the existing stylesheet hashes. This prevents mixed-version purple/pink assets appearing with the new blue HTML when browser or CDN caches retain old files.
+
+## AdSense quality and live-site smoke checks
+
+The homepage header now links to actual community guides rather than implying an unimplemented membership system. The About and editorial pages explain what the independent publication does, who is credited, how AI-assisted drafting is disclosed, and why these are not personal event reports. `npm run audit:live` performs read-only production probes of crucial page routes, publisher metadata, the generated sitemap, `robots.txt`, `ads.txt`, hero-image availability and real HTTP 404 behavior. Run `LIVE_AUDIT_ALL=1 npm run audit:live` for every published URL. GitHub Actions also executes the representative production smoke probe as an **advisory** step; a green build is not proof the domain is deployed or the site is approved by Google. Editorial claim verification and confirmation of mailbox delivery still require the operator.

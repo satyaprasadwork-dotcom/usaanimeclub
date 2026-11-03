@@ -47,6 +47,9 @@ jobs:
       - name: Audit external citation URLs (advisory; not a factual review)
         continue-on-error: true
         run: npm run audit:external
+      - name: Probe production readiness (advisory; Hostinger may not yet be deployed)
+        continue-on-error: true
+        run: npm run audit:live
       - name: Verify generated files
         run: npm run build:check
       - name: Commit generated output
