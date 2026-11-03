@@ -14,7 +14,10 @@ assert(!read("assets/site.css").includes("/* USA Anime Club: Next Chapter homepa
 assert(home.includes('data-hero-stage'),"3D stage missing");
 assert(home.includes('data-motion-toggle'),"Motion pause control missing");
 assert(home.includes('aria-pressed="false"'),"Motion state semantics missing");
-assert(home.includes('src="/assets/hero-sky-traveler.svg"'),"Original hero illustration missing");
+assert(home.includes('src="/assets/hero-sky-traveler.svg?v='),"Original versioned hero illustration missing");
+assert(home.includes('src="/assets/logo.svg?v='),"Updated logo cache version missing");
+assert(home.includes('href="/favicon.svg?v='),"Updated favicon cache version missing");
+assert(home.includes('/assets/covers/starter.svg?v='),"Updated covers cache versions missing");
 assert(home.includes('src="/assets/home-motion.js"'),"Homepage-only animation missing");
 assert(home.includes('rel="canonical" href="https://usaanimeclub.com/"'),"Home canonical absent");
 assert(home.includes('name="google-adsense-account"'),"AdSense verification missing");

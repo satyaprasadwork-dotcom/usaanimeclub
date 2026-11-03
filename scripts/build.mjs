@@ -40,6 +40,9 @@ function renderPage(page,main,layout,catalog){
  let html=layout.replace("{{MAIN}}",main.trim());
  // Changes to the shared stylesheet produce a new URL for every HTML page.
  html=html.replace('href="/assets/site.css"',`href="/assets/site.css?v=${fingerprint("assets/site.css")}"`);
+ // A new artwork version must not reuse an old pink/purple logo, favicon or cover.
+ html=html.replace(/((?:src|href)=")(\/(?:assets\/(?:logo|hero-sky-traveler)\.svg|assets\/covers\/[a-z0-9-]+\.svg|favicon\.svg))(")/g,
+  (match,start,url,end)=>{const file=url.slice(1);return fs.existsSync(path.join(process.cwd(),file))?start+url+"?v="+fingerprint(file)+end:match;});
  if(page.path==="/"){
   const homeVersion=fingerprint("assets/home-next-20261103.css");
   const extra=`<style id="home-layout-fallback">${CRITICAL_HOMEPAGE_CSS}</style><link rel="stylesheet" href="/assets/home-next-20261103.css?v=${homeVersion}">`;

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 const files=["assets/site.css","assets/home-next-20261103.css","assets/logo.svg","favicon.svg",...fs.readdirSync("assets/covers").filter(p=>p.endsWith(".svg")).map(p=>"assets/covers/"+p)];
 let bad=[];
+if(fs.existsSync("assets/hero-anime-scene.svg"))bad.push("Obsolete purple headphone illustration remains");
 for(const file of files){
  const value=fs.readFileSync(file,"utf8");
  for(const match of value.matchAll(/#[0-9a-fA-F]{6}(?![a-fA-F0-9])/g)){

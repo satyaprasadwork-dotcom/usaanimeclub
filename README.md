@@ -67,3 +67,6 @@ The homepage previously referenced one unversioned `/assets/site.css` while its 
 
 ## Sky blue refresh — November 2026
 The visual system uses icy blue, cyan and ocean-blue variants on a deliberately light default background. The header, cards, themes, logo, favicon and hero effects share the new palette. The original headphone image was replaced with `assets/hero-sky-traveler.svg` (original illustrated rooftop traveler). Motion remains the same and supports reduced motion and pause controls.
+
+## Visual asset cache versioning
+The static generator adds content-hash query strings to the logo, favicon, replacement hero and all 15 SVG covers, in addition to the existing stylesheet hashes. This prevents mixed-version purple/pink assets appearing with the new blue HTML when browser or CDN caches retain old files.
