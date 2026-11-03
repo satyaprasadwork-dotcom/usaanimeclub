@@ -85,3 +85,7 @@ The site's human verification status remains **pending** for every existing guid
 
 ## Reliable hero delivery
 GitHub Actions creates `assets/home-concept-scene-hd-2x.webp` from the existing high-resolution AVIF source using ffmpeg and commits the output. The homepage and all three animated hair overlays reference the WebP image to avoid Hostinger's inconsistent AVIF response MIME type. Existing original source assets remain in the repository. Live MIME is checked by `npm run audit:live` and is a deployment test, not proof of desktop/mobile fidelity.
+
+## Search, answer and AI-search visibility (November 2026)
+
+The site now publishes question-led HTML answer sections, more descriptive SERP titles, visible editorial update dates and source-aligned Article, CollectionPage, ItemList and WebApplication structured data. The guides hub includes four reader pathways. GitHub Actions runs `npm run audit:seo` on every content/build change. Details, limitations and account-level verification: `docs/seo-aeo-geo-2026-11-04.md`. No specific position in Google AI Overviews or Bing Copilot is guaranteed.

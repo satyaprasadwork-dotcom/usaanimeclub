@@ -44,11 +44,14 @@ jobs:
           node --check scripts/validate.mjs
           node --check scripts/validate-integrations.mjs
           node --check scripts/validate-editorial.mjs
+          node --check scripts/validate-seo.mjs
           node --check scripts/check-external-links.mjs
       - name: Generate site from content
         run: npm run build
       - name: Validate published pages
         run: npm run validate
+      - name: Validate SEO, AEO and AI-search structured data
+        run: npm run audit:seo
       - name: Validate GA4, Clarity, AdSense and crawler consistency
         run: npm run audit:integrations
       - name: Validate homepage motion, links and accessible controls
