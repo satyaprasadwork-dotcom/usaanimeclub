@@ -14,6 +14,6 @@ for(const file of files){
 }
 const light=fs.readFileSync("assets/site.css","utf8"),hero=fs.readFileSync("content/pages/home.html","utf8");
 if(!light.includes("--bg:#f3faff"))bad.push("Light theme background not set");
-if(!hero.includes("/assets/hero-sky-traveler.svg"))bad.push("New hero image not linked");
+if(!hero.includes("/assets/home-concept-scene-hd.avif"))bad.push("High-resolution blue hero image not linked");
 if(bad.length){console.error(bad.slice(0,40).join("\n"));process.exit(1)}
 console.log("Blue palette verified in both stylesheets, logo, favicon, and "+(files.length-5)+" editorial covers and fallback styles.");
