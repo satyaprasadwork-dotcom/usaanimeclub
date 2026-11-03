@@ -53,3 +53,10 @@ Run `npm run check` before publishing, then review GitHub Actions logs and live 
 - `npm run audit:live` checks the public origin, important routes, sitemap and 404 response codes. It will fail if the domain is unreachable or Hostinger has not received generated files.
 - `404.html` is generated from `content/pages/404.html` and `templates/layout.html`; do not edit the generated file directly.
 - Existing 15 published guides remain in the manual review backlog; newly added guides that explicitly use `status: "published"` require a completed and named review record. Keep new pages at `status: "draft"` until review is genuine.
+
+## Homepage: Next Chapter motion system
+- Editable source: `content/pages/home.html`; visual styles are scoped in `assets/site.css`.
+- The original, self-owned illustration is `assets/hero-anime-scene.svg`; no copyrighted anime screenshots or third-party fonts or 3D libraries are required.
+- `assets/home-motion.js` loads only from the homepage and adds bounded pointer-based CSS 3D depth on fine-pointer devices.
+- Continuous floating animation can be paused with the visible motion toggle; system `prefers-reduced-motion` disables decorative movement automatically. No critical links or content depend on JavaScript.
+- Homepage guides and cards still come from `content/catalog.json`. Run `npm run build && npm run check` and confirm desktop/mobile layout, focus, dark mode and reduced-motion behavior before treating the production domain as deployed.
