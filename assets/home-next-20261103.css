@@ -146,3 +146,35 @@ body:has(.uac-concept-home) .site-head{display:none}
 
 /* Home CTA icon matches its actual community destination, not a chess piece. */
 .uac-button-light .uac-cta-people{width:19px;height:19px;display:inline-block;flex:none;color:#0482ed}
+
+/* Desktop header dropdowns: the hit area continues across the visual gap, so
+   moving from the label to the panel does not accidentally dismiss the menu. */
+@media (min-width: 941px) {
+ .uac-landing-header{overflow:visible}
+ .uac-header-nav .uac-nav-drop{height:100%;display:flex;align-items:center;position:relative;isolation:isolate}
+ .uac-header-nav .uac-nav-drop > summary{height:100%;display:inline-flex;align-items:center;padding:0 2px}
+ .uac-header-nav .uac-nav-drop[open]{z-index:90}
+ .uac-header-nav .uac-drop-menu{
+   top:100%;left:50%;transform:translateX(-50%);
+   width:max-content;min-width:238px;max-width:min(300px,calc(100vw - 32px));
+   padding:9px 0 0;display:none;
+   border:0;border-radius:0;box-shadow:none;background:transparent;
+ }
+ .uac-header-nav .uac-nav-drop[open] .uac-drop-menu{display:block}
+ .uac-header-nav .uac-drop-panel{
+   display:flex;flex-direction:column;gap:2px;padding:9px;
+   border:1px solid #c8e7fa;border-radius:14px;
+   background:#fff;box-shadow:0 16px 36px #0c51862e;
+ }
+ .uac-header-nav .uac-drop-panel > a{
+   display:block;padding:12px 14px;border-radius:9px;line-height:1.35;
+   color:#16335b;font-size:.84rem;font-weight:750;white-space:nowrap;
+ }
+ .uac-header-nav .uac-drop-panel > a:hover,
+ .uac-header-nav .uac-drop-panel > a:focus-visible{
+   color:#006dcc;background:#eaf7ff;
+ }
+ .uac-header-nav .uac-nav-drop:last-of-type .uac-drop-menu{
+   left:auto;right:-12px;transform:none;
+ }
+}

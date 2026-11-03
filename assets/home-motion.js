@@ -59,11 +59,48 @@ if(openSearch&&search){
  });
  search.addEventListener("click",event=>{if(event.target===search)search.close()});
 }
-const drops=document.querySelectorAll(".uac-nav-drop");
-document.addEventListener("click",event=>{
- for(const el of drops)if(!el.contains(event.target))el.open=false;
+// Only the currently active dropdown may remain open. Desktop pointer hover
+// works without clicking; touch and keyboard retain native <details> semantics.
+const drops=[...document.querySelectorAll(".uac-nav-drop")];
+const hoverMenus=window.matchMedia("(hover: hover) and (pointer: fine)");
+const closeMenus=(except=null)=>{
+ for(const menu of drops)if(menu!==except)menu.open=false;
+};
+for(const menu of drops){
+ const summary=menu.querySelector("summary");
+ let clickedWith=null;
+ menu.addEventListener("pointerenter",event=>{
+  if(!hoverMenus.matches||event.pointerType!=="mouse")return;
+  closeMenus(menu);
+  menu.open=true;
+ });
+ menu.addEventListener("pointerleave",event=>{
+  if(!hoverMenus.matches||event.pointerType!=="mouse")return;
+  menu.open=false;
+ });
+ menu.addEventListener("toggle",()=>{
+  if(menu.open)closeMenus(menu);
+ });
+ menu.addEventListener("focusout",event=>{
+  if(!menu.contains(event.relatedTarget)&&!menu.matches(":hover"))menu.open=false;
+ });
+ summary?.addEventListener("pointerdown",event=>{clickedWith=event.pointerType;});
+ summary?.addEventListener("click",event=>{
+  if(hoverMenus.matches&&clickedWith==="mouse"){
+   event.preventDefault();
+   closeMenus(menu);
+   menu.open=true;
+  }
+  clickedWith=null;
+ });
+}
+document.addEventListener("pointerdown",event=>{
+ if(!event.target.closest(".uac-header-nav"))closeMenus();
 });
 document.addEventListener("keydown",event=>{
- if(event.key==="Escape")for(const el of drops)el.open=false;
+ if(event.key!=="Escape")return;
+ const active=drops.find(menu=>menu.open);
+ closeMenus();
+ if(active?.contains(document.activeElement))active.querySelector("summary")?.focus();
 });
 })();

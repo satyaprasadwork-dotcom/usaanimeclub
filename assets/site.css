@@ -17,3 +17,8 @@ h1,h2,h3,h4,.brand,.foot-brand{font-family:system-ui,-apple-system,BlinkMacSyste
 /* Distinctive editorial worksheets and independent reader tools */
 .tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-bottom:26px}.comparison-group{border:2px solid var(--line);border-radius:12px;padding:18px;margin:0 0 18px}.comparison-group legend{font-weight:800;padding:0 9px}.budget-form select{display:block;width:100%;padding:11px 13px;margin-top:5px;border:2px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink)}.budget-output strong{overflow-wrap:anywhere}.guide-summary{border-left:4px solid var(--accent);background:var(--panel);padding:16px 20px;border-radius:0 12px 12px 0}.applied-guide{padding-top:1rem;margin-top:2rem;border-top:2px solid var(--line)}
 @media(max-width:890px){.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.tool-grid{grid-template-columns:1fr}.comparison-group{padding:12px}.budget-form{padding:17px}.budget-output{padding:19px}}
+
+/* Keep footer navigation separate from the privacy control on every page. */
+.site-foot nav + p{margin:27px 0 18px;}
+.site-foot #privacy-reopen{display:inline-flex;align-items:center;min-height:38px;}
+@media (max-width:600px){.site-foot nav + p{margin-top:22px;}}

@@ -38,6 +38,14 @@ ensure(css.includes("@media(prefers-reduced-motion:reduce)"),"OS reduced-motion 
 ensure(motion.includes("userPaused")&&motion.includes("reduced.matches"),"Motion toggle ignores preference");
 ensure(motion.includes("requestAnimationFrame"),"Pointer feedback must be throttled");
 ensure(motion.includes("showModal")&&motion.includes("filterSearch"),"Search modal must work");
+ensure((home.match(/class="uac-nav-drop"/g)||[]).length===3,"Expected exactly three homepage dropdowns");
+ensure((home.match(/class="uac-drop-panel"/g)||[]).length===3,"Each dropdown requires a separate styled panel");
+ensure(css.includes(".uac-header-nav .uac-drop-panel"),"Dropdown menu panel layout missing");
+ensure(css.includes("top:100%")&&css.includes("padding:9px 0 0"),"Dropdown must retain a continuous hover area below the header");
+ensure(motion.includes('menu.addEventListener("pointerenter"')&&motion.includes('menu.addEventListener("pointerleave"'),"Desktop menus must open and close on hover");
+ensure(motion.includes('if(menu.open)closeMenus(menu)'),"Opening one dropdown must close others");
+ensure(motion.includes("focusout")&&motion.includes('event.key!=="Escape"'),"Keyboard and focus exit must dismiss dropdowns");
+ensure(read("assets/site.css").includes(".site-foot nav + p{margin:27px 0 18px;}"),"Footer privacy controls need space below navigation links");
 ensure(!/https?:\/\/[^\s"'<>]*(three\.js|gsap|unpkg\.com|cdnjs)/i.test(home),"Unexpected animation CDN");
 for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-streaming-us/","/guides/manga-collecting-budget/","/guides/cosplay-budget-safety/","/guides/start-anime-club/","/tools/","/about/","/contact/"]){
  ensure(home.includes('href="'+href+'"'),"Homepage route missing "+href);
