@@ -45,6 +45,8 @@ function renderPage(page,main,layout,catalog){
  html=html.replace(/((?:src|href)=")(\/(?:assets\/(?:logo|hero-sky-traveler)\.svg|assets\/covers\/[a-z0-9-]+\.svg|favicon\.svg))(")/g,
   (match,start,url,end)=>{const file=url.slice(1);return fs.existsSync(path.join(process.cwd(),file))?start+url+"?v="+fingerprint(file)+end:match;});
  if(page.path==="/"){
+  // Bust stale homepage interaction code after dropdown/menu changes.
+  html=html.replace('src="/assets/home-motion.js"',`src="/assets/home-motion.js?v=${fingerprint("assets/home-motion.js")}"`);
   const homeVersion=fingerprint("assets/home-next-20261103.css");
   const extra=`<style id="home-layout-fallback">${CRITICAL_HOMEPAGE_CSS}</style><link rel="stylesheet" href="/assets/home-next-20261103.css?v=${homeVersion}">`;
   html=html.replace("</head>",extra+"</head>");

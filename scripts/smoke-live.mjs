@@ -26,6 +26,7 @@ async function probe(route){
    if(!html.includes('id="privacy-reopen"'))failures.push(route+": privacy controls missing");
    // These checks distinguish a reachable but stale website from the newest source.
    if(route==="/"&&!html.includes("Community Guides</a>"))failures.push(route+": latest homepage community link not yet deployed");
+   if(route==="/"&&!html.includes('src="/assets/home-motion.js?v='))failures.push(route+": stale unversioned homepage interaction script");
    if(route==="/about/"&&!html.includes("How the editorial desk works"))failures.push(route+": latest About trust section not yet deployed");
   }else if(route==="/sitemap.xml"){
    const xml=await r.text(); const count=(xml.match(/<loc>/g)||[]).length;
