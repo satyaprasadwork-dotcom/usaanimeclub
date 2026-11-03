@@ -42,6 +42,13 @@ for(const page of catalog){
 const included=catalog.filter(p=>p.status!=="draft");
 const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+included.map(p=>'  <url><loc>https://usaanimeclub.com'+p.path+'</loc><lastmod>'+(p.modified||p.published||"2026-11-03")+'</lastmod></url>').join("\n")+'\n</urlset>\n';
 outputs.set("sitemap.xml",xml);
+// The 404 page is generated from the same shared header, footer and tracking shell.
+// It is deliberately omitted from the content catalog and sitemap.
+const notFoundPage={path:"/404/",kind:"page",title:"Page Not Found",description:"This URL could not be found on USA Anime Club."};
+const notFoundHtml=renderPage(notFoundPage,read("content/pages/404.html"),layout,catalog)
+ .replace('<meta name="robots" content="index,follow,max-image-preview:large">','<meta name="robots" content="noindex,follow">')
+ .replace('<link rel="canonical" href="https://usaanimeclub.com/404/">',"");
+outputs.set("404.html",notFoundHtml);
 const failures=[];
 for(const [rel,content] of outputs){
  const dest=path.join(root,rel);

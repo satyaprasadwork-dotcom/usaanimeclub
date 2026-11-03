@@ -9,6 +9,7 @@
     "new:guide": "node scripts/new-guide.mjs",
     "validate": "node scripts/validate.mjs",
     "check": "node scripts/build.mjs --check && node scripts/validate.mjs",
-    "audit:live": "node scripts/smoke-live.mjs"
+    "audit:live": "node scripts/smoke-live.mjs",
+    "audit:external": "node scripts/check-external-links.mjs"
   }
 }

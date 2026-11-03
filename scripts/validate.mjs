@@ -25,6 +25,8 @@ for(const page of pages){
   const body=html.split('<article class="prose">')[1]?.split("</article>")[0]||"";
   if(body.replace(/<[^>]+>/g," ").trim().split(/\s+/).length<1000)errors.push(rel+": short guide");
   if(!body.includes('id="sources"'))errors.push(rel+": source section absent");
+  if(!body.includes('id="apply-guide"'))errors.push(rel+": missing topic-specific practical section");
+  if(body.includes("Choose a practical approach, verify details with current sources")||body.includes("Start by verifying the current information at its source"))errors.push(rel+": repeated generic introduction remains");
   if(!fs.existsSync(path.join(root,"assets","covers",page.cover+".svg")))errors.push(rel+": missing topic illustration");
  }
 }
@@ -50,8 +52,20 @@ for(const item of pages){
  if(count('name="google-adsense-account"')!==1)errors.push(relative+": expected exactly one AdSense meta tag");
  if(markup.includes("www.googletagmanager.com/gtag/js")||markup.includes("www.clarity.ms/tag/"))errors.push(relative+": duplicate hard-coded measurement loader");
 }
+const review=JSON.parse(read("content/review-register.json"));
+for(const item of pages.filter(p=>p.kind==="article")){
+ const record=review.guides.find(x=>x.path===item.path);
+ if(!record)errors.push(item.path+": missing editorial claim-review register entry");
+ if(item.status==="published"&&(!record||record.status!=="reviewed"||!record.reviewer||!record.reviewedAt))
+  errors.push(item.path+": explicitly published new article must first receive verified human review");
+}
 const errorPage=read("404.html");
-for(const marker of ['src="/assets/tracking.js"','src="/assets/site.js"','name="google-adsense-account"','id="privacy-reopen"'])
+if(!errorPage.includes('name="robots" content="noindex,follow"'))errors.push("404 must have noindex");
+if(errorPage.includes('rel="canonical"'))errors.push("404 should not have a canonical URL");
+const head=read("index.html").match(/<div class="site-head">[\\s\\S]*?<\\/div><\\/div>/)?.[0];
+const errorHead=errorPage.match(/<div class="site-head">[\\s\\S]*?<\\/div><\\/div>/)?.[0];
+if(!head||head!==errorHead)errors.push("404 header must match homepage header");
+for(const marker of ['src="/assets/tracking.js"','src="/assets/site.js"','src="/assets/tools.js"','name="google-adsense-account"','id="privacy-reopen"'])
  if(!errorPage.includes(marker))errors.push("404 missing "+marker);
 
 if(errors.length){console.error(errors.join("\n"));process.exitCode=1;}else console.log("Validated "+pages.length+" pages, "+pages.filter(p=>p.kind==="article").length+" articles, navigation, metadata and sitemap.");

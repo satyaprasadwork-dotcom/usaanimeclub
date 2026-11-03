@@ -45,3 +45,11 @@ Run `npm run check` before publishing, then review GitHub Actions logs and live 
 - Confirm the live domain is reachable, TLS is valid, hosting deploys nested paths and missing URLs return a true 404. Run `npm run audit:live` on a machine with public Internet access.
 - Confirm the real editorial contact mailbox, ownership identity, hosting logs and retention policy before declaring trust and privacy review complete.
 - Do not claim attendance, interviews, first-hand tests, live product prices or relationships with any providers without records. AdSense approval cannot be guaranteed.
+
+## Test before publishing
+
+- `npm run check` tests generated pages, internal navigation, meta tags, publishing records and the sitemap.
+- `npm run audit:external` checks external reference URLs from a networked environment. A reachable URL is **not** proof that it supports the article's factual claims.
+- `npm run audit:live` checks the public origin, important routes, sitemap and 404 response codes. It will fail if the domain is unreachable or Hostinger has not received generated files.
+- `404.html` is generated from `content/pages/404.html` and `templates/layout.html`; do not edit the generated file directly.
+- Existing 15 published guides remain in the manual review backlog; newly added guides that explicitly use `status: "published"` require a completed and named review record. Keep new pages at `status: "draft"` until review is genuine.
