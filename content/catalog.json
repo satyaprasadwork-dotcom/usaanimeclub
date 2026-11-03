@@ -80,7 +80,8 @@
     "category": "Viewing",
     "cover": "season",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Seasons, Cours and Simulcasts Explained"
   },
   {
     "path": "/guides/buy-anime-merch-safely/",
@@ -91,7 +92,8 @@
     "category": "Buying",
     "cover": "buying",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "How to Buy Anime Merchandise Safely in the US"
   },
   {
     "path": "/guides/spoiler-etiquette/",
@@ -102,7 +104,8 @@
     "category": "Community",
     "cover": "spoilers",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Spoiler Etiquette for Fan Communities"
   },
   {
     "path": "/guides/first-anime-convention/",
@@ -113,7 +116,8 @@
     "category": "Planning",
     "cover": "convention",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "First Anime Convention in the US: Planning Guide"
   },
   {
     "path": "/guides/find-anime-streaming-us/",
@@ -124,7 +128,8 @@
     "category": "Streaming",
     "cover": "streaming",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Where to Stream Anime Legally in the US"
   },
   {
     "path": "/guides/host-anime-watch-party/",
@@ -135,7 +140,8 @@
     "category": "Community",
     "cover": "watch",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Watch Party: Rights, Captions and Planning"
   },
   {
     "path": "/guides/cosplay-budget-safety/",
@@ -146,7 +152,8 @@
     "category": "Cosplay",
     "cover": "cosplay",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Budget Cosplay: Materials, Safety and Event Rules"
   },
   {
     "path": "/guides/manga-collecting-budget/",
@@ -157,7 +164,8 @@
     "category": "Manga",
     "cover": "manga",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "How to Collect Manga on a Budget in the US"
   },
   {
     "path": "/guides/start-anime-club/",
@@ -168,7 +176,8 @@
     "category": "Community",
     "cover": "club",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "How to Start a Welcoming Anime Club"
   },
   {
     "path": "/guides/dub-or-sub/",
@@ -179,7 +188,8 @@
     "category": "Viewing",
     "cover": "dub",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Dub vs Sub: Which Should You Choose?"
   },
   {
     "path": "/guides/choose-first-anime/",
@@ -190,7 +200,8 @@
     "category": "Viewing",
     "cover": "starter",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "How to Choose Your First Anime: Beginner Guide"
   },
   {
     "path": "/guides/fan-art-permission-credit/",
@@ -201,7 +212,8 @@
     "category": "Creators",
     "cover": "fanart",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Fan Art: Copyright, Credit and Permission"
   },
   {
     "path": "/guides/anime-manga-public-library/",
@@ -212,7 +224,8 @@
     "category": "Libraries",
     "cover": "library",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Borrow Anime and Manga From US Public Libraries"
   },
   {
     "path": "/guides/manga-editions-translations/",
@@ -223,7 +236,8 @@
     "category": "Manga",
     "cover": "editions",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Compare Manga Editions, Translations and ISBNs"
   },
   {
     "path": "/guides/accessible-anime-viewing/",
@@ -234,7 +248,8 @@
     "category": "Accessibility",
     "cover": "accessible",
     "published": "2026-11-03",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "seoTitle": "Accessible Anime Viewing: Captions and Settings"
   },
   {
     "path": "/tools/convention-budget/",
