@@ -1,0 +1,4 @@
+# Applied only inside /assets on Apache/LiteSpeed-compatible hosting.
+# Correct AVIF delivery; do not overwrite the site's root redirect configuration.
+AddType image/avif .avif
+AddType image/svg+xml .svg

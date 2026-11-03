@@ -24,6 +24,9 @@ async function probe(route){
    if(!html.includes('src="/assets/tracking.js?v='))failures.push(route+": latest versioned tracking module missing on production");
    if(!html.includes('rel="canonical" href="'+origin+route+'"'))failures.push(route+": canonical URL mismatch");
    if(!html.includes('id="privacy-reopen"'))failures.push(route+": privacy controls missing");
+   // These checks distinguish a reachable but stale website from the newest source.
+   if(route==="/"&&!html.includes("Community Guides</a>"))failures.push(route+": latest homepage community link not yet deployed");
+   if(route==="/about/"&&!html.includes("How the editorial desk works"))failures.push(route+": latest About trust section not yet deployed");
   }else if(route==="/sitemap.xml"){
    const xml=await r.text(); const count=(xml.match(/<loc>/g)||[]).length;
    if(count!==catalog.length)failures.push("sitemap.xml: "+count+" URLs live, expected "+catalog.length);
