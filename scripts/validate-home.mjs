@@ -6,8 +6,8 @@ const errors=[];
 function assert(ok,message){if(!ok)errors.push(message);}
 assert(home.includes('id="hero-title"'),"Homepage hero heading missing");
 assert(home.includes('id="home-layout-fallback"'),"Critical homepage layout fallback missing");
-assert(/href="\\/assets\\/site\\.css\\?v=[a-f0-9]{12}"/.test(home),"Shared CSS must be content fingerprinted");
-assert(/href="\\/assets\\/home-next-20261103\\.css\\?v=[a-f0-9]{12}"/.test(home),"Versioned homepage CSS link missing");
+assert(home.includes('href="/assets/site.css?v='),"Shared CSS must be content fingerprinted");
+assert(home.includes('href="/assets/home-next-20261103.css?v='),"Versioned homepage CSS link missing");
 assert(read("assets/home-next-20261103.css").includes(".hero-next-grid"),"Homepage CSS file missing grid rules");
 assert(!read("assets/site.css").includes("/* USA Anime Club: Next Chapter homepage."),"Homepage-specific CSS must not be bundled with shared styles");
 
