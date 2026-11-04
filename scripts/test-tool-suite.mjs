@@ -53,6 +53,10 @@ const home=fs.readFileSync("content/pages/home.html","utf8");
 if(!home.includes('href="/tools/anime-release-time-converter/"')||!home.includes('href="/tools/us-anime-convention-finder/"'))errors.push("Header tool shortcuts missing");
 const motion=fs.readFileSync("assets/home-motion.js","utf8");
 if(motion.includes('if(!stage)return'))errors.push("Header must work without the animated hero");
-if(!motion.includes('summary?.addEventListener("click"'))errors.push("Header dropdowns require native mouse/touch/keyboard clicks");
+if(!motion.includes('document.querySelector(".site-mobile-nav")'))errors.push("Shared mobile menu keyboard/pointer handling missing");
+const sharedHeader=fs.readFileSync("templates/layout.html","utf8");
+if(!sharedHeader.includes('class="site-header-controls"')||!sharedHeader.includes('data-home-search-open'))errors.push("Shared header controls/search trigger missing");
+if(!sharedHeader.includes('class="site-mobile-nav"'))errors.push("Native mobile navigation missing");
+if(!sharedHeader.includes('href="/tools/"'))errors.push("Shared tool navigation missing");
 if(errors.length){console.error(errors.join("\n"));process.exitCode=1}
 else console.log("All 20 new anime tools passed sample interactions; 23-tool hub and header navigation present.");
