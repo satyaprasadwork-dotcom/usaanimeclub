@@ -4,80 +4,182 @@
     "source": "content/pages/home.html",
     "kind": "page",
     "title": "US Anime Culture, Fan Guides & Press",
-    "description": "USA Anime Club covers anime culture for US fans, with independent guides, community resources and an open press submissions desk.",
-    "modified": "2026-11-04"
+    "description": "USA Anime Club is an independent US anime culture publication with practical fan guides, 23 free interactive tools, press submissions and community resources.",
+    "modified": "2026-11-04",
+    "seoTitle": "USA Anime Club: US Anime Guides, News & Tools",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "culture anime",
+      "press anime",
+      "independent",
+      "publication",
+      "practical",
+      "free"
+    ]
   },
   {
     "path": "/about/",
     "source": "content/pages/about.html",
     "kind": "page",
     "title": "About USA Anime Club",
-    "description": "An independent editorial home for US anime fans.",
-    "modified": "2026-11-04"
+    "description": "Learn about USA Anime Club's independent editorial mission, US anime fan coverage, source verification process and approach to fan community reporting.",
+    "modified": "2026-11-04",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "learn anime",
+      "club's anime",
+      "independent",
+      "editorial",
+      "mission",
+      "coverage"
+    ]
   },
   {
     "path": "/press/",
     "source": "content/pages/press.html",
     "kind": "page",
     "title": "Anime Press Releases & Story Submissions",
-    "description": "Submit US anime press releases, manga announcements, convention news and community story tips to the independent USA Anime Club editorial desk.",
-    "modified": "2026-11-04"
+    "description": "Submit an anime press release or story tip involving US screenings, manga publishers, conventions and creators. Review USA Anime Club's submission requirements.",
+    "modified": "2026-11-04",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "press anime",
+      "releases anime",
+      "story",
+      "submissions",
+      "submit",
+      "release"
+    ]
   },
   {
     "path": "/community-guidelines/",
     "source": "content/pages/community-guidelines.html",
     "kind": "page",
     "title": "Community Guidelines",
-    "description": "Expectations for respectful conversations and safe fan activities.",
-    "modified": "2026-11-03"
+    "description": "Read USA Anime Club's community guidelines for respectful fandom conversations, spoiler etiquette, inclusion, fan events and safe group participation.",
+    "modified": "2026-11-03",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "community anime",
+      "guidelines anime",
+      "community-guidelines",
+      "read",
+      "club's",
+      "respectful"
+    ]
   },
   {
     "path": "/contact/",
     "source": "content/pages/contact.html",
     "kind": "page",
     "title": "Contact USA Anime Club",
-    "description": "Send editorial feedback, corrections or general enquiries.",
-    "modified": "2026-11-03"
+    "description": "Contact USA Anime Club's editorial team with corrections, anime press announcements, reader feedback or questions. Official email: satyaprasadwork@gmail.com.",
+    "modified": "2026-11-03",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "contact anime",
+      "club's anime",
+      "editorial",
+      "team",
+      "corrections",
+      "press"
+    ]
   },
   {
     "path": "/disclaimer/",
     "source": "content/pages/disclaimer.html",
     "kind": "page",
     "title": "Disclaimer & Fan Site Notice",
-    "description": "USA Anime Club is unofficial, independent and not an event organizer.",
-    "modified": "2026-11-03"
+    "description": "Understand USA Anime Club's independent fan-publication status, rights limitations, affiliate disclosures and responsibility for external links.",
+    "modified": "2026-11-03",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "disclaimer anime",
+      "site anime",
+      "notice",
+      "understand",
+      "club's",
+      "independent"
+    ]
   },
   {
     "path": "/editorial-policy/",
     "source": "content/pages/editorial-policy.html",
     "kind": "page",
     "title": "Editorial Policy",
-    "description": "How USA Anime Club researches, publishes and corrects articles.",
-    "modified": "2026-11-04"
+    "description": "Learn how USA Anime Club handles research, original analysis, press submissions, transparency, corrections, attribution and source verification.",
+    "modified": "2026-11-04",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "editorial anime",
+      "policy anime",
+      "editorial-policy",
+      "learn",
+      "handles",
+      "research"
+    ]
   },
   {
     "path": "/guides/",
     "source": "content/pages/guides.html",
     "kind": "page",
     "title": "Anime & Manga Guides",
-    "description": "US-focused practical guides on anime streaming, cosplay, conventions, clubs, manga and getting started.",
-    "modified": "2026-11-03"
+    "description": "Explore US-focused anime and manga guides covering legal streaming, collecting, cosplay, conventions, community groups and accessibility.",
+    "modified": "2026-11-03",
+    "seoTitle": "US Anime & Manga Guides: Streaming, Cosplay, More",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "manga anime",
+      "explore anime",
+      "us-focused",
+      "covering",
+      "legal",
+      "streaming"
+    ]
   },
   {
     "path": "/privacy/",
     "source": "content/pages/privacy.html",
     "kind": "page",
     "title": "Privacy Policy",
-    "description": "How website analytics, ads and contact emails relate to your privacy.",
-    "modified": "2026-11-04"
+    "description": "See how USA Anime Club uses optional Google Analytics and Microsoft Clarity, manages privacy choices and handles advertising and contact information.",
+    "modified": "2026-11-04",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "privacy anime",
+      "policy anime",
+      "uses",
+      "optional",
+      "google",
+      "analytics"
+    ]
   },
   {
     "path": "/terms/",
     "source": "content/pages/terms.html",
     "kind": "page",
     "title": "Terms of Use",
-    "description": "Ground rules for reading and using USA Anime Club content.",
-    "modified": "2026-11-03"
+    "description": "Read the terms for using USA Anime Club's anime guides and interactive tools, including content rights, disclaimers and third-party links.",
+    "modified": "2026-11-03",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "terms anime",
+      "read anime",
+      "club's",
+      "interactive",
+      "including",
+      "content"
+    ]
   },
   {
     "path": "/guides/anime-season-terms/",
@@ -89,7 +191,17 @@
     "cover": "season",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Anime Seasons, Cours and Simulcasts Explained"
+    "seoTitle": "Anime Seasons, Cours and Simulcasts Explained",
+    "keywords": [
+      "US anime guides",
+      "viewing anime guide",
+      "seasons anime",
+      "cours anime",
+      "simulcasts",
+      "release",
+      "labels",
+      "actually"
+    ]
   },
   {
     "path": "/guides/buy-anime-merch-safely/",
@@ -101,7 +213,17 @@
     "cover": "buying",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "How to Buy Anime Merchandise Safely in the US"
+    "seoTitle": "How to Buy Anime Merchandise Safely in the US",
+    "keywords": [
+      "US anime guides",
+      "buying anime guide",
+      "buying anime",
+      "merchandise anime",
+      "safely",
+      "fan's",
+      "checklist",
+      "check"
+    ]
   },
   {
     "path": "/guides/spoiler-etiquette/",
@@ -113,7 +235,17 @@
     "cover": "spoilers",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Anime Spoiler Etiquette for Fan Communities"
+    "seoTitle": "Anime Spoiler Etiquette for Fan Communities",
+    "keywords": [
+      "US anime guides",
+      "community anime guide",
+      "spoiler anime",
+      "etiquette anime",
+      "discuss",
+      "stories",
+      "without",
+      "ruining"
+    ]
   },
   {
     "path": "/guides/first-anime-convention/",
@@ -125,7 +257,17 @@
     "cover": "convention",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "First Anime Convention in the US: Planning Guide"
+    "seoTitle": "First Anime Convention in the US: Planning Guide",
+    "keywords": [
+      "US anime guides",
+      "planning anime guide",
+      "first anime",
+      "convention anime",
+      "practical",
+      "field",
+      "planning",
+      "plan"
+    ]
   },
   {
     "path": "/guides/find-anime-streaming-us/",
@@ -137,7 +279,17 @@
     "cover": "streaming",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Where to Stream Anime Legally in the US"
+    "seoTitle": "Where to Stream Anime Legally in the US",
+    "keywords": [
+      "US anime guides",
+      "streaming anime guide",
+      "find anime",
+      "where anime",
+      "streams",
+      "legally",
+      "streaming",
+      "repeatable"
+    ]
   },
   {
     "path": "/guides/host-anime-watch-party/",
@@ -149,7 +301,17 @@
     "cover": "watch",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Anime Watch Party: Rights, Captions and Planning"
+    "seoTitle": "Anime Watch Party: Rights, Captions and Planning",
+    "keywords": [
+      "US anime guides",
+      "community anime guide",
+      "hosting anime",
+      "watch anime",
+      "party",
+      "rights",
+      "captions",
+      "comfort"
+    ]
   },
   {
     "path": "/guides/cosplay-budget-safety/",
@@ -161,7 +323,17 @@
     "cover": "cosplay",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Budget Cosplay: Materials, Safety and Event Rules"
+    "seoTitle": "Budget Cosplay: Materials, Safety and Event Rules",
+    "keywords": [
+      "US anime guides",
+      "cosplay anime guide",
+      "cosplay anime",
+      "budget anime",
+      "design",
+      "safety",
+      "convention",
+      "rules"
+    ]
   },
   {
     "path": "/guides/manga-collecting-budget/",
@@ -173,7 +345,17 @@
     "cover": "manga",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "How to Collect Manga on a Budget in the US"
+    "seoTitle": "How to Collect Manga on a Budget in the US",
+    "keywords": [
+      "US anime guides",
+      "manga anime guide",
+      "manga anime",
+      "collecting anime",
+      "budget",
+      "readers",
+      "build",
+      "collection"
+    ]
   },
   {
     "path": "/guides/start-anime-club/",
@@ -185,7 +367,17 @@
     "cover": "club",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "How to Start a Welcoming Anime Club"
+    "seoTitle": "How to Start a Welcoming Anime Club",
+    "keywords": [
+      "US anime guides",
+      "community anime guide",
+      "start anime",
+      "people anime",
+      "want",
+      "return",
+      "community",
+      "first"
+    ]
   },
   {
     "path": "/guides/dub-or-sub/",
@@ -197,7 +389,17 @@
     "cover": "dub",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Anime Dub vs Sub: Which Should You Choose?"
+    "seoTitle": "Anime Dub vs Sub: Which Should You Choose?",
+    "keywords": [
+      "US anime guides",
+      "viewing anime guide",
+      "more anime",
+      "useful anime",
+      "choose",
+      "audio",
+      "viewing",
+      "ignore"
+    ]
   },
   {
     "path": "/guides/choose-first-anime/",
@@ -209,7 +411,17 @@
     "cover": "starter",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "How to Choose Your First Anime: Beginner Guide"
+    "seoTitle": "How to Choose Your First Anime: Beginner Guide",
+    "keywords": [
+      "US anime guides",
+      "viewing anime guide",
+      "choose anime",
+      "first anime",
+      "without",
+      "getting",
+      "overwhelmed",
+      "viewing"
+    ]
   },
   {
     "path": "/guides/fan-art-permission-credit/",
@@ -221,7 +433,17 @@
     "cover": "fanart",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Anime Fan Art: Copyright, Credit and Permission"
+    "seoTitle": "Anime Fan Art: Copyright, Credit and Permission",
+    "keywords": [
+      "US anime guides",
+      "creators anime guide",
+      "credits anime",
+      "permissions anime",
+      "practical",
+      "fans",
+      "creators",
+      "understand"
+    ]
   },
   {
     "path": "/guides/anime-manga-public-library/",
@@ -233,7 +455,17 @@
     "cover": "library",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Borrow Anime and Manga From US Public Libraries"
+    "seoTitle": "Borrow Anime and Manga From US Public Libraries",
+    "keywords": [
+      "US anime guides",
+      "libraries anime guide",
+      "manga anime",
+      "public anime",
+      "library",
+      "reader's",
+      "libraries",
+      "discover"
+    ]
   },
   {
     "path": "/guides/manga-editions-translations/",
@@ -245,7 +477,17 @@
     "cover": "editions",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Compare Manga Editions, Translations and ISBNs"
+    "seoTitle": "Compare Manga Editions, Translations and ISBNs",
+    "keywords": [
+      "US anime guides",
+      "manga anime guide",
+      "manga anime",
+      "editions anime",
+      "translations",
+      "compare",
+      "learn",
+      "formats"
+    ]
   },
   {
     "path": "/guides/accessible-anime-viewing/",
@@ -257,7 +499,17 @@
     "cover": "accessible",
     "published": "2026-11-03",
     "modified": "2026-11-04",
-    "seoTitle": "Accessible Anime Viewing: Captions and Settings"
+    "seoTitle": "Accessible Anime Viewing: Captions and Settings",
+    "keywords": [
+      "US anime guides",
+      "accessibility anime guide",
+      "making anime",
+      "viewing anime",
+      "more",
+      "accessible",
+      "captions",
+      "devices"
+    ]
   },
   {
     "path": "/tools/convention-budget/",
@@ -265,23 +517,54 @@
     "kind": "page",
     "title": "Anime Convention Budget Planner",
     "description": "Estimate the complete cost of attending an anime convention in the US. A private in-browser worksheet for tickets, travel, lodging, food, cosplay and extras.",
-    "modified": "2026-11-03"
+    "modified": "2026-11-03",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "convention anime",
+      "budget anime",
+      "planner",
+      "estimate",
+      "complete",
+      "cost"
+    ]
   },
   {
     "path": "/editorial-review/",
     "source": "content/pages/editorial-review.html",
     "kind": "page",
     "title": "Research Notes and Editorial Review",
-    "description": "Our anime guide research approach, editorial disclosure, verification priorities and corrections process.",
-    "modified": "2026-11-04"
+    "description": "Read USA Anime Club research notes, editorial review limitations, fact-checking workflow and plans for verifying published anime guide claims.",
+    "modified": "2026-11-04",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "research anime",
+      "notes anime",
+      "editorial",
+      "review",
+      "editorial-review",
+      "read"
+    ]
   },
   {
     "path": "/tools/",
     "source": "content/pages/tools.html",
     "kind": "page",
     "title": "23 Free Anime & Manga Tools for US Fans",
-    "description": "Interactive anime tools for US conventions, watch parties, manga releases, streaming research, cosplay, press submissions and club planning.",
-    "modified": "2026-11-04"
+    "description": "Browse 23 free anime tools for US fans, including convention planning, manga research, time zone conversion, watch parties and cosplay checklists.",
+    "modified": "2026-11-04",
+    "seoTitle": "23 Free Anime & Manga Tools for US Fans",
+    "keywords": [
+      "US anime community",
+      "anime fan resources",
+      "free anime",
+      "manga anime",
+      "fans",
+      "browse",
+      "including",
+      "convention"
+    ]
   },
   {
     "path": "/tools/manga-value-lab/",
@@ -289,7 +572,17 @@
     "kind": "page",
     "title": "Manga Value Lab: Compare Editions and Reading Cost",
     "description": "Compare manga editions and total costs using your own price, included-volume and shipping figures.",
-    "modified": "2026-11-04"
+    "modified": "2026-11-04",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "manga anime",
+      "value anime",
+      "compare",
+      "editions",
+      "reading",
+      "cost"
+    ]
   },
   {
     "path": "/tools/anime-starter-planner/",
@@ -297,166 +590,396 @@
     "kind": "page",
     "title": "Anime Starter Planner: Make a Viewing Schedule",
     "description": "Estimate weeks and hours to watch an anime using your own episode and viewing time estimates.",
-    "modified": "2026-11-03"
+    "modified": "2026-11-03",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "starter anime",
+      "planner anime",
+      "viewing",
+      "schedule",
+      "estimate",
+      "weeks"
+    ]
   },
   {
     "path": "/tools/anime-release-time-converter/",
     "source": "content/pages/tools--anime-release-time-converter.html",
     "kind": "page",
     "title": "Anime Release Time Converter",
-    "description": "Convert confirmed anime premiere times between US time zones including daylight-saving changes.",
-    "modified": "2026-11-04"
+    "description": "Convert a verified anime premiere time from one US time zone to others, including Eastern, Central and Pacific daylight-saving changes. Free browser tool.",
+    "modified": "2026-11-04",
+    "seoTitle": "US Anime Release Time Converter",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "release anime",
+      "time anime",
+      "converter",
+      "convert",
+      "verified",
+      "premiere"
+    ]
   },
   {
     "path": "/tools/cosplay-build-countdown/",
     "source": "content/pages/tools--cosplay-build-countdown.html",
     "kind": "page",
     "title": "Cosplay Build Countdown",
-    "description": "Create cosplay preparation checkpoints before an upcoming anime convention.",
-    "modified": "2026-11-04"
+    "description": "Plan a convention cosplay with deadline-based preparation checkpoints, sourcing and fitting reminders, and a budget you enter yourself.",
+    "modified": "2026-11-04",
+    "seoTitle": "Cosplay Build Countdown Planner",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "cosplay anime",
+      "build anime",
+      "countdown",
+      "plan",
+      "convention",
+      "deadline-based"
+    ]
   },
   {
     "path": "/tools/anime-watch-party-scheduler/",
     "source": "content/pages/tools--anime-watch-party-scheduler.html",
     "kind": "page",
     "title": "Anime Watch Party Scheduler",
-    "description": "Find possible group viewing times across US time zones.",
-    "modified": "2026-11-04"
+    "description": "Compare possible watch-party start times for US friends in different time zones and identify shared evening availability.",
+    "modified": "2026-11-04",
+    "seoTitle": "US Anime Watch Party Scheduler",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "watch anime",
+      "party anime",
+      "scheduler",
+      "compare",
+      "possible",
+      "watch-party"
+    ]
   },
   {
     "path": "/tools/convention-day-planner/",
     "source": "content/pages/tools--convention-day-planner.html",
     "kind": "page",
     "title": "Anime Convention Day Planner",
-    "description": "Organize sessions and detect timing conflicts before a convention.",
-    "modified": "2026-11-04"
+    "description": "Build a US anime convention day schedule and detect overlapping panels, workshops and meetups before choosing your itinerary.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Convention Day Planner",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "convention anime",
+      "planner anime",
+      "build",
+      "schedule",
+      "detect",
+      "overlapping"
+    ]
   },
   {
     "path": "/tools/convention-packing-checklist/",
     "source": "content/pages/tools--convention-packing-checklist.html",
     "kind": "page",
     "title": "Anime Convention Packing Checklist",
-    "description": "Personalize a convention packing list for travel, cosplay and accessibility needs.",
-    "modified": "2026-11-04"
+    "description": "Generate an anime convention packing checklist for travel, cosplay, overnight stays and accessibility planning.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Convention Packing Checklist",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "convention anime",
+      "packing anime",
+      "checklist",
+      "generate",
+      "travel",
+      "cosplay"
+    ]
   },
   {
     "path": "/tools/spoiler-safe-episode-tracker/",
     "source": "content/pages/tools--spoiler-safe-episode-tracker.html",
     "kind": "page",
     "title": "Spoiler-Safe Episode Tracker",
-    "description": "Track episodes watched and share a spoiler-safe episode boundary.",
-    "modified": "2026-11-04"
+    "description": "Keep a spoiler-safe anime episode progress record locally in your browser and share the last episode you have finished.",
+    "modified": "2026-11-04",
+    "seoTitle": "Spoiler-Safe Anime Episode Tracker",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "spoiler-safe anime",
+      "episode anime",
+      "tracker",
+      "spoiler",
+      "safe",
+      "keep"
+    ]
   },
   {
     "path": "/tools/anime-recommendation-matchmaker/",
     "source": "content/pages/tools--anime-recommendation-matchmaker.html",
     "kind": "page",
     "title": "Anime Recommendation Matchmaker",
-    "description": "Get human-curated anime suggestions based on genre mood and commitment.",
-    "modified": "2026-11-04"
+    "description": "Find human-curated anime suggestions matched to your preferred genre, mood and available viewing time; verify US streaming separately.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Recommendation Matchmaker",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "recommendation anime",
+      "matchmaker anime",
+      "find",
+      "human-curated",
+      "suggestions",
+      "matched"
+    ]
   },
   {
     "path": "/tools/anime-club-starter-kit/",
     "source": "content/pages/tools--anime-club-starter-kit.html",
     "kind": "page",
     "title": "Anime Club Starter Kit",
-    "description": "Generate a first-meeting agenda and code of conduct for an anime club.",
-    "modified": "2026-11-04"
+    "description": "Create a welcoming US anime club starter plan with an agenda, meeting cadence, code of conduct and accessibility checklist.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Club Starter Kit for US Fans",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "starter anime",
+      "create anime",
+      "welcoming",
+      "plan",
+      "agenda",
+      "meeting"
+    ]
   },
   {
     "path": "/tools/cosplay-merch-buying-checklist/",
     "source": "content/pages/tools--cosplay-merch-buying-checklist.html",
     "kind": "page",
     "title": "Cosplay and Anime Merch Buying Checklist",
-    "description": "Compare real quoted costs and review seller-verification questions.",
-    "modified": "2026-11-04"
+    "description": "Compare quoted cosplay and anime merchandise costs, including shipping and tax, and review authenticity and seller-safety questions.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Merch & Cosplay Buying Checklist",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "cosplay anime",
+      "merch anime",
+      "buying",
+      "checklist",
+      "compare",
+      "quoted"
+    ]
   },
   {
     "path": "/tools/us-anime-convention-finder/",
     "source": "content/pages/tools--us-anime-convention-finder.html",
     "kind": "page",
     "title": "US Anime Convention Research Finder",
-    "description": "Explore US anime convention directories by city and state, with source verification.",
-    "modified": "2026-11-04"
+    "description": "Research US anime conventions by state or city with external directory links and organizer verification guidance; no invented live listings.",
+    "modified": "2026-11-04",
+    "seoTitle": "US Anime Convention Finder",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "convention anime",
+      "research anime",
+      "finder",
+      "conventions",
+      "state",
+      "city"
+    ]
   },
   {
     "path": "/tools/us-manga-release-calendar/",
     "source": "content/pages/tools--us-manga-release-calendar.html",
     "kind": "page",
     "title": "US Manga Release Calendar Worksheet",
-    "description": "Build a personal manga release calendar from official publisher dates.",
-    "modified": "2026-11-04"
+    "description": "Build a personal US manga release calendar using dates verified against official publisher calendars such as VIZ and Kodansha.",
+    "modified": "2026-11-04",
+    "seoTitle": "US Manga Release Calendar Worksheet",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "manga anime",
+      "release anime",
+      "calendar",
+      "worksheet",
+      "build",
+      "personal"
+    ]
   },
   {
     "path": "/tools/anime-movie-release-tracker/",
     "source": "content/pages/tools--anime-movie-release-tracker.html",
     "kind": "page",
     "title": "Anime Movie Release Researcher",
-    "description": "Investigate official US theatrical anime release sources and showtimes.",
-    "modified": "2026-11-04"
+    "description": "Find official US theatrical anime film announcement sources and theater searches to confirm dates, subtitles and ticket availability.",
+    "modified": "2026-11-04",
+    "seoTitle": "US Anime Movie Release Researcher",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "movie anime",
+      "release anime",
+      "researcher",
+      "tracker",
+      "find",
+      "official"
+    ]
   },
   {
     "path": "/tools/english-dub-sub-calendar/",
     "source": "content/pages/tools--english-dub-sub-calendar.html",
     "kind": "page",
     "title": "English Dub and Sub Calendar",
-    "description": "Organize verified dubbed and subtitled anime release announcements.",
-    "modified": "2026-11-04"
+    "description": "Organize English dubbed and subtitled anime premiere dates you have verified with licensed distributors in a private browser worksheet.",
+    "modified": "2026-11-04",
+    "seoTitle": "English Anime Dub & Sub Calendar",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "english anime",
+      "calendar anime",
+      "organize",
+      "dubbed",
+      "subtitled",
+      "premiere"
+    ]
   },
   {
     "path": "/tools/where-to-watch-anime-us/",
     "source": "content/pages/tools--where-to-watch-anime-us.html",
     "kind": "page",
     "title": "Where to Watch Anime Legally in the US",
-    "description": "Search official providers to verify US streaming rights and language options.",
-    "modified": "2026-11-04"
+    "description": "Find official streaming-provider search links for anime in the United States and verify regional availability, seasons, dubs and subtitles.",
+    "modified": "2026-11-04",
+    "seoTitle": "Where to Watch Anime Legally in the US",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "where anime",
+      "watch anime",
+      "legally",
+      "find",
+      "official",
+      "streaming-provider"
+    ]
   },
   {
     "path": "/tools/manga-isbn-edition-explorer/",
     "source": "content/pages/tools--manga-isbn-edition-explorer.html",
     "kind": "page",
     "title": "Manga ISBN and Edition Explorer",
-    "description": "Check ISBN structure and investigate specific manga editions.",
-    "modified": "2026-11-04"
+    "description": "Check whether a manga ISBN-10 or ISBN-13 passes its checksum, then research the exact publisher, translation, format and edition.",
+    "modified": "2026-11-04",
+    "seoTitle": "Manga ISBN & Edition Explorer",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "manga anime",
+      "isbn anime",
+      "edition",
+      "explorer",
+      "check",
+      "whether"
+    ]
   },
   {
     "path": "/tools/convention-rules-explorer/",
     "source": "content/pages/tools--convention-rules-explorer.html",
     "kind": "page",
     "title": "Anime Convention Rules Explorer",
-    "description": "Research event-specific cosplay, accessibility, bag and refund policies.",
-    "modified": "2026-11-04"
+    "description": "Prepare a fact-check checklist for US anime convention prop, bag, accessibility, security and refund rules from official organizers.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Convention Rules Explorer",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "convention anime",
+      "rules anime",
+      "explorer",
+      "prepare",
+      "fact-check",
+      "checklist"
+    ]
   },
   {
     "path": "/tools/local-anime-club-finder/",
     "source": "content/pages/tools--local-anime-club-finder.html",
     "kind": "page",
     "title": "Local US Anime Club Discovery Helper",
-    "description": "Find public-library, campus and community anime club research paths.",
-    "modified": "2026-11-04"
+    "description": "Discover external research paths for anime clubs at US colleges, libraries and community groups by city and state.",
+    "modified": "2026-11-04",
+    "seoTitle": "Local Anime Club Finder in the US",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "local anime",
+      "discovery anime",
+      "helper",
+      "finder",
+      "discover",
+      "external"
+    ]
   },
   {
     "path": "/tools/library-manga-finder/",
     "source": "content/pages/tools--library-manga-finder.html",
     "kind": "page",
     "title": "Library Manga Finder",
-    "description": "Search WorldCat and library catalogs for manga titles and editions.",
-    "modified": "2026-11-04"
+    "description": "Search library catalogs and WorldCat resources for manga titles, ISBNs and possible borrowing options near a US ZIP code.",
+    "modified": "2026-11-04",
+    "seoTitle": "Library Manga Finder in the US",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "library anime",
+      "manga anime",
+      "finder",
+      "search",
+      "catalogs",
+      "worldcat"
+    ]
   },
   {
     "path": "/tools/watch-party-rights-accessibility-helper/",
     "source": "content/pages/tools--watch-party-rights-accessibility-helper.html",
     "kind": "page",
     "title": "Watch Party Rights and Accessibility Helper",
-    "description": "Prepare permissions and accessibility questions for anime watch parties.",
-    "modified": "2026-11-04"
+    "description": "Plan anime watch-party screening rights questions, caption needs, inclusive seating and venue checks for US fan gatherings.",
+    "modified": "2026-11-04",
+    "seoTitle": "Watch Party Rights & Accessibility Guide",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "watch anime",
+      "party anime",
+      "rights",
+      "accessibility",
+      "helper",
+      "plan"
+    ]
   },
   {
     "path": "/tools/press-release-submission-checker/",
     "source": "content/pages/tools--press-release-submission-checker.html",
     "kind": "page",
     "title": "Anime Press Release Submission Checker",
-    "description": "Check US anime press releases for sourcing, rights and media contact completeness.",
-    "modified": "2026-11-04"
+    "description": "Check whether an anime press release includes official sourcing, US relevance, usage rights and essential editorial contact details.",
+    "modified": "2026-11-04",
+    "seoTitle": "Anime Press Release Submission Checker",
+    "keywords": [
+      "anime fan tools",
+      "US anime planning",
+      "press anime",
+      "release anime",
+      "submission",
+      "checker",
+      "check",
+      "whether"
+    ]
   }
 ]
