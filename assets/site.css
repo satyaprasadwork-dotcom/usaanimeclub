@@ -181,3 +181,52 @@ body:has(.uac-concept-home) .guide-grid .guide-card:first-child h3{font-size:cla
  body:has(.uac-concept-home) .guide-grid .guide-card:first-child img{height:auto;aspect-ratio:16/9}
 }
 @media(prefers-reduced-motion:reduce){.guide-card:hover{transform:none}}
+
+/* Twenty new tool labs + the existing three. Distinct but consistent with Festival Ink. */
+.tool-app-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.86fr);gap:22px;align-items:start;margin:25px 0 33px}
+.tool-lab-form{min-width:0}
+.tool-input-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+.tool-input-grid>label{min-width:0;overflow-wrap:anywhere;font-weight:750;color:var(--ink)}
+.tool-input-grid input,.tool-input-grid select,.tool-input-grid textarea{
+ width:100%;min-width:0;margin-top:8px;padding:12px 13px;font:inherit;font-weight:450;
+ border:1.5px solid #AAB7BA;background:var(--panel);color:var(--ink);border-radius:9px
+}
+.tool-input-grid input:focus-visible,.tool-input-grid select:focus-visible,.tool-input-grid textarea:focus-visible{outline:3px solid var(--anime-indigo);outline-offset:2px}
+.tool-input-grid label:has(textarea){grid-column:1/-1}
+.tool-input-grid .tool-check{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:9px;padding:14px;background:var(--bg)}
+.tool-input-grid .tool-check input{margin:0;width:20px;height:20px;accent-color:var(--anime-indigo);flex:none}
+.tool-lab-form .budget-actions{margin:21px 0 13px}
+.tool-lab-form .small{color:var(--muted);line-height:1.65}
+.tool-lab-result{background:linear-gradient(142deg,#DFF5EC,#E9EDFF);color:#1B2330;padding:26px;min-width:0;overflow-wrap:anywhere}
+.tool-lab-result[hidden]{display:none!important}
+.tool-lab-result h2{font-size:clamp(1.4rem,2vw,1.95rem);color:#1B2330;margin:0 0 13px}
+.tool-lab-result p{font-size:.98rem;line-height:1.7;color:#344353}
+.tool-result-list{padding:0 0 0 21px;margin:16px 0 0}
+.tool-result-list li{margin:10px 0;line-height:1.58}
+.tool-source-links{border-top:1px solid #A7C3B9;margin-top:24px;padding-top:15px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.tool-source-links h3{font-size:1.15rem;margin:0}
+.tool-source-links a{color:#42349B;text-decoration:underline;text-underline-offset:4px;font-weight:750}
+.tool-context{margin-bottom:34px}
+.tool-hub-search-label{display:block;font-weight:850;margin:21px 0 7px;color:#1B2330}
+.tool-hub-search{display:block;width:min(100%,690px);padding:14px 17px;border:2px solid #A7B5B4;border-radius:12px;font:inherit;background:#FFFFFF;color:#1B2330}
+.tool-hub-search:focus-visible{outline:3px solid #6647C7;outline-offset:3px}
+.tool-hub-jump{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.tool-hub-jump>a{display:inline-flex;align-items:center;min-height:39px;padding:8px 13px;border:1px solid #B5B0D9;border-radius:9px;background:#FFFFFF;color:#4934A5;font-size:.84rem;font-weight:780;text-decoration:none}
+.tool-hub-jump>a:hover{background:#EAE6FF}
+.tool-category-section{padding-top:38px;padding-bottom:38px}
+.tool-category-section:nth-of-type(even){background:linear-gradient(110deg,#F2F2FF,#E7F4F0)}
+.tool-hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.tool-hub-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:24px;border-top:5px solid var(--anime-indigo);min-width:0}
+.tool-hub-card:nth-child(5n+1){border-top-color:var(--anime-ember)}
+.tool-hub-card:nth-child(5n+2){border-top-color:var(--anime-gold)}
+.tool-hub-card:nth-child(5n+3){border-top-color:var(--anime-jade)}
+.tool-hub-card:nth-child(5n+4){border-top-color:var(--anime-cyan)}
+.tool-hub-card::before{display:none}
+.tool-hub-card[hidden]{display:none!important}
+.tool-hub-card h3{font-size:clamp(1.26rem,1.7vw,1.55rem);margin:0}
+.tool-hub-card p{font-size:.91rem;line-height:1.6;color:var(--muted);margin:0;flex:1}
+.tool-hub-card .text-link{font-weight:750}
+.tool-hub-card h3>a{text-decoration:none;color:var(--ink)}
+.tool-hub-card h3>a:hover{color:var(--blue)}
+@media(max-width:980px){.tool-app-shell{grid-template-columns:1fr}.tool-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.tool-input-grid,.tool-hub-grid{grid-template-columns:1fr}.tool-lab-form{padding:17px}.tool-lab-result{padding:20px}.tool-hub-search{max-width:100%}}
