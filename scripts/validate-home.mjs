@@ -39,6 +39,8 @@ ensure(css.includes("@media(prefers-reduced-motion:reduce)"),"OS reduced-motion 
 ensure(motion.includes("userPaused")&&motion.includes("reduced.matches"),"Motion toggle ignores preference");
 ensure(motion.includes("requestAnimationFrame"),"Pointer feedback must be throttled");
 ensure(motion.includes("showModal")&&motion.includes("filterSearch"),"Search modal must work");
+ensure(!motion.includes("if(!stage)return"),"Header listeners must not depend on the hero existing");
+ensure(home.includes('href="/tools/anime-release-time-converter/"'),"New tools must appear in the homepage header");
 ensure((home.match(/class="uac-nav-drop"/g)||[]).length===3,"Expected exactly three homepage dropdowns");
 ensure((home.match(/class="uac-drop-panel"/g)||[]).length===3,"Each dropdown requires a separate styled panel");
 ensure(css.includes(".uac-header-nav .uac-drop-panel"),"Dropdown menu panel layout missing");
