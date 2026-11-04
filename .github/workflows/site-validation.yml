@@ -58,7 +58,7 @@ jobs:
         run: npm run test:home
       - name: Validate editorial evidence, authorship and repeated content
         run: node scripts/validate-editorial.mjs
-      - name: Validate light-blue palette
+      - name: Validate US anime editorial identity
         run: node scripts/validate-blue-palette.mjs
       - name: Audit external citation URLs (advisory; not a factual review)
         continue-on-error: true
@@ -74,7 +74,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html 404.html guides about privacy editorial-policy editorial-review contact community-guidelines terms disclaimer tools sitemap.xml robots.txt assets/home-concept-scene-hd-2x.webp
+          git add index.html 404.html guides press about privacy editorial-policy editorial-review contact community-guidelines terms disclaimer tools sitemap.xml robots.txt assets/home-concept-scene-hd-2x.webp
           if ! git diff --cached --quiet; then
             git commit -m "Regenerate site from editorial sources [skip ci]"
             git push

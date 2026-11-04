@@ -1,19 +1,15 @@
 import fs from "node:fs";
-const files=["scripts/build.mjs","assets/site.css","assets/home-next-20261103.css","assets/logo.svg","favicon.svg",...fs.readdirSync("assets/covers").filter(p=>p.endsWith(".svg")).map(p=>"assets/covers/"+p)];
-let bad=[];
-if(fs.existsSync("assets/hero-anime-scene.svg"))bad.push("Obsolete purple headphone illustration remains");
-for(const file of files){
- const value=fs.readFileSync(file,"utf8");
- for(const match of value.matchAll(/#[0-9a-fA-F]{6}(?![a-fA-F0-9])/g)){
-   const hex=match[0].slice(1),[r,g,b]=[0,2,4].map(i=>parseInt(hex.slice(i,i+2),16));
-   const max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
-   if(delta<28||max<70)continue;
-   // Hot-pink, purple, orange or green should not occur in visual theme assets.
-   if(r>g+34&&r>b+26||r>b+35&&b>g+25||g>r+40&&g>b+30)bad.push(file+": "+match[0]);
- }
-}
-const light=fs.readFileSync("assets/site.css","utf8"),hero=fs.readFileSync("content/pages/home.html","utf8");
-if(!light.includes("--bg:#f3faff"))bad.push("Light theme background not set");
-if(!hero.includes("/assets/home-concept-scene-hd-2x.webp"))bad.push("High-resolution blue WebP hero image not linked");
-if(bad.length){console.error(bad.slice(0,40).join("\n"));process.exit(1)}
-console.log("Blue palette verified in both stylesheets, logo, favicon, and "+(files.length-5)+" editorial covers and fallback styles.");
+const read=p=>fs.readFileSync(p,"utf8");
+const shared=read("assets/site.css"),heroCss=read("assets/home-next-20261103.css"),home=read("content/pages/home.html"),layout=read("templates/layout.html"),logo=read("assets/logo.svg");
+const problems=[];
+const check=(value,message)=>{if(!value)problems.push(message)};
+check(shared.includes("--bg:#faf6ef")&&shared.includes("--accent:#b33d40"),"Warm print editorial palette absent");
+check(shared.includes(':root[data-theme="dark"]')&&shared.includes("--bg:#211e23"),"Dark-mode contrast palette absent");
+check(heroCss.includes("2026 editorial front page")&&heroCss.includes(".uac-desk-grid"),"Editorial home styling absent");
+check(home.includes('id="press-desk"')&&home.includes('href="/press/"'),"Press desk is not linked on the homepage");
+check(layout.includes('href="/press/"'),"Press desk not linked in shared navigation");
+check(home.includes("/assets/home-concept-scene-hd-2x.webp"),"Accessible homepage art missing");
+check(logo.includes("#C83F43")&&read("favicon.svg").includes("#C83F43"),"Consistent editorial logo/favicon missing");
+check(!fs.existsSync("assets/hero-anime-scene.svg"),"Obsolete artwork remains");
+if(problems.length){console.error(problems.join("\n"));process.exit(1)}
+console.log("Editorial identity checked: warm paper palette, contrasting dark mode, press navigation, logo and preserved art.");

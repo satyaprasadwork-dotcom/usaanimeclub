@@ -12,9 +12,9 @@ const CRITICAL_HOMEPAGE_CSS=`/* Defensive first-paint layout, independent of CDN
 .hero-next{padding:38px 0 24px;overflow:clip}
 .hero-next-copy{min-width:0}.hero-next-lead{max-width:50ch;line-height:1.7}
 .hero-next-actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px;margin:25px 0}
-.hero-primary{display:inline-flex;align-items:center;gap:15px;padding:13px 20px;border-radius:16px;background:#1769a9;color:#fff;text-decoration:none;font-weight:800}
+.hero-primary{display:inline-flex;align-items:center;gap:15px;padding:13px 20px;border-radius:16px;background:#b33d40;color:#fff;text-decoration:none;font-weight:800}
 .hero-quick-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0}
-.hero-stage{position:relative;min-width:0;height:560px;border-radius:30px;background:linear-gradient(145deg,#b8e6ff,#66b2e0);overflow:visible}
+.hero-stage{position:relative;min-width:0;height:560px;border-radius:30px;background:linear-gradient(145deg,#f6e9de,#e4c7b8);overflow:visible}
 .hero-poster-front{position:absolute;inset:10% 17% 12% 16%;transform:rotate(-7deg)}
 .hero-poster-frame,.hero-poster-frame img{display:block;width:100%;height:100%;object-fit:cover;border-radius:20px}
 .hero-float{position:absolute;display:flex;gap:7px;align-items:center;z-index:3;padding:10px;background:#fff;color:#1d5478;border-radius:12px;text-decoration:none;box-shadow:0 5px 0 #3175a2}
@@ -98,7 +98,7 @@ function renderPage(page,main,layout,catalog){
   html=html.replace(/<meta name="twitter:card" content="[^"]*">/,'<meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="'+image+'"><meta property="og:image:alt" content="'+escape(page.title)+'"><meta name="twitter:image" content="'+image+'"><meta property="article:published_time" content="'+page.published+'"><meta property="article:modified_time" content="'+(page.modified||page.published)+'">');
  }else{
   const image=absolute("/assets/home-concept-scene-hd-2x.webp");
-  html=html.replace(/<meta name="twitter:card" content="[^"]*">/,'<meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="'+image+'"><meta property="og:image:type" content="image/webp"><meta property="og:image:width" content="1600"><meta property="og:image:height" content="1010"><meta property="og:image:alt" content="Blue anime-inspired illustration for USA Anime Club"><meta name="twitter:image" content="'+image+'">');
+  html=html.replace(/<meta name="twitter:card" content="[^"]*">/,'<meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="'+image+'"><meta property="og:image:type" content="image/webp"><meta property="og:image:width" content="1600"><meta property="og:image:height" content="1010"><meta property="og:image:alt" content="Anime-inspired illustration for USA Anime Club"><meta name="twitter:image" content="'+image+'">');
  }
  if(isHub){
   const listed=page.path==="/guides/"?published:catalog.filter(p=>p.path.startsWith("/tools/")&&p.path!=="/tools/"&&p.status!=="draft");
