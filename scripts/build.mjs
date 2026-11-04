@@ -71,12 +71,12 @@ function renderPage(page,main,layout,catalog){
  // Changes to the shared stylesheet produce a new URL for every HTML page.
  html=html.replace('href="/assets/site.css"',`href="/assets/site.css?v=${fingerprint("assets/site.css")}"`);
  html=html.replace('src="/assets/tracking.js"',`src="/assets/tracking.js?v=${fingerprint("assets/tracking.js")}"`);
+ // Shared navigation and search are now present on every page, so fingerprint their script everywhere.
+ html=html.replace('src="/assets/home-motion.js"',`src="/assets/home-motion.js?v=${fingerprint("assets/home-motion.js")}"`);
  // A new artwork version must not reuse an old pink/purple logo, favicon or cover.
  html=html.replace(/((?:src|href)=")(\/(?:assets\/(?:logo|hero-sky-traveler)\.svg|assets\/covers\/[a-z0-9-]+\.svg|favicon\.svg))(")/g,
   (match,start,url,end)=>{const file=url.slice(1);return fs.existsSync(path.join(process.cwd(),file))?start+url+"?v="+fingerprint(file)+end:match;});
  if(page.path==="/"){
-  // Bust stale homepage interaction code after dropdown/menu changes.
-  html=html.replace('src="/assets/home-motion.js"',`src="/assets/home-motion.js?v=${fingerprint("assets/home-motion.js")}"`);
   const homeVersion=fingerprint("assets/home-next-20261103.css");
   const extra=`<style id="home-layout-fallback">${CRITICAL_HOMEPAGE_CSS}</style><link rel="stylesheet" href="/assets/home-next-20261103.css?v=${homeVersion}">`;
   html=html.replace("</head>",extra+"</head>");

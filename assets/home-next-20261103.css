@@ -1,5 +1,4 @@
 /* Homepage-only concept recreation. Shared site CSS and all other page templates are unchanged. */
-body:has(.uac-concept-home) .site-head{display:none}
 .uac-concept-home{--uac-navy:#112d58;--uac-blue:#066fe4;--uac-sky:#b6edff;--uac-outline:#bde6fb;--uac-muted:#455a79;background:#f6fbff;color:var(--uac-navy);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}
 .uac-concept-home *{box-sizing:border-box}
 .uac-concept-home a{text-decoration:none;color:inherit}

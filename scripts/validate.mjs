@@ -76,10 +76,24 @@ if(missingEmails.length!==1||missingEmails[0]!=="satyaprasadwork@gmail.com")erro
 
 if(!errorPage.includes('name="robots" content="noindex,follow"'))errors.push("404 must have noindex");
 if(errorPage.includes('rel="canonical"'))errors.push("404 should not have a canonical URL");
-const headerOf=html=>{const begin=html.indexOf('<div class="site-head">'),close=html.indexOf('</nav></div></div>',begin);return begin<0||close<0?null:html.slice(begin,close+18);};
+const headerOf=html=>{
+ const begin=html.indexOf('<header class="site-head" role="banner">');
+ const end=html.indexOf('<!-- /site-head -->',begin);
+ return begin<0||end<0?null:html.slice(begin,end+'<!-- /site-head -->'.length);
+};
 const head=headerOf(read("index.html"));
 const errorHead=headerOf(errorPage);
 if(!head||head!==errorHead)errors.push("404 header must match homepage header");
+for(const page of pages){
+ const rel=page.path==="/"? "index.html":page.path.slice(1)+"index.html";
+ const html=read(rel);
+ if(headerOf(html)!==head)errors.push(rel+": shared header differs from homepage");
+ if((html.match(/<header class="site-head" role="banner">/g)||[]).length!==1)errors.push(rel+": duplicate or missing shared header");
+ if((html.match(/data-home-search><form/g)||[]).length!==1)errors.push(rel+": global search dialog missing or duplicated");
+ if((html.match(/data-home-search-open/g)||[]).length!==1)errors.push(rel+": global search opener missing or duplicated");
+ if(!html.includes('src="/assets/home-motion.js?v='))errors.push(rel+": shared search/mobile script not fingerprinted");
+}
+if(!errorPage.includes('src="/assets/home-motion.js?v=')||!errorPage.includes('class="uac-home-search"'))errors.push("404 must have consistent global header search");
 for(const marker of ['src="/assets/tracking.js?v=','src="/assets/site.js"','src="/assets/tools.js"','name="google-adsense-account"','id="privacy-reopen"'])
  if(!errorPage.includes(marker))errors.push("404 missing "+marker);
 
