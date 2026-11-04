@@ -49,12 +49,11 @@ for(const [id,fields] of Object.entries(samples)){
 const hub=fs.readFileSync("content/pages/tools.html","utf8");
 if((hub.match(/data-tool-card/g)||[]).length!==23)errors.push("Tool directory must show 23 searchable cards");
 if(!hub.includes("data-tool-filter"))errors.push("Tool directory filtering UI missing");
-const home=fs.readFileSync("content/pages/home.html","utf8");
-if(!home.includes('href="/tools/anime-release-time-converter/"')||!home.includes('href="/tools/us-anime-convention-finder/"'))errors.push("Header tool shortcuts missing");
 const motion=fs.readFileSync("assets/home-motion.js","utf8");
 if(motion.includes('if(!stage)return'))errors.push("Header must work without the animated hero");
 if(!motion.includes('document.querySelector(".site-mobile-nav")'))errors.push("Shared mobile menu keyboard/pointer handling missing");
 const sharedHeader=fs.readFileSync("templates/layout.html","utf8");
+if(!sharedHeader.includes('href="/tools/anime-release-time-converter/"')||!sharedHeader.includes('href="/tools/us-anime-convention-finder/"'))errors.push("Shared search must include the useful new tool shortcuts");
 if(!sharedHeader.includes('class="site-header-controls"')||!sharedHeader.includes('data-home-search-open'))errors.push("Shared header controls/search trigger missing");
 if(!sharedHeader.includes('class="site-mobile-nav"'))errors.push("Native mobile navigation missing");
 if(!sharedHeader.includes('href="/tools/"'))errors.push("Shared tool navigation missing");
