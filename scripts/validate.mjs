@@ -9,6 +9,10 @@ for(const page of pages){
  const rel=page.path==="/"? "index.html":page.path.slice(1)+"index.html";
  if(urls.has(page.path))errors.push("Duplicate URL: "+page.path);urls.add(page.path);
  const html=read(rel);
+ const publicEmails=[...new Set([...html.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)].map(m=>m[0].toLowerCase()))];
+ if(publicEmails.length!==1||publicEmails[0]!=="satyaprasadwork@gmail.com")errors.push(rel+": only official email may appear, found "+publicEmails.join(", "));
+ if(!html.includes('mailto:satyaprasadwork@gmail.com'))errors.push(rel+": footer must link the official email");
+
  const canonical="https://usaanimeclub.com"+page.path;
  if(!html.includes('rel="canonical" href="'+canonical+'"'))errors.push(rel+": canonical mismatch");
  if(!html.includes('name="description"'))errors.push(rel+": description absent");
@@ -61,6 +65,9 @@ for(const item of pages.filter(p=>p.kind==="article")){
   errors.push(item.path+": explicitly published new article must first receive verified human review");
 }
 const errorPage=read("404.html");
+const missingEmails=[...new Set([...errorPage.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)].map(m=>m[0].toLowerCase()))];
+if(missingEmails.length!==1||missingEmails[0]!=="satyaprasadwork@gmail.com")errors.push("404 must show only the official email");
+
 if(!errorPage.includes('name="robots" content="noindex,follow"'))errors.push("404 must have noindex");
 if(errorPage.includes('rel="canonical"'))errors.push("404 should not have a canonical URL");
 const headerOf=html=>{const begin=html.indexOf('<div class="site-head">'),close=html.indexOf('</nav></div></div>',begin);return begin<0||close<0?null:html.slice(begin,close+18);};
