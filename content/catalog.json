@@ -279,9 +279,9 @@
     "path": "/tools/",
     "source": "content/pages/tools.html",
     "kind": "page",
-    "title": "Practical Anime and Manga Tools",
-    "description": "Compare manga costs, estimate viewing plans and make convention budgets with private in-browser tools.",
-    "modified": "2026-11-03"
+    "title": "23 Free Anime & Manga Tools for US Fans",
+    "description": "Interactive anime tools for US conventions, watch parties, manga releases, streaming research, cosplay, press submissions and club planning.",
+    "modified": "2026-11-04"
   },
   {
     "path": "/tools/manga-value-lab/",
@@ -298,5 +298,165 @@
     "title": "Anime Starter Planner: Make a Viewing Schedule",
     "description": "Estimate weeks and hours to watch an anime using your own episode and viewing time estimates.",
     "modified": "2026-11-03"
+  },
+  {
+    "path": "/tools/anime-release-time-converter/",
+    "source": "content/pages/tools--anime-release-time-converter.html",
+    "kind": "page",
+    "title": "Anime Release Time Converter",
+    "description": "Convert confirmed anime premiere times between US time zones including daylight-saving changes.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/cosplay-build-countdown/",
+    "source": "content/pages/tools--cosplay-build-countdown.html",
+    "kind": "page",
+    "title": "Cosplay Build Countdown",
+    "description": "Create cosplay preparation checkpoints before an upcoming anime convention.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/anime-watch-party-scheduler/",
+    "source": "content/pages/tools--anime-watch-party-scheduler.html",
+    "kind": "page",
+    "title": "Anime Watch Party Scheduler",
+    "description": "Find possible group viewing times across US time zones.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/convention-day-planner/",
+    "source": "content/pages/tools--convention-day-planner.html",
+    "kind": "page",
+    "title": "Anime Convention Day Planner",
+    "description": "Organize sessions and detect timing conflicts before a convention.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/convention-packing-checklist/",
+    "source": "content/pages/tools--convention-packing-checklist.html",
+    "kind": "page",
+    "title": "Anime Convention Packing Checklist",
+    "description": "Personalize a convention packing list for travel, cosplay and accessibility needs.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/spoiler-safe-episode-tracker/",
+    "source": "content/pages/tools--spoiler-safe-episode-tracker.html",
+    "kind": "page",
+    "title": "Spoiler-Safe Episode Tracker",
+    "description": "Track episodes watched and share a spoiler-safe episode boundary.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/anime-recommendation-matchmaker/",
+    "source": "content/pages/tools--anime-recommendation-matchmaker.html",
+    "kind": "page",
+    "title": "Anime Recommendation Matchmaker",
+    "description": "Get human-curated anime suggestions based on genre mood and commitment.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/anime-club-starter-kit/",
+    "source": "content/pages/tools--anime-club-starter-kit.html",
+    "kind": "page",
+    "title": "Anime Club Starter Kit",
+    "description": "Generate a first-meeting agenda and code of conduct for an anime club.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/cosplay-merch-buying-checklist/",
+    "source": "content/pages/tools--cosplay-merch-buying-checklist.html",
+    "kind": "page",
+    "title": "Cosplay and Anime Merch Buying Checklist",
+    "description": "Compare real quoted costs and review seller-verification questions.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/us-anime-convention-finder/",
+    "source": "content/pages/tools--us-anime-convention-finder.html",
+    "kind": "page",
+    "title": "US Anime Convention Research Finder",
+    "description": "Explore US anime convention directories by city and state, with source verification.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/us-manga-release-calendar/",
+    "source": "content/pages/tools--us-manga-release-calendar.html",
+    "kind": "page",
+    "title": "US Manga Release Calendar Worksheet",
+    "description": "Build a personal manga release calendar from official publisher dates.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/anime-movie-release-tracker/",
+    "source": "content/pages/tools--anime-movie-release-tracker.html",
+    "kind": "page",
+    "title": "Anime Movie Release Researcher",
+    "description": "Investigate official US theatrical anime release sources and showtimes.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/english-dub-sub-calendar/",
+    "source": "content/pages/tools--english-dub-sub-calendar.html",
+    "kind": "page",
+    "title": "English Dub and Sub Calendar",
+    "description": "Organize verified dubbed and subtitled anime release announcements.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/where-to-watch-anime-us/",
+    "source": "content/pages/tools--where-to-watch-anime-us.html",
+    "kind": "page",
+    "title": "Where to Watch Anime Legally in the US",
+    "description": "Search official providers to verify US streaming rights and language options.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/manga-isbn-edition-explorer/",
+    "source": "content/pages/tools--manga-isbn-edition-explorer.html",
+    "kind": "page",
+    "title": "Manga ISBN and Edition Explorer",
+    "description": "Check ISBN structure and investigate specific manga editions.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/convention-rules-explorer/",
+    "source": "content/pages/tools--convention-rules-explorer.html",
+    "kind": "page",
+    "title": "Anime Convention Rules Explorer",
+    "description": "Research event-specific cosplay, accessibility, bag and refund policies.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/local-anime-club-finder/",
+    "source": "content/pages/tools--local-anime-club-finder.html",
+    "kind": "page",
+    "title": "Local US Anime Club Discovery Helper",
+    "description": "Find public-library, campus and community anime club research paths.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/library-manga-finder/",
+    "source": "content/pages/tools--library-manga-finder.html",
+    "kind": "page",
+    "title": "Library Manga Finder",
+    "description": "Search WorldCat and library catalogs for manga titles and editions.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/watch-party-rights-accessibility-helper/",
+    "source": "content/pages/tools--watch-party-rights-accessibility-helper.html",
+    "kind": "page",
+    "title": "Watch Party Rights and Accessibility Helper",
+    "description": "Prepare permissions and accessibility questions for anime watch parties.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/tools/press-release-submission-checker/",
+    "source": "content/pages/tools--press-release-submission-checker.html",
+    "kind": "page",
+    "title": "Anime Press Release Submission Checker",
+    "description": "Check US anime press releases for sourcing, rights and media contact completeness.",
+    "modified": "2026-11-04"
   }
 ]
