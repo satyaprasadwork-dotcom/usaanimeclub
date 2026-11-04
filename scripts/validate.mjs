@@ -4,12 +4,37 @@ const errors=[],root=process.cwd();
 const read=p=>fs.readFileSync(path.join(root,p),"utf8");
 const catalog=JSON.parse(read("content/catalog.json"));
 const pages=catalog.filter(p=>p.status!=="draft"),urls=new Set();
+
+const OFFICIAL_EMAIL="satyaprasadwork@gmail.com";
+const extractEmails=content=>[...new Set([...content.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)].map(m=>m[0].toLowerCase()))];
+// Check inputs as well as outputs. A future article edit must not silently reintroduce
+// a retired contact address when the next generated-site build runs.
+const publicSourceFiles=new Set([
+ ...catalog.map(p=>p.source),
+ "templates/layout.html",
+ "assets/site.js","assets/home-motion.js","assets/tools.js",
+ "assets/tool-suite.js","assets/tracking.js","scripts/build.mjs"
+]);
+for(const sourceFile of publicSourceFiles){
+ const emails=extractEmails(read(sourceFile));
+ const unexpected=emails.filter(email=>email!==OFFICIAL_EMAIL);
+ if(unexpected.length)errors.push(sourceFile+": contains non-official public email(s): "+unexpected.join(", "));
+}
+// Mailto links must point to the sole published address, even if a malformed
+// or encoded legacy link would evade a complete-email text search.
+const allowOnlyOfficialMailto=(file,markup)=>{
+ for(const m of markup.matchAll(/(?:href\s*=\s*["']|\b)mailto:([^"'\s<>?]+)/gi)){
+  if(m[1].trim().toLowerCase()!==OFFICIAL_EMAIL)errors.push(file+": mailto links must use "+OFFICIAL_EMAIL);
+ }
+};
+
 const localExists=p=>p==="/"||fs.existsSync(path.join(root,p.slice(1)))||fs.existsSync(path.join(root,p.slice(1),"index.html"));
 for(const page of pages){
  const rel=page.path==="/"? "index.html":page.path.slice(1)+"index.html";
  if(urls.has(page.path))errors.push("Duplicate URL: "+page.path);urls.add(page.path);
  const html=read(rel);
- const publicEmails=[...new Set([...html.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)].map(m=>m[0].toLowerCase()))];
+ const publicEmails=extractEmails(html);
+ allowOnlyOfficialMailto(rel,html);
  if(publicEmails.length!==1||publicEmails[0]!=="satyaprasadwork@gmail.com")errors.push(rel+": only official email may appear, found "+publicEmails.join(", "));
  if(!html.includes('mailto:satyaprasadwork@gmail.com'))errors.push(rel+": footer must link the official email");
 
@@ -71,7 +96,8 @@ for(const item of pages.filter(p=>p.kind==="article")){
   errors.push(item.path+": explicitly published new article must first receive verified human review");
 }
 const errorPage=read("404.html");
-const missingEmails=[...new Set([...errorPage.matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)].map(m=>m[0].toLowerCase()))];
+const missingEmails=extractEmails(errorPage);
+allowOnlyOfficialMailto("404.html",errorPage);
 if(missingEmails.length!==1||missingEmails[0]!=="satyaprasadwork@gmail.com")errors.push("404 must show only the official email");
 
 if(!errorPage.includes('name="robots" content="noindex,follow"'))errors.push("404 must have noindex");
