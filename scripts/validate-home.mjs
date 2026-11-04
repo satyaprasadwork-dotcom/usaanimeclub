@@ -9,7 +9,7 @@ ensure(home.includes('<main id="content">'),"Existing main element missing");
 ensure((home.match(/<h1\b/g)||[]).length===1,"Homepage must contain one H1");
 ensure(home.includes('id="hero-title"'),"Homepage headline missing");
 ensure(home.includes("The US anime")&&home.includes("fan desk."),"US anime editorial headline missing");
-ensure(home.includes('class="uac-landing-header"'),"Homepage-only header missing");
+ensure(home.includes('<header class="site-head" role="banner"')&&!home.includes('class="uac-landing-header"'),"Homepage must use the same shared header as all pages");
 ensure(home.includes('class="uac-feature-strip"'),"Four feature cards missing");
 ensure(home.includes('class="uac-cta-people"'),"Community CTA icon missing");
 ensure(home.includes('href="/press/"')&&home.includes('id="press-desk"'),"Press desk and editorial submissions missing");
@@ -31,7 +31,7 @@ ensure(home.includes('href="/assets/site.css?v='),"Shared stylesheet URL should 
 ensure(home.includes('href="/assets/home-next-20261103.css?v='),"Homepage stylesheet URL should be fingerprinted");
 ensure(home.includes('id="home-layout-fallback"'),"First-paint fallback missing");
 ensure(!home.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"),"Ad loader unexpectedly active");
-ensure(css.includes("body:has(.uac-concept-home) .site-head{display:none}"),"Other pages must retain their shared header");
+ensure(!css.includes("body:has(.uac-concept-home) .site-head{display:none}"),"Homepage must not hide the shared header");
 ensure(css.includes(".uac-showcase-shell.hero-next-grid"),"Two-column layout styling missing");
 ensure(css.includes(".uac-hair-crown"),"Hair animation styling missing");
 ensure(css.includes('data-motion="off"'),"Pause-state CSS missing");
@@ -41,13 +41,13 @@ ensure(motion.includes("requestAnimationFrame"),"Pointer feedback must be thrott
 ensure(motion.includes("showModal")&&motion.includes("filterSearch"),"Search modal must work");
 ensure(!motion.includes("if(!stage)return"),"Header listeners must not depend on the hero existing");
 ensure(home.includes('href="/tools/anime-release-time-converter/"'),"New tools must appear in the homepage header");
-ensure((home.match(/class="uac-nav-drop"/g)||[]).length===3,"Expected exactly three homepage dropdowns");
-ensure((home.match(/class="uac-drop-panel"/g)||[]).length===3,"Each dropdown requires a separate styled panel");
-ensure(css.includes(".uac-header-nav .uac-drop-panel"),"Dropdown menu panel layout missing");
-ensure(css.includes("top:100%")&&css.includes("padding:9px 0 0"),"Dropdown must retain a continuous hover area below the header");
-ensure(motion.includes('menu.addEventListener("pointerenter"')&&motion.includes('menu.addEventListener("pointerleave"'),"Desktop menus must open and close on hover");
-ensure(motion.includes('if(menu.open)closeMenus(menu)'),"Opening one dropdown must close others");
-ensure(motion.includes("focusout")&&motion.includes('event.key!=="Escape"'),"Keyboard and focus exit must dismiss dropdowns");
+ensure((home.match(/<header class="site-head" role="banner">/g)||[]).length===1,"There must be precisely one shared homepage header");
+ensure((home.match(/class="site-mobile-nav"/g)||[]).length===1,"One native, keyboard-operable mobile menu is required");
+ensure(home.includes('class="site-search-trigger"')&&home.includes('data-home-search-open'),"Search button must be present in the shared header");
+ensure((home.match(/data-home-search><form/g)||[]).length===1,"Search dialog must be available exactly once");
+ensure(read("templates/layout.html").includes('class="site-header-controls"'),"Header controls must come from the shared template");
+ensure(motion.includes('document.querySelector(".site-mobile-nav")'),"Shared mobile navigation script missing");
+ensure(motion.includes('mobile.open=false')&&motion.includes('event.key!=="Escape"'),"Click-away and Escape must dismiss mobile navigation");
 ensure(read("assets/site.css").includes(".site-foot nav + p{margin:27px 0 18px;}"),"Footer privacy controls need space below navigation links");
 ensure(!/https?:\/\/[^\s"'<>]*(three\.js|gsap|unpkg\.com|cdnjs)/i.test(home),"Unexpected animation CDN");
 for(const href of ["/guides/","/guides/choose-first-anime/","/guides/find-anime-streaming-us/","/guides/manga-collecting-budget/","/guides/cosplay-budget-safety/","/guides/start-anime-club/","/tools/","/about/","/contact/"]){
