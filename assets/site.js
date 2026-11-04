@@ -30,6 +30,23 @@ if(chooser){
   if(b)choose(b.dataset.category);
  }
 }
+/* Instant, client-side search across all 23 real tool cards. */
+const toolFilter=document.querySelector("[data-tool-filter]");
+const toolCards=[...document.querySelectorAll("[data-tool-card]")];
+const toolCount=document.querySelector("[data-tool-count]");
+if(toolFilter&&toolCards.length){
+ const filter=()=>{
+  const q=toolFilter.value.trim().toLocaleLowerCase();
+  let count=0;
+  for(const item of toolCards){
+   const visible=item.dataset.title.includes(q);
+   item.hidden=!visible;
+   if(visible)count++;
+  }
+  if(toolCount)toolCount.textContent=count+" "+(count===1?"tool":"tools")+" match";
+ };
+ toolFilter.addEventListener("input",filter);filter();
+}
 /* UI for the single, consent-aware tracking service. No tracker is loaded here. */
 const panel=document.getElementById("consent-panel");
 const accept=document.getElementById("accept-optional");
