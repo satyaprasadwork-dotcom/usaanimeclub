@@ -58,43 +58,19 @@ if(search&&openSearch){
  });
  search.addEventListener("click",event=>{if(event.target===search)search.close()});
 }
-const drops=[...document.querySelectorAll(".uac-nav-drop")];
-const hoverMenus=window.matchMedia("(hover: hover) and (pointer: fine)");
-const closeMenus=(except=null)=>{
- for(const menu of drops)if(menu!==except)menu.open=false;
-};
-for(const menu of drops){
- const summary=menu.querySelector("summary");
- // The summary remains an ordinary clickable, keyboard-operable HTML control.
- // Hover is an enhancement, never a condition for opening navigation.
- menu.addEventListener("pointerenter",event=>{
-  if(!hoverMenus.matches||event.pointerType!=="mouse")return;
-  closeMenus(menu);menu.open=true;
+// One shared header on all pages; native links on desktop and <details> for mobile.
+const mobile=document.querySelector(".site-mobile-nav");
+if(mobile){
+ mobile.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mobile.open=false}));
+ document.addEventListener("pointerdown",event=>{
+  if(mobile.open&&!mobile.contains(event.target))mobile.open=false;
  });
- menu.addEventListener("pointerleave",event=>{
-  if(hoverMenus.matches&&event.pointerType==="mouse"&&!menu.contains(document.activeElement))menu.open=false;
- });
- menu.addEventListener("toggle",()=>{if(menu.open)closeMenus(menu)});
- menu.addEventListener("focusout",event=>{
-  if(!menu.contains(event.relatedTarget)&&!menu.matches(":hover"))menu.open=false;
- });
- summary?.addEventListener("click",()=>{
-  // On click allow native details toggling, including closing an open menu.
-  // If opened by keyboard, the rest of the menu remains keyboard navigable.
-  for(const other of drops)if(other!==menu)other.open=false;
+ document.addEventListener("keydown",event=>{
+  if(event.key!=="Escape")return;
+  if(mobile.open){mobile.open=false;mobile.querySelector("summary")?.focus();}
  });
 }
-const mobile=document.querySelector(".uac-mobile-menu");
-mobile?.addEventListener("toggle",()=>{if(mobile.open)closeMenus()});
-document.addEventListener("pointerdown",event=>{
- if(!event.target.closest(".uac-header-nav, .uac-mobile-menu")){closeMenus();if(mobile)mobile.open=false;}
-});
 document.addEventListener("keydown",event=>{
- if(event.key!=="Escape")return;
- const active=drops.find(menu=>menu.open);
- closeMenus();
- if(mobile?.open){mobile.open=false;mobile.querySelector("summary")?.focus();}
- else if(active?.contains(document.activeElement))active.querySelector("summary")?.focus();
- if(search?.open)search.close();
+ if(event.key==="Escape"&&search?.open)search.close();
 });
 })();
