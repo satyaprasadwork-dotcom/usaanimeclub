@@ -27,6 +27,10 @@ for(const page of rendered){
  const html=read(page.file);
  const head=html.split("</head>")[0];
  const count=needle=>html.split(needle).length-1;
+ check(count('https://www.google.com/preferences/source?q=usaanimeclub.com')>0,page.label+": Preferred Sources link missing");
+ check(count('name="uac-build-id"')===1,page.label+": build fingerprint missing");
+ check(count('name="keywords"')===1,page.label+": page-specific keyword metadata missing");
+
  check(count(trackingMarkup)===1,page.label+": expected one versioned tracking script");
  check(count(adMeta)===1,page.label+": expected one AdSense verification meta tag");
  check(head.includes(trackingMarkup)&&head.includes(adMeta),page.label+": missing tracking or verification in head");

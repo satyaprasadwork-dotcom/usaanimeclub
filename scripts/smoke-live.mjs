@@ -2,15 +2,21 @@
    SITE_ORIGIN=https://usaanimeclub.com LIVE_AUDIT_ALL=1 npm run audit:live
    Failures identify production blockers; GitHub build success is not a live deployment. */
 import fs from "node:fs";
+import {createHash} from "node:crypto";
 const origin=(process.env.SITE_ORIGIN||"https://usaanimeclub.com").replace(/\/$/,"");
 const catalog=JSON.parse(fs.readFileSync("content/catalog.json","utf8")).filter(x=>x.status!=="draft");
 const all=process.env.LIVE_AUDIT_ALL==="1";
 const critical=["/","/guides/","/guides/find-anime-streaming-us/","/guides/choose-first-anime/","/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/","/about/","/contact/","/privacy/","/editorial-policy/"];
 const pagePaths=all?catalog.map(x=>x.path):critical;
-const paths=[...new Set([...pagePaths,"/sitemap.xml","/robots.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
+const paths=[...new Set([...pagePaths,"/deployment-version.json","/sitemap.xml","/robots.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
 const pathIsPage=p=>catalog.some(x=>x.path===p);
 const publisher="ca-pub-7937216909291905";
 const failures=[],warnings=[];
+const expectedBuild=createHash("sha256").update(
+ ["content/catalog.json","templates/layout.html","assets/site.css","assets/home-next-20261103.css","assets/tool-suite.js","assets/home-motion.js"]
+ .map(file=>fs.readFileSync(file)).join("\n")
+).digest("hex").slice(0,16);
+
 async function probe(route){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),13000);
  try{
@@ -25,9 +31,16 @@ async function probe(route){
    if(!html.includes('rel="canonical" href="'+origin+route+'"'))failures.push(route+": canonical URL mismatch");
    if(!html.includes('id="privacy-reopen"'))failures.push(route+": privacy controls missing");
    // These checks distinguish a reachable but stale website from the newest source.
-   if(route==="/"&&!html.includes("Community Guides</a>"))failures.push(route+": latest homepage community link not yet deployed");
+   if(!html.includes('<meta name="uac-build-id" content="'+expectedBuild+'">'))failures.push(route+": live HTML has wrong build version (newest "+expectedBuild+")");
+   if(!html.includes('name="keywords"')||!html.includes('name="twitter:description"'))failures.push(route+": latest page-specific SEO metadata absent");
+   if(!html.includes('https://www.google.com/preferences/source?q=usaanimeclub.com'))failures.push(route+": Google Preferred Sources link absent");
    if(route==="/"&&!html.includes('src="/assets/home-motion.js?v='))failures.push(route+": stale unversioned homepage interaction script");
    if(route==="/about/"&&!html.includes("How the editorial desk works"))failures.push(route+": latest About trust section not yet deployed");
+  }else if(route==="/deployment-version.json"){
+   let data;
+   try{data=await r.json()}catch{failures.push("deployment-version.json: missing or invalid build manifest");return;}
+   if(data.buildId!==expectedBuild)failures.push("deployment-version.json: Hostinger is serving "+(data.buildId||"unknown")+" but GitHub generated "+expectedBuild);
+   if(data.publishedPages!==catalog.length)failures.push("deployment-version.json: site has "+data.publishedPages+" pages but GitHub has "+catalog.length);
   }else if(route==="/sitemap.xml"){
    const xml=await r.text(); const count=(xml.match(/<loc>/g)||[]).length;
    if(count!==catalog.length)failures.push("sitemap.xml: "+count+" URLs live, expected "+catalog.length);

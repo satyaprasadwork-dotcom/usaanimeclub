@@ -6,6 +6,11 @@ import { createHash } from "node:crypto";
 // Homepage-only styles use an independent URL; the small inline layout fallback protects against
 // a late or failed CSS response. All other pages keep using the shared site stylesheet.
 const fingerprint=file=>createHash("sha256").update(fs.readFileSync(path.join(process.cwd(),file))).digest("hex").slice(0,12);
+const buildFingerprint=()=>createHash("sha256").update(
+ ["content/catalog.json","templates/layout.html","assets/site.css","assets/home-next-20261103.css","assets/tool-suite.js","assets/home-motion.js"]
+ .map(file=>fs.readFileSync(path.join(process.cwd(),file))).join("\n")
+).digest("hex").slice(0,16);
+
 const CRITICAL_HOMEPAGE_CSS=`/* Defensive first-paint layout, independent of CDN CSS cache */
 .hero-next-grid{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,.93fr);gap:32px;align-items:center;min-height:580px}
 .hero-next-copy h1{font-size:clamp(3rem,5.1vw,5.65rem);line-height:1.055;letter-spacing:-.067em;margin:0 0 26px}
@@ -56,7 +61,13 @@ function renderPage(page,main,layout,catalog){
    '</div></div></section>';
   main=main.replace("</main>",journeys+"</main>");
  }
+ const preferred='<a class="preferred-source-link preferred-source-article" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">✦</span> Add as preferred source on Google</a>';
+ if(page.kind==="article"){
+  const match=main.match(/<header class="page-top container">[\s\S]*?<\/header>/);
+  if(match)main=main.replace(match[0],match[0]+'<div class="container preferred-source-inline">'+preferred+'</div>');
+ }
  let html=layout.replace("{{MAIN}}",main.trim());
+ html=html.replace("</head>",'<meta name="uac-build-id" content="'+buildFingerprint()+'"></head>');
  // Changes to the shared stylesheet produce a new URL for every HTML page.
  html=html.replace('href="/assets/site.css"',`href="/assets/site.css?v=${fingerprint("assets/site.css")}"`);
  html=html.replace('src="/assets/tracking.js"',`src="/assets/tracking.js?v=${fingerprint("assets/tracking.js")}"`);
@@ -73,6 +84,12 @@ function renderPage(page,main,layout,catalog){
 
  html=html.replace(/<title>[\s\S]*?<\/title>/,`<title>${escape(page.seoTitle||page.title)} | USA Anime Club</title>`);
  html=html.replace(/<meta name="description" content="[^"]*">/,`<meta name="description" content="${escape(page.description)}">`);
+ // Page-specific editorial search phrases are descriptive metadata only.
+ // Google ignores meta keywords for ranking; these must never replace genuine content.
+ const keywords=(page.keywords||[]).slice(0,8).filter(Boolean);
+ html=html.replace(/<meta name="description" content="[^"]*">/,match=>match+'<meta name="keywords" content="'+escape(keywords.join(", "))+'">');
+ html=html.replace("</head>",'<meta name="twitter:title" content="'+escape(page.seoTitle||page.title)+'"><meta name="twitter:description" content="'+escape(page.description)+'"><meta name="author" content="USA Anime Club editorial project"><link rel="alternate" hreflang="en-US" href="'+url+'"></head>');
+
  html=html.replace(/<link rel="canonical" href="[^"]*">/,`<link rel="canonical" href="${url}">`);
  const og={"og:title":page.title,"og:description":page.description,"og:url":url,"og:type":page.kind==="article"?"article":"website"};
  for(const [tag,value] of Object.entries(og))html=html.replace(new RegExp(`<meta property="${tag}" content="[^"]*">`),`<meta property="${tag}" content="${escape(value)}">`);
@@ -85,7 +102,7 @@ function renderPage(page,main,layout,catalog){
  const isHub=page.path==="/guides/"||page.path==="/tools/";
  const website={"@type":"WebSite","@id":"https://usaanimeclub.com/#website","url":"https://usaanimeclub.com/","name":"USA Anime Club","inLanguage":"en-US"};
  const publisher={"@type":"Organization","@id":"https://usaanimeclub.com/#publisher","name":"USA Anime Club","url":"https://usaanimeclub.com/","logo":{"@type":"ImageObject","url":absolute("/assets/logo.svg")},"email":"satyaprasadwork@gmail.com"};
- const webPage={"@type":isHub?"CollectionPage":"WebPage","@id":url+"#webpage","url":url,"name":page.title,"description":page.description,"inLanguage":"en-US","isPartOf":{"@id":"https://usaanimeclub.com/#website"}};
+ const webPage={"@type":isHub?"CollectionPage":"WebPage","@id":url+"#webpage","url":url,"name":page.title,"description":page.description,"inLanguage":"en-US","keywords":(page.keywords||[]).join(", "),"dateModified":page.modified||page.published||undefined,"publisher":{"@id":"https://usaanimeclub.com/#publisher"},"isPartOf":{"@id":"https://usaanimeclub.com/#website"}};
  const graph=[website,publisher,webPage];
  if(page.kind==="article"){
   const post={"@type":"BlogPosting","@id":url+"#article","headline":page.title,"description":page.description,"author":{"@type":"Organization","name":"USA Anime Club editorial project","url":absolute("/about/")},"publisher":{"@id":"https://usaanimeclub.com/#publisher"},"mainEntityOfPage":{"@id":url+"#webpage"},"datePublished":page.published,"dateModified":page.modified||page.published,"image":absolute("/assets/covers/"+page.cover+".svg"),"inLanguage":"en-US","articleSection":page.category};
@@ -133,7 +150,13 @@ const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sit
  sortedPages.map(p=>'  <url>\n    <loc>'+escapeXml(canonicalOrigin+p.path)+'</loc>\n    <lastmod>'+escapeXml(p.modified||p.published||"2026-11-03")+'</lastmod>\n  </url>').join("\n")+
  '\n</urlset>\n';
 outputs.set("sitemap.xml",xml);
-const robots=['# USA Anime Club crawling directives (generated by scripts/build.mjs)',
+outputs.set("deployment-version.json",JSON.stringify({
+ buildId:buildFingerprint(),publishedPages:included.length,
+ sharedCSS:fingerprint("assets/site.css"),toolsJS:fingerprint("assets/tool-suite.js"),
+ homeJS:fingerprint("assets/home-motion.js"),source:"USA Anime Club GitHub static generator"
+},null,2)+"\n");
+
+const robots=['# USA Anime Club public crawl policy; generated 2026-11-05',
  'User-agent: *','Allow: /','', 'Sitemap: '+canonicalOrigin+'/sitemap.xml',''].join("\n");
 outputs.set("robots.txt",robots);
 // The 404 page is generated from the same shared header, footer and tracking shell.

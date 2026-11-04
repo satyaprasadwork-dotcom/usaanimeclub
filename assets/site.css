@@ -230,3 +230,15 @@ body:has(.uac-concept-home) .guide-grid .guide-card:first-child h3{font-size:cla
 .tool-hub-card h3>a:hover{color:var(--blue)}
 @media(max-width:980px){.tool-app-shell{grid-template-columns:1fr}.tool-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.tool-input-grid,.tool-hub-grid{grid-template-columns:1fr}.tool-lab-form{padding:17px}.tool-lab-result{padding:20px}.tool-hub-search{max-width:100%}}
+
+/* Google Preferred Sources: direct official source-preferences link, no tracking library. */
+.preferred-source-panel{display:flex;align-items:center;justify-content:space-between;gap:14px 22px;flex-wrap:wrap;margin:24px 0 8px;padding:19px 21px;border:1px solid #688D85;border-radius:12px;background:#253D45}
+.preferred-source-panel p{margin:0;color:#F6F8F3;font-size:.91rem;line-height:1.55;max-width:57ch}
+.preferred-source-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:43px;padding:10px 15px;border-radius:9px;border:2px solid #FFC857;background:#FFC857;color:#1B2330!important;font:800 .88rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none!important;box-shadow:0 3px 0 #A77D23}
+.preferred-source-link:hover{background:#F4BC3E;border-color:#F4BC3E;box-shadow:0 1px 0 #A77D23}
+.preferred-source-link:focus-visible{outline:3px solid #6647C7;outline-offset:3px}
+.preferred-source-link span{color:#6647C7;font-size:1.2rem}
+.preferred-source-inline{display:flex;justify-content:flex-start;padding:14px 0 15px}
+.preferred-source-inline .preferred-source-link{border-color:#6647C7;background:#FFFFFF;box-shadow:none;color:#4934A5!important}
+.preferred-source-inline .preferred-source-link:hover{background:#EDE7FF}
+@media(max-width:650px){.preferred-source-panel{flex-direction:column;align-items:flex-start}.preferred-source-link{width:100%;text-align:center}.preferred-source-inline .preferred-source-link{width:auto;max-width:100%}}

@@ -89,3 +89,9 @@ GitHub Actions creates `assets/home-concept-scene-hd-2x.webp` from the existing 
 ## Search, answer and AI-search visibility (November 2026)
 
 The site now publishes question-led HTML answer sections, more descriptive SERP titles, visible editorial update dates and source-aligned Article, CollectionPage, ItemList and WebApplication structured data. The guides hub includes four reader pathways. GitHub Actions runs `npm run audit:seo` on every content/build change. Details, limitations and account-level verification: `docs/seo-aeo-geo-2026-11-04.md`. No specific position in Google AI Overviews or Bing Copilot is guaranteed.
+
+## Production release and discovery audit — November 5, 2026
+
+The site generator now publishes `deployment-version.json`, a fingerprint based on the catalog, shared layout and critical styles/scripts. A hosting deployment is **not confirmed** by the GitHub generator alone. GitHub Actions commits generated HTML, then checks the production website against the fingerprint and all fifty sitemap routes. The workflow reports failure if the site is stale, rather than declaring deployment complete. Review the detailed [production runbook](docs/production-deployment-and-discovery-2026-11-05.md) and Hostinger Git deployment history.
+
+Each generated page has distinct `<title>`, description, restrained `meta keywords` (ignored by Google for ranking), social metadata, en-US locale, canonical URL, structured data and Google Preferred Sources link. Articles also display that link just below the heading. Existing GA4 and Microsoft Clarity tracking is centralized in `assets/tracking.js` and remains opt-in. AdSense publisher verification is centralized in `templates/layout.html`, while ads remain disabled pending approval and consent readiness. No claim of AdSense, Search Console or AI Overview placement is made.
