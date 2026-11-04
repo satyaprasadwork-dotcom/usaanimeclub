@@ -48,7 +48,7 @@ Google reviews the complete site for original content, policy compliance and nav
 - A first-pass evidence inventory is in content/source-evidence.json. Its representative source checks do not complete manual review.
 
 ### P1: Identity, delivery and privacy
-- Confirm that contact@usaanimeclub.com can actually receive and reply to correspondence.
+- Confirm that satyaprasadwork@gmail.com can actually receive and reply to correspondence.
 - Add genuine operator/editor identity and author biography if the owner explicitly chooses to publish it; never invent author identities or credentials.
 - Reconcile the privacy notice with actual Hostinger, email, GA4 and Clarity retention/configuration.
 - Before personalized ads to users in EEA, UK or Switzerland, configure a Google-certified IAB TCF CMP via AdSense Privacy & messaging or certified provider. Current analytics consent is not a certified ad CMP.

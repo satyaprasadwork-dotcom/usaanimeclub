@@ -11,7 +11,7 @@
 
 ## Owner-controlled release gates — NOT completed by the code changes
 1. A real person verifies each material factual claim, its original source, editorial improvements and image permissions; records name and date in content/review-register.json. Current completion is **0/15**.
-2. Test that contact@usaanimeclub.com actually receives and sends correspondence; the website's published address alone does not prove operation.
+2. Test that satyaprasadwork@gmail.com actually receives and sends correspondence; the website's published address alone does not prove operation.
 3. In Google AdSense > Sites, confirm account eligibility, site ownership detection, precise review status, any policy notices and any identity/payment requirements. Submit only when ready.
 4. In Search Console and Bing Webmaster Tools, confirm sitemap submission, indexing, manual actions, security and individual URL inspection. HTTP 200 does not imply indexing.
 5. Confirm hosting and email data retention policies match the published privacy notice. For applicable ad serving, configure a **Google-certified IAB TCF CMP** through an authorized provider/account; analytics consent is not equivalent to ads consent.

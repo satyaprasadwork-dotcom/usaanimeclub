@@ -84,7 +84,7 @@ function renderPage(page,main,layout,catalog){
  const citations=[...new Set([...sourceList.matchAll(/<a href="(https?:\/\/[^"]+)"/g)].map(m=>m[1]))].slice(0,15);
  const isHub=page.path==="/guides/"||page.path==="/tools/";
  const website={"@type":"WebSite","@id":"https://usaanimeclub.com/#website","url":"https://usaanimeclub.com/","name":"USA Anime Club","inLanguage":"en-US"};
- const publisher={"@type":"Organization","@id":"https://usaanimeclub.com/#publisher","name":"USA Anime Club","url":"https://usaanimeclub.com/","logo":{"@type":"ImageObject","url":absolute("/assets/logo.svg")},"email":"contact@usaanimeclub.com"};
+ const publisher={"@type":"Organization","@id":"https://usaanimeclub.com/#publisher","name":"USA Anime Club","url":"https://usaanimeclub.com/","logo":{"@type":"ImageObject","url":absolute("/assets/logo.svg")},"email":"satyaprasadwork@gmail.com"};
  const webPage={"@type":isHub?"CollectionPage":"WebPage","@id":url+"#webpage","url":url,"name":page.title,"description":page.description,"inLanguage":"en-US","isPartOf":{"@id":"https://usaanimeclub.com/#website"}};
  const graph=[website,publisher,webPage];
  if(page.kind==="article"){
