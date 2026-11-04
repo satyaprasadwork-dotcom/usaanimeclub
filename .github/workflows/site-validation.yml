@@ -67,11 +67,6 @@ jobs:
       - name: Audit external citation URLs (advisory; not a factual review)
         continue-on-error: true
         run: npm run audit:external
-      - name: Probe all production pages (advisory; Hostinger may not yet be deployed)
-        continue-on-error: true
-        env:
-          LIVE_AUDIT_ALL: "1"
-        run: npm run audit:live
       - name: Verify generated files
         run: npm run build:check
       - name: Commit generated output
@@ -83,3 +78,20 @@ jobs:
             git commit -m "Regenerate site from editorial sources [skip ci]"
             git push
           fi
+      # GitHub build success is not production deployment. Check Hostinger AFTER committing.
+      - name: Verify live Hostinger deployment matches generated source
+        env:
+          LIVE_AUDIT_ALL: "1"
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if npm run audit:live > "$RUNNER_TEMP/uac-live-audit.log" 2>&1; then
+              tail -n 5 "$RUNNER_TEMP/uac-live-audit.log"
+              echo "Live website is serving the expected generated build."
+              exit 0
+            fi
+            echo "::warning::Attempt $attempt/5: Hostinger does not yet match GitHub main."
+            if [ "$attempt" -lt 5 ]; then sleep 12; fi
+          done
+          tail -n 85 "$RUNNER_TEMP/uac-live-audit.log"
+          echo "::error::GitHub generated files successfully, but the production website is outdated or unavailable. Check Hostinger > Websites > Manage > Advanced > Git, the main branch, document root, auto-deployment and CDN cache."
+          exit 1
