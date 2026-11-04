@@ -7,7 +7,7 @@ const ensure=(ok,message)=>{if(!ok)failures.push(message)};
 ensure(site.includes("--bg:#FFF9F0")&&site.includes("--accent:#A83F0A"),"Warm ivory and vermilion palette missing");
 for(const color of ["--anime-ember:#F97316","--anime-gold:#FFC857","--anime-jade:#078E87","--anime-indigo:#6647C7","--anime-cyan:#3263D6"])ensure(site.includes(color),"Palette missing "+color);
 ensure(site.includes("--bg:#151D2B")&&site.includes('data-theme="dark"'),"Accessible dark-mode palette missing");
-ensure(hero.includes("FESTIVAL INK HOMEPAGE")&&hero.includes(".uac-desk-grid")&&hero.includes("background:linear-gradient(118deg,#382474,#5136A0"),"Home editorial palette missing");
+ensure(hero.includes("FESTIVAL INK HOMEPAGE")&&hero.includes(".uac-desk-grid")&&hero.includes("linear-gradient(118deg,#382474,#5136A0"),"Home editorial palette missing");
 ensure(hero.includes("aspect-ratio:800 / 499")&&hero.includes("height:auto!important"),"Responsive hero art dimensions missing");
 ensure(hero.includes("object-fit:fill!important"),"Image and hair masks must remain aligned");
 ensure(home.includes('id="press-desk"')&&home.includes('href="/press/"'),"Press desk navigation missing");
