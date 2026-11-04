@@ -5,6 +5,7 @@ const catalog=JSON.parse(read("content/catalog.json")).filter(x=>x.status!=="dra
 const failures=[],base="https://usaanimeclub.com";
 const assert=(v,m)=>{if(!v)failures.push(m)};
 let articles=0,tools=0;
+const descriptions=new Set(),titles=new Set(),metaKeywords=new Set();
 for(const page of catalog){
  const file=page.path==="/"
   ?"index.html":path.posix.join(page.path.slice(1),"index.html");
@@ -20,6 +21,18 @@ for(const page of catalog){
  assert(count('<h1')===1,page.path+": needs one visible H1");
  assert(count('rel="canonical"')===1&&html.includes('rel="canonical" href="'+canonical+'"'),page.path+": canonical mismatch/duplicate");
  assert(count('name="description"')===1&&title.length>12,page.path+": missing useful title/description");
+ const desc=head.match(/<meta name="description" content="([^"]*)"/)?.[1]||"";
+ const keys=head.match(/<meta name="keywords" content="([^"]*)"/)?.[1]||"";
+ assert(desc.length>=70&&desc.length<=185,page.path+": meta description should be descriptive and readable");
+ assert(keys.length>=20&&keys.split(",").length<=8,page.path+": missing concise on-topic meta keywords");
+ assert(count('name="keywords"')===1,page.path+": duplicate or missing keywords");
+ assert(!descriptions.has(desc),page.path+": duplicate description");descriptions.add(desc);
+ assert(!titles.has(title),page.path+": duplicate title");titles.add(title);
+ assert(head.includes('name="twitter:title"')&&head.includes('name="twitter:description"'),page.path+": social text metadata missing");
+ assert(head.includes('hreflang="en-US" href="'+canonical+'"'),page.path+": US locale URL missing");
+ assert(head.includes('name="uac-build-id"'),page.path+": deployment fingerprint not published");
+ assert(html.includes('https://www.google.com/preferences/source?q=usaanimeclub.com'),page.path+": Preferred Sources action missing");
+
  assert(title.includes((page.seoTitle||page.title).replaceAll("&","&amp;")),page.path+": search title mismatch");
  assert(count('property="og:image"')===1&&count('name="twitter:image"')===1,page.path+": social image missing/duplicated");
  assert(count('property="og:url"')===1&&html.includes('property="og:url" content="'+canonical+'"'),page.path+": Open Graph URL mismatch");
@@ -29,6 +42,8 @@ for(const page of catalog){
  assert(!graph.some(x=>["FAQPage","HowTo"].includes(x["@type"])),page.path+": misleading/ineligible FAQ or HowTo markup");
  assert(!html.includes('name="robots" content="noindex'),page.path+": public page noindexed");
  if(page.kind==="article"){
+  assert(html.includes('class="container preferred-source-inline"'),page.path+": article preferred source link is not near content");
+
   articles++;
   const post=find("BlogPosting"),crumb=find("BreadcrumbList");
   const summary=html.match(/<section class="guide-summary" aria-labelledby="quick-answer"><h2 id="quick-answer">([^<]+)<\/h2><p>([\s\S]*?)<\/p><\/section>/);
