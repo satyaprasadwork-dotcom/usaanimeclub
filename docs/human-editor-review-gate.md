@@ -27,7 +27,7 @@ This is a checklist for an actual human reviewer. Filling it using a model or an
 
 ## Domain/account checks that require owner action
 
-- Confirm `contact@usaanimeclub.com` can both receive and send messages.
+- Confirm `satyaprasadwork@gmail.com` can both receive and send messages.
 - In Google AdSense → Sites, check the precise site status and rejection or policy details. Submit for review only when the editorial and policy gate is complete.
 - In Google Search Console check URL Inspection, indexed pages, manual actions and the submitted sitemap. Repeat in Bing Webmaster Tools.
 - Verify the actual hosting, email-provider and analytics retention/privacy settings.
