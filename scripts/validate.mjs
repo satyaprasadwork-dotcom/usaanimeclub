@@ -41,7 +41,7 @@ if(!read("templates/layout.html").includes("{{MAIN}}"))errors.push("Template has
 if(!read("robots.txt").includes("Sitemap: https://usaanimeclub.com/sitemap.xml"))errors.push("robots.txt sitemap directive missing");
 
 const tracking=read("assets/tracking.js"),shared=read("templates/layout.html");
-for(const toolPath of ["/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/"])if(!urls.has(toolPath))errors.push("Missing expected tool page "+toolPath);
+for(const toolPath of ["/tools/","/tools/convention-budget/","/tools/manga-value-lab/","/tools/anime-starter-planner/","/tools/anime-release-time-converter/","/tools/cosplay-build-countdown/","/tools/anime-watch-party-scheduler/","/tools/convention-day-planner/","/tools/convention-packing-checklist/","/tools/spoiler-safe-episode-tracker/","/tools/anime-recommendation-matchmaker/","/tools/anime-club-starter-kit/","/tools/cosplay-merch-buying-checklist/","/tools/us-anime-convention-finder/","/tools/us-manga-release-calendar/","/tools/anime-movie-release-tracker/","/tools/english-dub-sub-calendar/","/tools/where-to-watch-anime-us/","/tools/manga-isbn-edition-explorer/","/tools/convention-rules-explorer/","/tools/local-anime-club-finder/","/tools/library-manga-finder/","/tools/watch-party-rights-accessibility-helper/","/tools/press-release-submission-checker/"])if(!urls.has(toolPath))errors.push("Missing expected tool page "+toolPath);
 for(const key of ["G-G0TNMR0FQL","yyqq9cryjc","ca-pub-7937216909291905"])
  if(!tracking.includes(key))errors.push("Central tracking config missing "+key);
 if(!tracking.includes("analytics_storage:"))errors.push("Central tracking script missing analytics consent default");
@@ -56,6 +56,12 @@ for(const item of pages){
  if(count('src="/assets/site.js"')!==1)errors.push(relative+": expected exactly one site module");
  if(count('name="google-adsense-account"')!==1)errors.push(relative+": expected exactly one AdSense meta tag");
  if(markup.includes("www.googletagmanager.com/gtag/js")||markup.includes("www.clarity.ms/tag/"))errors.push(relative+": duplicate hard-coded measurement loader");
+}
+
+for(const slug of ["anime-release-time-converter","cosplay-build-countdown","anime-watch-party-scheduler","convention-day-planner","convention-packing-checklist","spoiler-safe-episode-tracker","anime-recommendation-matchmaker","anime-club-starter-kit","cosplay-merch-buying-checklist","us-anime-convention-finder","us-manga-release-calendar","anime-movie-release-tracker","english-dub-sub-calendar","where-to-watch-anime-us","manga-isbn-edition-explorer","convention-rules-explorer","local-anime-club-finder","library-manga-finder","watch-party-rights-accessibility-helper","press-release-submission-checker"]) {
+ const html=read("tools/"+slug+"/index.html");
+ if(!html.includes('data-tool="'+slug+'"')||!html.includes('src="/assets/tool-suite.js"'))errors.push(slug+": missing interactive tool engine");
+ if(!html.includes("data-tool-result")||!html.includes("aria-live="))errors.push(slug+": missing accessible results");
 }
 const review=JSON.parse(read("content/review-register.json"));
 for(const item of pages.filter(p=>p.kind==="article")){

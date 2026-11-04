@@ -39,6 +39,8 @@ jobs:
           node --check scripts/validate-home.mjs
           node --check scripts/validate-blue-palette.mjs
           node --check assets/tools.js
+          node --check assets/tool-suite.js
+          node --check scripts/test-tool-suite.mjs
           node --check assets/tracking.js
           node --check scripts/build.mjs
           node --check scripts/validate.mjs
@@ -52,6 +54,8 @@ jobs:
         run: npm run validate
       - name: Validate SEO, AEO and AI-search structured data
         run: npm run audit:seo
+      - name: Exercise every new tool and header navigation
+        run: node scripts/test-tool-suite.mjs
       - name: Validate GA4, Clarity, AdSense and crawler consistency
         run: npm run audit:integrations
       - name: Validate homepage motion, links and accessible controls
