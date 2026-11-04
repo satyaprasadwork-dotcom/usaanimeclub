@@ -57,6 +57,11 @@ ensure(webp.length>60000&&webp.toString("ascii",0,4)==="RIFF"&&webp.toString("as
 ensure(hd.length===68208,"Expected 1600px high-quality replacement");
 ensure(createHash("sha256").update(hd).digest("hex")==="313fd6274c175f8d21f9f40fc5e4d082200926f7ea9ed3ae6a6deecdd875105e","High-resolution asset checksum mismatch");
 ensure(css.includes(".uac-showcase-visual.hero-stage::after"),"Soft image boundary treatment missing");
+ensure(css.includes("aspect-ratio:800 / 499")&&css.includes("height:auto!important"),"Hero must preserve its original responsive art aspect ratio");
+ensure(css.includes("object-fit:fill!important")&&css.includes(".uac-scene-picture {filter:saturate(1.26)"),"Hero image and animation alignment must share one color treatment");
+ensure(css.includes("width:min(90%,760px)")&&css.includes("@media (max-width:700px)"),"Tablet and mobile art must adapt without cropping");
+ensure(read("assets/site.css").includes("--anime-coral:#f45d77")&&read("assets/site.css").includes("--anime-mint:#12a99c"),"Colorful anime palette missing from shared pages");
+
 const bytes=fs.readFileSync("assets/home-concept-scene.avif");
 const hash=createHash("sha256").update(bytes).digest("hex");
 ensure(bytes.length===9277,"Unexpected scene image size");
