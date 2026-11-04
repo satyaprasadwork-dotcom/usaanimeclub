@@ -338,3 +338,6 @@ body:has(.uac-concept-home) .site-head{display:none}
  .uac-feature:hover{transform:none}
  .uac-hair-wind g{animation:none!important;transform:none!important}
 }
+
+/* Keyboard focus follows the dark-indigo editorial contrast standard. */
+.uac-concept-home a:focus-visible,.uac-concept-home button:focus-visible,.uac-concept-home summary:focus-visible{outline:3px solid #454C9B;outline-offset:3px}
