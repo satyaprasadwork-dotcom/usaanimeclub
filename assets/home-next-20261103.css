@@ -382,3 +382,14 @@ body:has(.uac-concept-home) .site-head{display:none}
  .uac-desk-links>a span:first-child{font-size:.59rem}
 }
 @media(prefers-reduced-motion:reduce){.uac-feature:hover{transform:none}.uac-hair-wind g{animation:none!important;transform:none!important}}
+
+/* Header reliability: preserve full button hit targets and native details toggling. */
+.uac-header-actions{position:relative;z-index:95}
+.uac-header-nav{position:relative;z-index:94}
+.uac-header-nav .uac-nav-drop>summary{min-height:44px;touch-action:manipulation;user-select:none;cursor:pointer}
+.uac-header-nav .uac-nav-drop[open] .uac-drop-menu{display:block;pointer-events:auto}
+.uac-header-nav .uac-drop-menu a{pointer-events:auto;position:relative;z-index:95}
+.uac-search-trigger,.uac-mobile-menu>summary,.uac-community-cta{touch-action:manipulation;cursor:pointer}
+.uac-mobile-menu[open] nav{display:flex;pointer-events:auto;z-index:130;max-height:min(75vh,480px);overflow:auto}
+.uac-mobile-menu nav a{display:block;min-height:43px}
+@media(max-width:940px){.uac-mobile-menu{z-index:130}.uac-header-actions{z-index:130}}
