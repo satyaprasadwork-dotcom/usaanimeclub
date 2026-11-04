@@ -49,7 +49,7 @@ for(const page of catalog){
  if(page.path==="/guides/"||page.path==="/tools/"){
   const items=find("ItemList");
   assert(webPage?.["@type"]==="CollectionPage",page.path+": should identify a collection");
-  assert(items?.itemListElement?.length===(page.path==="/guides/"?15:3),page.path+": collection entries mismatch");
+  assert(items?.itemListElement?.length===catalog.filter(x=>x.path.startsWith(page.path)&&x.path!==page.path&&(page.path==="/tools/"||x.kind==="article")).length,page.path+": collection entries mismatch");
   for(const link of items?.itemListElement||[])assert(html.includes('href="'+link.url.replace(base,"")+'"'),page.path+": JSON-LD lists a guide/tool not linked visibly");
  }
  if(page.path==="/guides/"){
@@ -69,6 +69,6 @@ const missing=read("404.html");
 assert(missing.includes('name="robots" content="noindex,follow"'),"404 page should be noindex");
 assert(!missing.includes('rel="canonical"'),"404 must not claim a canonical URL");
 assert(articles===15,"Expected 15 verified guide structures, got "+articles);
-assert(tools===3,"Expected three genuine reader tools, got "+tools);
+assert(tools===23,"Expected 23 functional reader tools, got "+tools);
 if(failures.length){console.error(failures.join("\n"));process.exitCode=1}
 else console.log("SEO/AEO/GEO checks passed: "+catalog.length+" canonical pages, "+articles+" visible answers, dated and sourced articles, four topic journeys and "+tools+" honest tools.");
