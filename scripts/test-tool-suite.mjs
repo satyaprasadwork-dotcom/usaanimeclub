@@ -22,7 +22,7 @@ const samples={
  "local-anime-club-finder":{city:"Austin",state:"Texas"},
  "library-manga-finder":{title:"Naruto",zip:"78701"},
  "watch-party-rights-accessibility-helper":{venue:"public",size:"20",paid:true,captions:true},
- "press-release-submission-checker":{headline:"Sample Release",organization:"Anime Org",date:"2026-11-04",us:"US",source:"https://example.com",contact:"media@example.com",rights:"Approved"}
+ "press-release-submission-checker":{headline:"Sample Release",organization:"Anime Org",date:"2026-11-04",us:"US",source:"https://example.com",contact:"satyaprasadwork@gmail.com",rights:"Approved"}
 };
 const errors=[];
 for(const [id,fields] of Object.entries(samples)){
