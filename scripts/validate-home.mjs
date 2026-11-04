@@ -8,10 +8,11 @@ function ensure(ok,message){if(!ok)errors.push(message)}
 ensure(home.includes('<main id="content">'),"Existing main element missing");
 ensure((home.match(/<h1\b/g)||[]).length===1,"Homepage must contain one H1");
 ensure(home.includes('id="hero-title"'),"Homepage headline missing");
-ensure(home.includes("Every fan has a")&&home.includes("next chapter"),"Reference hero headline missing");
+ensure(home.includes("The US anime")&&home.includes("fan desk."),"US anime editorial headline missing");
 ensure(home.includes('class="uac-landing-header"'),"Homepage-only header missing");
 ensure(home.includes('class="uac-feature-strip"'),"Four feature cards missing");
 ensure(home.includes('class="uac-cta-people"'),"Community CTA icon missing");
+ensure(home.includes('href="/press/"')&&home.includes('id="press-desk"'),"Press desk and editorial submissions missing");
 ensure((home.match(/class="uac-feature"/g)||[]).length===4,"Expected four linked feature cards");
 ensure(home.includes('class="uac-hair-wind"'),"Layered wind-animated hair missing");
 ensure(home.includes('class="uac-hair-crown"'),"Upper hair motion layer missing");
