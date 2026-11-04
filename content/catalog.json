@@ -3,8 +3,8 @@
     "path": "/",
     "source": "content/pages/home.html",
     "kind": "page",
-    "title": "Anime Guides, Manga, Cosplay & Fan Culture in the US",
-    "description": "Find your next anime adventure: explore independent US anime guides on streaming, manga, cosplay, conventions and fan communities.",
+    "title": "USA Anime Club | US Anime Culture, Fan Guides & Press",
+    "description": "USA Anime Club covers anime culture for US fans, with independent guides, community resources and an open press submissions desk.",
     "modified": "2026-11-04"
   },
   {
@@ -13,6 +13,14 @@
     "kind": "page",
     "title": "About USA Anime Club",
     "description": "An independent editorial home for US anime fans.",
+    "modified": "2026-11-04"
+  },
+  {
+    "path": "/press/",
+    "source": "content/pages/press.html",
+    "kind": "page",
+    "title": "Anime Press Releases & Story Submissions",
+    "description": "Submit US anime press releases, manga announcements, convention news and community story tips to the independent USA Anime Club editorial desk.",
     "modified": "2026-11-04"
   },
   {
