@@ -39,6 +39,13 @@ for(const page of catalog){
  assert(graphMatch.length===1,page.path+": expected exactly one structured data graph");
  assert(!!find("WebSite")&&!!find("Organization")&&!!webPage,page.path+": core structured entities missing");
  assert(webPage?.url===canonical,page.path+": schema WebPage URL mismatch");
+ assert(webPage?.isAccessibleForFree===true,page.path+": page accessibility missing");
+ assert(find("Organization")?.publishingPrinciples===base+"/editorial-policy/",page.path+": publisher editorial policy missing");
+ if(page.path!=="/"){
+  const crumb=find("BreadcrumbList");
+  assert(webPage?.breadcrumb?.["@id"]===canonical+"#breadcrumbs",page.path+": webpage breadcrumb reference missing");
+  assert(crumb?.itemListElement?.at(-1)?.item===canonical,page.path+": breadcrumb does not end on current page");
+ }
  assert(!graph.some(x=>["FAQPage","HowTo"].includes(x["@type"])),page.path+": misleading/ineligible FAQ or HowTo markup");
  assert(!html.includes('name="robots" content="noindex'),page.path+": public page noindexed");
  if(page.kind==="article"){
@@ -50,6 +57,7 @@ for(const page of catalog){
   assert(!!summary,page.path+": missing visible answer-first paragraph");
   assert(count('id="quick-answer"')===1&&html.includes('href="#quick-answer"'),page.path+": quick-answer anchor problem");
   assert(!!post&&post.headline===page.title,page.path+": BlogPosting headline missing or ungrounded");
+  assert(post?.url===canonical&&post?.isAccessibleForFree===true,page.path+": article URL or access status mismatch");
   assert(post?.datePublished===page.published&&post?.dateModified===(page.modified||page.published),page.path+": schema dates mismatch");
   assert(html.includes('<time datetime="'+page.published+'">'),page.path+": publication date not visible");
   if(page.modified&&page.modified!==page.published)assert(html.includes('<time datetime="'+page.modified+'">'),page.path+": modification date not visible");

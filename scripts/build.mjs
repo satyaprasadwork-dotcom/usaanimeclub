@@ -7,7 +7,7 @@ import { createHash } from "node:crypto";
 // a late or failed CSS response. All other pages keep using the shared site stylesheet.
 const fingerprint=file=>createHash("sha256").update(fs.readFileSync(path.join(process.cwd(),file))).digest("hex").slice(0,12);
 const buildFingerprint=()=>createHash("sha256").update(
- ["content/catalog.json","templates/layout.html","assets/site.css","assets/home-next-20261103.css","assets/tool-suite.js","assets/home-motion.js"]
+ ["content/catalog.json","scripts/build.mjs","templates/layout.html","assets/site.css","assets/home-next-20261103.css","assets/tool-suite.js","assets/home-motion.js"]
  .map(file=>fs.readFileSync(path.join(process.cwd(),file))).join("\n")
 ).digest("hex").slice(0,16);
 
@@ -101,11 +101,14 @@ function renderPage(page,main,layout,catalog){
  const citations=[...new Set([...sourceList.matchAll(/<a href="(https?:\/\/[^"]+)"/g)].map(m=>m[1]))].slice(0,15);
  const isHub=page.path==="/guides/"||page.path==="/tools/";
  const website={"@type":"WebSite","@id":"https://usaanimeclub.com/#website","url":"https://usaanimeclub.com/","name":"USA Anime Club","inLanguage":"en-US"};
- const publisher={"@type":"Organization","@id":"https://usaanimeclub.com/#publisher","name":"USA Anime Club","url":"https://usaanimeclub.com/","logo":{"@type":"ImageObject","url":absolute("/assets/logo.svg")},"email":"satyaprasadwork@gmail.com"};
+ const publisher={"@type":"Organization","@id":"https://usaanimeclub.com/#publisher","name":"USA Anime Club","url":"https://usaanimeclub.com/","logo":{"@type":"ImageObject","url":absolute("/assets/logo.svg")},"email":"satyaprasadwork@gmail.com","publishingPrinciples":absolute("/editorial-policy/"),"contactPoint":{"@type":"ContactPoint","contactType":"editorial inquiries","email":"satyaprasadwork@gmail.com","url":absolute("/contact/")}};
  const webPage={"@type":isHub?"CollectionPage":"WebPage","@id":url+"#webpage","url":url,"name":page.title,"description":page.description,"inLanguage":"en-US","keywords":(page.keywords||[]).join(", "),"dateModified":page.modified||page.published||undefined,"publisher":{"@id":"https://usaanimeclub.com/#publisher"},"isPartOf":{"@id":"https://usaanimeclub.com/#website"}};
+ webPage.isAccessibleForFree=true;
  const graph=[website,publisher,webPage];
  if(page.kind==="article"){
   const post={"@type":"BlogPosting","@id":url+"#article","headline":page.title,"description":page.description,"author":{"@type":"Organization","name":"USA Anime Club editorial project","url":absolute("/about/")},"publisher":{"@id":"https://usaanimeclub.com/#publisher"},"mainEntityOfPage":{"@id":url+"#webpage"},"datePublished":page.published,"dateModified":page.modified||page.published,"image":absolute("/assets/covers/"+page.cover+".svg"),"inLanguage":"en-US","articleSection":page.category};
+  post.url=url;
+  post.isAccessibleForFree=true;
   if(quick){post.abstract=plain(quick[2]);post.about={"@type":"Thing","name":plain(quick[1])};}
   if(citations.length)post.citation=citations;
   graph.push(post);
@@ -126,6 +129,15 @@ function renderPage(page,main,layout,catalog){
   webPage.mainEntity={"@id":url+"#tool"};
   graph.push({"@type":"WebApplication","@id":url+"#tool","name":page.title,"description":page.description,"url":url,"applicationCategory":"UtilitiesApplication","operatingSystem":"Web browser","inLanguage":"en-US","isAccessibleForFree":true,"offers":{"@type":"Offer","price":0,"priceCurrency":"USD"},"publisher":{"@id":"https://usaanimeclub.com/#publisher"}});
   graph.push({"@type":"BreadcrumbList","@id":url+"#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":absolute("/")},{"@type":"ListItem","position":2,"name":"Tools","item":absolute("/tools/")},{"@type":"ListItem","position":3,"name":page.title,"item":url}]});
+ }
+ if(page.path!=="/"){
+  webPage.breadcrumb={"@id":url+"#breadcrumbs"};
+  if(!graph.some(item=>item["@type"]==="BreadcrumbList")){
+   graph.push({"@type":"BreadcrumbList","@id":url+"#breadcrumbs","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":absolute("/")},
+    {"@type":"ListItem","position":2,"name":page.title,"item":url}
+   ]});
+  }
  }
  html=html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/,`<script type="application/ld+json">${JSON.stringify({"@context":"https://schema.org","@graph":graph}).replace(/</g,"\\u003c")}</script>`);
  return html.endsWith("\n")?html:html+"\n";
@@ -156,9 +168,38 @@ outputs.set("deployment-version.json",JSON.stringify({
  homeJS:fingerprint("assets/home-motion.js"),source:"USA Anime Club GitHub static generator"
 },null,2)+"\n");
 
-const robots=['# USA Anime Club public crawl policy; generated 2026-11-05',
- 'User-agent: *','Allow: /','', 'Sitemap: '+canonicalOrigin+'/sitemap.xml',''].join("\n");
+const explicitlyAllowedBots=["OAI-SearchBot","ChatGPT-User","GPTBot","Claude-SearchBot","Claude-User","ClaudeBot","PerplexityBot","Perplexity-User","Googlebot","Google-Extended","Bingbot","Applebot","Applebot-Extended","Amazonbot","CCBot","Bytespider","meta-externalagent","meta-externalfetcher"];
+const robots=[
+ "# USA Anime Club public crawl policy",
+ "# Public pages may be crawled by search engines and compliant AI assistants.",
+ "User-agent: *","Allow: /","",
+ "# Explicitly allow major search, assistant, and AI-training agents.",
+ ...explicitlyAllowedBots.flatMap(bot=>["User-agent: "+bot,"Allow: /",""]),
+ "# Optional human- and machine-readable publication directory: "+canonicalOrigin+"/llms.txt",
+ "Sitemap: "+canonicalOrigin+"/sitemap.xml",""
+].join("\n");
 outputs.set("robots.txt",robots);
+
+const catalogPage=pages=>pages.map(route=>included.find(page=>page.path===route)).filter(Boolean);
+const llmsLink=page=>"- ["+page.title.replace(/[\[\]\r\n]/g,"").trim()+"]("+canonicalOrigin+page.path+"): "+page.description.replace(/\s+/g," ").trim();
+const llmsLines=[
+ "# USA Anime Club","",
+ "> Independent US-focused anime culture publication with fan guides, free planning tools, press submissions, and transparent editorial policies.","",
+ "USA Anime Club is an independent editorial website, not an official anime studio, publisher, streaming service, or convention organizer. Coverage focuses on helping readers in the United States make informed decisions about anime, manga, cosplay, events, community and access.","",
+ "## Explore the website",
+ ...catalogPage(["/","/guides/","/tools/","/press/","/about/"]).map(llmsLink),"",
+ "## Published anime and manga guides",
+ ...included.filter(page=>page.kind==="article").sort((a,b)=>a.path.localeCompare(b.path)).map(llmsLink),"",
+ "## Free interactive tools",
+ ...included.filter(page=>page.path.startsWith("/tools/")&&page.path!=="/tools/").sort((a,b)=>a.path.localeCompare(b.path)).map(llmsLink),"",
+ "## Editorial standards, contact and policies",
+ ...catalogPage(["/editorial-policy/","/editorial-review/","/community-guidelines/","/contact/","/disclaimer/","/privacy/","/terms/"]).map(llmsLink),"",
+ "## Notes for researchers and AI systems",
+ "Consult each linked page for its current content and cited sources. Confirm changes in US streaming rights, release dates, prices, age guidance, and event details with the primary source. Article dates and attribution are shown on the pages. Read the editorial policy and disclaimer for publication standards and independence.","",
+ "Canonical sitemap: "+canonicalOrigin+"/sitemap.xml",""
+];
+outputs.set("llms.txt",llmsLines.join("\n"));
+
 // The 404 page is generated from the same shared header, footer and tracking shell.
 // It is deliberately omitted from the content catalog and sitemap.
 const notFoundPage={path:"/404/",kind:"page",title:"Page Not Found",description:"This URL could not be found on USA Anime Club."};

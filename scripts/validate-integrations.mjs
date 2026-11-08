@@ -51,5 +51,12 @@ const robots=read("robots.txt");
 check(/^User-agent: \*/m.test(robots)&&/^Allow: \/$/m.test(robots),"robots.txt must allow public crawling");
 check(!/^Disallow: \/$/m.test(robots),"robots.txt must not block homepage");
 check((robots.match(/^Sitemap: https:\/\/usaanimeclub\.com\/sitemap\.xml$/gm)||[]).length===1,"robots.txt sitemap reference missing or duplicated");
+for(const bot of ["OAI-SearchBot","ChatGPT-User","GPTBot","Claude-SearchBot","Claude-User","ClaudeBot","PerplexityBot","Perplexity-User","Googlebot","Google-Extended","Bingbot","Applebot","Applebot-Extended","Amazonbot","CCBot","Bytespider","meta-externalagent","meta-externalfetcher"])check(robots.includes("User-agent: "+bot+"\nAllow: /\n"),"robots.txt must explicitly allow "+bot);
+const llms=read("llms.txt"),llmsOrigin="https://usaanimeclub.com";
+check(llms.startsWith("# USA Anime Club\n"),"llms.txt publication heading missing");
+for(const page of published)check(llms.split("]("+llmsOrigin+page.path+")").length-1===1,"llms.txt must list exactly once: "+page.path);
+for(const page of catalog.filter(p=>p.status==="draft"))check(!llms.includes("]("+llmsOrigin+page.path+")"),"llms.txt includes draft: "+page.path);
+check(!llms.includes("https://usaanimeclub.com/404/"),"llms.txt must not advertise the 404 page");
+
 if(issues.length){console.error(issues.join("\n"));process.exitCode=1;}
 else console.log("Integration audit passed: "+published.length+" public pages + 404, GA4/Clarity consent, AdSense identity, "+entries.length+" sitemap URLs and robots.txt.");

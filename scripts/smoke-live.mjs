@@ -8,12 +8,12 @@ const catalog=JSON.parse(fs.readFileSync("content/catalog.json","utf8")).filter(
 const all=process.env.LIVE_AUDIT_ALL==="1";
 const critical=["/","/guides/","/guides/find-anime-streaming-us/","/guides/choose-first-anime/","/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/","/about/","/contact/","/privacy/","/editorial-policy/"];
 const pagePaths=all?catalog.map(x=>x.path):critical;
-const paths=[...new Set([...pagePaths,"/deployment-version.json","/sitemap.xml","/robots.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
+const paths=[...new Set([...pagePaths,"/deployment-version.json","/sitemap.xml","/robots.txt","/llms.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
 const pathIsPage=p=>catalog.some(x=>x.path===p);
 const publisher="ca-pub-7937216909291905";
 const failures=[],warnings=[];
 const expectedBuild=createHash("sha256").update(
- ["content/catalog.json","templates/layout.html","assets/site.css","assets/home-next-20261103.css","assets/tool-suite.js","assets/home-motion.js"]
+ ["content/catalog.json","scripts/build.mjs","templates/layout.html","assets/site.css","assets/home-next-20261103.css","assets/tool-suite.js","assets/home-motion.js"]
  .map(file=>fs.readFileSync(file)).join("\n")
 ).digest("hex").slice(0,16);
 
@@ -47,6 +47,13 @@ async function probe(route){
   }else if(route==="/robots.txt"){
    const robots=await r.text();
    if(!robots.includes("Sitemap: "+origin+"/sitemap.xml"))failures.push("robots.txt: canonical sitemap reference missing");
+   for(const bot of ["OAI-SearchBot","GPTBot","Claude-SearchBot","ClaudeBot","PerplexityBot"])
+    if(!robots.includes("User-agent: "+bot+"\nAllow: /"))failures.push("robots.txt: "+bot+" not explicitly allowed");
+  }else if(route==="/llms.txt"){
+   const directory=await r.text();
+   if(!directory.startsWith("# USA Anime Club\n"))failures.push("llms.txt: directory heading missing");
+   for(const path of ["/","/guides/","/tools/","/editorial-policy/"])
+    if(!directory.includes("]("+origin+path+")"))failures.push("llms.txt: missing "+path);
   }else if(route==="/ads.txt"){
    const ads=await r.text();
    if(!ads.includes("google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0"))failures.push("ads.txt: wrong or missing publisher entry");
