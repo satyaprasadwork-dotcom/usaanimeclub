@@ -45,10 +45,15 @@ async function probe(route){
    const xml=await r.text(); const count=(xml.match(/<loc>/g)||[]).length;
    if(count!==catalog.length)failures.push("sitemap.xml: "+count+" URLs live, expected "+catalog.length);
   }else if(route==="/robots.txt"){
-   const robots=await r.text();
+   const robotsRaw=await r.text();
+   const robots=robotsRaw.replace(/\r\n/g,"\n");
    if(!robots.includes("Sitemap: "+origin+"/sitemap.xml"))failures.push("robots.txt: canonical sitemap reference missing");
-   for(const bot of ["OAI-SearchBot","GPTBot","Claude-SearchBot","ClaudeBot","PerplexityBot"])
-    if(!robots.includes("User-agent: "+bot+"\nAllow: /"))failures.push("robots.txt: "+bot+" not explicitly allowed");
+   const missingBots=["OAI-SearchBot","GPTBot","Claude-SearchBot","ClaudeBot","PerplexityBot"].filter(bot=>!robots.includes("User-agent: "+bot+"\nAllow: /"));
+   if(missingBots.length){
+    failures.push("robots.txt: missing explicit allowances for "+missingBots.join(", "));
+    console.warn("LIVE ROBOTS TEXT: "+JSON.stringify(robotsRaw.slice(0,1200)));
+    console.warn("LIVE ROBOTS CACHE HEADERS: "+JSON.stringify({cacheControl:r.headers.get("cache-control"),age:r.headers.get("age"),etag:r.headers.get("etag")}));
+   }
   }else if(route==="/llms.txt"){
    const directory=await r.text();
    if(!directory.startsWith("# USA Anime Club\n"))failures.push("llms.txt: directory heading missing");
