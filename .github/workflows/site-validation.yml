@@ -8,6 +8,7 @@ on:
       - "scripts/**"
       - "assets/**"
       - "package.json"
+      - "a99279cddbc75641ba78c909daa82457.txt"
       - ".github/workflows/site-validation.yml"
   workflow_dispatch:
 permissions:
@@ -48,6 +49,7 @@ jobs:
           node --check scripts/validate-editorial.mjs
           node --check scripts/validate-seo.mjs
           node --check scripts/check-external-links.mjs
+          node --check scripts/submit-indexnow.mjs
       - name: Generate site from content
         run: npm run build
       - name: Validate published pages
@@ -95,3 +97,6 @@ jobs:
           tail -n 85 "$RUNNER_TEMP/uac-live-audit.log"
           echo "::error::GitHub generated files successfully, but the production website is outdated or unavailable. Check Hostinger > Websites > Manage > Advanced > Git, the main branch, document root, auto-deployment and CDN cache."
           exit 1
+      - name: Notify Bing IndexNow of published URLs
+        continue-on-error: true
+        run: node scripts/submit-indexnow.mjs

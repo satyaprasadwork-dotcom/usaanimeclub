@@ -4,6 +4,8 @@ const catalog=JSON.parse(read("content/catalog.json"));
 const articles=catalog.filter(p=>p.kind==="article"&&p.status!=="draft");
 const evidence=JSON.parse(read("content/source-evidence.json")).guides;
 const manual=JSON.parse(read("content/review-register.json")).guides;
+const art=JSON.parse(read("content/asset-provenance.json"));
+const assetPaths=art.assets.map(asset=>asset.path);
 const errors=[],paragraphs=new Map();
 const verify=(value,message)=>{if(!value)errors.push(message)};
 verify(evidence.length===articles.length,"Evidence inventory must cover every article");
@@ -20,6 +22,7 @@ for(const item of articles){
  verify(source.includes("How to use this guide:"),item.path+": article-specific research scope missing");
  verify(source.includes("/editorial-review/"),item.path+": research transparency link missing");
  verify(!!entry&&!!record,item.path+": incomplete evidence/review register");
+ if(record?.status==="reviewed")verify(!!record.reviewer&&!!record.reviewedAt&&Object.values(record.review_checklist||{}).every(Boolean),item.path+": approved guide missing human sign-off");
  verify(!entry?.complete_claim_by_claim_review||record?.status==="reviewed",item.path+": cannot claim complete fact review without a human record");
  verify(!!entry?.source_url&&source.includes('href="'+entry.source_url+'"'),item.path+": evidence URL missing from article");
  verify(!!entry?.limitations&&!!entry?.claim,item.path+": evidence scope or limitations missing");
@@ -28,6 +31,14 @@ for(const item of articles){
   .filter(p=>p.length>=250);
  for(const paragraph of list){const found=paragraphs.get(paragraph)||[];found.push(item.path);paragraphs.set(paragraph,found);}
 }
+verify(new Set(assetPaths).size===assetPaths.length,"Duplicate artwork provenance paths");
+const requiredAssets=["assets/logo.svg","favicon.svg","assets/hero-sky-traveler.svg","assets/home-concept-scene-hd-2x.avif","assets/home-concept-scene-hd-2x.webp","assets/home-concept-scene.avif",...articles.map(a=>"assets/covers/"+a.cover+".svg")];
+for(const file of requiredAssets)verify(assetPaths.includes(file),"Artwork provenance missing "+file);
+for(const asset of art.assets){
+ verify(fs.existsSync(asset.path),"Listed artwork file missing "+asset.path);
+ if(asset.human_rights_check==="approved")verify(!!asset.human_reviewer&&!!asset.human_review_date&&!!asset.license_documentation,"Art approval missing verified evidence "+asset.path);
+}
+verify(art.all_assets_rights_approved!==true||art.assets.every(asset=>asset.human_rights_check==="approved"),"Artwork rights collection approved without signoffs");
 const known=new Set(articles.map(a=>a.path));
 for(const x of evidence)verify(known.has(x.path),"Unpublished article in evidence file: "+x.path);
 for(const x of manual)verify(known.has(x.path),"Unpublished article in review file: "+x.path);

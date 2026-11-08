@@ -8,15 +8,29 @@ const store={
 const toggle=document.getElementById("theme-toggle");
 const saved=store.get("uac-theme");
 if(saved==="dark"||saved==="light")root.dataset.theme=saved;
+function reflectTheme(){
+ if(!toggle)return;
+ const dark=root.dataset.theme==="dark"||(!root.dataset.theme&&window.matchMedia?.("(prefers-color-scheme: dark)").matches);
+ toggle.setAttribute("aria-pressed",String(dark));
+ toggle.setAttribute("aria-label",dark?"Switch to light theme":"Switch to dark theme");
+}
+reflectTheme();
 if(toggle)toggle.addEventListener("click",()=>{
  const dark=root.dataset.theme==="dark"||(!root.dataset.theme&&window.matchMedia?.("(prefers-color-scheme: dark)").matches);
- root.dataset.theme=dark?"light":"dark";store.set("uac-theme",root.dataset.theme);
+ root.dataset.theme=dark?"light":"dark";store.set("uac-theme",root.dataset.theme);reflectTheme();
 });
+window.matchMedia?.("(prefers-color-scheme: dark)")?.addEventListener?.("change",reflectTheme);
 const chooser=document.querySelector("[data-guide-filters]");
 function choose(category){
  if(!chooser)return;
  chooser.querySelectorAll("[data-category]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.category===category)));
- document.querySelectorAll(".guide-card[data-category]").forEach(card=>{card.hidden=category!=="All"&&card.dataset.category!==category});
+ let count=0;
+ document.querySelectorAll(".guide-card[data-category]").forEach(card=>{
+  card.hidden=category!=="All"&&card.dataset.category!==category;
+  if(!card.hidden)count++;
+ });
+ const status=document.querySelector("[data-guide-count]");
+ if(status)status.textContent=count+" "+(count===1?"guide":"guides")+" "+(category==="All"?"available":"in "+category);
 }
 if(chooser){
  chooser.addEventListener("click",event=>{
@@ -54,17 +68,23 @@ const decline=document.getElementById("reject-optional");
 const privacy=document.getElementById("privacy-reopen");
 const measurement=window.UACTracking;
 if(panel&&measurement&&measurement.preference()===null)panel.hidden=false;
+let privacyInvoked=false;
+function closePrivacy(){panel.hidden=true;if(privacyInvoked){privacy?.focus();privacyInvoked=false}}
+if(panel)panel.addEventListener("keydown",event=>{
+ if(event.key==="Escape"&&measurement?.preference()!==null){event.preventDefault();closePrivacy()}
+});
 if(privacy&&panel)privacy.addEventListener("click",()=>{
   panel.hidden=false;
+  privacyInvoked=true;
   accept?.focus();
 });
 if(accept&&panel)accept.addEventListener("click",()=>{
   measurement?.accept();
-  panel.hidden=true;
+  closePrivacy();
 });
 if(decline&&panel)decline.addEventListener("click",()=>{
   const wasActive=measurement?.decline()??false;
-  panel.hidden=true;
+  closePrivacy();
   if(wasActive)location.reload();
 });
 const budget=document.getElementById("budget-form");

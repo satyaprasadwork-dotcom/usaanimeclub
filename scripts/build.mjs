@@ -41,6 +41,7 @@ function renderPage(page,main,layout,catalog){
   const cats=["All",...new Set(published.map(p=>p.category))];
   main=main.replace(/<div class="pills" data-guide-filters[^>]*>[\s\S]*?<\/div>/,`<div class="pills" data-guide-filters role="group" aria-label="Filter guides by category">${cats.map((cat,i)=>`<button type="button" class="pill" data-category="${escape(cat)}" aria-pressed="${i===0}">${escape(cat)}</button>`).join("")}</div>`);
   main=main.replace(/(<div class="guide-grid">)[\s\S]*?(<\/div><\/div><\/section>)/,(_m,open,close)=>open+published.map(card).join("")+close);
+  main=main.replace('<div class="guide-grid">','<p class="small" data-guide-count role="status" aria-live="polite">'+published.length+' guides available</p><div class="guide-grid">');
  }
 
  if(page.kind==="article"){

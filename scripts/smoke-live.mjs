@@ -8,7 +8,7 @@ const catalog=JSON.parse(fs.readFileSync("content/catalog.json","utf8")).filter(
 const all=process.env.LIVE_AUDIT_ALL==="1";
 const critical=["/","/guides/","/guides/find-anime-streaming-us/","/guides/choose-first-anime/","/tools/","/tools/manga-value-lab/","/tools/anime-starter-planner/","/about/","/contact/","/privacy/","/editorial-policy/"];
 const pagePaths=all?catalog.map(x=>x.path):critical;
-const paths=[...new Set([...pagePaths,"/deployment-version.json","/sitemap.xml","/robots.txt","/llms.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
+const paths=[...new Set([...pagePaths,"/deployment-version.json","/sitemap.xml","/robots.txt","/llms.txt","/a99279cddbc75641ba78c909daa82457.txt","/ads.txt","/assets/site.css","/assets/tracking.js","/assets/home-concept-scene-hd-2x.webp","/a-page-that-must-return-real-404-2026/"])];
 const pathIsPage=p=>catalog.some(x=>x.path===p);
 const publisher="ca-pub-7937216909291905";
 const failures=[],warnings=[];
@@ -59,6 +59,8 @@ async function probe(route){
    if(!directory.startsWith("# USA Anime Club\n"))failures.push("llms.txt: directory heading missing");
    for(const path of ["/","/guides/","/tools/","/editorial-policy/"])
     if(!directory.includes("]("+origin+path+")"))failures.push("llms.txt: missing "+path);
+  }else if(route==="/a99279cddbc75641ba78c909daa82457.txt"){
+   if((await r.text()).trim()!=="a99279cddbc75641ba78c909daa82457")failures.push("IndexNow verification key content mismatch");
   }else if(route==="/ads.txt"){
    const ads=await r.text();
    if(!ads.includes("google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0"))failures.push("ads.txt: wrong or missing publisher entry");
