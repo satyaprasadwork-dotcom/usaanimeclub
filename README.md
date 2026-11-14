@@ -39,3 +39,7 @@ The shared article template was intentionally revised so that each report shows 
 ## End-of-article Preferred Sources action
 
 Every news article inherits the same bottom-of-page **Add as a preferred source on Google** link, appearing after related coverage and before the global footer. It opens `https://www.google.com/preferences/source?q=usaanimeclub.com` in a new tab. Users choose whether to add the site; eligibility and search presentation are controlled by Google. Shared article template lock updated to version 3.
+
+## Automatically updated news ticker
+
+All pages display a right-to-left scrolling headline strip directly below the header. It comes from **every article in `content/articles.json`**, sorted newest first. New articles automatically join the scroller on site rebuild, with clickable canonical article links and category badges. The ticker pauses when hovered or focused, repeats a hidden-from-assistive-technology visual copy for seamless movement, and becomes manually scrollable when reduced motion is preferred. No external news service or script is required.

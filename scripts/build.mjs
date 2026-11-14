@@ -34,6 +34,16 @@ function buildSite(articles){
   function bc(links){return {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:links.map(([name,path],i)=>({"@type":"ListItem",position:i+1,name,item:BASE+path}))}}
   function bread(links){return '<nav class="crumbs" aria-label="Breadcrumb">'+links.map(([name,path],i)=>i===links.length-1?`<span aria-current="page">${e(name)}</span>`:`<a href="${path}">${e(name)}</a> <span aria-hidden="true">/</span> `).join("")+"</nav>"}
   function pageLd(path,name,desc,type="WebPage"){return {"@context":"https://schema.org","@type":type,"@id":BASE+path+"#webpage",url:BASE+path,name,description:desc,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}}}
+  // Every new article appears here automatically on the next site build.
+  // The repeated visual set is hidden from assistive technology and tab navigation.
+  const tickerLink=(a,duplicate=false)=>'<a class="news-ticker-link" data-news-category="'+e(a.category)+'" href="'+url(a)+'"'+(duplicate?' tabindex="-1"':'')+'><span class="news-ticker-category">'+e(a.category)+'</span><span class="news-ticker-title">'+e(a.title)+'</span></a>';
+  const tickerSpeed=Math.max(42,Math.round(items.reduce((sum,a)=>sum+a.title.length,0)*0.17));
+  const newsTicker='<nav class="news-ticker" aria-label="Latest anime, manga, manhwa and web novel headlines">'
+    +'<div class="news-ticker-inner"><span class="news-ticker-label">LATEST NEWS</span>'
+    +'<div class="news-ticker-window"><div class="news-ticker-track" style="--ticker-duration:'+tickerSpeed+'s" aria-live="off">'
+    +'<div class="news-ticker-set">'+items.map(a=>tickerLink(a)).join("")+'</div>'
+    +'<div class="news-ticker-set" aria-hidden="true">'+items.map(a=>tickerLink(a,true)).join("")+'</div>'
+    +'</div></div></div></nav>';
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
     const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta name="twitter:image" content="${BASE+image}">`:"";
     const selected=path.startsWith("/news/")?"News":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
@@ -51,7 +61,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=article-follow-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=headline-ticker-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -60,6 +70,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <div class="wrap bar"><a class="logo" href="/" aria-label="USA Anime Club homepage"><i aria-hidden="true">桜</i><span class="logo-title">USA <strong>ANIME</strong> CLUB<span class="logo-caption">ANIME NEWS &amp; CULTURE</span></span></a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle>☰ Menu</button>
 <nav class="nav" aria-label="Primary navigation" id="main-nav" data-nav>${nav}</nav></div></header>
+${newsTicker}
 <main id="main">${main}</main>
 <footer class="foot"><div class="wrap foot-grid">
 <div><a href="/" class="logo"><i aria-hidden="true">桜</i> USA Anime Club</a>
@@ -74,7 +85,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=article-follow-20261114" defer></script><script src="/assets/privacy.js?v=article-follow-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=headline-ticker-20261114" defer></script><script src="/assets/privacy.js?v=headline-ticker-20261114" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">

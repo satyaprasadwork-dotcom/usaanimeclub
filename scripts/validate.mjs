@@ -287,4 +287,31 @@ for(const story of articles){
  assert((main.match(/class="article-preferred-source"/g)||[]).length===1,"Expected exactly one article-end follow CTA in "+story.slug);
 }
 
+
+// The ticker is generated from the complete content set for every website page.
+for(const pageUrl of urls){
+ const html=read(localPath(pageUrl));
+ const headerEnd=html.indexOf("</header>");
+ const tickerStart=html.indexOf('<nav class="news-ticker"');
+ const mainStart=html.indexOf('<main id="main">');
+ assert(headerEnd>=0&&tickerStart>headerEnd&&tickerStart<mainStart,"Ticker missing below header: "+pageUrl);
+ assert(html.includes('aria-label="Latest anime, manga, manhwa and web novel headlines"'),"Ticker accessibility label missing: "+pageUrl);
+ const originalStart=html.indexOf('<div class="news-ticker-set">',tickerStart);
+ const cloneStart=html.indexOf('<div class="news-ticker-set" aria-hidden="true">',originalStart);
+ assert(originalStart>=0&&cloneStart>originalStart,"Ticker repeat groups missing: "+pageUrl);
+ const accessible=html.slice(originalStart,cloneStart);
+ const repeat=html.slice(cloneStart,mainStart);
+ for(const a of articles){
+   const link='/news/'+a.slug+'/';
+   assert(accessible.includes('href="'+link+'"'),"Ticker omitted "+a.slug+" on "+pageUrl);
+   assert(repeat.includes('href="'+link+'" tabindex="-1"'),"Ticker duplicate not hidden from tab order for "+a.slug);
+ }
+ assert((accessible.match(/class="news-ticker-link"/g)||[]).length===articles.length,"Ticker count doesn't match published stories: "+pageUrl);
+}
+const movingTickerCSS=read("assets/styles.css");
+assert(movingTickerCSS.includes("@keyframes news-ticker-left"),"Ticker animation missing");
+assert(movingTickerCSS.includes("translateX(-50%)"),"Ticker must move right to left");
+assert(movingTickerCSS.includes("prefers-reduced-motion:reduce")&&movingTickerCSS.includes(".news-ticker-track{animation:none"),"Reduced-motion ticker fallback missing");
+assert(movingTickerCSS.includes(".news-ticker-window:hover .news-ticker-track"),"Ticker must pause on hover");
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

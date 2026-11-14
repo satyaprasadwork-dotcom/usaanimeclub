@@ -387,3 +387,47 @@ h1,h2,h3{letter-spacing:-.03em}
  .article-preferred-source>.preferred-google-link{width:100%}
  .article-preferred-source-copy{flex-basis:auto}
 }
+
+/* Dynamic newsroom ticker — all story headlines, newest first. */
+.news-ticker{position:relative;z-index:1;background:#f2f7fc;border-bottom:1px solid #d1dcea}
+.news-ticker-inner{display:flex;align-items:stretch;width:100%;min-width:0;height:46px}
+.news-ticker-label{
+ display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+ padding:0 1.35rem;background:#173A70;color:#fff;
+ font:600 .76rem/1.2 var(--label);letter-spacing:.055em;white-space:nowrap
+}
+.news-ticker-window{flex:1;min-width:0;overflow:hidden;position:relative}
+.news-ticker-window:focus-within{overflow-x:auto;scrollbar-width:thin}
+.news-ticker-track{
+ display:flex;align-items:stretch;width:max-content;min-height:100%;
+ animation:news-ticker-left var(--ticker-duration,100s) linear infinite;
+ will-change:transform
+}
+.news-ticker-window:hover .news-ticker-track,
+.news-ticker-window:focus-within .news-ticker-track{animation-play-state:paused}
+.news-ticker-set{display:flex;align-items:center;flex:0 0 auto;padding-right:2.5rem}
+.news-ticker-link{
+ display:inline-flex;align-items:center;gap:.65rem;margin-right:2.5rem;
+ font:600 .84rem/1.25 var(--body);color:#223a55;
+ text-decoration:none;white-space:nowrap
+}
+.news-ticker-link:hover,.news-ticker-link:focus-visible{text-decoration:underline;text-underline-offset:3px;color:#173A70}
+.news-ticker-link::after{content:"";display:inline-block;width:4px;height:4px;border-radius:50%;background:#8097ad;margin-left:1.4rem}
+.news-ticker-category{
+ display:inline-block;background:var(--accent,#173A70);color:var(--accent-contrast,#fff);
+ padding:.27rem .5rem;border-radius:3px;
+ font:600 .68rem/1.2 var(--label);letter-spacing:.02em;text-transform:uppercase
+}
+@keyframes news-ticker-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:620px){
+ .news-ticker-inner{height:42px}
+ .news-ticker-label{padding:0 .75rem;font-size:.67rem}
+ .news-ticker-link{font-size:.79rem;gap:.48rem;margin-right:1.75rem}
+ .news-ticker-set{padding-right:1.75rem}
+ .news-ticker-link::after{margin-left:.6rem}
+}
+@media(prefers-reduced-motion:reduce){
+ .news-ticker-track{animation:none;will-change:auto}
+ .news-ticker-window{overflow-x:auto;scrollbar-width:thin}
+ .news-ticker-set[aria-hidden="true"]{display:none}
+}
