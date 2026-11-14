@@ -185,20 +185,20 @@ assert(read("index.html").includes("category=Web%20Novels"),"Web novel navigatio
 
 
 
-const wc=text=>(String(text).match(/[\\p{L}\\p{N}][\\p{L}\\p{N}'’.-]*/gu)||[]).length;
+const wc=text=>String(text).trim().split(/\s+/).filter(Boolean).length;
 for(const a of articles){
  const paragraphs=a.sections.flatMap(section=>section[1]);
  const count=paragraphs.reduce((total,p)=>total+wc(p),0);
  assert(count>=1000,a.slug+" has only "+count+" content words");
  assert(new Set(paragraphs).size===paragraphs.length,"Duplicate paragraphs in "+a.slug);
  const page=read("news/"+a.slug+"/index.html");
- const blocks=[...page.matchAll(/<script type="application\\/ld\\+json">([^<]+)<\\/script>/g)].map(x=>JSON.parse(x[1]));
+ const blocks=[...page.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1]));
  const schema=blocks.find(s=>s["@type"]==="NewsArticle");
  assert(schema,"Missing news JSON-LD "+a.slug);
  assert.equal(schema.wordCount,count,"Schema word count mismatch "+a.slug);
  assert(schema.citation?.includes(a.source),"Source citation omitted from JSON-LD "+a.slug);
  assert.equal(schema.about?.name,a.category,"Article category inconsistent "+a.slug);
- assert(page.includes("class=\\"tldr\\""),"Answer-first summary missing "+a.slug);
+ assert(page.includes('class="tldr"'),"Answer-first summary missing "+a.slug);
 }
 const categoryStyles=read("assets/styles.css");
 for(const category of ["Anime","Manga","Manhwa","Web Novels"]){

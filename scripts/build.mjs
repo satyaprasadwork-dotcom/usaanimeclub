@@ -18,7 +18,7 @@ function buildSite(articles){
   }
   // Enforce the publication's long-form threshold on the actual article paragraphs.
   // Google/Bing do not mandate a word count; this is an editorial publishing preference.
-  const countWords=text=>(String(text).match(/[\\p{L}\\p{N}][\\p{L}\\p{N}'’.-]*/gu)||[]).length;
+  const countWords=text=>String(text).trim().split(/\s+/).filter(Boolean).length;
   const articleWordCount=a=>a.sections.reduce((n,[heading,paragraphs])=>n+paragraphs.reduce((m,p)=>m+countWords(p),0),0);
   for(const a of articles){
     if(articleWordCount(a)<1000)throw Error("Article has fewer than 1,000 body words: "+a.slug+" ("+articleWordCount(a)+")");
