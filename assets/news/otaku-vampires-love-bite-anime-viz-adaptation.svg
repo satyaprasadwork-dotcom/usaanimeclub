@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editorial cover: Otaku Vampire's Love Bite Gets a TV Anime: VIZ Reveals First Teaser" width="1200" height="675" viewBox="0 0 1200 675">
-<rect width="1200" height="675" fill="#e8f2ff"/>
-<rect x="0" y="0" width="18" height="675" fill="#285db7"/>
-<path d="M76 161H1125" stroke="#285db7" stroke-width="3" opacity=".55"/>
-<path d="M76 573H1125" stroke="#285db7" stroke-width="2" opacity=".45"/>
-<text x="76" y="101" fill="#285db7" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
-<text x="76" y="137" fill="#204785" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">ANIME NEWS</text>
-<text x="76" y="278" fill="#204785" font-family="Georgia,serif" font-weight="700" font-size="43">Otaku Vampire's Love Bite</text><text x="76" y="344" fill="#204785" font-family="Georgia,serif" font-weight="700" font-size="43">Gets a TV Anime: VIZ</text><text x="76" y="410" fill="#204785" font-family="Georgia,serif" font-weight="700" font-size="43">Reveals First Teaser</text>
-<text x="76" y="613" fill="#204785" font-family="Arial,sans-serif" font-size="22" font-weight="600">OFFICIAL ANNOUNCEMENT  ·  2026-11-03</text>
-<text x="1119" y="611" text-anchor="end" fill="#285db7" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
+<rect width="1200" height="675" fill="#e4eeff"/>
+<rect x="0" y="0" width="1200" height="168" fill="#235fd5"/><rect x="0" y="0" width="14" height="675" fill="#173d94"/>
+<path d="M76 167H1125" stroke="#ffffff" stroke-width="2" opacity=".7"/>
+<path d="M76 573H1125" stroke="#235fd5" stroke-width="2" opacity=".45"/>
+<text x="76" y="101" fill="#ffffff" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
+<text x="76" y="137" fill="#ffffff" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">ANIME NEWS</text>
+<text x="76" y="278" fill="#173d94" font-family="Georgia,serif" font-weight="700" font-size="43">Otaku Vampire's Love Bite</text><text x="76" y="344" fill="#173d94" font-family="Georgia,serif" font-weight="700" font-size="43">Gets a TV Anime: VIZ</text><text x="76" y="410" fill="#173d94" font-family="Georgia,serif" font-weight="700" font-size="43">Reveals First Teaser</text>
+<text x="76" y="613" fill="#173d94" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  2026-11-03</text>
+<text x="1119" y="611" text-anchor="end" fill="#235fd5" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
 </svg>
