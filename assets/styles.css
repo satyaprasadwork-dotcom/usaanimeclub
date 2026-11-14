@@ -239,98 +239,96 @@ body{background:linear-gradient(180deg,#fff 0%,#fff 60%,#fafdff 100%)}
 }
 @media(prefers-reduced-motion:reduce){.topic-grid a:hover{transform:none}}
 
-/* Editorial story-system: distinct containers, magazine typography, and no decorative UI icons. */
-h1,h2,h3{letter-spacing:-.035em}
+
+/* News-card design system. Four saturated editorial colors with high-contrast text.
+   Paper-white stories remain distinct; color signals category, not importance. */
+:root{--story-border:#cdd8e4;--story-shadow:0 5px 18px rgba(26,49,78,.055)}
+h1,h2,h3{letter-spacing:-.03em}
 .logo-title{font-family:var(--label);font-weight:800;letter-spacing:.02em}
 .logo-caption{letter-spacing:.11em}
 .edition-mark{display:none}
-.eyebrow,.story-kicker,.card-category{font-family:var(--label);font-weight:800;letter-spacing:.095em}
-.grid{align-items:stretch;gap:1.5rem}
+.eyebrow,.story-kicker,.card-category{font-family:var(--label);font-weight:800;letter-spacing:.09em}
+[data-news-category="Anime"]{--accent:#235fd5;--accent-dark:#153d96;--accent-tint:#e9f1ff}
+[data-news-category="Manga"]{--accent:#dd791d;--accent-dark:#8a430c;--accent-tint:#fff1dd}
+[data-news-category="Manhwa"]{--accent:#7749c6;--accent-dark:#4f2d86;--accent-tint:#f2eaff}
+[data-news-category="Web Novels"]{--accent:#078e7d;--accent-dark:#095c53;--accent-tint:#e2f7f0}
+.grid{align-items:stretch;gap:1.45rem}
+.news-card,.feature-card,.latest-item{--accent:#2366ae;--accent-dark:#19496f;--accent-tint:#e9f2fa}
 .news-card{
   display:flex;flex-direction:column;min-width:0;height:100%;
-  padding:0;border:1px solid #cfdbe7;border-radius:8px;overflow:hidden;
-  background:#ffffff;color:var(--text);text-decoration:none;
-  box-shadow:0 2px 4px rgba(24,52,82,.035);
-  transition:border-color .15s ease,box-shadow .15s ease;
+  border:1px solid var(--story-border);border-top:5px solid var(--accent);
+  border-radius:9px;overflow:hidden;background:#fff;color:var(--text);text-decoration:none;
+  box-shadow:var(--story-shadow);transition:transform .2s,border-color .2s,box-shadow .2s
 }
-.news-card:hover,.news-card:focus-visible{
-  color:var(--text);border-color:#738fb0;box-shadow:0 5px 16px rgba(28,54,87,.09);
-}
-.news-card:focus-visible{outline:3px solid #275fcb;outline-offset:3px}
-.news-card .card-media{width:100%;background:#f2f5f8;overflow:hidden;border-bottom:1px solid #dbe4ed}
-.news-card img,.news-card:nth-child(3n+1) img,.news-card:nth-child(3n+2) img,.news-card:nth-child(3n+3) img{
-  display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border:0;border-radius:0;background:#eef3f7;
+.news-card[data-news-category="Anime"],.feature-card[data-news-category="Anime"],.latest-item[data-news-category="Anime"]{--accent:#235fd5;--accent-dark:#153d96;--accent-tint:#e9f1ff}
+.news-card[data-news-category="Manga"],.feature-card[data-news-category="Manga"],.latest-item[data-news-category="Manga"]{--accent:#dd791d;--accent-dark:#8a430c;--accent-tint:#fff1dd}
+.news-card[data-news-category="Manhwa"],.feature-card[data-news-category="Manhwa"],.latest-item[data-news-category="Manhwa"]{--accent:#7749c6;--accent-dark:#4f2d86;--accent-tint:#f2eaff}
+.news-card[data-news-category="Web Novels"],.feature-card[data-news-category="Web Novels"],.latest-item[data-news-category="Web Novels"]{--accent:#078e7d;--accent-dark:#095c53;--accent-tint:#e2f7f0}
+.news-card:hover,.news-card:focus-visible{color:var(--text);transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 28px rgba(26,49,78,.12)}
+.news-card:focus-visible,.feature-card:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.news-card .card-media{padding:.7rem .7rem 0;overflow:hidden;background:var(--accent-tint);border-bottom:1px solid #d9e3ef}
+.news-card .card-media img,.news-card:nth-child(3n+1) .card-media img,.news-card:nth-child(3n+2) .card-media img,.news-card:nth-child(3n+3) .card-media img{
+ display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--accent-tint);border:0;border-radius:5px 5px 0 0
 }
 .news-card:hover img{filter:none}
-.news-card .tx{flex:1;display:flex;flex-direction:column;padding:1.2rem 1.3rem 0;min-width:0}
-.card-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.35rem .7rem;margin-bottom:.7rem}
-.card-category{font-size:.78rem;text-transform:uppercase;color:#1c5c90}
-.card-meta time{font:500 .79rem/1.3 var(--body);color:#637388;white-space:nowrap}
-.news-card h3{font:600 clamp(1.24rem,1.8vw,1.5rem)/1.32 var(--head);color:#192d42;margin:0 0 .75rem}
-.news-card .card-summary{font:400 .91rem/1.58 var(--body);color:#52647a;margin:0 0 1.35rem}
+.news-card .tx{flex:1;display:flex;flex-direction:column;min-width:0;padding:1.25rem 1.3rem 0}
+.card-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.45rem;margin-bottom:.8rem}
+.card-category{display:inline-block;color:var(--accent-dark);background:var(--accent-tint);border:1px solid color-mix(in srgb,var(--accent) 25%,white);border-radius:4px;padding:.21rem .55rem;font-size:.76rem;text-transform:uppercase}
+.card-meta time{font:600 .78rem/1.35 var(--body);color:#53657b;white-space:nowrap}
+.news-card h3{font:600 clamp(1.27rem,1.85vw,1.54rem)/1.31 var(--head);color:#1b2d44;margin:0 0 .75rem}
+.news-card .card-summary{font:400 .94rem/1.59 var(--body);color:#4d6177;margin:0 0 1.35rem}
 .card-footer{
- display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;
- padding:.88rem 0;margin-top:auto;border-top:1px solid #e2e8ef;color:#6a7888;
- font:600 .77rem/1.35 var(--body);
+ display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.55rem;
+ padding:.92rem 1.3rem;margin:0 -1.3rem;border-top:1px solid #dce6ee;
+ margin-top:auto;background:var(--accent-tint);color:#43596d;font:600 .79rem/1.3 var(--body)
 }
-.card-read{color:#1c5b8c;font-weight:800}
+.card-read{color:var(--accent-dark);font-weight:800}
 .news-card:hover .card-read{text-decoration:underline;text-underline-offset:3px}
-/* Lead story: one clear outer boundary around image, headline, summary and action. */
 .feature-card{
  display:flex;flex-direction:column;align-self:start;min-width:0;
- border:1px solid #bfcfdd;border-radius:8px;overflow:hidden;background:#fff;
- box-shadow:0 2px 6px rgba(24,52,82,.055);text-decoration:none;
+ border:1px solid var(--story-border);border-top:5px solid var(--accent);
+ border-radius:9px;overflow:hidden;background:#fff;color:var(--text);text-decoration:none;
+ box-shadow:var(--story-shadow);transition:box-shadow .2s,border-color .2s
 }
-.feature-card:hover,.feature-card:focus-visible{border-color:#738fb0;box-shadow:0 6px 20px rgba(28,54,87,.085)}
-.feature-card .feature-media{overflow:hidden;background:#f1f5f9;border-bottom:1px solid #dbe4ed}
-.feature-card .feature-media img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:0}
-.feature-copy{display:flex;flex-direction:column;padding:1.5rem 1.65rem 1.4rem;gap:0}
-.feature-card h2{font:600 clamp(2rem,3.4vw,3.12rem)/1.16 var(--head);margin:.65rem 0 .8rem;color:#192d42}
-.feature-copy p{font-size:1rem;line-height:1.65}
-.read-story{font:800 .87rem var(--body);color:#1b5d92;margin-top:.3rem}
+.feature-card:hover{border-color:var(--accent);box-shadow:0 12px 28px rgba(26,49,78,.1)}
+.feature-card .feature-media{padding:.8rem .8rem 0;background:var(--accent-tint);overflow:hidden;border-bottom:1px solid #dce4ee}
+.feature-card .feature-media img{display:block;aspect-ratio:16/9;width:100%;object-fit:cover;border-radius:5px 5px 0 0}
+.feature-copy{padding:1.6rem 1.65rem 1.55rem}
+.feature-card h2{font:600 clamp(2rem,3.4vw,3.13rem)/1.17 var(--head);color:#1b2d44;margin:.66rem 0 .84rem}
+.feature-copy p{font-size:1.01rem;line-height:1.63}
+.feature-card .lead-label{background:var(--accent);color:#fff}
+.read-story{font:800 .89rem var(--body);color:var(--accent-dark);margin-top:.35rem}
 .feature-card:hover .read-story{text-decoration:underline}
-/* Newswire: each latest update is its own separated story instead of a ranked icon list. */
-.latest-rail{gap:.9rem}
-.latest-list{display:grid;gap:.8rem;padding-top:1rem}
+.latest-rail{gap:.85rem}
+.latest-list{display:grid;gap:.85rem;padding-top:1.15rem}
 .latest-item{
- display:flex;flex-direction:column;gap:.55rem;padding:1rem 1.05rem;
- border:1px solid #d2deea;border-radius:7px;background:#fff;text-decoration:none;
- box-shadow:0 1px 3px rgba(24,52,82,.03);min-width:0;
+ display:flex;flex-direction:column;gap:.5rem;min-width:0;
+ padding:1.1rem 1.2rem;border:1px solid #d2deea;border-left:5px solid var(--accent);
+ border-radius:7px;background:linear-gradient(105deg,var(--accent-tint),#fff 78%);text-decoration:none;box-shadow:0 2px 6px rgba(24,52,82,.035)
 }
-.latest-item:hover{border-color:#819fbe;background:#fbfdff;color:var(--text)}
-.latest-item strong{font:600 clamp(1.2rem,1.6vw,1.42rem)/1.28 var(--head);color:#1c3045}
-.latest-item .story-kicker{font-size:.73rem;color:#2f6688}
-.rail-read{font:800 .77rem var(--body);color:#23608b;margin-top:.2rem}
+.latest-item:hover{border-color:var(--accent);color:var(--text)}
+.latest-item strong{font:600 clamp(1.21rem,1.7vw,1.45rem)/1.29 var(--head);color:#1b3047}
+.latest-item .story-kicker{font-size:.73rem;color:var(--accent-dark)}
+.rail-read{font:800 .8rem var(--body);color:var(--accent-dark)}
 .latest-item:hover .rail-read{text-decoration:underline}
-.rail-footer{margin-top:.6rem}
-/* Topics: information-led category links, not stock-style symbols. */
+.rail-footer{margin-top:.7rem}
+.topic-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
 .topic-grid a{
  display:flex;flex-direction:column;gap:.6rem;align-items:flex-start;
- background:#fff;border:1px solid #d2dfe9;border-left-width:4px;
- border-top:1px solid #d2dfe9;border-radius:6px;min-height:162px;
- padding:1.25rem 1.4rem;
- box-shadow:0 1px 4px rgba(24,52,82,.04);
- transition:border-color .15s ease;
+ background:#fff;border:1px solid #d0dfe9;border-top:5px solid var(--accent);
+ border-radius:8px;min-height:165px;padding:1.3rem 1.35rem;
+ box-shadow:0 3px 9px rgba(23,50,83,.045);text-decoration:none
 }
-.topic-grid a:nth-child(1){border-top:1px solid #d2dfe9;border-left-color:#0d938a}
-.topic-grid a:nth-child(2){border-top:1px solid #d2dfe9;border-left-color:#6e54db}
-.topic-grid a:nth-child(3){border-top:1px solid #d2dfe9;border-left-color:#dd8935}
-.topic-grid a:hover{transform:none;border-color:#7e9dbd;box-shadow:0 3px 10px rgba(24,52,82,.07)}
-.topic-grid .topic-eyebrow{font:800 .75rem/1.2 var(--label);letter-spacing:.12em;color:#647389}
-.topic-grid a strong{font:650 1.55rem/1.2 var(--head);color:#1c3045}
-.topic-grid a span:not(.topic-eyebrow){font-size:.88rem}
-.topic-grid a small{font-size:.78rem;color:#5c6e82;margin-top:auto;padding-top:.2rem}
-@media(max-width:900px){
- .grid{gap:1.15rem}
- .feature-copy{padding:1.35rem}
-}
-@media(max-width:620px){
- .grid{grid-template-columns:1fr;gap:1.2rem}
- .news-card .tx{padding:1rem 1.12rem 0}
- .feature-copy{padding:1.25rem}
- .latest-list{gap:.7rem}
-}
-
-/* Four news-topic links remain separate and responsive. */
-@media(min-width:901px){.topic-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.topic-grid a:nth-child(4){border-top:1px solid #d2dfe9;border-left:4px solid #167e78}
+.topic-grid a:nth-child(1){--accent:#235fd5;--accent-tint:#e9f1ff;border-top:5px solid var(--accent);border-left:1px solid #d0dfe9}
+.topic-grid a:nth-child(2){--accent:#dd791d;--accent-tint:#fff1dd;border-top:5px solid var(--accent);border-left:1px solid #d0dfe9}
+.topic-grid a:nth-child(3){--accent:#7749c6;--accent-tint:#f2eaff;border-top:5px solid var(--accent);border-left:1px solid #d0dfe9}
+.topic-grid a:nth-child(4){--accent:#078e7d;--accent-tint:#e2f7f0;border-top:5px solid var(--accent);border-left:1px solid #d0dfe9}
+.topic-grid a:hover{transform:none;border-color:var(--accent);box-shadow:0 7px 20px rgba(24,52,82,.085)}
+.topic-grid a strong{font:600 1.52rem/1.25 var(--head);color:#1d3047}
+.topic-grid .topic-eyebrow{color:var(--accent);font:800 .77rem/1.2 var(--label);letter-spacing:.12em}
+.topic-grid a span:not(.topic-eyebrow){font-size:.9rem;color:#52647a}
+.topic-grid a small{font-size:.79rem;color:#45576e;background:var(--accent-tint);padding:.22rem .5rem;border-radius:4px;margin-top:auto}
+@media(max-width:1050px){.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.grid{gap:1.2rem}.feature-copy{padding:1.35rem}}
+@media(max-width:620px){.grid,.topic-grid{grid-template-columns:1fr;gap:1.15rem}.news-card .tx{padding:1.1rem 1.2rem 0}.card-footer{margin:0 -1.2rem;padding:1rem 1.2rem}.feature-copy{padding:1.25rem}.latest-list{gap:.7rem}}
+@media(prefers-reduced-motion:reduce){.news-card:hover{transform:none}}

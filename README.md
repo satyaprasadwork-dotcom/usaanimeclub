@@ -13,3 +13,11 @@ Run `node scripts/build.mjs` then `node scripts/validate.mjs`. The generator cre
 Every HTML page includes the shared consent handler that conditionally loads GA4 `G-G0TNMR0FQL` and Clarity `yyqq9cryjc`; do not add duplicate tags. New stories inherit all canonical, SEO, article schema, footer, policies and consent code.
 
 Build passing on GitHub does not itself establish successful Hostinger deployment, Google News inclusion or AdSense approval.
+
+## Editorial depth and source transparency
+
+The build enforces at least **1,000 body words** on each news article and rejects duplicated paragraphs inside an article; this is the publication's requested standard, **not** a Google or Bing ranking requirement. Google explicitly says there is no preferred word count. Material must still offer distinct value, source links, accurate dates, and independent editorial checks before publishing.
+
+NewsArticle JSON-LD includes reported source citation, topical subject and accurate word count. The shared article HTML template stays locked; source content and artwork themes are data-driven.
+
+AdSense approval cannot be inferred from article length or passing CI. Before applying, independently verify live deployment, content accuracy and image rights, privacy and consent behavior, site access, and AdSense account status. Do not add unverified AdSense publisher IDs or ads.txt declarations.

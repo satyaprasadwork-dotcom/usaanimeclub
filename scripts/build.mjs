@@ -16,6 +16,15 @@ function buildSite(articles){
     if(typeof a.title!=="string"||typeof a.description!=="string"||!a.title.trim()||!a.description.trim())throw Error("Missing title or description: "+a.slug);
     if(!a.source?.startsWith("https://")||!Array.isArray(a.sections)||a.sections.length===0)throw Error("Article requires HTTPS source and sections: "+a.slug);
   }
+  // Enforce the publication's long-form threshold on the actual article paragraphs.
+  // Google/Bing do not mandate a word count; this is an editorial publishing preference.
+  const countWords=text=>(String(text).match(/[\\p{L}\\p{N}][\\p{L}\\p{N}'’.-]*/gu)||[]).length;
+  const articleWordCount=a=>a.sections.reduce((n,[heading,paragraphs])=>n+paragraphs.reduce((m,p)=>m+countWords(p),0),0);
+  for(const a of articles){
+    if(articleWordCount(a)<1000)throw Error("Article has fewer than 1,000 body words: "+a.slug+" ("+articleWordCount(a)+")");
+    const paragraphs=a.sections.flatMap(section=>section[1]);
+    if(new Set(paragraphs.map(p=>p.trim())).size!==paragraphs.length)throw Error("Article contains duplicate paragraphs: "+a.slug);
+  }
   const items=[...articles].sort((a,b)=>b.sourceDate.localeCompare(a.sourceDate)||b.date.localeCompare(a.date)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const url=a=>"/news/"+a.slug+"/";
@@ -75,7 +84,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <div class="card-footer"><span>USA Anime Club</span><span class="card-read">Read article</span></div></div></a>`;
   }
   const first=items[0];
-  const shortItem=a=>`<a class="latest-item" href="${url(a)}">
+  const shortItem=a=>`<a class="latest-item" data-news-category="${e(a.category)}" href="${url(a)}">
 <span class="story-kicker">${e(a.category)} <span aria-hidden="true">·</span> <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span>
 <strong>${e(a.title)}</strong><span class="rail-read">Read article</span></a>`;
   const home=`<section class="front-intro"><div class="wrap">
@@ -84,7 +93,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <a class="text-link" href="/news/">Explore the news archive</a>
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
-<a class="feature-card" href="${url(first)}"><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
+<a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
 <div class="feature-copy"><span class="story-kicker"><span class="lead-label">LEAD STORY</span> ${e(first.category)} · ${fmt(first.sourceDate)}</span>
 <h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="read-story">Read the report</span></div></a>
 <aside class="latest-rail" aria-label="More recent anime reports"><div class="rail-title"><div><span class="eyebrow">THE WIRE</span><h2>Latest updates</h2></div><span class="rail-count">${Math.min(3,items.length-1)} STORIES</span></div>
@@ -145,15 +154,15 @@ ${pag}</div></section>`;
 <div class="sidebar-panel sidebar-note"><strong>Editorial standard</strong><p>Independent summary, source linked, US availability distinguished from other territories.</p><a href="/editorial-policy/">How we verify news</a></div></aside></div></article>
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
     const palette=({
-      Anime:{paper:"#e8f2ff",edge:"#285db7",ink:"#204785"},
-      Manga:{paper:"#fff2dd",edge:"#bd761a",ink:"#76420b"},
-      Manhwa:{paper:"#f1eaff",edge:"#7455a8",ink:"#51327f"},
-      "Web Novels":{paper:"#e5f6f1",edge:"#128476",ink:"#105b55"}
-    })[a.category]||{paper:"#eef3f9",edge:"#355a8b",ink:"#26476c"};
+      Anime:{paper:"#e4eeff",edge:"#235fd5",ink:"#173d94"},
+      Manga:{paper:"#ffeddb",edge:"#dd791d",ink:"#83400d"},
+      Manhwa:{paper:"#f0e6ff",edge:"#7749c6",ink:"#482b80"},
+      "Web Novels":{paper:"#def7f0",edge:"#068f7e",ink:"#075f55"}
+    })[a.category]||{paper:"#eaf1fb",edge:"#3263a2",ink:"#244675"};
     const words=a.title.split(/\s+/),lines=[];let line="";
     for(const word of words){
       if((line+" "+word).trim().length>27&&line){lines.push(line);line=word}
@@ -166,13 +175,13 @@ ${pag}</div></section>`;
     ).join("");
     files["assets/news/"+a.slug+".svg"]=`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editorial cover: ${e(a.title)}" width="1200" height="675" viewBox="0 0 1200 675">
 <rect width="1200" height="675" fill="${palette.paper}"/>
-<rect x="0" y="0" width="18" height="675" fill="${palette.edge}"/>
-<path d="M76 161H1125" stroke="${palette.edge}" stroke-width="3" opacity=".55"/>
+<rect x="0" y="0" width="1200" height="168" fill="${palette.edge}"/><rect x="0" y="0" width="14" height="675" fill="${palette.ink}"/>
+<path d="M76 167H1125" stroke="#ffffff" stroke-width="2" opacity=".7"/>
 <path d="M76 573H1125" stroke="${palette.edge}" stroke-width="2" opacity=".45"/>
-<text x="76" y="101" fill="${palette.edge}" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
-<text x="76" y="137" fill="${palette.ink}" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">${e(categoryText)}</text>
+<text x="76" y="101" fill="#ffffff" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
+<text x="76" y="137" fill="#ffffff" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">${e(categoryText)}</text>
 ${artworkLines}
-<text x="76" y="613" fill="${palette.ink}" font-family="Arial,sans-serif" font-size="22" font-weight="600">OFFICIAL ANNOUNCEMENT  ·  ${a.sourceDate}</text>
+<text x="76" y="613" fill="${palette.ink}" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  ${a.sourceDate}</text>
 <text x="1119" y="611" text-anchor="end" fill="${palette.edge}" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
 </svg>\n`;
   }
