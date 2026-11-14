@@ -270,4 +270,21 @@ for(const a of articles){
  assert(html.includes("IN THIS REPORT"),"Article table of contents was removed: "+a.slug);
 }
 
+
+for(const story of articles){
+ const html=read("news/"+story.slug+"/index.html");
+ const mainStart=html.indexOf('<main id="main">'),mainEnd=html.indexOf("</main>",mainStart);
+ const main=html.slice(mainStart,mainEnd);
+ const related=main.lastIndexOf('class="related-section"');
+ const follow=main.lastIndexOf('class="article-preferred-source"');
+ const footerEnd=main.lastIndexOf("</section>");
+ assert(related>=0,"Related coverage missing in "+story.slug);
+ assert(follow>related,"Preferred source CTA must be after related coverage in "+story.slug);
+ assert(follow<footerEnd,"Preferred source CTA must be before the end of main in "+story.slug);
+ const followMarkup=main.slice(follow);
+ assert(followMarkup.includes('href="https://www.google.com/preferences/source?q=usaanimeclub.com"'),"Google Preferred Sources URL missing in "+story.slug);
+ assert(followMarkup.includes('Add as a preferred source on Google'),"Follow button missing in "+story.slug);
+ assert((main.match(/class="article-preferred-source"/g)||[]).length===1,"Expected exactly one article-end follow CTA in "+story.slug);
+}
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

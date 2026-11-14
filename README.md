@@ -35,3 +35,7 @@ Anime: dark blue `#173A70`; Manga: dark red `#932B3B`; Manhwa: yellow `#F4C542` 
 ## Source links
 
 The shared article template was intentionally revised so that each report shows a single **View primary source** link under **Primary source and reporting notes**, alongside the date the source was announced or checked. The former **Original Announcement** sidebar card has been removed from all article pages. The table of contents and editorial policy sidebar remain unchanged. Template lock version: 2.
+
+## End-of-article Preferred Sources action
+
+Every news article inherits the same bottom-of-page **Add as a preferred source on Google** link, appearing after related coverage and before the global footer. It opens `https://www.google.com/preferences/source?q=usaanimeclub.com` in a new tab. Users choose whether to add the site; eligibility and search presentation are controlled by Google. Shared article template lock updated to version 3.

@@ -1,5 +1,5 @@
 {
-  "version": 2,
-  "templateHash": "81adb353",
-  "description": "Shared article markup reviewed and locked. Primary source links appear inside Primary source and reporting notes; no Original Announcement sidebar card. Content changes through content/articles.json, with future template edits requiring a lock update."
+  "version": 3,
+  "templateHash": "a088d085",
+  "description": "Shared article HTML template. Every article ends with a Google Preferred Sources action after Related coverage and before the site footer. Primary source links remain in reporting notes. Only intentionally approved layout changes should update this lock."
 }

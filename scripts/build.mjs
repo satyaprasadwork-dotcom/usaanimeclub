@@ -51,7 +51,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=source-notes-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=article-follow-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -74,7 +74,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=source-notes-20261114" defer></script><script src="/assets/privacy.js?v=source-notes-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=article-follow-20261114" defer></script><script src="/assets/privacy.js?v=article-follow-20261114" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
@@ -154,7 +154,8 @@ ${pag}</div></section>`;
 <nav aria-label="Article sections" class="contents-list">${contents}</nav></div>
 <div class="sidebar-panel sidebar-note"><strong>Editorial standard</strong><p>Independent summary, source linked, US availability distinguished from other territories.</p><a href="/editorial-policy/">How we verify news</a></div></aside></div></article>
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
-<div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section></div>`;
+<div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section>
+<section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
     const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
