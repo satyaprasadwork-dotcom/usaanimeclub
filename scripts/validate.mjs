@@ -151,7 +151,7 @@ assert(read("index.html").includes('class="feature-media"'),"lead story media gr
 assert(read("index.html").includes('class="rail-read"'),"latest rail article labels missing");
 const designCss=read("assets/styles.css");
 assert(designCss.includes("border-top:5px solid var(--accent)"),"story cards lack a category accent border");
-assert(designCss.includes("--head:\"Literata\""),"editorial headline typeface missing");
+assert(designCss.includes("--head:\"Fraunces\""),"editorial headline typeface missing");
 assert(!read("index.html").includes('class="topic-icon"'),"decorative topic icons should be removed");
 // Lock the common article markup against accidental changes.
 const articleLock=JSON.parse(read("scripts/article-template.lock.json"));
@@ -207,5 +207,19 @@ for(const category of ["Anime","Manga","Manhwa","Web Novels"]){
 const front=read("index.html");
 assert(front.includes('class="feature-card" data-news-category='),"Lead story color is not category-aware");
 assert(front.includes('class="latest-item" data-news-category='),"Latest news color is not category-aware");
+
+
+const googlePreferred="https://www.google.com/preferences/source?q=usaanimeclub.com";
+const htmlPages=urls.map(u=>read(localPath(u)));
+for(const html of htmlPages){
+ assert(html.includes('href="'+googlePreferred+'"'),"Google Preferred Source link missing on an indexable page");
+ assert(html.includes("fonts.googleapis.com/css2?family=Fraunces"),"new site-wide headline font missing");
+ assert(html.includes("family=IBM+Plex+Sans"),"new site-wide text font missing");
+}
+assert(read("index.html").includes('class="card-folio"'),"Folio header missing from cards");
+assert(read("index.html").includes('class="feature-folio"'),"Lead folio header missing");
+const everyStory=JSON.parse(read("content/articles.json"));
+const bylines=everyStory.flatMap(a=>a.sections.flatMap(s=>s[1]));
+assert(!bylines.some(p=>p.includes("USA Anime Club is")||p.includes("USA Anime Club will")),"Self-referential story boilerplate remains");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
