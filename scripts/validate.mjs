@@ -90,6 +90,7 @@ function consentHarness(previous){
  const controls={};
  const element=()=>({handlers:{},addEventListener(name,fn){this.handlers[name]=fn},click(){this.handlers.click?.()}});
  const accept=element(),decline=element(),choice=element(),focusButton=element();
+ focusButton.focus=()=>{}; // Browser buttons expose focus(); the test double must too.
  const banner={hidden:true,querySelector:()=>focusButton};
  const head={appendChild(x){loaded.push(x.src)}};
  const document={
