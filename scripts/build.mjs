@@ -3,8 +3,20 @@ import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
-  const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY="2026-11-14",files={};
-  const items=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||a.title.localeCompare(b.title));
+  const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
+  if(!Array.isArray(articles)||articles.length===0)throw Error("A news site needs at least one verified article");
+  const seenSlugs=new Set();
+  for(const a of articles){
+    if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(a.slug)||seenSlugs.has(a.slug))throw Error("Duplicate or invalid article slug: "+a.slug);
+    seenSlugs.add(a.slug);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(a.date)||Number.isNaN(Date.parse(a.date+"T12:00:00Z")))throw Error("Invalid publish date: "+a.slug);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(a.sourceDate)||Number.isNaN(Date.parse(a.sourceDate+"T12:00:00Z")))throw Error("Missing or invalid sourceDate: "+a.slug);
+    if(a.sourceDate>a.date)throw Error("Original source announcement cannot postdate site article: "+a.slug);
+    if(a.date>TODAY)throw Error("Future publication date: "+a.slug);
+    if(typeof a.title!=="string"||typeof a.description!=="string"||!a.title.trim()||!a.description.trim())throw Error("Missing title or description: "+a.slug);
+    if(!a.source?.startsWith("https://")||!Array.isArray(a.sections)||a.sections.length===0)throw Error("Article requires HTTPS source and sections: "+a.slug);
+  }
+  const items=[...articles].sort((a,b)=>b.sourceDate.localeCompare(a.sourceDate)||b.date.localeCompare(a.date)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const url=a=>"/news/"+a.slug+"/";
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
@@ -46,7 +58,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <li><a href="/news/">News Archive</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li>
 <li><a href="/editorial-policy/">Editorial Policy</a></li><li><a href="/corrections/">Corrections</a></li><li><a href="/privacy/">Privacy Policy</a></li>
 <li><a href="/disclaimer/">Disclaimer</a></li><li><a href="/terms/">Terms &amp; Conditions</a></li></ul></nav>
-<button type="button" data-privacy-choices>Privacy choices</button><p class="meta" style="margin-top:1.5rem">© 2026 USA Anime Club</p></div></div></footer>
+<button type="button" data-privacy-choices>Privacy choices</button><p class="meta" style="margin-top:1.5rem">© ${new Date().getUTCFullYear()} USA Anime Club</p></div></div></footer>
 <div class="privacy-banner" id="privacy-banner" role="region" aria-label="Optional analytics choices" hidden>
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
@@ -55,17 +67,17 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
   }
   function card(a){return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
 <img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="Original editorial illustration for ${e(a.title)}">
-<div class="tx"><div class="meta">${e(a.category)} · <time datetime="${a.date}">${fmt(a.date)}</time></div><h3>${e(a.title)}</h3><p>${e(a.description)}</p></div></a>`}
+<div class="tx"><div class="meta">${e(a.category)} · Source: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></div><h3>${e(a.title)}</h3><p>${e(a.description)}</p></div></a>`}
   const first=items[0];
-  const tkr=items.map(a=>`<a href="${url(a)}">${e(a.title)} ✦</a>`).join("");
+  const tkr=items.map(a=>`<span class="ticker-item">${e(a.title)} ✦</span>`).join("");
   const home=`<section class="hero"><div class="wrap"><div><span class="eyebrow">INDEPENDENT ANIME NEWS · UNITED STATES</span><p class="bubble">New stories, verified.</p>
 <h1>Anime news that matters to US fans.</h1><p class="lead">What is confirmed, where it is releasing, and what US viewers should know. No rumor mill — just sourced anime reporting.</p>
 <div class="btns"><a class="btn" href="#latest">Read the latest</a><a class="btn alt" href="/editorial-policy/">Our editorial standards</a></div></div>
 <div class="stage" aria-hidden="true"><div class="page3d" id="pg"><i class="pn">新</i><i class="pn">報</i><i class="pn">桜</i></div></div></div></section>
-<div class="ticker"><div class="ticker-track">${tkr}${tkr}</div></div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track">${tkr}${tkr}</div></div>
 <section class="blk" id="latest"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THE NEWS DESK / 01</span><h2>Latest confirmed stories</h2></div><a href="/news/">View all news →</a></div>
 <a class="feature-card" href="${url(first)}"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="Original illustration for ${e(first.title)}">
-<div class="tx"><span class="eyebrow">TOP STORY · ${e(first.category)}</span><h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="meta">${fmt(first.date)} · Read story →</span></div></a>
+<div class="tx"><span class="eyebrow">TOP STORY · ${e(first.category)}</span><h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="meta">Source announced ${fmt(first.sourceDate)} · Read story →</span></div></a>
 <div class="grid">${items.slice(1,7).map(card).join("")}</div></div></section>
 <section class="blk" style="background:var(--bg2)"><div class="wrap"><span class="eyebrow">HOW WE REPORT / 02</span><h2>Source first. US context always.</h2>
 <p class="muted" style="max-width:780px">We link the announcement, distinguish confirmed facts from unknown details, and check US streaming territories, theater dates and language availability.</p>
@@ -80,7 +92,7 @@ pageLd("/",homeTitle,homeDesc)]});
   for(let p=1;p<=archiveTotal;p++){
     const sub=items.slice((p-1)*12,p*12),path=p===1?"/news/":`/news/page/${p}/`;
     const cats=["All",...new Set(sub.map(a=>a.category))];
-    const chips=p===1?`<div class="chips" role="group" aria-label="Filter news">${cats.map((c,i)=>`<button class="chip" type="button" data-category="${e(c)}" aria-pressed="${i===0}">${e(c)}</button>`).join("")}</div><p class="meta" id="filter-status" role="status" aria-live="polite">${sub.length} stories shown</p>`:"";
+    const chips=`<div class="chips" role="group" aria-label="Filter news on this archive page">${cats.map((c,i)=>`<button class="chip" type="button" data-category="${e(c)}" aria-pressed="${i===0}">${e(c)}</button>`).join("")}</div><p class="meta" id="filter-status" role="status" aria-live="polite">${sub.length} stories shown on this page</p>`;
     const pag=`<nav class="btns" aria-label="Archive pages">${p>1?`<a class="btn alt" href="${p===2?"/news/":"/news/page/"+(p-1)+"/"}">← Newer</a>`:""}${p<archiveTotal?`<a class="btn alt" href="/news/page/${p+1}/">Older →</a>`:""}</nav>`;
     const title=`Anime News Archive${p===1?"":" — Page "+p} | USA Anime Club`,desc=`Browse verified anime streaming, theater and TV season news for US fans, archive page ${p}.`;
     const main=`<section class="blk"><div class="wrap">${bread([["Home","/"],["News Archive",path]])}<span class="eyebrow">NEWS ARCHIVE / ${p}</span><h1>Anime news archive</h1>
@@ -91,13 +103,13 @@ pageLd("/",homeTitle,homeDesc)]});
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
     const content=`<div class="post-layout">${bread([["Home","/"],["News","/news/"],[a.title,path]])}
 <article><header class="post-head"><span class="eyebrow">${e(a.category)} · VERIFIED NEWS</span><h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
-<p class="meta">By <a href="/about/">USA Anime Club Editorial</a> · Published <time datetime="${a.date}">${fmt(a.date)}</time> · Updated <time datetime="${a.date}">${fmt(a.date)}</time></p></header>
+<p class="meta">By <a href="/about/">USA Anime Club Editorial</a> · Published <time datetime="${a.date}">${fmt(a.date)}</time> · Source announcement <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time> · Updated <time datetime="${a.modified||a.date}">${fmt(a.modified||a.date)}</time></p></header>
 <img class="post-hero" src="${pic}" width="1200" height="675" alt="Original USA Anime Club typographic news illustration for ${e(a.title)}">
 <div class="tldr"><strong>In brief:</strong> ${e(a.summary)}</div><div class="prose">${a.sections.map(([h,paras])=>`<section><h2>${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}</section>`).join("")}</div>
 <div class="source-note"><strong>Primary announcement and verification</strong><p>This report is based on <a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">${e(a.sourceLabel)}</a>. We summarize this publisher/distributor announcement and add US context; we do not claim a separate release confirmation.</p>
 <p class="meta">Have a correction? <a href="mailto:${EMAIL}?subject=${encodeURIComponent("Correction: "+a.title)}">Email the news desk</a>.</p></div></article>
 <section aria-labelledby="related-news"><h2 id="related-news">More anime news</h2><div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:a.date+"T12:00:00Z",author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     const hue=Number(a.hue)||220,words=a.title.split(" "),lines=[];let line="";
     for(const w of words){if((line+" "+w).trim().length>24&&line){lines.push(line);line=w}else line=(line+" "+w).trim()}if(line)lines.push(line);
@@ -129,15 +141,16 @@ pageLd("/",homeTitle,homeDesc)]});
   files["404.html"]=shell({path:"/404.html",title:"Page Not Found | USA Anime Club",desc:"This page is not available. Browse the USA Anime Club US anime news archive.",kw:"anime news page not found",noindex:true,main:`<section class="wrap page not-found"><h1>Page not found</h1><p>That page may have moved.</p><a class="btn" href="/news/">Browse anime news</a></section>`});
   const xml=s=>e(s).replace(/'/g,"&apos;");
   const paths=Object.keys(files).filter(k=>k==="index.html"||k.endsWith("/index.html")).map(k=>"/"+k.replace(/index\.html$/,""));
-  files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc><lastmod>${items.find(a=>url(a)===p)?.date||TODAY}</lastmod></url>`).join("\n")}\n</urlset>\n`;
-  const recent=items.filter(a=>a.date>= "2026-11-12" &&a.date<=TODAY);
+  files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc><lastmod>${items.find(a=>url(a)===p)?.modified||items.find(a=>url(a)===p)?.date||(p==="/"||p.startsWith("/news/")?items.reduce((m,a)=>a.date>m?a.date:m,SITE_START):SITE_START)}</lastmod></url>`).join("\n")}\n</urlset>\n`;
+  // Google News requires a rolling 48-hour window; CI refreshes this file daily.
+  const recent=items.filter(a=>{const published=Date.parse(a.date+"T12:00:00Z");return published<=Date.now()&&Date.now()-published<=48*60*60*1000});
   files["news-sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${recent.map(a=>`<url><loc>${xml(BASE+url(a))}</loc><news:news><news:publication><news:name>USA Anime Club</news:name><news:language>en</news:language></news:publication><news:publication_date>${a.date}T12:00:00Z</news:publication_date><news:title>${xml(a.title)}</news:title></news:news></url>`).join("\n")}\n</urlset>\n`;
   files["robots.txt"]="User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\nSitemap: "+BASE+"/news-sitemap.xml\n";
   files["llms.txt"]=`# USA Anime Club\n> Independent US-focused anime news, sourced to official announcements.\n\nWebsite: ${BASE}/\nContact: ${EMAIL}\n\n## Pages\n- [Latest news](${BASE}/)\n- [News archive](${BASE}/news/)\n- [Editorial standards](${BASE}/editorial-policy/)\n- [Corrections](${BASE}/corrections/)\n- [RSS feed](${BASE}/feed.xml)\n- [XML sitemap](${BASE}/sitemap.xml)\n\n## Recent reports\n${items.map(a=>`- [${a.title}](${BASE+url(a)})`).join("\n")}\n\nReporting links to original source announcements; no rights-holder affiliation is implied.\n`;
   files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-verified US anime streaming and theatrical news.</description><language>en-us</language>${items.slice(0,40).map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
   files[".htaccess"]="# Apache / Hostinger static-site defaults\nDirectoryIndex index.html\nErrorDocument 404 /404.html\nOptions -MultiViews\n";
   if(new Set(paths).size!==paths.length)throw Error("Duplicate URLs");
-  for(const p of paths){const name=p==="/ "?"index.html":p.slice(1)+"index.html";const html=files[name]||files["index.html"];if(!html.includes(`<link rel="canonical" href="${BASE+p}">`))throw Error("Missing canonical "+p)}
+  for(const p of paths){const name=p==="/"?"index.html":p.slice(1)+"index.html";const html=files[name]||files["index.html"];if(!html.includes(`<link rel="canonical" href="${BASE+p}">`))throw Error("Missing canonical "+p)}
   const ts=paths.map(p=>(files[p.slice(1)+"index.html"]||files["index.html"]).match(/<title>(.*?)<\/title>/)?.[1]);
   if(new Set(ts).size!==ts.length)throw Error("Duplicate titles");
   const ds=paths.map(p=>(files[p.slice(1)+"index.html"]||files["index.html"]).match(/<meta name="description" content="([^"]+)"/)?.[1]);

@@ -51,3 +51,6 @@ p{margin:0 0 1.1rem}.muted,.meta{color:var(--mut)}.meta{font-size:.87rem}
 @media(prefers-reduced-motion:reduce){*,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 [hidden]{display:none!important}
+
+/* Decorative ticker items remain noninteractive and screen-reader silent. */
+.ticker-item{display:inline-block;margin-right:2.2rem}

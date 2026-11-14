@@ -33,7 +33,8 @@
           "USA Anime Club has linked the source announcement below so readers can verify the geographic availability and convention detail directly. We will mark substantive changes with a new update date rather than silently changing the reported facts."
         ]
       ]
-    ]
+    ],
+    "sourceDate": "2026-11-11"
   },
   {
     "slug": "rascal-does-not-dream-dear-friend-us-theaters-february-2027",
@@ -69,7 +70,8 @@
           "For fans organizing a group visit, the most useful next step is to watch the official distributor's ticketing announcement and local theater listings. We will update this story when directly confirmed information becomes available, rather than treat unverified booking pages as final."
         ]
       ]
-    ]
+    ],
+    "sourceDate": "2026-10-29"
   },
   {
     "slug": "mashle-season-3-crunchyroll-us-january-2027",
@@ -105,7 +107,8 @@
           "US fans can revisit the previous seasons on Crunchyroll while waiting for the platform's detailed winter schedule. For a release-time claim, check the show page or an official dated schedule rather than a countdown that cannot document its source."
         ]
       ]
-    ]
+    ],
+    "sourceDate": "2026-10-28"
   },
   {
     "slug": "crunchyroll-fall-2026-us-anime-lineup-black-clover-apothecary-diaries",
@@ -141,6 +144,7 @@
           "USA Anime Club is publishing this US-focused digest as a verified snapshot of the announced lineup, not as a claim that the service's entire current catalog has been independently retested. Readers should follow the linked platform source for the latest corrections and title additions."
         ]
       ]
-    ]
+    ],
+    "sourceDate": "2026-09-15"
   }
 ]

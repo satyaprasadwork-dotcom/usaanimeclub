@@ -1,16 +1,45 @@
-name: Validate static anime news website
+name: Build and validate USA Anime Club
 on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "19 3 * * *"
+  workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: usa-anime-news-build-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - run: node scripts/build.mjs --check
+          node-version: "22"
+      - name: Check JS syntax
+        run: |
+          node --check scripts/build.mjs
+          node --check assets/site.js
+          node --check assets/privacy.js
+          node --check scripts/validate.mjs
+      - name: Rebuild news pages, sitemap and feeds
+        run: node scripts/build.mjs
+      - name: Test generated pages, links, SEO, schema and UX scripts
+        run: node scripts/validate.mjs
+      - name: Check generator reproducibility
+        run: node scripts/build.mjs --check
+      - name: Commit refreshed generated files
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          git add -A
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: regenerate anime news site and update Google News sitemap"
+            git push
+          fi
