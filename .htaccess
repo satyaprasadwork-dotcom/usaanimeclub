@@ -7,3 +7,14 @@ Options -MultiViews
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(?:scripts|content|\.github)(?:/|$) - [F,L]
+  RewriteRule ^(?:package(?:-lock)?\.json|README\.md|\.gitignore)$ - [F,L]
+</IfModule>
+<IfModule mod_headers.c>
+  <Files "build-info.json">
+    Header set Cache-Control "no-cache, must-revalidate"
+    Header set X-Robots-Tag "noindex"
+  </Files>
+</IfModule>
