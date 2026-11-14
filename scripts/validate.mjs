@@ -453,4 +453,19 @@ for(const name of readdirSync(resolve(root,"assets/news"))){
  if(name.endsWith(".png"))assert(sourceSlugs.has(name.slice(0,-4)),"Orphaned PNG art "+name);
 }
 
+
+// A deterministic marker makes live deployment verifiable independent of cache.
+// This is intentionally public, but source JSON and build scripts must not be served.
+const info=JSON.parse(read("build-info.json"));
+assert.equal(info.canonicalHost,base,"Build-info canonical host incorrect");
+assert.equal(info.articleCount,articles.length,"Build-info article count wrong");
+assert(/^[0-9a-f]{16}$/.test(info.buildId),"Invalid deterministic build identifier");
+assert.equal(info.latestArticle,mostRecent.slug,"Build-info latest story out of sync");
+for(const u of urls){
+ assert(read(localPath(u)).includes('<meta name="site-build" content="'+info.buildId+'">'),"Deployment marker inconsistent on "+u);
+}
+const htaccess=read(".htaccess");
+assert(htaccess.includes("RewriteRule ^(?:scripts|content|"),"Source directories accessible through hosting");
+assert(htaccess.includes("build-info.json"),"Build marker cache policy missing");
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

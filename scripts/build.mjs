@@ -2,10 +2,20 @@ import {readFileSync,writeFileSync,mkdirSync,existsSync,readdirSync,rmSync} from
 import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 import {Resvg} from "@resvg/resvg-js";
+import {createHash} from "node:crypto";
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
   const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
   if(!Array.isArray(articles)||articles.length===0)throw Error("A news site needs at least one verified article");
+  // Deterministic build ID: changes whenever generator, content, CSS or runtime changes.
+  // No changing timestamps/commit SHA are embedded, so CI regeneration stays stable.
+  const buildId=createHash("sha256")
+    .update(readFileSync(fileURLToPath(import.meta.url)))
+    .update(readFileSync(resolve(ROOT,"assets/styles.css")))
+    .update(readFileSync(resolve(ROOT,"assets/site.js")))
+    .update(readFileSync(resolve(ROOT,"assets/privacy.js")))
+    .update(JSON.stringify(articles))
+    .digest("hex").slice(0,16);
   const seenSlugs=new Set();
   for(const a of articles){
     if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(a.slug)||seenSlugs.has(a.slug))throw Error("Duplicate or invalid article slug: "+a.slug);
@@ -54,7 +64,7 @@ function buildSite(articles){
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${e(title)}</title><meta name="description" content="${e(desc)}"><meta name="keywords" content="${e(kw)}">
 <meta name="robots" content="${noindex?"noindex, nofollow":"index, follow, max-image-preview:large"}">
-<meta name="author" content="${BRAND}"><meta name="theme-color" content="#ffffff">
+<meta name="author" content="${BRAND}"><meta name="theme-color" content="#ffffff"><meta name="site-build" content="${buildId}">
 <link rel="canonical" href="${absolute}"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="USA Anime Club news" href="/feed.xml">
 <meta property="og:site_name" content="${BRAND}"><meta property="og:type" content="${article?"article":"website"}"><meta property="og:locale" content="en_US">
@@ -265,7 +275,11 @@ ${artworkLines}
   files["robots.txt"]="User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\nSitemap: "+BASE+"/news-sitemap.xml\n";
   files["llms.txt"]=`# USA Anime Club\n> Independent anime, manga, manhwa and online-fiction news for US readers, linked to primary sources.\n\nWebsite: ${BASE}/\nContact: ${EMAIL}\n\n## Pages\n- [Latest news](${BASE}/)\n- [News archive](${BASE}/news/)\n- [Editorial standards](${BASE}/editorial-policy/)\n- [Corrections](${BASE}/corrections/)\n- [RSS feed](${BASE}/feed.xml)\n- [XML sitemap](${BASE}/sitemap.xml)\n\n## Recent reports\n${items.map(a=>`- [${a.title}](${BASE+url(a)})`).join("\n")}\n\nReporting links to original source announcements; no rights-holder affiliation is implied.\n`;
   files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-verified US anime, manga, manhwa and web-fiction news.</description><language>en-us</language>${items.slice(0,40).map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
+  files["build-info.json"]=JSON.stringify({site:BRAND,canonicalHost:BASE,buildId,articleCount:articles.length,latestArticle:items[0].slug,categories:[...new Set(articles.map(a=>a.category))].sort()},null,2)+"\\n";
   files[".htaccess"]="# Apache / Hostinger static-site defaults\nDirectoryIndex index.html\nErrorDocument 404 /404.html\nOptions -MultiViews\n<IfModule mod_headers.c>\n  <FilesMatch \"\\.html$\">\n    Header set Cache-Control \"no-cache, must-revalidate\"\n  </FilesMatch>\n</IfModule>\n";
+  // Keep source/configuration files private from the served static site.
+  files[".htaccess"]+="<IfModule mod_rewrite.c>\\n  RewriteEngine On\\n  RewriteRule ^(?:scripts|content|\\.github)(?:/|$) - [F,L]\\n  RewriteRule ^(?:package(?:-lock)?\\.json|README\\.md|\\.gitignore)$ - [F,L]\\n</IfModule>\\n";
+  files[".htaccess"]+="<IfModule mod_headers.c>\\n  <Files \\"build-info.json\\">\\n    Header set Cache-Control \\"no-cache, must-revalidate\\"\\n    Header set X-Robots-Tag \\"noindex\\"\\n  </Files>\\n</IfModule>\\n";
   if(new Set(paths).size!==paths.length)throw Error("Duplicate URLs");
   for(const p of paths){const name=p==="/"?"index.html":p.slice(1)+"index.html";const html=files[name]||files["index.html"];if(!html.includes(`<link rel="canonical" href="${BASE+p}">`))throw Error("Missing canonical "+p)}
   const ts=paths.map(p=>(files[p.slice(1)+"index.html"]||files["index.html"]).match(/<title>(.*?)<\/title>/)?.[1]);

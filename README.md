@@ -59,3 +59,7 @@ The headline ticker has an explicit Pause/Resume control (in addition to hover/f
 ## PNG social and search preview images
 
 The site continues using the editable SVG covers inside the article pages. During the build, `@resvg/resvg-js` 2.6.2 rasterizes each existing SVG to a 1200×675 PNG for Open Graph, Twitter/X cards and NewsArticle schema, with a 256×256 raster organization logo. After cloning the repo run `npm install --no-package-lock` before `npm run build` and `npm run validate`. The GitHub Actions workflow installs the pinned renderer before generating/validating the images. Generated PNG files are stored under `assets/news/`, maintained alongside SVGs, and old variants are cleaned up when stories are removed.
+
+## Deployment mismatch diagnostics
+
+Every HTML page includes the same deterministic `site-build` meta tag and a public `build-info.json` file with a source fingerprint, article count and newest article slug. Use `DEPLOYMENT.md` to compare the live site with GitHub, check Hostinger Git integration and safely clear caches. Source directories and repository configuration are denied in the generated Apache `.htaccess`; do not assume these rules apply on non-Apache hosting or external CDN layers.
