@@ -472,6 +472,19 @@ for(const u of urls){
 const htaccess=read(".htaccess");
 assert(htaccess.includes("RewriteRule ^(?:scripts|content|"),"Source directories accessible through hosting");
 assert(htaccess.includes("build-info.json"),"Build marker cache policy missing");
+for(const pageUrl of urls){
+ const pageHtml=read(localPath(pageUrl));
+ for(const [asset,attr] of [["styles.css","href"],["site.js","src"],["privacy.js","src"]]){
+  assert(pageHtml.includes(attr+'="/assets/'+asset+'?v='+info.buildId+'"'),"Outdated cache revision for "+asset+" on "+pageUrl);
+ }
+}
+assert(read("contact/index.html").includes('>Email USA Anime Club</a>'),"Contact CTA missing");
+assert(read("corrections/index.html").includes('>Request a correction</a>'),"Corrections CTA missing");
+assert(read("assets/styles.css").includes(".prose a.btn,.prose a.btn:visited,.prose a.btn:hover,.prose a.btn:focus-visible{color:#fff;text-decoration:none}"),"Prose call-to-action contrast regression");
+assert(read("assets/styles.css").includes(".prose a.btn.alt,.prose a.btn.alt:visited{color:var(--text)}"),"Outlined prose button contrast regression");
+assert(htaccess.includes('Header set CDN-Cache-Control "no-store"'),"No CDN anti-staleness header");
+assert(htaccess.includes('RewriteRule ^press/?$ /contact/ [R=301,L]'),"Retired press URL must redirect to contact");
+
 
 
 // Pagination routes left over after deleting articles would be indexable orphan

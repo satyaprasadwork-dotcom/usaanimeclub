@@ -142,6 +142,9 @@ p{margin:0 0 1.15rem}
 .prose a,.source-note a{color:#285bc2;text-decoration:underline;text-underline-offset:2px}
 /* Keep call-to-action labels readable inside prose; ordinary links stay blue. */
 .prose a.btn,.prose a.btn:visited,.prose a.btn:hover,.prose a.btn:focus-visible{color:#fff;text-decoration:none}
+/* Preserve readable labels for outlined actions placed in policy prose. */
+.prose a.btn.alt,.prose a.btn.alt:visited{color:var(--text)}
+.prose a.btn.alt:hover,.prose a.btn.alt:focus-visible{color:#187d87}
 .prose ul{padding-left:1.4rem}
 .source-note{padding:1.45rem 0 1rem;border-top:2px solid var(--text);margin:2.8rem 0}
 .source-note strong{font-size:.88rem;letter-spacing:.035em}

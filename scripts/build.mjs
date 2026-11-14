@@ -76,7 +76,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=audit-fixes-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=${buildId}">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -100,7 +100,7 @@ ${newsTicker}
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=audit-fixes-20261114" defer></script><script src="/assets/privacy.js?v=audit-fixes-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=${buildId}" defer></script><script src="/assets/privacy.js?v=${buildId}" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
@@ -273,13 +273,17 @@ ${artworkLines}
   // Keep source/configuration files private from the served static site.
   files[".htaccess"]+=String.raw`<IfModule mod_rewrite.c>
   RewriteEngine On
+  # The retired press desk now uses the contact page.
+  RewriteRule ^press/?$ /contact/ [R=301,L]
   RewriteRule ^(?:scripts|content|node_modules|\.github|\.git)(?:/|$) - [F,L]
   RewriteRule ^(?:\.env(?:\.[^/]*)?|package(?:-lock)?\.json|README\.md|DEPLOYMENT\.md|\.gitignore)$ - [F,L]
 </IfModule>
 `;
   files[".htaccess"]+=`<IfModule mod_headers.c>
   <Files "build-info.json">
-    Header set Cache-Control "no-cache, must-revalidate"
+    Header set Cache-Control "no-store, max-age=0, must-revalidate"
+    Header set CDN-Cache-Control "no-store"
+    Header set Surrogate-Control "no-store"
     Header set X-Robots-Tag "noindex"
   </Files>
 </IfModule>
