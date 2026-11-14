@@ -9,8 +9,8 @@ Options -MultiViews
 </IfModule>
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(?:scripts|content|\.github)(?:/|$) - [F,L]
-  RewriteRule ^(?:package(?:-lock)?\.json|README\.md|\.gitignore)$ - [F,L]
+  RewriteRule ^(?:scripts|content|node_modules|\.github|\.git)(?:/|$) - [F,L]
+  RewriteRule ^(?:\.env(?:\.[^/]*)?|package(?:-lock)?\.json|README\.md|DEPLOYMENT\.md|\.gitignore)$ - [F,L]
 </IfModule>
 <IfModule mod_headers.c>
   <Files "build-info.json">
