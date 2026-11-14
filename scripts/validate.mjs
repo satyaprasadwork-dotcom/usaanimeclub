@@ -222,4 +222,19 @@ const everyStory=JSON.parse(read("content/articles.json"));
 const bylines=everyStory.flatMap(a=>a.sections.flatMap(s=>s[1]));
 assert(!bylines.some(p=>p.includes("USA Anime Club is")||p.includes("USA Anime Club will")),"Self-referential story boilerplate remains");
 
+
+// Detect verbatim long passages reused in different articles. This is an internal
+// originality safeguard, NOT a claim that an external plagiarism scan has run.
+const crossArticlePhrases=new Map();
+for(const article of articles){
+  const words=article.sections.flatMap(section=>section[1]).join(" ").toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu)||[];
+  const localPhrases=new Set();
+  for(let index=0;index<=words.length-12;index++)localPhrases.add(words.slice(index,index+12).join(" "));
+  for(const phrase of localPhrases){
+    const owner=crossArticlePhrases.get(phrase);
+    assert(!owner||owner===article.slug,"Repeated twelve-word passage in "+owner+" and "+article.slug);
+    crossArticlePhrases.set(phrase,article.slug);
+  }
+}
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
