@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editorial cover: Omniscient Reader Among 10 Winners of the 2026 World Webtoon Awards" width="1200" height="675" viewBox="0 0 1200 675">
-<rect width="1200" height="675" fill="#f0e6ff"/>
-<rect x="0" y="0" width="1200" height="168" fill="#7749c6"/><rect x="0" y="0" width="14" height="675" fill="#482b80"/>
+<rect width="1200" height="675" fill="#FFF7D8"/>
+<rect x="0" y="0" width="1200" height="168" fill="#F4C542"/><rect x="0" y="0" width="14" height="675" fill="#554300"/>
 <path d="M76 167H1125" stroke="#ffffff" stroke-width="2" opacity=".7"/>
-<path d="M76 573H1125" stroke="#7749c6" stroke-width="2" opacity=".45"/>
-<text x="76" y="101" fill="#ffffff" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
-<text x="76" y="137" fill="#ffffff" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">KOREAN COMICS</text>
-<text x="76" y="278" fill="#482b80" font-family="Georgia,serif" font-weight="700" font-size="43">Omniscient Reader Among 10</text><text x="76" y="344" fill="#482b80" font-family="Georgia,serif" font-weight="700" font-size="43">Winners of the 2026 World</text><text x="76" y="410" fill="#482b80" font-family="Georgia,serif" font-weight="700" font-size="43">Webtoon Awards</text>
-<text x="76" y="613" fill="#482b80" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  2026-11-03</text>
-<text x="1119" y="611" text-anchor="end" fill="#7749c6" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
+<path d="M76 573H1125" stroke="#F4C542" stroke-width="2" opacity=".45"/>
+<text x="76" y="101" fill="#22200E" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
+<text x="76" y="137" fill="#22200E" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">KOREAN COMICS</text>
+<text x="76" y="278" fill="#554300" font-family="Georgia,serif" font-weight="700" font-size="43">Omniscient Reader Among 10</text><text x="76" y="344" fill="#554300" font-family="Georgia,serif" font-weight="700" font-size="43">Winners of the 2026 World</text><text x="76" y="410" fill="#554300" font-family="Georgia,serif" font-weight="700" font-size="43">Webtoon Awards</text>
+<text x="76" y="613" fill="#554300" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  2026-11-03</text>
+<text x="1119" y="611" text-anchor="end" fill="#F4C542" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
 </svg>
