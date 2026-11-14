@@ -240,4 +240,17 @@ for(const article of articles){
   }
 }
 
+
+const fourColorPalette={"Anime":"#173A70","Manga":"#932B3B","Manhwa":"#F4C542","Web Novels":"#16744A"};
+const fourColorCSS=read("assets/styles.css");
+for(const [category,color] of Object.entries(fourColorPalette)){
+ assert(fourColorCSS.includes('.news-card[data-news-category="'+category+'"]'),"Card theme missing "+category);
+ assert(fourColorCSS.includes('--accent:'+color+';--accent-dark:'),"Card theme color mismatch "+category);
+ const example=articles.find(a=>a.category===category);
+ assert(example,"Missing test category "+category);
+ assert(read("assets/news/"+example.slug+".svg").includes('fill="'+color+'"'),"Cover identity color missing "+category);
+}
+assert(fourColorCSS.includes("--accent-contrast:#22200E"),"Yellow header must use dark text");
+assert(fourColorCSS.includes("color:var(--accent-contrast,#fff)"),"Category header must use contrast-aware text");
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

@@ -51,7 +51,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=news-category-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=news-four-colors-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -74,7 +74,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=news-category-20261114" defer></script><script src="/assets/privacy.js?v=news-category-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=news-four-colors-20261114" defer></script><script src="/assets/privacy.js?v=news-four-colors-20261114" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
@@ -159,11 +159,11 @@ ${pag}</div></section>`;
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
     const palette=({
-      Anime:{paper:"#e4eeff",edge:"#235fd5",ink:"#173d94"},
-      Manga:{paper:"#ffeddb",edge:"#dd791d",ink:"#83400d"},
-      Manhwa:{paper:"#f0e6ff",edge:"#7749c6",ink:"#482b80"},
-      "Web Novels":{paper:"#def7f0",edge:"#068f7e",ink:"#075f55"}
-    })[a.category]||{paper:"#eaf1fb",edge:"#3263a2",ink:"#244675"};
+      "Anime":{paper:"#EAF1FA",edge:"#173A70",ink:"#173A70",label:"#FFFFFF"},
+      "Manga":{paper:"#FBECEF",edge:"#932B3B",ink:"#792030",label:"#FFFFFF"},
+      "Manhwa":{paper:"#FFF7D8",edge:"#F4C542",ink:"#554300",label:"#22200E"},
+      "Web Novels":{paper:"#E8F5ED",edge:"#16744A",ink:"#14583C",label:"#FFFFFF"}
+    })[a.category]||{paper:"#EAF1FA",edge:"#173A70",ink:"#173A70",label:"#FFFFFF"};
     const words=a.title.split(/\s+/),lines=[];let line="";
     for(const word of words){
       if((line+" "+word).trim().length>27&&line){lines.push(line);line=word}
@@ -179,8 +179,8 @@ ${pag}</div></section>`;
 <rect x="0" y="0" width="1200" height="168" fill="${palette.edge}"/><rect x="0" y="0" width="14" height="675" fill="${palette.ink}"/>
 <path d="M76 167H1125" stroke="#ffffff" stroke-width="2" opacity=".7"/>
 <path d="M76 573H1125" stroke="${palette.edge}" stroke-width="2" opacity=".45"/>
-<text x="76" y="101" fill="#ffffff" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
-<text x="76" y="137" fill="#ffffff" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">${e(categoryText)}</text>
+<text x="76" y="101" fill="${palette.label}" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
+<text x="76" y="137" fill="${palette.label}" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">${e(categoryText)}</text>
 ${artworkLines}
 <text x="76" y="613" fill="${palette.ink}" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  ${a.sourceDate}</text>
 <text x="1119" y="611" text-anchor="end" fill="${palette.edge}" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>

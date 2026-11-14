@@ -269,8 +269,8 @@ h1,h2,h3{letter-spacing:-.03em}
  border-color:var(--accent);box-shadow:10px 10px 0 var(--accent-tint)
 }
 .news-card:focus-visible,.feature-card:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
-.card-folio,.feature-folio{display:flex;align-items:center;justify-content:flex-end;gap:1rem;background:var(--accent);color:#fff;padding:.62rem .95rem}
-.card-folio .card-category,.feature-folio .card-category{font:600 .76rem/1.3 var(--label);letter-spacing:.05em;color:#fff;background:none;padding:0;border:0;text-align:right}
+.card-folio,.feature-folio{display:flex;align-items:center;justify-content:flex-end;gap:1rem;background:var(--accent);color:var(--accent-contrast,#fff);padding:.62rem .95rem}
+.card-folio .card-category,.feature-folio .card-category{font:600 .76rem/1.3 var(--label);letter-spacing:.05em;color:var(--accent-contrast,#fff);background:none;padding:0;border:0;text-align:right}
 .card-media{padding:.78rem .8rem;background:var(--accent-tint);border-bottom:1px solid #d8e1eb}
 .news-card .card-media img,.news-card:nth-child(3n+1) .card-media img,.news-card:nth-child(3n+2) .card-media img,.news-card:nth-child(3n+3) .card-media img{
  display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#fff;border:1px solid rgba(32,54,80,.15);border-radius:2px
@@ -301,7 +301,7 @@ h1,h2,h3{letter-spacing:-.03em}
 .feature-copy{padding:1.5rem 1.65rem}
 .feature-card h2{font:600 clamp(2.05rem,3.4vw,3.2rem)/1.14 var(--head);margin:.6rem 0 .85rem;color:#182a3e}
 .feature-copy p{font:400 1rem/1.67 var(--body);color:#4e6075}
-.feature-card .lead-label{background:var(--accent);color:#fff;border-radius:2px}
+.feature-card .lead-label{background:var(--accent);color:var(--accent-contrast,#fff);border-radius:2px}
 .read-story{color:var(--accent-dark);font:700 .86rem var(--body)}
 .feature-card:hover .read-story{text-decoration:underline}
 .latest-rail{gap:.85rem}
@@ -355,3 +355,14 @@ h1,h2,h3{letter-spacing:-.03em}
  .intro-actions .preferred-google-link{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.news-card:hover{transform:none}}
+
+/* User-selected four-color news palette; yellow uses dark, readable text. */
+.news-card[data-news-category="Anime"],.feature-card[data-news-category="Anime"],.latest-item[data-news-category="Anime"]{--accent:#173A70;--accent-dark:#173A70;--accent-tint:#EAF1FA;--accent-contrast:#FFFFFF}
+.topic-grid a:nth-child(1){--accent:#173A70;--accent-dark:#173A70;--accent-tint:#EAF1FA;border-top-color:#173A70}
+.news-card[data-news-category="Manga"],.feature-card[data-news-category="Manga"],.latest-item[data-news-category="Manga"]{--accent:#932B3B;--accent-dark:#852333;--accent-tint:#FBECEF;--accent-contrast:#FFFFFF}
+.topic-grid a:nth-child(2){--accent:#932B3B;--accent-dark:#852333;--accent-tint:#FBECEF;border-top-color:#932B3B}
+.news-card[data-news-category="Manhwa"],.feature-card[data-news-category="Manhwa"],.latest-item[data-news-category="Manhwa"]{--accent:#F4C542;--accent-dark:#695000;--accent-tint:#FFF7D8;--accent-contrast:#22200E}
+.topic-grid a:nth-child(3){--accent:#F4C542;--accent-dark:#695000;--accent-tint:#FFF7D8;border-top-color:#F4C542}
+.news-card[data-news-category="Web Novels"],.feature-card[data-news-category="Web Novels"],.latest-item[data-news-category="Web Novels"]{--accent:#16744A;--accent-dark:#145F3D;--accent-tint:#E8F5ED;--accent-contrast:#FFFFFF}
+.topic-grid a:nth-child(4){--accent:#16744A;--accent-dark:#145F3D;--accent-tint:#E8F5ED;border-top-color:#16744A}
+.topic-grid a:nth-child(3) .topic-eyebrow{color:var(--accent-dark)}

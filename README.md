@@ -27,3 +27,7 @@ AdSense approval cannot be inferred from article length or passing CI. Before ap
 Cards use a shared category-header component with the category name right-aligned and a four-category color system; there are no dispatch labels or numbers. Site typography uses Fraunces headlines, IBM Plex Sans text and IBM Plex Mono editorial labels. The Google link is an official publisher deeplink to `https://www.google.com/preferences/source?q=usaanimeclub.com`; users must select the site themselves, and Google controls source eligibility. No third-party script is necessary for that link.
 
 Editorial quality is assessed through primary-source attribution, editing and accuracy checks. Automated paragraph and similarity checks do not certify a zero-plagiarism score. Do not present generated content as independent eyewitness reporting or assert a human review that did not occur.
+
+## Article card palette
+
+Anime: dark blue `#173A70`; Manga: dark red `#932B3B`; Manhwa: yellow `#F4C542` with dark text; Web Novels: green `#16744A`. Cards, topic links and original SVG artwork share those category colors. The article layout remains locked.
