@@ -102,7 +102,7 @@ ${newsTicker}
   const home=`<section class="front-intro"><div class="wrap">
 <div><span class="eyebrow"><span class="red-dot" aria-hidden="true"></span> THE ANIME NEWS DESK</span><h1>Latest anime news<span class="headline-period">.</span></h1>
 <p class="lead">Anime, manga, manhwa and web-novel news for US readers: dated announcements, credited sources and clear release information.</p></div>
-<div class="intro-actions"><a class="text-link" href="/news/">Explore the news archive</a><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></div>
+<a class="text-link" href="/news/">Explore the news archive</a>
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
 <a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-folio"><span class="card-category">${e(first.category)}</span></div><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>

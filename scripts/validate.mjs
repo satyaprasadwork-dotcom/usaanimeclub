@@ -210,6 +210,12 @@ assert(front.includes('class="latest-item" data-news-category='),"Latest news co
 
 
 const googlePreferred="https://www.google.com/preferences/source?q=usaanimeclub.com";
+const homePage=read("index.html");
+const homeMain=homePage.slice(homePage.indexOf('<main id="main">'),homePage.indexOf("</main>"));
+const homeFooter=homePage.slice(homePage.indexOf('<footer class="foot">'));
+assert(!homeMain.includes(googlePreferred),"Preferred Sources button must not appear in landing page content");
+assert(homeFooter.includes('href="'+googlePreferred+'"'),"Preferred Sources link must remain in homepage footer");
+
 const htmlPages=urls.map(u=>read(localPath(u)));
 for(const html of htmlPages){
  assert(html.includes('href="'+googlePreferred+'"'),"Google Preferred Source link missing on an indexable page");
