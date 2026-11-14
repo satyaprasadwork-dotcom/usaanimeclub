@@ -80,7 +80,7 @@ const rss=read("feed.xml");
 for(const a of articles)assert(rss.includes("<guid isPermaLink=\"true\">"+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
 const homepage=read("index.html");
 const mostRecent=[...articles].sort((a,b)=>b.sourceDate.localeCompare(a.sourceDate)||b.date.localeCompare(a.date)||a.title.localeCompare(b.title))[0];
-const featured=homepage.match(/<a class="feature-card" href="([^"]+)"/);
+const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
 // Simulate optional analytics consent without loading any third-party scripts.
