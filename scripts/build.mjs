@@ -41,13 +41,13 @@ function buildSite(articles){
 <meta property="og:url" content="${absolute}"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(desc)}">
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=anime-spectrum-20261114">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&display=swap">
+<link rel="stylesheet" href="/assets/styles.css?v=news-cards-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-<div class="edition-bar"><div class="wrap edition-inner"><div class="edition-left"><span class="edition-mark" aria-hidden="true">✦</span><span>THE ANIME NEWS DESK</span></div><div class="edition-right"><span class="clock-label">YOUR LOCAL TIME</span><time id="local-clock" aria-label="Your current local time">--:--</time></div></div></div>
+<div class="edition-bar"><div class="wrap edition-inner"><div class="edition-left"><span>THE ANIME NEWS DESK</span></div><div class="edition-right"><span class="clock-label">YOUR LOCAL TIME</span><time id="local-clock" aria-label="Your current local time">--:--</time></div></div></div>
 <div class="wrap bar"><a class="logo" href="/" aria-label="USA Anime Club homepage"><i aria-hidden="true">桜</i><span class="logo-title">USA <strong>ANIME</strong> CLUB<span class="logo-caption">ANIME NEWS &amp; CULTURE</span></span></a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle>☰ Menu</button>
 <nav class="nav" aria-label="Primary navigation" id="main-nav" data-nav>${nav}</nav></div></header>
@@ -65,36 +65,42 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=anime-spectrum-20261114" defer></script><script src="/assets/privacy.js?v=anime-spectrum-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=news-cards-20261114" defer></script><script src="/assets/privacy.js?v=news-cards-20261114" defer></script></body></html>\n`;
   }
-  function card(a){return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
-<img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="Original editorial illustration for ${e(a.title)}">
-<div class="tx"><div class="meta">${e(a.category)} · Source: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></div><h3>${e(a.title)}</h3><p>${e(a.description)}</p></div></a>`}
+  function card(a){
+    return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
+<div class="card-media"><img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="USA Anime Club editorial graphic for ${e(a.title)}"></div>
+<div class="tx"><div class="card-meta"><span class="card-category">${e(a.category)}</span><time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></div>
+<h3>${e(a.title)}</h3><p class="card-summary">${e(a.description)}</p>
+<div class="card-footer"><span>USA Anime Club</span><span class="card-read">Read article</span></div></div></a>`;
+  }
   const first=items[0];
-  const shortItem=(a,i)=>`<a class="latest-item" href="${url(a)}"><span class="latest-index">${String(i+1).padStart(2,"0")}</span><span class="latest-body"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">·</span> ${fmt(a.sourceDate)}</span><strong>${e(a.title)}</strong></span><span class="latest-arrow" aria-hidden="true">↗</span></a>`;
+  const shortItem=a=>`<a class="latest-item" href="${url(a)}">
+<span class="story-kicker">${e(a.category)} <span aria-hidden="true">·</span> <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span>
+<strong>${e(a.title)}</strong><span class="rail-read">Read article</span></a>`;
   const home=`<section class="front-intro"><div class="wrap">
 <div><span class="eyebrow"><span class="red-dot" aria-hidden="true"></span> THE ANIME NEWS DESK</span><h1>Latest anime news<span class="headline-period">.</span></h1>
 <p class="lead">The US edition: confirmed anime releases, streaming announcements and industry updates, with the original sources linked.</p></div>
-<a class="text-link" href="/news/">Explore the news archive <span aria-hidden="true">↗</span></a>
+<a class="text-link" href="/news/">Explore the news archive</a>
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
-<a class="feature-card" href="${url(first)}"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="Original editorial illustration for ${e(first.title)}" fetchpriority="high">
+<a class="feature-card" href="${url(first)}"><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
 <div class="feature-copy"><span class="story-kicker"><span class="lead-label">LEAD STORY</span> ${e(first.category)} · ${fmt(first.sourceDate)}</span>
-<h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="read-story">Read the report <span aria-hidden="true">↗</span></span></div></a>
+<h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="read-story">Read the report</span></div></a>
 <aside class="latest-rail" aria-label="More recent anime reports"><div class="rail-title"><div><span class="eyebrow">THE WIRE</span><h2>Latest updates</h2></div><span class="rail-count">${Math.min(3,items.length-1)} STORIES</span></div>
 <div class="latest-list">${items.slice(1,4).map(shortItem).join("")}</div>
-<a class="rail-footer" href="/news/">See every report <span aria-hidden="true">→</span></a></aside>
+<a class="rail-footer" href="/news/">See every report</a></aside>
 </div></section>
-<section class="blk news-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THE LATEST / REPORTING</span><h2>More from the desk</h2></div><a class="text-link" href="/news/">All news <span aria-hidden="true">↗</span></a></div>
+<section class="blk news-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THE LATEST / REPORTING</span><h2>More from the desk</h2></div><a class="text-link" href="/news/">All news</a></div>
 <div class="grid">${items.slice(1,7).map(card).join("")}</div></div></section>
 <section class="topic-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">FIND YOUR BEAT</span><h2>Follow a story type</h2></div><p class="muted">Filter the news by what matters to you.</p></div>
 <div class="topic-grid">
-<a href="/news/?category=Streaming"><span class="topic-icon" aria-hidden="true">◉</span><strong>Streaming</strong><span>Platforms, licensing, simulcasts</span><b aria-hidden="true">↗</b></a>
-<a href="/news/?category=TV%20Anime"><span class="topic-icon" aria-hidden="true">✦</span><strong>TV Anime</strong><span>New seasons and productions</span><b aria-hidden="true">↗</b></a>
-<a href="/news/?category=Movies"><span class="topic-icon" aria-hidden="true">▣</span><strong>Movies</strong><span>US theatrical releases</span><b aria-hidden="true">↗</b></a>
+<a href="/news/?category=Streaming"><span class="topic-eyebrow">COVERAGE</span><strong>Streaming</strong><span>Platforms, licensing, simulcasts</span><small>${items.filter(a=>a.category==="Streaming").length} reports</small></a>
+<a href="/news/?category=TV%20Anime"><span class="topic-eyebrow">COVERAGE</span><strong>TV Anime</strong><span>New seasons and productions</span><small>${items.filter(a=>a.category==="TV Anime").length} reports</small></a>
+<a href="/news/?category=Movies"><span class="topic-eyebrow">COVERAGE</span><strong>Movies</strong><span>US theatrical releases</span><small>${items.filter(a=>a.category==="Movies").length} reports</small></a>
 </div></div></section>
 <section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from what remains unknown, verify US availability, and identify the original reporting source in every article.</p></div>
-<a class="btn alt" href="/editorial-policy/">Our editorial policy <span aria-hidden="true">↗</span></a></div></section>`;
+<a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
   const homeTitle="USA Anime Club | US Anime News, Streaming & Movie Releases";
   const homeDesc="Verified US anime news: Crunchyroll announcements, upcoming anime movies, streaming updates and new television seasons, each linked to its original source.";
   files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"USA anime news, anime releases United States, Crunchyroll news USA, anime film dates 2027, upcoming anime seasons",main:home,image:`/assets/news/${first.slug}.svg`,schemas:[
@@ -135,27 +141,39 @@ ${pag}</div></section>`;
 </div><aside class="article-sidebar"><div class="sidebar-panel"><span class="eyebrow">IN THIS REPORT</span>
 <nav aria-label="Article sections" class="contents-list">${contents}</nav></div>
 <div class="sidebar-panel sidebar-source"><span class="eyebrow">ORIGINAL ANNOUNCEMENT</span><p>Released <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></p>
-<a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source <span aria-hidden="true">↗</span></a></div>
-<div class="sidebar-panel sidebar-note"><strong>Editorial standard</strong><p>Independent summary, source linked, US availability distinguished from other territories.</p><a href="/editorial-policy/">How we verify news →</a></div></aside></div></article>
-<section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports <span aria-hidden="true">↗</span></a></div>
+<a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a></div>
+<div class="sidebar-panel sidebar-note"><strong>Editorial standard</strong><p>Independent summary, source linked, US availability distinguished from other territories.</p><a href="/editorial-policy/">How we verify news</a></div></aside></div></article>
+<section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section></div>`;
     const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
-    const hue=({Streaming:199,Movies:33,"TV Anime":256}[a.category]??207),words=a.title.split(" "),lines=[];let line="";
-    for(const w of words){if((line+" "+w).trim().length>24&&line){lines.push(line);line=w}else line=(line+" "+w).trim()}if(line)lines.push(line);
-    files["assets/news/"+a.slug+".svg"]=`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Original editorial illustration: ${e(a.title)}" width="1200" height="675" viewBox="0 0 1200 675"><defs>
-<linearGradient id="g" x2="1" y2="1"><stop stop-color="#f2f4ff"/><stop offset=".52" stop-color="hsl(${hue} 78% 91%)"/><stop offset="1" stop-color="#fff9eb"/></linearGradient>
-<pattern id="p" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#213466" opacity=".12"/></pattern></defs>
-<rect width="1200" height="675" fill="url(#g)"/><rect width="1200" height="675" fill="url(#p)"/>
-<path d="M0 520L1200 160" stroke="#ffffff" stroke-width="140" opacity=".45"/>
-<g opacity=".35"><circle cx="1025" cy="260" r="185" fill="none" stroke="#234cba" stroke-width="12"/><circle cx="1068" cy="310" r="120" fill="#ffb64f"/><path d="M775 650L1200 80" stroke="#ffffff" stroke-width="32"/></g>
-<rect x="42" y="42" width="1116" height="591" rx="18" fill="none" stroke="#40527e" stroke-opacity=".34" stroke-width="3"/>
-<rect x="76" y="82" width="13" height="35" rx="6" fill="#ffb64f"/>
-<text x="106" y="110" fill="#2454a4" font-family="Arial,sans-serif" font-weight="800" font-size="25" letter-spacing="3">USA ANIME CLUB · ${e(a.category.toUpperCase())}</text>
-${lines.slice(0,4).map((l,i)=>`<text x="76" y="${305+i*61}" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">${e(l)}</text>`).join("")}
-<path d="M76 555h516" stroke="#0fa59b" stroke-width="8"/>
-<text x="76" y="599" fill="#4b5676" font-family="Arial,sans-serif" font-size="21" font-weight="700">ORIGINAL EDITORIAL ART · ${a.date}</text>
-<text x="1000" y="570" fill="#285bd0" fill-opacity=".75" font-size="113" font-family="Arial,sans-serif" text-anchor="middle">${e(a.symbol)}</text></svg>\n`;
+    // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
+    const palette=({
+      Streaming:{paper:"#e7f6f3",edge:"#13776d",ink:"#115e59"},
+      Movies:{paper:"#edf0fc",edge:"#315aa7",ink:"#223f86"},
+      "TV Anime":{paper:"#fff2e2",edge:"#a85b16",ink:"#80410d"}
+    })[a.category]||{paper:"#eef3f9",edge:"#355a8b",ink:"#26476c"};
+    const words=a.title.split(/\s+/),lines=[];let line="";
+    for(const word of words){
+      if((line+" "+word).trim().length>27&&line){lines.push(line);line=word}
+      else line=(line+" "+word).trim();
+    }
+    if(line)lines.push(line);
+    const categoryText=({Streaming:"STREAMING NEWS",Movies:"CINEMA RELEASES","TV Anime":"TELEVISION ANIME"})[a.category]||"ANIME NEWS";
+    const artworkLines=lines.slice(0,4).map((line,i)=>
+      `<text x="76" y="${278+i*66}" fill="${palette.ink}" font-family="Georgia,serif" font-weight="700" font-size="43">${e(line)}</text>`
+    ).join("");
+    files["assets/news/"+a.slug+".svg"]=`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editorial cover: ${e(a.title)}" width="1200" height="675" viewBox="0 0 1200 675">
+<rect width="1200" height="675" fill="${palette.paper}"/>
+<rect x="0" y="0" width="18" height="675" fill="${palette.edge}"/>
+<path d="M76 161H1125" stroke="${palette.edge}" stroke-width="3" opacity=".55"/>
+<path d="M76 573H1125" stroke="${palette.edge}" stroke-width="2" opacity=".45"/>
+<text x="76" y="101" fill="${palette.edge}" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
+<text x="76" y="137" fill="${palette.ink}" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">${e(categoryText)}</text>
+${artworkLines}
+<text x="76" y="613" fill="${palette.ink}" font-family="Arial,sans-serif" font-size="22" font-weight="600">OFFICIAL ANNOUNCEMENT  ·  ${a.sourceDate}</text>
+<text x="1119" y="611" text-anchor="end" fill="${palette.edge}" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
+</svg>\n`;
   }
   const pages=[
 ["about","About Us","About USA Anime Club | Independent US Anime News","Learn about USA Anime Club, an independent fan-run publication covering verified anime news for audiences in the United States.","about USA Anime Club, independent anime newsroom, verified US anime news",`<p>USA Anime Club is an independent fan-run publication about anime developments that matter to viewers in the United States.</p><p>We focus on sourced release announcements, North American streaming rights, movie screenings and production updates. We do not publish unrelated lifestyle material or general anime guides on this site.</p><h2>Our editorial approach</h2><p>Every news report links to an original dated announcement and states what remains unconfirmed. We never claim to have conducted interviews or attended events without actually doing so.</p><p>USA Anime Club Editorial is our publication byline. Questions: <a href="mailto:${EMAIL}">${EMAIL}</a>. Our <a href="/editorial-policy/">editorial policy</a> explains how we verify claims.</p>`],

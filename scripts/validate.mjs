@@ -137,4 +137,20 @@ for(const path of ["assets/styles.css","assets/favicon.svg","scripts/build.mjs"]
   assert(!/#(?:df496d|ff4f9a|d52e58|e45977|ffe9ef|fff0f2)\b/i.test(read(path)),"old pink palette remains in "+path);
 }
 
+
+const allHtml=urls.map(loc=>read(localPath(loc)));
+const cardMarkup=allHtml.filter(html=>html.includes("news-card"));
+assert(cardMarkup.length>=2,"news card template not applied");
+for(const html of cardMarkup){
+  assert(html.includes('class="card-media"'),"card media must be enclosed");
+  assert(html.includes('class="card-meta"'),"card category/date missing");
+  assert(html.includes('class="card-footer"'),"card footer missing");
+}
+assert(read("index.html").includes('class="feature-media"'),"lead story media grouping missing");
+assert(read("index.html").includes('class="rail-read"'),"latest rail article labels missing");
+const designCss=read("assets/styles.css");
+assert(designCss.includes("border:1px solid #cfdbe7"),"story cards lack visible enclosing borders");
+assert(designCss.includes("--head:\"Literata\""),"editorial headline typeface missing");
+assert(!read("index.html").includes('class="topic-icon"'),"decorative topic icons should be removed");
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
