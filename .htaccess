@@ -4,7 +4,9 @@ ErrorDocument 404 /404.html
 Options -MultiViews
 <IfModule mod_headers.c>
   <FilesMatch "\.html$">
-    Header set Cache-Control "no-cache, must-revalidate"
+    Header set Cache-Control "no-store, max-age=0, must-revalidate"
+    Header set CDN-Cache-Control "no-store"
+    Header set Surrogate-Control "no-store"
   </FilesMatch>
 </IfModule>
 <IfModule mod_rewrite.c>
