@@ -47,7 +47,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-<div class="edition-bar"><div class="wrap edition-inner"><div class="edition-left"><span>THE ANIME NEWS DESK</span></div><div class="edition-right"><span class="clock-label">YOUR LOCAL TIME</span><time id="local-clock" aria-label="Your current local time">--:--</time></div></div></div>
+<div class="edition-bar"><div class="wrap edition-inner"><div class="edition-left"><span>THE ANIME NEWS DESK</span></div><div class="edition-right"><time id="local-clock" aria-label="Your current local time">--:--</time></div></div></div>
 <div class="wrap bar"><a class="logo" href="/" aria-label="USA Anime Club homepage"><i aria-hidden="true">桜</i><span class="logo-title">USA <strong>ANIME</strong> CLUB<span class="logo-caption">ANIME NEWS &amp; CULTURE</span></span></a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle>☰ Menu</button>
 <nav class="nav" aria-label="Primary navigation" id="main-nav" data-nav>${nav}</nav></div></header>

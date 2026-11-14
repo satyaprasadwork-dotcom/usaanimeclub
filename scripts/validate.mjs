@@ -127,6 +127,7 @@ const homeHtml=read("index.html");
 const style=read("assets/styles.css");
 const uiScript=read("assets/site.js");
 assert(homeHtml.includes('id="local-clock"'),"visitor-local clock missing from masthead");
+assert(!homeHtml.includes("YOUR LOCAL TIME"),"clock label should not be visible");
 assert(homeHtml.includes("THE ANIME NEWS DESK"),"editorial left label missing");
 assert(!homeHtml.includes("UNITED STATES EDITION"),"obsolete masthead text remains");
 assert(!homeHtml.includes("INDEPENDENT ANIME JOURNALISM"),"obsolete strapline remains");
