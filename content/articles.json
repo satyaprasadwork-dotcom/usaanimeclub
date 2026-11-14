@@ -431,8 +431,8 @@
     "category": "Manhwa",
     "date": "2026-11-14",
     "sourceDate": "2026-11-03",
-    "sourceLabel": "Republic of Korea / Ministry of Culture's English-language press release, November 3, 2026",
-    "source": "https://www.korea.net/Government/Briefing-Room/Press-Releases/view?articleId=2019281&insttCode=A260123&type=N",
+    "sourceLabel": "the South Korean Ministry of Culture's original November 3, 2026 awards announcement (Korean)",
+    "source": "https://www.mcst.go.kr/site/s_notice/press/pressView.jsp?pMenuCD=0302000000&pSeq=22820",
     "symbol": "MH",
     "hue": 202,
     "title": "Omniscient Reader Among 10 Winners of the 2026 World Webtoon Awards",
@@ -464,7 +464,7 @@
       [
         "The ten recipients and what this stage of the awards actually means",
         [
-          "The ministry's English-language release names My S-Class Hunters, Debut or Die!, A Man's Man, On the Way to Meet Mom, The Greatest Estate Developer, Cry, or Better Yet, Beg, JAKDU: Shaman's Blade, Omniscient Reader, Killer Peter and Return of the Blossoming Blade as its ten main award winners. The variety matters: the recognition is not restricted to a single genre or the best-known action-fantasy title. Names may appear in slightly different English translations across licensed platforms, so a reader should avoid assuming that similar or translated titles necessarily represent separate works.",
+          "The ministry's published award announcement names My S-Class Hunters, Debut or Die!, A Man's Man, On the Way to Meet Mom, The Greatest Estate Developer, Cry, or Better Yet, Beg, JAKDU: Shaman's Blade, Omniscient Reader, Killer Peter and Return of the Blossoming Blade as its ten main award winners. The variety matters: the recognition is not restricted to a single genre or the best-known action-fantasy title. Names may appear in slightly different English translations across licensed platforms, so a reader should avoid assuming that similar or translated titles necessarily represent separate works.",
           "The main prize should not be confused with the final Grand Prize. The government announcement was dated November 3 and says top honors will be revealed at the December 3 ceremony. That leaves a clear timeline: a selection of ten has already been made, and additional distinctions are still pending. One can celebrate Omniscient Reader's recognition without claiming it has won the overall award. The difference is especially important in short social posts, where deleting the word 'main' can accidentally transform a true fact into an inaccurate headline.",
           "The official announcement says each of the ten main winners will receive a trophy and ten million Korean won. That is a prize set by organizers in a Korean cultural-industry program, not an estimated worldwide sales figure. It would be misleading to recast the award payment as an indication of how much a creator earns per episode or how much an English publisher has invested. The ministry also associates the event with the Korea Creative Content Agency, providing an identifiable public institution behind the program rather than an anonymous online popularity poll."
         ]
@@ -472,7 +472,7 @@
       [
         "How expert review and reader voting fit together",
         [
-          "The ministry reports that the selection used both expert evaluation and reader participation. The official English government release specifies the structure: twenty finalists were considered, and expert scoring and public voting contributed equally to the final results. That is a more informative description than calling the winners only a 'fan vote.' An equal-weight system can recognize broad reader enthusiasm while retaining a formal judgment component. It does not, on its own, reveal how many ballots any specific title received or which criteria were decisive for a particular winner.",
+          "The ministry reports that the selection used both expert evaluation and reader participation. The ministry's announcement specifies the structure: twenty finalists were considered, and expert scoring and public voting contributed equally to the final results. That is a more informative description than calling the winners only a 'fan vote.' An equal-weight system can recognize broad reader enthusiasm while retaining a formal judgment component. It does not, on its own, reveal how many ballots any specific title received or which criteria were decisive for a particular winner.",
           "An award program tells readers something about industry recognition, but it is not the same thing as a critical ranking of every comic available in the world. Works outside the eligible pool may be excellent; creators may be excluded by nomination rules; and a list chosen under one scoring process will naturally differ from a site's personal favorites. If an article compares the honorees, the strongest approach is to distinguish the published list from subjective judgments about artistic success. USA Anime Club has not independently audited the voters or the judges' scoring sheets.",
           "The scheduled ceremony is itself a separate news event. The November announcement points to Starfield Library inside the COEX complex in Seoul on December 3. Readers who encounter a live-stream teaser or results graphic before that day should check whether the organizer has actually published the Grand Prize outcome. A future post may report the winner, but changing this article's headline ahead of the ceremony would be misleading. The current story remains a contemporaneous report about the ten confirmed main-prize recipients."
         ]
@@ -482,7 +482,7 @@
         [
           "Webtoon refers to a digital-comic format associated with vertical scrolling, while manhwa denotes Korean comics more broadly. Many popular Korean titles have both online episodes and later physical editions in particular languages. An award for a webtoon does not automatically mean its English edition is launching that week, that a print adaptation is confirmed or that a television studio has acquired the rights. Each of those distribution milestones requires a publisher or production source. Readers should therefore separate the award recognition from the commercial availability of a specific translation.",
           "Consider how readers encounter a title such as The Greatest Estate Developer or Omniscient Reader. The English name on an authorized platform can differ from a literal translation used in an award notice or press release. A reliable way to identify the correct work is to compare creator credits, original-language title and the authorized publisher, not to search for screenshots shared without context. The award listing is a discovery aid, but it is not a catalog of every regional digital episode, subscription model or age rating. Those details belong on each distributor's current title page.",
-          "The wider significance is that the Korean government is treating webtoon creation as a field of recognizable creative work, supported by a public award and a cultural event. For readers, that can be a useful way to encounter varied stories outside their usual genre. It should not be used as a shortcut to predict the next blockbuster adaptation or to make unsupported revenue claims. The ministry's English-language notice provides the ten names, award stage and ceremony date in one accessible source. Any eventual Grand Prize result should be reported from the ceremony's own dated announcement."
+          "The wider significance is that the Korean government is treating webtoon creation as a field of recognizable creative work, supported by a public award and a cultural event. For readers, that can be a useful way to encounter varied stories outside their usual genre. It should not be used as a shortcut to predict the next blockbuster adaptation or to make unsupported revenue claims. The ministry's official notice provides the ten names, award stage and ceremony date in one accessible source. Any eventual Grand Prize result should be reported from the ceremony's own dated announcement."
         ]
       ]
     ]
@@ -492,8 +492,8 @@
     "category": "Anime",
     "date": "2026-11-14",
     "sourceDate": "2026-11-01",
-    "sourceLabel": "Shiba Inu Rooms official adaptation announcement as reported with source by Crunchyroll on November 1",
-    "source": "https://www.crunchyroll.com/id/news/latest/2026/11/1/shiba-inu-rooms-anime-adaptation-announced-for-summer-2027",
+    "sourceLabel": "the Shiba Inu Rooms official English anime website (studio, cast and Summer 2027 announcement)",
+    "source": "https://shibatsukibukken.com/en/",
     "symbol": "AN",
     "hue": 196,
     "title": "Shiba Inu Rooms TV Anime Announced for Summer 2027 With First Cast",
@@ -505,7 +505,7 @@
         "A new adaptation on the schedule",
         [
           "The official Shiba Inu Rooms accounts announced on November 1 that Esu Omori's supernatural comedy manga is being adapted into a television anime for a summer 2027 broadcast in Japan. The announcement was accompanied by a teaser trailer, key visual and initial cast and staff information.",
-          "Crunchyroll's report, which embeds the official Japanese announcement, identifies TMS Entertainment as the animation studio and Osamu Yamasaki as director. It names Niina Nakabayashi as Kori Momose and Mutsumi Tamura as Mu, the Shiba Inu spirit at the center of the series. These are confirmed production details, not a US broadcast commitment."
+          "The anime project's official English website identifies TMS Entertainment as the animation studio and Osamu Yamasaki as director. It names Niina Nakabayashi as Kori Momose and Mutsumi Tamura as Mu, the Shiba Inu spirit at the center of the series. These are confirmed production details, not a US broadcast commitment."
         ]
       ],
       [
@@ -526,7 +526,7 @@
         "What was revealed with the first adaptation announcement",
         [
           "The November 1 report on Shiba Inu Rooms identifies a summer 2027 Japanese television window, a teaser, a visual and named members of the production. The story comes from Esu Omori's supernatural-comedy manga and centers on a student who shares living space with a dog spirit. That is already enough to establish a real anime project rather than a piece of fan art or a hypothetical adaptation pitch. But the distinction between a Japanese broadcast window and a US streaming license remains essential; the cited announcement does not name an American platform.",
-          "Crunchyroll's reporting identifies TMS Entertainment with the production and Osamu Yamasaki as director. It also names Niina Nakabayashi for Kori Momose and Mutsumi Tamura for Mu, the Shiba Inu spirit. Readers can use these credits as identifiers when later promotional materials appear. Those are formal roles attached to this adaptation, not a guarantee that every scene will resemble a studio's prior series or that a cast member will appear in all episodes. Additional character announcements, if any, should be verified separately.",
+          "The production's official English-language website identifies TMS Entertainment with the production and Osamu Yamasaki as director. It also names Niina Nakabayashi for Kori Momose and Mutsumi Tamura for Mu, the Shiba Inu spirit. Readers can use these credits as identifiers when later promotional materials appear. Those are formal roles attached to this adaptation, not a guarantee that every scene will resemble a studio's prior series or that a cast member will appear in all episodes. Additional character announcements, if any, should be verified separately.",
           "The teaser is useful as an early signal of character design and tone, but it is still promotional material. A short clip cannot resolve a series' episode count, final pacing or animation consistency. Likewise, a visual can include a specific character pairing without proving the full cast roster is complete. Good release reporting records which facts are attached to the teaser rather than building a speculative production schedule from brief footage. At this stage, summer 2027 is a broad window covering several possible Japanese broadcast start dates, not an exact US premiere."
         ]
       ],
@@ -543,7 +543,7 @@
         [
           "First is a verifiable American distributor announcement. A fan-oriented English-language article about a Japanese broadcast does not prove that the publication carrying it will eventually stream the show. Even if a service distributes other TMS Entertainment works, rights are licensed title by title and territory by territory. The relevant evidence would identify the platform and the region, ideally with a dated schedule. Until that appears, naming a US app as the definitive home would be guesswork. Our original article deliberately leaves that information open.",
           "Second are the precise broadcast date and localization details. Summer 2027 narrows the Japanese release season but does not supply the day, hour, American subtitle availability or dub production information. Someone planning to watch weekly needs more than a promotional season. Fans should treat screenshots containing unsourced release dates cautiously and check the official adaptation account or a verified distributor listing as the date approaches. The same goes for voice-actor lists: the named initial pair is confirmed, while any additional casting requires separate credit.",
-          "Third is the eventual adaptation itself. The premise suggests warmth and situational comedy, but final judgments about direction, writing and pacing belong after actual episodes are available. The official teaser and named staff provide a genuine reason for interest without requiring invented excitement or exaggerated certainty. The contemporaneous report embeds the original Japanese announcement, confirming the summer broadcast window without naming a US platform. That distinction keeps the story useful whether readers come to it today or discover it months later."
+          "Third is the eventual adaptation itself. The premise suggests warmth and situational comedy, but final judgments about direction, writing and pacing belong after actual episodes are available. The official teaser and named staff provide a genuine reason for interest without requiring invented excitement or exaggerated certainty. The official anime website confirms the summer broadcast window without naming a US platform. That distinction keeps the story useful whether readers come to it today or discover it months later."
         ]
       ]
     ]
