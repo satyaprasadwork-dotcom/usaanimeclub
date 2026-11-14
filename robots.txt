@@ -1,3 +1,4 @@
+# USA Anime Club: public editorial content may be crawled.
 User-agent: *
 Allow: /
 

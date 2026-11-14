@@ -1,16 +1,28 @@
 # USA Anime Club
-> Independent anime, manga, manhwa and online-fiction news for US readers, linked to primary sources.
+> Independent US-focused coverage of anime, manga, manhwa and web novels with dated reports and cited original sources.
 
-Website: https://usaanimeclub.com/
+Official website: https://usaanimeclub.com/
 Contact: satyaprasadwork@gmail.com
 
-## Pages
-- [Latest news](https://usaanimeclub.com/)
-- [News archive](https://usaanimeclub.com/news/)
-- [Editorial standards](https://usaanimeclub.com/editorial-policy/)
-- [Corrections](https://usaanimeclub.com/corrections/)
-- [RSS feed](https://usaanimeclub.com/feed.xml)
+## Main pages
+- [Homepage](https://usaanimeclub.com/)
+- [Complete news archive](https://usaanimeclub.com/news/)
+- [About](https://usaanimeclub.com/about/)
+- [Editorial policy](https://usaanimeclub.com/editorial-policy/)
+- [Corrections policy](https://usaanimeclub.com/corrections/)
+- [Privacy policy](https://usaanimeclub.com/privacy/)
+- [Contact](https://usaanimeclub.com/contact/)
+
+## Topic collections
+- [Anime](https://usaanimeclub.com/news/category/anime/)
+- [Manga](https://usaanimeclub.com/news/category/manga/)
+- [Manhwa](https://usaanimeclub.com/news/category/manhwa/)
+- [Web novels](https://usaanimeclub.com/news/category/web-novels/)
+
+## Discovery feeds
+- [RSS](https://usaanimeclub.com/feed.xml)
 - [XML sitemap](https://usaanimeclub.com/sitemap.xml)
+- [Google News sitemap](https://usaanimeclub.com/news-sitemap.xml)
 
 ## Recent reports
 - [Royal Road vs. J-Novel Club vs. WebNovel: How the Reading Models Differ](https://usaanimeclub.com/news/royal-road-vs-j-novel-club-vs-webnovel-official-reading-models-usa/)
@@ -54,4 +66,4 @@ Contact: satyaprasadwork@gmail.com
 - [Shiba Inu Rooms TV Anime Announced for Summer 2027 With First Cast](https://usaanimeclub.com/news/shiba-inu-rooms-anime-summer-2027-teaser/)
 - [The Remarried Empress Volume 11 Has an Official English Print Edition](https://usaanimeclub.com/news/remarried-empress-vol-11-ize-press-us-edition/)
 
-Reporting links to original source announcements; no rights-holder affiliation is implied.
+Reports distinguish confirmed US access from announcements in other territories. Check each report's source date and linked original publisher or platform for later changes. USA Anime Club is independent of the studios and companies it covers. This text file is a navigational aid, not a replacement for structured data, robots.txt or editorial verification.
