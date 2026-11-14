@@ -139,7 +139,7 @@ for(const path of ["assets/styles.css","assets/favicon.svg","scripts/build.mjs"]
 
 
 const allHtml=urls.map(loc=>read(localPath(loc)));
-const cardMarkup=allHtml.filter(html=>html.includes("news-card"));
+const cardMarkup=allHtml.filter(html=>html.includes('class="news-card"'));
 assert(cardMarkup.length>=2,"news card template not applied");
 for(const html of cardMarkup){
   assert(html.includes('class="card-media"'),"card media must be enclosed");
