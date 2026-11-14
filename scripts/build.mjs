@@ -7,7 +7,7 @@ import {ARTICLES_PER_PAGE,getPageCount,getPageItems,paginationHtml} from "./pagi
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
   const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
-  if(!Array.isArray(articles)||articles.length===0)throw Error("A news site needs at least one verified article");
+  if(!Array.isArray(articles)||articles.length===0)throw Error("A news site needs at least one publishable article");
   // Deterministic build ID: changes whenever generator, content, CSS or runtime changes.
   // No changing timestamps/commit SHA are embedded, so CI regeneration stays stable.
   const buildId=createHash("sha256")
@@ -138,7 +138,7 @@ ${newsTicker}
 <section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from unanswered questions, identify whether US availability is confirmed, and link to original sources.</p></div>
 <a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
   const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
-  const homeDesc="Verified anime, manga, manhwa and web-novel news for US readers, with release dates, publisher announcements and primary sources.";
+  const homeDesc="Source-linked anime, manga, manhwa and web-novel reporting for US readers, with release dates and publisher announcements.";
   files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:`/assets/news/${first.slug}.png`,schemas:[
 {"@context":"https://schema.org",...org},
 {"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",url:BASE+"/",name:BRAND,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}},
@@ -152,7 +152,7 @@ pageLd("/",homeTitle,homeDesc)]});
     const title=`Anime News Archive${p===1?"":" — Page "+p} | USA Anime Club`,desc=`Browse anime, manga, manhwa and online-fiction updates for US readers, archive page ${p}.`;
     const main=`<section class="archive-page"><div class="wrap">${bread([["Home","/"],["News Archive",path]])}
 <header class="archive-intro"><span class="eyebrow">THE NEWS ARCHIVE / PAGE ${p}</span><h1>All anime news<span class="headline-period">.</span></h1>
-<p>Verified anime, manga, manhwa and online-fiction news, ordered by publication date. Each story also identifies its original source.</p></header>
+<p>Source-linked anime, manga, manhwa and online-fiction reporting, ordered by publication date. Each story identifies a primary source.</p></header>
 <div class="archive-toolbar"><div><h2>Browse stories</h2><p>Choose a topic or search the headlines on this page.</p></div>
 <div class="archive-search"><label for="news-search">Search this page</label><input type="search" id="news-search" data-news-search placeholder="Search headlines..." autocomplete="off"></div></div>
 ${chips}<a class="category-all-link" id="category-all-link" href="/news/" hidden>See all stories in this category</a><div class="grid archive-grid">${sub.map(card).join("")}</div><p class="no-results" id="no-results" hidden>No matches on this page. Try another topic or search term.</p>
@@ -163,7 +163,7 @@ ${pag}</div></section>`;
   // Article URLs themselves remain unique and canonical.
   const categoryRoutes=[["Anime","anime"],["Manga","manga"],["Manhwa","manhwa"],["Web Novels","web-novels"]];
   const categoryDescriptions={
-    Anime:"Verified anime adaptation, television and streaming developments for US readers.",
+    Anime:"Source-linked anime adaptation, television and streaming developments for US readers.",
     Manga:"English-language manga volume releases, licensing notices and publisher updates.",
     Manhwa:"Korean comics, webtoon releases, official awards and English editions.",
     "Web Novels":"Serial fiction platforms, translated light novels and online reading updates."
@@ -177,7 +177,7 @@ ${pag}</div></section>`;
       const shown=getPageItems(group,n);
       const name=category+" News"+(n>1?" — Page "+n:"");
       const title=name+" | USA Anime Club";
-      const desc=categoryDescriptions[category]+" "+(n>1?"Browse page "+n+" of "+pageCount+".":"Browse "+group.length+" verified reports.");
+      const desc=categoryDescriptions[category]+" "+(n>1?"Browse page "+n+" of "+pageCount+".":"Browse "+group.length+" source-linked reports.");
       const choices='<nav class="category-directory" aria-label="Browse all news categories">'
         +'<a href="/news/">All news</a>'
         +categoryRoutes.map(([label,route])=>'<a href="/news/category/'+route+'/"'+(label===category?' aria-current="page"':'')+'>'+e(label)+'</a>').join("")
@@ -267,7 +267,7 @@ ${artworkLines}
   files["news-sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${recent.map(a=>`<url><loc>${xml(BASE+url(a))}</loc><news:news><news:publication><news:name>USA Anime Club</news:name><news:language>en</news:language></news:publication><news:publication_date>${a.date}T12:00:00Z</news:publication_date><news:title>${xml(a.title)}</news:title></news:news></url>`).join("\n")}\n</urlset>\n`;
   files["robots.txt"]="User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\nSitemap: "+BASE+"/news-sitemap.xml\n";
   files["llms.txt"]=`# USA Anime Club\n> Independent anime, manga, manhwa and online-fiction news for US readers, linked to primary sources.\n\nWebsite: ${BASE}/\nContact: ${EMAIL}\n\n## Pages\n- [Latest news](${BASE}/)\n- [News archive](${BASE}/news/)\n- [Editorial standards](${BASE}/editorial-policy/)\n- [Corrections](${BASE}/corrections/)\n- [RSS feed](${BASE}/feed.xml)\n- [XML sitemap](${BASE}/sitemap.xml)\n\n## Recent reports\n${items.map(a=>`- [${a.title}](${BASE+url(a)})`).join("\n")}\n\nReporting links to original source announcements; no rights-holder affiliation is implied.\n`;
-  files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-verified US anime, manga, manhwa and web-fiction news.</description><language>en-us</language>${items.slice(0,40).map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
+  files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-linked US anime, manga, manhwa and web-fiction reporting.</description><language>en-us</language>${items.slice(0,40).map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
   files["build-info.json"]=JSON.stringify({site:BRAND,canonicalHost:BASE,buildId,articleCount:articles.length,latestArticle:items[0].slug,categories:[...new Set(articles.map(a=>a.category))].sort()},null,2)+"\n";
   files[".htaccess"]="# Apache / Hostinger static-site defaults\nDirectoryIndex index.html\nErrorDocument 404 /404.html\nOptions -MultiViews\n<IfModule mod_headers.c>\n  <FilesMatch \"\\.html$\">\n    Header set Cache-Control \"no-store, max-age=0, must-revalidate\"\n    Header set CDN-Cache-Control \"no-store\"\n    Header set Surrogate-Control \"no-store\"\n  </FilesMatch>\n</IfModule>\n";
   // Keep source/configuration files private from the served static site.

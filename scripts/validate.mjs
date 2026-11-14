@@ -531,6 +531,8 @@ for(const total of [0,1,3,12,13,24,25,100]){
 assert.throws(()=>getPageItems([1,2,3],2),RangeError,"Out-of-range pagination should fail");
 assert(paginationHtml({basePath:"/news/",page:1,total:25,label:"All news"}).includes('href="/news/page/2/"'),"Main archive page links incorrect");
 const mainArchive=read("news/index.html");
+assert(mainArchive.includes("Source-linked anime"),"Archive must not claim unrecorded independent verification");
+assert(read("index.html").includes("Source-linked anime"),"Homepage metadata must not claim unrecorded source review");
 assert(mainArchive.includes('class="news-pagination"'),"Main news archive pagination missing");
 assert((mainArchive.match(/class="news-card"/g)||[]).length<=12,"Main news archive exceeds 12 cards");
 assert(read("assets/styles.css").includes(".pagination-number[aria-current="),"Current pagination styling missing");
