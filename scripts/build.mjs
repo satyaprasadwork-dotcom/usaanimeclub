@@ -1,6 +1,7 @@
 import {readFileSync,writeFileSync,mkdirSync,existsSync,readdirSync,rmSync} from "node:fs";
 import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
+import {Resvg} from "@resvg/resvg-js";
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
   const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
@@ -30,7 +31,7 @@ function buildSite(articles){
   const url=a=>"/news/"+a.slug+"/";
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
   const ld=x=>JSON.stringify(x).replace(/</g,"\\u003c");
-  const org={"@type":"Organization","@id":BASE+"/#organization",name:BRAND,url:BASE+"/",email:EMAIL,logo:{"@type":"ImageObject",url:BASE+"/assets/favicon.svg"}};
+  const org={"@type":"Organization","@id":BASE+"/#organization",name:BRAND,url:BASE+"/",email:EMAIL,logo:{"@type":"ImageObject",url:BASE+"/assets/logo.png"}};
   function bc(links){return {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:links.map(([name,path],i)=>({"@type":"ListItem",position:i+1,name,item:BASE+path}))}}
   function bread(links){return '<nav class="crumbs" aria-label="Breadcrumb">'+links.map(([name,path],i)=>i===links.length-1?`<span aria-current="page">${e(name)}</span>`:`<a href="${path}">${e(name)}</a> <span aria-hidden="true">/</span> `).join("")+"</nav>"}
   function pageLd(path,name,desc,type="WebPage"){return {"@context":"https://schema.org","@type":type,"@id":BASE+path+"#webpage",url:BASE+path,name,description:desc,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}}}
@@ -45,7 +46,7 @@ function buildSite(articles){
     +'<div class="news-ticker-set" aria-hidden="true">'+items.map(a=>tickerLink(a,true)).join("")+'</div>'
     +'</div></div><button class="news-ticker-toggle" type="button" data-ticker-toggle aria-pressed="false" aria-label="Pause scrolling news headlines">Pause</button></div></nav>';
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
-    const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta name="twitter:image" content="${BASE+image}">`:"";
+    const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(title)}">`:"";
     const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
     const nav=[["Latest","/"],["News","/news/"],["Anime","/news/category/anime/"],["Manga","/news/category/manga/"],["Manhwa","/news/category/manhwa/"],["Web Novels","/news/category/web-novels/"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
     return `<!doctype html>
@@ -124,7 +125,7 @@ ${newsTicker}
 <a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
   const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
   const homeDesc="Verified anime, manga, manhwa and web-novel news for US readers, with release dates, publisher announcements and primary sources.";
-  files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:`/assets/news/${first.slug}.svg`,schemas:[
+  files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:`/assets/news/${first.slug}.png`,schemas:[
 {"@context":"https://schema.org",...org},
 {"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",url:BASE+"/",name:BRAND,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}},
 pageLd("/",homeTitle,homeDesc)]});
@@ -206,8 +207,8 @@ ${pag}</div></section>`;
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
-    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
     const palette=({
       "Anime":{paper:"#EAF1FA",edge:"#173A70",ink:"#173A70",label:"#FFFFFF"},
@@ -236,7 +237,11 @@ ${artworkLines}
 <text x="76" y="613" fill="${palette.ink}" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  ${a.sourceDate}</text>
 <text x="1119" y="611" text-anchor="end" fill="${palette.edge}" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
 </svg>\n`;
+    // A PNG version of the actual publisher-owned SVG is used for Open Graph,
+    // social cards and NewsArticle structured data (SVG is retained on-page).
+    files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
   }
+  files["assets/logo.png"]=new Resvg(readFileSync(resolve(ROOT,"assets/favicon.svg"),"utf8"),{fitTo:{mode:"width",value:256}}).render().asPng();
   const pages=[
 ["about","About Us","About USA Anime Club | Independent US Anime News","Learn about USA Anime Club, an independent fan-run publication covering verified anime news for audiences in the United States.","about USA Anime Club, independent anime newsroom, verified US anime news",`<p>USA Anime Club is an independent editorial publication covering anime, Japanese manga, Korean manhwa and online fiction for readers in the United States.</p><p>We cover adaptations, US streaming releases, official English-language book editions, Korean webtoon industry developments and online-serialized fiction. We do not publish unrelated filler or unverified rumors.</p><h2>Our editorial approach</h2><p>Every news report links to an original dated announcement and states what remains unconfirmed. We never claim to have conducted interviews or attended events without actually doing so.</p><p>USA Anime Club Editorial is our publication byline. Questions: <a href="mailto:${EMAIL}">${EMAIL}</a>. Our <a href="/editorial-policy/">editorial policy</a> explains how we verify claims.</p>`],
 ["contact","Contact Us","Contact USA Anime Club | Anime News Tips & Corrections","Email USA Anime Club about official anime announcements, US release news, corrections and editorial feedback.","anime news contact, USA Anime Club email, send anime press release, editorial corrections",`<p>For anime news tips, correction requests, press announcements and questions, write to <strong><a href="mailto:${EMAIL}">${EMAIL}</a></strong>.</p><div class="btns"><a class="btn" href="mailto:${EMAIL}?subject=USA%20Anime%20Club%20News%20Tip">Email the news desk</a></div><h2>What to include</h2><ul><li>A link to the original official announcement</li><li>The announcement date and relevant US territory details</li><li>Any relevant release schedule or press contact</li></ul><p>Submissions are reviewed. Coverage is not automatic, and a submitted release is not an editorial endorsement.</p>`],
@@ -271,7 +276,7 @@ ${artworkLines}
 }
 const input=JSON.parse(readFileSync(resolve(ROOT,"content/articles.json"),"utf8"));
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
-for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path);if(check){if(!existsSync(dst)||readFileSync(dst,"utf8")!==content){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,content,"utf8")}}
+for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}
 // Purge only obsolete generated article routes and associated SVGs.
 const slugs=new Set(input.map(a=>a.slug));
 for(const entry of readdirSync(resolve(ROOT,"news"),{withFileTypes:true})){
@@ -280,7 +285,7 @@ for(const entry of readdirSync(resolve(ROOT,"news"),{withFileTypes:true})){
   else rmSync(resolve(ROOT,"news",entry.name),{recursive:true,force:true});
 }
 for(const entry of readdirSync(resolve(ROOT,"assets/news"),{withFileTypes:true})){
-  if(!entry.isFile()||!entry.name.endsWith(".svg")||slugs.has(entry.name.slice(0,-4)))continue;
+  if(!entry.isFile()||!(entry.name.endsWith(".svg")||entry.name.endsWith(".png"))||slugs.has(entry.name.slice(0,-4)))continue;
   if(check){console.error("Stale illustration:",entry.name);errors++}
   else rmSync(resolve(ROOT,"assets/news",entry.name),{force:true});
 }

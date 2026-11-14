@@ -55,3 +55,7 @@ The four categories have independent, indexable collection pages under `/news/ca
 ## Interactive accessibility checks
 
 The headline ticker has an explicit Pause/Resume control (in addition to hover/focus pause and reduced-motion fallback). CI runs a small simulated-browser test of archive filtering, search, category links and the ticker pause/resume behavior. It also checks internal article anchors and duplicate HTML IDs on every canonical page.
+
+## PNG social and search preview images
+
+The site continues using the editable SVG covers inside the article pages. During the build, `@resvg/resvg-js` 2.6.2 rasterizes each existing SVG to a 1200×675 PNG for Open Graph, Twitter/X cards and NewsArticle schema, with a 256×256 raster organization logo. After cloning the repo run `npm install --no-package-lock` before `npm run build` and `npm run validate`. The GitHub Actions workflow installs the pinned renderer before generating/validating the images. Generated PNG files are stored under `assets/news/`, maintained alongside SVGs, and old variants are cleaned up when stories are removed.

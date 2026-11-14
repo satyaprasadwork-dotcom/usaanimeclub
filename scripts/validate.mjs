@@ -427,4 +427,30 @@ for(const u of urls){
 }
 assert(read("assets/styles.css").includes(".news-ticker.is-paused .news-ticker-track"),"Pause-state CSS missing");
 
+
+// Social cards use rasterized editions of the same original editorial artwork.
+// SVG-only OG cards are unsupported by several social preview crawlers.
+function checkPng(path,width,height){
+ const data=readFileSync(resolve(root,path));
+ assert(data.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),"Invalid PNG signature "+path);
+ assert.equal(data.readUInt32BE(16),width,"PNG width mismatch "+path);
+ assert.equal(data.readUInt32BE(20),height,"PNG height mismatch "+path);
+}
+checkPng("assets/logo.png",256,256);
+for(const a of articles){
+ const image="/assets/news/"+a.slug+".png",canonical=base+image;
+ checkPng("assets/news/"+a.slug+".png",1200,675);
+ const html=read("news/"+a.slug+"/index.html");
+ assert(html.includes('property="og:image" content="'+canonical+'"'),"Social OG image incorrect "+a.slug);
+ assert(html.includes('name="twitter:image" content="'+canonical+'"'),"Social share image incorrect "+a.slug);
+ const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(x=>JSON.parse(x[1]));
+ assert(scripts.some(x=>x["@type"]==="NewsArticle"&&x.image?.includes(canonical)),"Schema image not raster "+a.slug);
+}
+const firstArticle=articles.find(a=>read("index.html").includes('class="feature-card" data-news-category="'+a.category+'" href="/news/'+a.slug+'/'));
+assert(firstArticle,"Cannot identify homepage feature article");
+assert(read("index.html").includes('content="'+base+'/assets/news/'+firstArticle.slug+'.png"'),"Homepage OG social preview not raster");
+for(const name of readdirSync(resolve(root,"assets/news"))){
+ if(name.endsWith(".png"))assert(sourceSlugs.has(name.slice(0,-4)),"Orphaned PNG art "+name);
+}
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

@@ -1,0 +1,15 @@
+{
+  "name": "usaanimeclub-editorial",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "USA Anime Club static editorial build",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/validate.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2"
+  }
+}
