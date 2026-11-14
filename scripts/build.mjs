@@ -51,7 +51,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=news-four-colors-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=source-notes-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -74,7 +74,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=news-four-colors-20261114" defer></script><script src="/assets/privacy.js?v=news-four-colors-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=source-notes-20261114" defer></script><script src="/assets/privacy.js?v=source-notes-20261114" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
@@ -146,12 +146,12 @@ ${pag}</div></section>`;
 <img class="post-hero" src="${pic}" width="1200" height="675" alt="Original typographic editorial illustration for ${e(a.title)}">
 <div class="tldr"><span class="tldr-label">THE STORY AT A GLANCE</span><p>${e(a.summary)}</p></div>
 <div class="prose">${a.sections.map(([h,paras])=>`<section aria-labelledby="${sectionId(h)}"><h2 id="${sectionId(h)}">${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}</section>`).join("")}</div>
-<div class="source-note"><strong>Primary source and reporting notes</strong><p>Based on <a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">${e(a.sourceLabel)}</a>. We report the original announcement with context for US fans; details not confirmed by the source are identified as such.</p>
+<div class="source-note"><strong>Primary source and reporting notes</strong>
+<p>Based on ${e(a.sourceLabel)}. This report distinguishes confirmed details from information not established by the original source.</p>
+<p class="source-link-row"><a class="source-primary-link" href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a><span>Source date / checked: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span></p>
 <p>Found a factual error? <a href="mailto:${EMAIL}?subject=${encodeURIComponent("Correction: "+a.title)}">Contact the editorial desk</a>.</p></div>
 </div><aside class="article-sidebar"><div class="sidebar-panel"><span class="eyebrow">IN THIS REPORT</span>
 <nav aria-label="Article sections" class="contents-list">${contents}</nav></div>
-<div class="sidebar-panel sidebar-source"><span class="eyebrow">ORIGINAL ANNOUNCEMENT</span><p>Released <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></p>
-<a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a></div>
 <div class="sidebar-panel sidebar-note"><strong>Editorial standard</strong><p>Independent summary, source linked, US availability distinguished from other territories.</p><a href="/editorial-policy/">How we verify news</a></div></aside></div></article>
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section></div>`;

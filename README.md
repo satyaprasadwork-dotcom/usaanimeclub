@@ -31,3 +31,7 @@ Editorial quality is assessed through primary-source attribution, editing and ac
 ## Article card palette
 
 Anime: dark blue `#173A70`; Manga: dark red `#932B3B`; Manhwa: yellow `#F4C542` with dark text; Web Novels: green `#16744A`. Cards, topic links and original SVG artwork share those category colors. The article layout remains locked.
+
+## Source links
+
+The shared article template was intentionally revised so that each report shows a single **View primary source** link under **Primary source and reporting notes**, alongside the date the source was announced or checked. The former **Original Announcement** sidebar card has been removed from all article pages. The table of contents and editorial policy sidebar remain unchanged. Template lock version: 2.

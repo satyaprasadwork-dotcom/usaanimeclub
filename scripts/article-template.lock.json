@@ -1,5 +1,5 @@
 {
-  "version": 1,
-  "templateHash": "efc856e2",
-  "description": "Frozen article HTML in scripts/build.mjs. Only modify content/articles.json to add or remove stories; changing the shared article layout requires an explicit update to this lock."
+  "version": 2,
+  "templateHash": "81adb353",
+  "description": "Shared article markup reviewed and locked. Primary source links appear inside Primary source and reporting notes; no Original Announcement sidebar card. Content changes through content/articles.json, with future template edits requiring a lock update."
 }

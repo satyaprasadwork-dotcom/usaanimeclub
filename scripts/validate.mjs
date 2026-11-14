@@ -253,4 +253,19 @@ for(const [category,color] of Object.entries(fourColorPalette)){
 assert(fourColorCSS.includes("--accent-contrast:#22200E"),"Yellow header must use dark text");
 assert(fourColorCSS.includes("color:var(--accent-contrast,#fff)"),"Category header must use contrast-aware text");
 
+
+for(const a of articles){
+ const html=read("news/"+a.slug+"/index.html");
+ assert(!html.includes("ORIGINAL ANNOUNCEMENT"),"Original announcement sidebar card not removed: "+a.slug);
+ assert(!html.includes('class="sidebar-panel sidebar-source"'),"Old source sidebar remains: "+a.slug);
+ const note=html.match(/<div class="source-note">([\\s\\S]*?)<\\/div>/);
+ assert(note&&note[1].includes("Primary source and reporting notes"),"Reporting notes missing: "+a.slug);
+ assert(note[1].includes('class="source-primary-link"'),"Source button not inside reporting notes: "+a.slug);
+ assert(note[1].includes('View primary source'),"Source button label missing: "+a.slug);
+ assert(note[1].includes(a.source.replaceAll("&","&amp;")),"Source link mismatch: "+a.slug);
+ assert(note[1].includes('datetime="'+a.sourceDate+'"'),"Source date/check note missing: "+a.slug);
+ assert((html.match(/View primary source/g)||[]).length===1,"Duplicate source links: "+a.slug);
+ assert(html.includes("IN THIS REPORT"),"Article table of contents was removed: "+a.slug);
+}
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

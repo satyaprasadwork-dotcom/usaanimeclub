@@ -150,9 +150,7 @@ p{margin:0 0 1.15rem}
 .contents-list{display:grid;gap:.8rem}
 .contents-list a{color:#344258;text-decoration:none;font-size:.85rem;font-weight:700;line-height:1.4}
 .contents-list a:hover{text-decoration:underline;color:#285bc2}
-.sidebar-source{background:#eff8ff}
-.sidebar-source p{font-size:.88rem;color:var(--mut);margin:0 0 .6rem}
-.sidebar-source a,.sidebar-note a{font-size:.84rem;font-weight:800;color:#285bc2}
+.sidebar-note a{font-size:.84rem;font-weight:800;color:#285bc2}
 .sidebar-note strong{font-size:.88rem}
 .sidebar-note p{font-size:.82rem;color:var(--mut);margin:.5rem 0}
 .related-section{border-top:1px solid var(--line);margin-top:3.3rem;padding-top:3rem}
@@ -220,7 +218,6 @@ body{background:linear-gradient(180deg,#fff 0%,#fff 60%,#fafdff 100%)}
 .article-byline .byline-badge{background:#e6f5ff;border-color:#c4e1f8;color:#2569ba}
 .tldr{background:linear-gradient(115deg,#edf7ff,#f8f5ff);border-left-color:#0e9eaa}
 .tldr-label{color:#166a8a}
-.sidebar-source{background:#edf9ff}
 .sidebar-panel .eyebrow{color:#3971c4}
 .btn{background:#2768cf;border-color:#2768cf}
 .btn:hover{background:#1653b0;color:#fff}
@@ -366,3 +363,11 @@ h1,h2,h3{letter-spacing:-.03em}
 .news-card[data-news-category="Web Novels"],.feature-card[data-news-category="Web Novels"],.latest-item[data-news-category="Web Novels"]{--accent:#16744A;--accent-dark:#145F3D;--accent-tint:#E8F5ED;--accent-contrast:#FFFFFF}
 .topic-grid a:nth-child(4){--accent:#16744A;--accent-dark:#145F3D;--accent-tint:#E8F5ED;border-top-color:#16744A}
 .topic-grid a:nth-child(3) .topic-eyebrow{color:var(--accent-dark)}
+
+/* Article source is now a single clearly attributed link beneath the report. */
+.source-note .source-link-row{display:flex;flex-wrap:wrap;align-items:center;gap:.65rem 1rem;margin:1rem 0 1.1rem}
+.source-note .source-primary-link{display:inline-flex;align-items:center;justify-content:center;padding:.65rem .95rem;min-height:42px;color:#fff;background:#173A70;border:1px solid #173A70;border-radius:4px;font:700 .88rem/1.35 var(--body);text-decoration:none}
+.source-note .source-primary-link:hover,.source-note .source-primary-link:focus-visible{background:#25548d;color:#fff;text-decoration:underline;text-underline-offset:3px}
+.source-note .source-link-row>span{font-size:.83rem;color:#526075}
+@media(max-width:900px){.article-sidebar .sidebar-note{grid-column:auto}}
+@media(max-width:620px){.source-note .source-link-row{align-items:flex-start;flex-direction:column}.source-note .source-primary-link{width:100%}}
