@@ -330,3 +330,7 @@ h1,h2,h3{letter-spacing:-.035em}
  .feature-copy{padding:1.25rem}
  .latest-list{gap:.7rem}
 }
+
+/* Four news-topic links remain separate and responsive. */
+@media(min-width:901px){.topic-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.topic-grid a:nth-child(4){border-top:1px solid #d2dfe9;border-left:4px solid #167e78}

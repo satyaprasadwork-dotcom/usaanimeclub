@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync,mkdirSync,existsSync} from "node:fs";
+import {readFileSync,writeFileSync,mkdirSync,existsSync,readdirSync,rmSync} from "node:fs";
 import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
@@ -28,7 +28,7 @@ function buildSite(articles){
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
     const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta name="twitter:image" content="${BASE+image}">`:"";
     const selected=path.startsWith("/news/")?"News":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
-    const nav=[["Latest","/"],["News","/news/"],["Streaming","/news/?category=Streaming"],["TV Anime","/news/?category=TV%20Anime"],["Movies","/news/?category=Movies"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
+    const nav=[["Latest","/"],["News","/news/"],["Anime","/news/?category=Anime"],["Manga","/news/?category=Manga"],["Manhwa","/news/?category=Manhwa"],["Web Novels","/news/?category=Web%20Novels"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
     return `<!doctype html>
 <html lang="en-US"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -54,7 +54,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <main id="main">${main}</main>
 <footer class="foot"><div class="wrap foot-grid">
 <div><a href="/" class="logo"><i aria-hidden="true">桜</i> USA Anime Club</a>
-<p style="margin-top:1rem">Independent, verified anime news for readers in the United States. Streaming, theaters and new seasons, always sourced.</p>
+<p style="margin-top:1rem">Independent news for US fans of anime, manga, manhwa and online-serialized fiction. Original reports with primary sources.</p>
 <p><a href="mailto:${EMAIL}">${EMAIL}</a></p><small>Not affiliated with studios, rights holders or streaming companies.</small></div>
 <div><strong>Newsroom &amp; policies</strong><nav aria-label="Footer links"><ul>
 <li><a href="/news/">News Archive</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li>
@@ -80,7 +80,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>${e(a.title)}</strong><span class="rail-read">Read article</span></a>`;
   const home=`<section class="front-intro"><div class="wrap">
 <div><span class="eyebrow"><span class="red-dot" aria-hidden="true"></span> THE ANIME NEWS DESK</span><h1>Latest anime news<span class="headline-period">.</span></h1>
-<p class="lead">The US edition: confirmed anime releases, streaming announcements and industry updates, with the original sources linked.</p></div>
+<p class="lead">Anime, manga, manhwa and web-novel news for US readers: dated announcements, credited sources and clear release information.</p></div>
 <a class="text-link" href="/news/">Explore the news archive</a>
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
@@ -92,36 +92,36 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <a class="rail-footer" href="/news/">See every report</a></aside>
 </div></section>
 <section class="blk news-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THE LATEST / REPORTING</span><h2>More from the desk</h2></div><a class="text-link" href="/news/">All news</a></div>
-<div class="grid">${items.slice(1,7).map(card).join("")}</div></div></section>
+<div class="grid">${items.slice(1,10).map(card).join("")}</div></div></section>
 <section class="topic-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">FIND YOUR BEAT</span><h2>Follow a story type</h2></div><p class="muted">Filter the news by what matters to you.</p></div>
 <div class="topic-grid">
-<a href="/news/?category=Streaming"><span class="topic-eyebrow">COVERAGE</span><strong>Streaming</strong><span>Platforms, licensing, simulcasts</span><small>${items.filter(a=>a.category==="Streaming").length} reports</small></a>
-<a href="/news/?category=TV%20Anime"><span class="topic-eyebrow">COVERAGE</span><strong>TV Anime</strong><span>New seasons and productions</span><small>${items.filter(a=>a.category==="TV Anime").length} reports</small></a>
-<a href="/news/?category=Movies"><span class="topic-eyebrow">COVERAGE</span><strong>Movies</strong><span>US theatrical releases</span><small>${items.filter(a=>a.category==="Movies").length} reports</small></a>
-</div></div></section>
+<a href="/news/?category=Anime"><span class="topic-eyebrow">COVERAGE</span><strong>Anime</strong><span>Adaptations, broadcasts and streaming news</span><small>${items.filter(a=>a.category==="Anime").length} reports</small></a>
+<a href="/news/?category=Manga"><span class="topic-eyebrow">COVERAGE</span><strong>Manga</strong><span>English manga releases and licensing</span><small>${items.filter(a=>a.category==="Manga").length} reports</small></a>
+<a href="/news/?category=Manhwa"><span class="topic-eyebrow">COVERAGE</span><strong>Manhwa</strong><span>Korean comics, webtoons and editions</span><small>${items.filter(a=>a.category==="Manhwa").length} reports</small></a>
+<a href="/news/?category=Web%20Novels"><span class="topic-eyebrow">COVERAGE</span><strong>Web Novels</strong><span>Online fiction and serialized translations</span><small>${items.filter(a=>a.category==="Web Novels").length} reports</small></a></div></div></section>
 <section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from what remains unknown, verify US availability, and identify the original reporting source in every article.</p></div>
 <a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
-  const homeTitle="USA Anime Club | US Anime News, Streaming & Movie Releases";
-  const homeDesc="Verified US anime news: Crunchyroll announcements, upcoming anime movies, streaming updates and new television seasons, each linked to its original source.";
-  files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"USA anime news, anime releases United States, Crunchyroll news USA, anime film dates 2027, upcoming anime seasons",main:home,image:`/assets/news/${first.slug}.svg`,schemas:[
+  const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
+  const homeDesc="Verified anime, manga, manhwa and web-novel news for US readers, with release dates, publisher announcements and primary sources.";
+  files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:`/assets/news/${first.slug}.svg`,schemas:[
 {"@context":"https://schema.org",...org},
 {"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",url:BASE+"/",name:BRAND,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}},
 pageLd("/",homeTitle,homeDesc)]});
   const archiveTotal=Math.max(1,Math.ceil(items.length/12));
   for(let p=1;p<=archiveTotal;p++){
     const sub=items.slice((p-1)*12,p*12),path=p===1?"/news/":`/news/page/${p}/`;
-    const cats=["All",...new Set(sub.map(a=>a.category))];
+    const cats=["All","Anime","Manga","Manhwa","Web Novels"];
     const chips=`<div class="chips" role="group" aria-label="Filter news on this archive page">${cats.map((c,i)=>`<button class="chip" type="button" data-category="${e(c)}" aria-pressed="${i===0}">${e(c)}</button>`).join("")}</div><p class="meta" id="filter-status" role="status" aria-live="polite">${sub.length} stories shown on this page</p>`;
     const pag=`<nav class="btns" aria-label="Archive pages">${p>1?`<a class="btn alt" href="${p===2?"/news/":"/news/page/"+(p-1)+"/"}">← Newer</a>`:""}${p<archiveTotal?`<a class="btn alt" href="/news/page/${p+1}/">Older →</a>`:""}</nav>`;
-    const title=`Anime News Archive${p===1?"":" — Page "+p} | USA Anime Club`,desc=`Browse verified anime streaming, theater and TV season news for US fans, archive page ${p}.`;
+    const title=`Anime News Archive${p===1?"":" — Page "+p} | USA Anime Club`,desc=`Browse anime, manga, manhwa and online-fiction updates for US readers, archive page ${p}.`;
     const main=`<section class="archive-page"><div class="wrap">${bread([["Home","/"],["News Archive",path]])}
 <header class="archive-intro"><span class="eyebrow">THE NEWS ARCHIVE / PAGE ${p}</span><h1>All anime news<span class="headline-period">.</span></h1>
-<p>US-focused anime announcements, release developments and verified updates, presented in reverse chronological order of the original source.</p></header>
+<p>Verified anime, manga, manhwa and online-fiction news, ordered by the announcement date or date the source was checked.</p></header>
 <div class="archive-toolbar"><div><h2>Browse stories</h2><p>Choose a topic or search the headlines on this page.</p></div>
 <div class="archive-search"><label for="news-search">Search this page</label><input type="search" id="news-search" data-news-search placeholder="Search headlines..." autocomplete="off"></div></div>
 ${chips}<div class="grid archive-grid">${sub.map(card).join("")}</div><p class="no-results" id="no-results" hidden>No matches on this page. Try another topic or search term.</p>
 ${pag}</div></section>`;
-    files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:`anime news archive page ${p}, US anime streaming, theatrical anime release news, upcoming TV anime`,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc([["Home","/"],["News Archive",path]])]});
+    files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:`anime manga manhwa web novel news page ${p}, US comics and serial fiction releases`,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc([["Home","/"],["News Archive",path]])]});
   }
   for(const a of items){
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
@@ -149,9 +149,10 @@ ${pag}</div></section>`;
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
     const palette=({
-      Streaming:{paper:"#e7f6f3",edge:"#13776d",ink:"#115e59"},
-      Movies:{paper:"#edf0fc",edge:"#315aa7",ink:"#223f86"},
-      "TV Anime":{paper:"#fff2e2",edge:"#a85b16",ink:"#80410d"}
+      Anime:{paper:"#e8f2ff",edge:"#285db7",ink:"#204785"},
+      Manga:{paper:"#fff2dd",edge:"#bd761a",ink:"#76420b"},
+      Manhwa:{paper:"#f1eaff",edge:"#7455a8",ink:"#51327f"},
+      "Web Novels":{paper:"#e5f6f1",edge:"#128476",ink:"#105b55"}
     })[a.category]||{paper:"#eef3f9",edge:"#355a8b",ink:"#26476c"};
     const words=a.title.split(/\s+/),lines=[];let line="";
     for(const word of words){
@@ -159,7 +160,7 @@ ${pag}</div></section>`;
       else line=(line+" "+word).trim();
     }
     if(line)lines.push(line);
-    const categoryText=({Streaming:"STREAMING NEWS",Movies:"CINEMA RELEASES","TV Anime":"TELEVISION ANIME"})[a.category]||"ANIME NEWS";
+    const categoryText=({Anime:"ANIME NEWS",Manga:"MANGA NEWS",Manhwa:"KOREAN COMICS","Web Novels":"ONLINE FICTION"})[a.category]||"PUBLISHING NEWS";
     const artworkLines=lines.slice(0,4).map((line,i)=>
       `<text x="76" y="${278+i*66}" fill="${palette.ink}" font-family="Georgia,serif" font-weight="700" font-size="43">${e(line)}</text>`
     ).join("");
@@ -176,9 +177,9 @@ ${artworkLines}
 </svg>\n`;
   }
   const pages=[
-["about","About Us","About USA Anime Club | Independent US Anime News","Learn about USA Anime Club, an independent fan-run publication covering verified anime news for audiences in the United States.","about USA Anime Club, independent anime newsroom, verified US anime news",`<p>USA Anime Club is an independent fan-run publication about anime developments that matter to viewers in the United States.</p><p>We focus on sourced release announcements, North American streaming rights, movie screenings and production updates. We do not publish unrelated lifestyle material or general anime guides on this site.</p><h2>Our editorial approach</h2><p>Every news report links to an original dated announcement and states what remains unconfirmed. We never claim to have conducted interviews or attended events without actually doing so.</p><p>USA Anime Club Editorial is our publication byline. Questions: <a href="mailto:${EMAIL}">${EMAIL}</a>. Our <a href="/editorial-policy/">editorial policy</a> explains how we verify claims.</p>`],
+["about","About Us","About USA Anime Club | Independent US Anime News","Learn about USA Anime Club, an independent fan-run publication covering verified anime news for audiences in the United States.","about USA Anime Club, independent anime newsroom, verified US anime news",`<p>USA Anime Club is an independent editorial publication covering anime, Japanese manga, Korean manhwa and online fiction for readers in the United States.</p><p>We cover adaptations, US streaming releases, official English-language book editions, Korean webtoon industry developments and online-serialized fiction. We do not publish unrelated filler or unverified rumors.</p><h2>Our editorial approach</h2><p>Every news report links to an original dated announcement and states what remains unconfirmed. We never claim to have conducted interviews or attended events without actually doing so.</p><p>USA Anime Club Editorial is our publication byline. Questions: <a href="mailto:${EMAIL}">${EMAIL}</a>. Our <a href="/editorial-policy/">editorial policy</a> explains how we verify claims.</p>`],
 ["contact","Contact Us","Contact USA Anime Club | Anime News Tips & Corrections","Email USA Anime Club about official anime announcements, US release news, corrections and editorial feedback.","anime news contact, USA Anime Club email, send anime press release, editorial corrections",`<p>For anime news tips, correction requests, press announcements and questions, write to <strong><a href="mailto:${EMAIL}">${EMAIL}</a></strong>.</p><div class="btns"><a class="btn" href="mailto:${EMAIL}?subject=USA%20Anime%20Club%20News%20Tip">Email the news desk</a></div><h2>What to include</h2><ul><li>A link to the original official announcement</li><li>The announcement date and relevant US territory details</li><li>Any relevant release schedule or press contact</li></ul><p>Submissions are reviewed. Coverage is not automatic, and a submitted release is not an editorial endorsement.</p>`],
-["editorial-policy","Editorial Policy","Editorial Policy | USA Anime Club News Verification","How USA Anime Club verifies anime announcements, US streaming rights and movie screenings, with primary sources and correction practices.","anime news editorial policy, US anime fact check, announcement source standards, news corrections",`<p>We distinguish verified announcements from unconfirmed claims. Our first choice is a dated primary statement from a distributor, production company, licensor, publisher or event organizer.</p><h2>United States relevance</h2><p>We check the announced US or North American territory, premiere dates, time zones, language versions and theater availability. A Japanese premiere is not automatically a US release.</p><h2>Original reporting and attribution</h2><p>We produce original summaries and context with direct links to source materials. We do not fabricate interviews, attendance, viewership figures or exclusives. Site artwork is original typographic editorial illustration, not unlicensed promotional art.</p><h2>Corrections and independence</h2><p>We update a substantive change's date and disclose material factual corrections. Sponsorship, if introduced, will be disclosed; payment cannot buy editorial inclusion. Contact <a href="mailto:${EMAIL}">${EMAIL}</a> or review our <a href="/corrections/">corrections process</a>.</p>`],
+["editorial-policy","Editorial Policy","Editorial Policy | USA Anime Club News Verification","How USA Anime Club verifies anime announcements, US streaming rights and movie screenings, with primary sources and correction practices.","anime news editorial policy, US anime fact check, announcement source standards, news corrections",`<p>We distinguish verified announcements from unconfirmed claims. Our first choice is a dated primary statement from a distributor, production company, licensor, publisher or event organizer.</p><h2>United States relevance</h2><p>We check US or North American distribution rights, release formats, source dates, language editions and regional availability. Japanese broadcasts, Korean webtoon awards and English-language book releases are separate events with different verification requirements.</p><h2>Original reporting and attribution</h2><p>We produce original summaries and context with direct links to source materials. We do not fabricate interviews, attendance, viewership figures or exclusives. Site artwork is original typographic editorial illustration, not unlicensed promotional art.</p><h2>Corrections and independence</h2><p>We update a substantive change's date and disclose material factual corrections. Sponsorship, if introduced, will be disclosed; payment cannot buy editorial inclusion. Contact <a href="mailto:${EMAIL}">${EMAIL}</a> or review our <a href="/corrections/">corrections process</a>.</p>`],
 ["corrections","Corrections Policy","Corrections Policy | USA Anime Club News Accuracy","Request factual corrections to USA Anime Club reporting about US anime premieres, streaming rights and theatrical releases.","USA Anime Club corrections, report anime news error, anime release verification, correct news article",`<p>Send the article URL, the factual issue and a reliable source to <a href="mailto:${EMAIL}">${EMAIL}</a>.</p><h2>Review and updates</h2><p>We compare each request with primary or otherwise reliable evidence. When an error is established, we correct the article; for a significant factual mistake we add a correction note and update the modified date.</p><p>When an external source changes its announced plans, we explain the later development instead of silently treating the original statement as a fabrication.</p>`],
 ["privacy","Privacy Policy","Privacy Policy | USA Anime Club Optional Analytics & Cookies","Details about optional Google Analytics and Microsoft Clarity, reader email, browser storage and privacy choices at USA Anime Club.","USA Anime Club privacy, GA4 analytics consent, Microsoft Clarity tracking, cookie controls",`<p class="meta">Last updated: November 14, 2026</p><p>We do not require accounts or process payment information.</p><h2>Optional audience measurement</h2><p>Google Analytics 4 (G-G0TNMR0FQL) and Microsoft Clarity (yyqq9cryjc) only load after a visitor chooses <strong>Accept analytics</strong>. You can choose <strong>Decline analytics</strong> instead. Analytics may process site interactions, device data, cookies, approximate network location and session interaction recordings subject to provider masking. We use this for aggregate understanding of the site, not individual identification.</p><h2>Changing consent</h2><p>We save your choice in the browser's local storage. Select <strong>Privacy choices</strong> in any footer to change it. Declining after a previous acceptance reloads the page to stop further tracking; it does not automatically erase prior records held by providers.</p><h2>Other services</h2><p>Google Fonts receives basic connection data when font files are requested. Articles link to third-party sites with their own policies. Read <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Google's privacy policy</a> and <a href="https://privacy.microsoft.com/en-us/privacystatement" rel="noopener noreferrer">Microsoft's privacy statement</a>.</p><h2>Email and reader requests</h2><p>When you contact us by email, we use the message to handle the request. We do not sell reader data or run targeted ads on this version of the site. Depending on applicable law you may have access and deletion rights. Write to <a href="mailto:${EMAIL}">${EMAIL}</a>.</p><h2>Children</h2><p>This site is not directed to children under 13. Please do not send personal information about children.</p>`],
 ["disclaimer","Disclaimer","Disclaimer | USA Anime Club Independent Anime News","USA Anime Club non-affiliation, anime trademark credits and limitations on third-party release dates, links and streaming details.","anime news disclaimer, independent fan publication, streaming accuracy, anime trademarks",`<p>USA Anime Club is an independent fan publication, not affiliated with or endorsed by anime studios, distributors, streaming services or theaters unless explicitly stated.</p><p>Titles, names, logos and trademarks belong to their respective owners. Our original editorial graphics are not official key art.</p><p>Release dates, catalogs, screening availability, prices and language options can change. Please check official providers before making purchases or travel plans. We do not control external websites linked for citation.</p>`],
@@ -196,8 +197,8 @@ ${artworkLines}
   const recent=items.filter(a=>{const published=Date.parse(a.date+"T12:00:00Z");return published<=Date.now()&&Date.now()-published<=48*60*60*1000});
   files["news-sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${recent.map(a=>`<url><loc>${xml(BASE+url(a))}</loc><news:news><news:publication><news:name>USA Anime Club</news:name><news:language>en</news:language></news:publication><news:publication_date>${a.date}T12:00:00Z</news:publication_date><news:title>${xml(a.title)}</news:title></news:news></url>`).join("\n")}\n</urlset>\n`;
   files["robots.txt"]="User-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\nSitemap: "+BASE+"/news-sitemap.xml\n";
-  files["llms.txt"]=`# USA Anime Club\n> Independent US-focused anime news, sourced to official announcements.\n\nWebsite: ${BASE}/\nContact: ${EMAIL}\n\n## Pages\n- [Latest news](${BASE}/)\n- [News archive](${BASE}/news/)\n- [Editorial standards](${BASE}/editorial-policy/)\n- [Corrections](${BASE}/corrections/)\n- [RSS feed](${BASE}/feed.xml)\n- [XML sitemap](${BASE}/sitemap.xml)\n\n## Recent reports\n${items.map(a=>`- [${a.title}](${BASE+url(a)})`).join("\n")}\n\nReporting links to original source announcements; no rights-holder affiliation is implied.\n`;
-  files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-verified US anime streaming and theatrical news.</description><language>en-us</language>${items.slice(0,40).map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
+  files["llms.txt"]=`# USA Anime Club\n> Independent anime, manga, manhwa and online-fiction news for US readers, linked to primary sources.\n\nWebsite: ${BASE}/\nContact: ${EMAIL}\n\n## Pages\n- [Latest news](${BASE}/)\n- [News archive](${BASE}/news/)\n- [Editorial standards](${BASE}/editorial-policy/)\n- [Corrections](${BASE}/corrections/)\n- [RSS feed](${BASE}/feed.xml)\n- [XML sitemap](${BASE}/sitemap.xml)\n\n## Recent reports\n${items.map(a=>`- [${a.title}](${BASE+url(a)})`).join("\n")}\n\nReporting links to original source announcements; no rights-holder affiliation is implied.\n`;
+  files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-verified US anime, manga, manhwa and web-fiction news.</description><language>en-us</language>${items.slice(0,40).map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
   files[".htaccess"]="# Apache / Hostinger static-site defaults\nDirectoryIndex index.html\nErrorDocument 404 /404.html\nOptions -MultiViews\n<IfModule mod_headers.c>\n  <FilesMatch \"\\.html$\">\n    Header set Cache-Control \"no-cache, must-revalidate\"\n  </FilesMatch>\n</IfModule>\n";
   if(new Set(paths).size!==paths.length)throw Error("Duplicate URLs");
   for(const p of paths){const name=p==="/"?"index.html":p.slice(1)+"index.html";const html=files[name]||files["index.html"];if(!html.includes(`<link rel="canonical" href="${BASE+p}">`))throw Error("Missing canonical "+p)}
@@ -210,4 +211,16 @@ ${artworkLines}
 const input=JSON.parse(readFileSync(resolve(ROOT,"content/articles.json"),"utf8"));
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path);if(check){if(!existsSync(dst)||readFileSync(dst,"utf8")!==content){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,content,"utf8")}}
+// Purge only obsolete generated article routes and associated SVGs.
+const slugs=new Set(input.map(a=>a.slug));
+for(const entry of readdirSync(resolve(ROOT,"news"),{withFileTypes:true})){
+  if(!entry.isDirectory()||entry.name==="page"||slugs.has(entry.name))continue;
+  if(check){console.error("Stale article:",entry.name);errors++}
+  else rmSync(resolve(ROOT,"news",entry.name),{recursive:true,force:true});
+}
+for(const entry of readdirSync(resolve(ROOT,"assets/news"),{withFileTypes:true})){
+  if(!entry.isFile()||!entry.name.endsWith(".svg")||slugs.has(entry.name.slice(0,-4)))continue;
+  if(check){console.error("Stale illustration:",entry.name);errors++}
+  else rmSync(resolve(ROOT,"assets/news",entry.name),{force:true});
+}
 if(errors){process.exitCode=1}else console.log((check?"Validated ":"Generated ")+Object.keys(results).length+" website files.");

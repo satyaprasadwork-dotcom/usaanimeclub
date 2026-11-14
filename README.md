@@ -1,16 +1,15 @@
-# USA Anime Club — anime news publication
+# USA Anime Club — Anime, Manga, Manhwa & Web Novel News
 
-This repository powers **https://usaanimeclub.com/**. It is deliberately focused on verified anime news with US-specific streaming, theatrical, and release information.
+Editorial home: https://usaanimeclub.com/. US-focused, verified updates with direct links to primary sources.
 
-## Edit and publish
-- Add a news object to `content/articles.json` using the existing schema. Use independently verified primary sources. Never invent announcements, publication dates or release details.
-- Run `node scripts/build.mjs`. This regenerates crawlable article pages, archives, feeds and sitemaps. No npm dependencies are needed.
-- Commit the changed content and generated HTML. The repository alone does not guarantee the Hostinger production domain is deployed; configure hosting/deployment separately.
-- Run `node scripts/build.mjs --check` to verify generated HTML is current (the CI workflow also does this).
+## Locked shared article template
 
-## Features
-Static page URLs, common article template, per-page SEO metadata/canonicals, JSON-LD structured data, XML sitemap, fresh-only Google News sitemap, RSS, robots.txt, llms.txt, unique original editorial SVG artwork, accessibility, responsive layout, and privacy-gated Google Analytics + Microsoft Clarity.
+All articles use the exact same markup in `scripts/build.mjs`. Its article body is protected by `scripts/article-template.lock.json` and CI. Do not edit the shared article template for ordinary publishing.
 
-Analytics IDs: `G-G0TNMR0FQL` and `yyqq9cryjc`. Analytics are optional: scripts load only after the visitor accepts and privacy choices are available from every footer.
+To publish 10, 20, 100 or more articles, edit **only `content/articles.json`** to add source-verified entries. Required data: unique slug, one of Anime/Manga/Manhwa/Web Novels, headline, description, SEO keywords, publication date, dated source or verification date, link, original summary and sections. Never invent dates, US licenses, staff or official announcements. Do not copy publisher text or licensed artwork.
 
-**Editorial note:** The supplied older guides were intentionally not republished because this website now covers anime news only. External sources listed under each article are third-party announcements, not claims of exclusive reporting. No AdSense code is installed.
+Run `node scripts/build.mjs` then `node scripts/validate.mjs`. The generator creates indexable HTML article pages, original typography artwork, RSS, XML and Google News sitemaps, and removes generated pages/artwork for deleted stories.
+
+Every HTML page includes the shared consent handler that conditionally loads GA4 `G-G0TNMR0FQL` and Clarity `yyqq9cryjc`; do not add duplicate tags. New stories inherit all canonical, SEO, article schema, footer, policies and consent code.
+
+Build passing on GitHub does not itself establish successful Hostinger deployment, Google News inclusion or AdSense approval.

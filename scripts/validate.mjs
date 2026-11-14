@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import {readFileSync,existsSync} from "node:fs";
+import {readFileSync,existsSync,readdirSync} from "node:fs";
 import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 import {runInNewContext} from "node:vm";
@@ -152,6 +152,37 @@ assert(read("index.html").includes('class="rail-read"'),"latest rail article lab
 const designCss=read("assets/styles.css");
 assert(designCss.includes("border:1px solid #cfdbe7"),"story cards lack visible enclosing borders");
 assert(designCss.includes("--head:\"Literata\""),"editorial headline typeface missing");
-assert(!read("index.html").includes('class="topic-icon"'),"decorative topic icons should be removed");
+assert(!read("index.html").includes('class="topic-icon"'),"decorative topic icons should be 
+// Lock the common article markup against accidental changes.
+const articleLock=JSON.parse(read("scripts/article-template.lock.json"));
+const buildSource=read("scripts/build.mjs");
+const templateStart=buildSource.indexOf('    const content=`<div class="post-layout">');
+const templateEnd=buildSource.indexOf("    const schema=",templateStart);
+assert(templateStart>=0&&templateEnd>templateStart,"article template missing");
+const templateContent=buildSource.slice(templateStart,templateEnd);
+let fnvHash=2166136261;for(let i=0;i<templateContent.length;i++){fnvHash^=templateContent.charCodeAt(i);fnvHash=Math.imul(fnvHash,16777619)}
+assert.equal((fnvHash>>>0).toString(16).padStart(8,"0"),articleLock.templateHash,"shared article template changed");
+assert.equal(articles.length,10,"Expected ten newly sourced articles");
+for(const category of ["Anime","Manga","Manhwa","Web Novels"]){
+ assert(articles.some(a=>a.category===category),"Missing topic "+category);
+ assert(read("news/index.html").includes('data-category="'+category+'"'),"Missing browse filter "+category);
+}
+const sourceSlugs=new Set(articles.map(a=>a.slug));
+for(const file of readdirSync(resolve(root,"assets/news"))){
+ if(file.endsWith(".svg"))assert(sourceSlugs.has(file.slice(0,-4)),"orphaned artwork "+file);
+}
+for(const file of readdirSync(resolve(root,"news"),{withFileTypes:true})){
+ if(file.isDirectory()&&file.name!=="page")assert(sourceSlugs.has(file.name),"orphaned article page "+file.name);
+}
+const consentCode=read("assets/privacy.js");
+assert(consentCode.includes("G-G0TNMR0FQL")&&consentCode.includes("yyqq9cryjc"),"Analytics IDs missing from shared consent");
+for(const loc of urls){
+ const html=read(localPath(loc));
+ assert(html.includes("/assets/privacy.js"),"Shared analytics code missing from "+loc);
+ assert(html.includes("/assets/site.js"),"Shared JS missing from "+loc);
+}
+assert(read("index.html").includes("category=Web%20Novels"),"Web novel navigation missing");
+
+removed");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

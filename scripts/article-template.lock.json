@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "templateHash": "efc856e2",
+  "description": "Frozen article HTML in scripts/build.mjs. Only modify content/articles.json to add or remove stories; changing the shared article layout requires an explicit update to this lock."
+}
