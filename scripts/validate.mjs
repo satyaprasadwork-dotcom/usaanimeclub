@@ -152,7 +152,7 @@ assert(read("index.html").includes('class="rail-read"'),"latest rail article lab
 const designCss=read("assets/styles.css");
 assert(designCss.includes("border:1px solid #cfdbe7"),"story cards lack visible enclosing borders");
 assert(designCss.includes("--head:\"Literata\""),"editorial headline typeface missing");
-assert(!read("index.html").includes('class="topic-icon"'),"decorative topic icons should be 
+assert(!read("index.html").includes('class="topic-icon"'),"decorative topic icons should be removed");
 // Lock the common article markup against accidental changes.
 const articleLock=JSON.parse(read("scripts/article-template.lock.json"));
 const buildSource=read("scripts/build.mjs");
@@ -183,6 +183,5 @@ for(const loc of urls){
 }
 assert(read("index.html").includes("category=Web%20Novels"),"Web novel navigation missing");
 
-removed");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
