@@ -457,3 +457,24 @@ h1,h2,h3{letter-spacing:-.03em}
 .news-ticker.is-paused .news-ticker-track{animation-play-state:paused}
 @media(max-width:620px){.news-ticker-toggle{min-width:61px;font-size:.72rem;padding:0 .45rem}}
 @media(prefers-reduced-motion:reduce){.news-ticker-toggle{display:none}}
+
+/* Site-wide numbered pagination: each news/category page contains at most 12 cards. */
+.news-pagination{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.9rem 1.5rem;margin:2rem 0 .7rem;padding:1.15rem 0;border-top:1px solid #d4dfeb}
+.pagination-summary{margin:0;font:500 .85rem/1.4 var(--body);color:#50647b}
+.pagination-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:.35rem}
+.pagination-number,.pagination-step{
+  display:inline-flex;align-items:center;justify-content:center;min-width:2.45rem;min-height:2.45rem;
+  padding:.5rem .65rem;border:1px solid #bdccdc;border-radius:5px;
+  background:#fff;color:#173A70;font:700 .86rem/1.2 var(--body);text-decoration:none
+}
+.pagination-step{min-width:5rem}
+.pagination-number:hover,.pagination-step[href]:hover{background:#edf3fa;border-color:#173A70;color:#173A70}
+.pagination-number[aria-current="page"]{background:#173A70;border-color:#173A70;color:#fff}
+.pagination-step.is-disabled{background:#f2f5f8;border-color:#dbe3eb;color:#7a8796;cursor:default}
+.pagination-ellipsis{color:#6a7b8c;padding:.2rem .3rem;font:600 .9rem var(--body)}
+.pagination-number:focus-visible,.pagination-step:focus-visible{outline:3px solid #932B3B;outline-offset:3px}
+@media(max-width:620px){
+ .news-pagination{align-items:stretch;flex-direction:column;gap:.75rem}
+ .pagination-links{justify-content:center}
+ .pagination-number,.pagination-step{min-height:2.7rem}
+}

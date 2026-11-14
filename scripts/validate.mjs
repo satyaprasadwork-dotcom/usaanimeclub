@@ -3,6 +3,7 @@ import {readFileSync,existsSync,readdirSync} from "node:fs";
 import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 import {runInNewContext} from "node:vm";
+import {ARTICLES_PER_PAGE,getPageCount,getPageItems,paginationHtml} from "./pagination.mjs";
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const read=p=>readFileSync(resolve(root,p),"utf8");
@@ -340,7 +341,7 @@ for(const loc of urls){
 const routeNames={"Anime":"anime","Manga":"manga","Manhwa":"manhwa","Web Novels":"web-novels"};
 for(const [category,slug] of Object.entries(routeNames)){
  const matching=articles.filter(a=>a.category===category);
- const count=Math.ceil(matching.length/12);
+ const count=getPageCount(matching.length);
  for(let number=1;number<=count;number++){
    const path=number===1?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+number+"/";
    const canonical=base+path;
@@ -349,10 +350,14 @@ for(const [category,slug] of Object.entries(routeNames)){
    assert(html.includes('<h1>'+category+' news'),"Topic collection heading wrong "+path);
    assert(html.includes('rel="canonical" href="'+canonical+'"'),"Category canonical wrong "+path);
    const grid=html.slice(html.indexOf('class="grid archive-grid"'));
-   for(const story of matching.slice((number-1)*12,number*12)){
+   for(const story of getPageItems(matching.sort((a,b)=>b.date.localeCompare(a.date)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title)),number)){
      assert(grid.includes('href="/news/'+story.slug+'/"'),"Topic collection omitted "+story.slug);
    }
-   assert((grid.match(/class="news-card"/g)||[]).length===Math.min(12,matching.length-(number-1)*12),"Category card count wrong "+path);
+   assert((grid.match(/class="news-card"/g)||[]).length===getPageItems(matching,number).length,"Category card count wrong "+path);
+   assert((grid.match(/class="news-card"/g)||[]).length<=ARTICLES_PER_PAGE,"More than 12 cards rendered on "+path);
+   assert(html.includes('class="news-pagination"'),"Pagination missing on "+path);
+   assert(html.includes('aria-current="page"'),"Current page missing from pagination on "+path);
+   assert(html.includes("Page "+number+" of "+count),"Incorrect page count on "+path);
  }
  assert(homeHtml.includes('href="/news/category/'+slug+'/"'),"Homepage category path wrong "+slug);
 }
@@ -484,5 +489,34 @@ function checkLiveCollectionPageTree(dir){
  }
 }
 for(const relativeDir of ["news/page","news/category"])checkLiveCollectionPageTree(resolve(root,relativeDir));
+
+
+// Exercise the pagination component beyond today's small categories.
+assert.equal(ARTICLES_PER_PAGE,12,"Category card limit changed");
+for(const total of [0,1,3,12,13,24,25,100]){
+ const sample=Array.from({length:total},(_,i)=>"story-"+i);
+ const count=getPageCount(total);
+ assert.equal(count,Math.max(1,Math.ceil(total/12)));
+ let collected=[];
+ for(let p=1;p<=count;p++){
+   const items=getPageItems(sample,p);
+   assert(items.length<=12,"More than 12 cards on page "+p);
+   collected.push(...items);
+   const html=paginationHtml({basePath:"/news/category/anime/",page:p,total,label:"Anime news"});
+   assert(html.includes('aria-current="page"'),"No selected page in paginator");
+   assert(html.includes("Page "+p+" of "+count),"Page indicator missing");
+   if(p>1)assert(html.includes('rel="prev"'),"Previous page link absent");
+   if(p<count)assert(html.includes('rel="next"'),"Next page link absent");
+   if(p===1)assert(html.includes('href="/news/category/anime/" aria-label="Anime news page 1"'),"First-page canonical link wrong");
+   if(p===2)assert(html.includes('href="/news/category/anime/page/2/" aria-label="Anime news page 2"'),"Second-page URL wrong");
+ }
+ assert.deepEqual(collected,sample,"Paginated content omitted or repeated stories");
+}
+assert.throws(()=>getPageItems([1,2,3],2),RangeError,"Out-of-range pagination should fail");
+assert(paginationHtml({basePath:"/news/",page:1,total:25,label:"All news"}).includes('href="/news/page/2/"'),"Main archive page links incorrect");
+const mainArchive=read("news/index.html");
+assert(mainArchive.includes('class="news-pagination"'),"Main news archive pagination missing");
+assert((mainArchive.match(/class="news-card"/g)||[]).length<=12,"Main news archive exceeds 12 cards");
+assert(read("assets/styles.css").includes(".pagination-number[aria-current="),"Current pagination styling missing");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

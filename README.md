@@ -67,3 +67,7 @@ Every HTML page includes the same deterministic `site-build` meta tag and a publ
 ## Stale archive cleanup
 
 On every generator run, obsolete paginated pages under `news/page/` and `news/category/` are removed when articles are deleted or categories shrink, avoiding indexable orphaned archive pages. CI verifies remaining category and archive indexes are present in the current sitemap. Other manually maintained directories are not swept.
+
+## Numbered pagination for every category
+
+The main news archive and all four topic pages use the same 12-article pagination utility in `scripts/pagination.mjs`. Navigation shows numbered pages, Previous/Next controls, and a clear "Showing X–Y of Z articles · Page N of M" indicator, even when a category has only one page. Each page has its own canonical URL and appears in the regenerated sitemap. When the thirteenth article enters a category, `/news/category/<category>/page/2/` is created automatically; stale pages disappear if content is later removed. Tests cover categories containing 12, 13, 24, 25 and 100 articles without introducing demo articles into production.

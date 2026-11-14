@@ -3,6 +3,7 @@ import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 import {Resvg} from "@resvg/resvg-js";
 import {createHash} from "node:crypto";
+import {ARTICLES_PER_PAGE,getPageCount,getPageItems,paginationHtml} from "./pagination.mjs";
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
   const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
@@ -15,6 +16,7 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"assets/site.js")))
     .update(readFileSync(resolve(ROOT,"assets/privacy.js")))
     .update(readFileSync(resolve(ROOT,"content/site-pages.json")))
+    .update(readFileSync(resolve(ROOT,"scripts/pagination.mjs")))
     .update(JSON.stringify(articles))
     .digest("hex").slice(0,16);
   const seenSlugs=new Set();
@@ -140,12 +142,12 @@ ${newsTicker}
 {"@context":"https://schema.org",...org},
 {"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",url:BASE+"/",name:BRAND,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}},
 pageLd("/",homeTitle,homeDesc)]});
-  const archiveTotal=Math.max(1,Math.ceil(items.length/12));
+  const archiveTotal=getPageCount(items.length);
   for(let p=1;p<=archiveTotal;p++){
-    const sub=items.slice((p-1)*12,p*12),path=p===1?"/news/":`/news/page/${p}/`;
+    const sub=getPageItems(items,p),path=p===1?"/news/":`/news/page/${p}/`;
     const cats=["All","Anime","Manga","Manhwa","Web Novels"];
     const chips=`<div class="chips" role="group" aria-label="Filter news on this archive page">${cats.map((c,i)=>`<button class="chip" type="button" data-category="${e(c)}" aria-pressed="${i===0}">${e(c)}</button>`).join("")}</div><p class="meta" id="filter-status" role="status" aria-live="polite">${sub.length} stories shown on this page</p>`;
-    const pag=`<nav class="btns" aria-label="Archive pages">${p>1?`<a class="btn alt" href="${p===2?"/news/":"/news/page/"+(p-1)+"/"}">← Newer</a>`:""}${p<archiveTotal?`<a class="btn alt" href="/news/page/${p+1}/">Older →</a>`:""}</nav>`;
+    const pag=paginationHtml({basePath:"/news/",page:p,total:items.length,label:"All news"});
     const title=`Anime News Archive${p===1?"":" — Page "+p} | USA Anime Club`,desc=`Browse anime, manga, manhwa and online-fiction updates for US readers, archive page ${p}.`;
     const main=`<section class="archive-page"><div class="wrap">${bread([["Home","/"],["News Archive",path]])}
 <header class="archive-intro"><span class="eyebrow">THE NEWS ARCHIVE / PAGE ${p}</span><h1>All anime news<span class="headline-period">.</span></h1>
@@ -168,10 +170,10 @@ ${pag}</div></section>`;
   for(const [category,slug] of categoryRoutes){
     const group=items.filter(a=>a.category===category);
     if(!group.length)continue;
-    const pageCount=Math.ceil(group.length/12);
+    const pageCount=getPageCount(group.length);
     for(let n=1;n<=pageCount;n++){
       const path=n===1?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+n+"/";
-      const shown=group.slice((n-1)*12,n*12);
+      const shown=getPageItems(group,n);
       const name=category+" News"+(n>1?" — Page "+n:"");
       const title=name+" | USA Anime Club";
       const desc=categoryDescriptions[category]+" "+(n>1?"Browse page "+n+" of "+pageCount+".":"Browse "+group.length+" verified reports.");
@@ -179,10 +181,7 @@ ${pag}</div></section>`;
         +'<a href="/news/">All news</a>'
         +categoryRoutes.map(([label,route])=>'<a href="/news/category/'+route+'/"'+(label===category?' aria-current="page"':'')+'>'+e(label)+'</a>').join("")
         +'</nav>';
-      const navPages='<nav class="btns" aria-label="'+e(category)+' archive pages">'
-        +(n>1?'<a class="btn alt" href="'+(n===2?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+(n-1)+"/")+'">← Newer</a>':"")
-        +(n<pageCount?'<a class="btn alt" href="/news/category/'+slug+'/page/'+(n+1)+'/">Older →</a>':"")
-        +'</nav>';
+      const navPages=paginationHtml({basePath:"/news/category/"+slug+"/",page:n,total:group.length,label:category+" news"});
       const main='<section class="archive-page category-archive"><div class="wrap">'
         +bread([["Home","/"],["News Archive","/news/"],[category,path]])
         +'<header class="archive-intro"><span class="eyebrow">BROWSE STORIES / '+e(category.toUpperCase())+'</span>'
