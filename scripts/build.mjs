@@ -42,12 +42,12 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=light-news-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=anime-spectrum-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-<div class="edition-bar"><div class="wrap edition-inner"><span>UNITED STATES EDITION</span><span class="edition-right">INDEPENDENT ANIME JOURNALISM <span aria-hidden="true">✦</span> VERIFIED SOURCES</span></div></div>
+<div class="edition-bar"><div class="wrap edition-inner"><div class="edition-left"><span class="edition-mark" aria-hidden="true">✦</span><span>THE ANIME NEWS DESK</span></div><div class="edition-right"><span class="clock-label">YOUR LOCAL TIME</span><time id="local-clock" aria-label="Your current local time">--:--</time></div></div></div>
 <div class="wrap bar"><a class="logo" href="/" aria-label="USA Anime Club homepage"><i aria-hidden="true">桜</i><span class="logo-title">USA <strong>ANIME</strong> CLUB<span class="logo-caption">ANIME NEWS &amp; CULTURE</span></span></a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle>☰ Menu</button>
 <nav class="nav" aria-label="Primary navigation" id="main-nav" data-nav>${nav}</nav></div></header>
@@ -65,7 +65,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=light-news-20261114" defer></script><script src="/assets/privacy.js?v=light-news-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=anime-spectrum-20261114" defer></script><script src="/assets/privacy.js?v=anime-spectrum-20261114" defer></script></body></html>\n`;
   }
   function card(a){return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
 <img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="Original editorial illustration for ${e(a.title)}">
@@ -141,21 +141,21 @@ ${pag}</div></section>`;
 <div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section></div>`;
     const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic,schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
-    const hue=Number(a.hue)||220,words=a.title.split(" "),lines=[];let line="";
+    const hue=({Streaming:199,Movies:33,"TV Anime":256}[a.category]??207),words=a.title.split(" "),lines=[];let line="";
     for(const w of words){if((line+" "+w).trim().length>24&&line){lines.push(line);line=w}else line=(line+" "+w).trim()}if(line)lines.push(line);
     files["assets/news/"+a.slug+".svg"]=`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Original editorial illustration: ${e(a.title)}" width="1200" height="675" viewBox="0 0 1200 675"><defs>
-<linearGradient id="g" x2="1" y2="1"><stop stop-color="#f2f4ff"/><stop offset=".52" stop-color="hsl(${hue} 78% 91%)"/><stop offset="1" stop-color="#fff0f2"/></linearGradient>
+<linearGradient id="g" x2="1" y2="1"><stop stop-color="#f2f4ff"/><stop offset=".52" stop-color="hsl(${hue} 78% 91%)"/><stop offset="1" stop-color="#fff9eb"/></linearGradient>
 <pattern id="p" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#213466" opacity=".12"/></pattern></defs>
 <rect width="1200" height="675" fill="url(#g)"/><rect width="1200" height="675" fill="url(#p)"/>
 <path d="M0 520L1200 160" stroke="#ffffff" stroke-width="140" opacity=".45"/>
-<g opacity=".35"><circle cx="1025" cy="260" r="185" fill="none" stroke="#234cba" stroke-width="12"/><circle cx="1068" cy="310" r="120" fill="#e45977"/><path d="M775 650L1200 80" stroke="#ffffff" stroke-width="32"/></g>
+<g opacity=".35"><circle cx="1025" cy="260" r="185" fill="none" stroke="#234cba" stroke-width="12"/><circle cx="1068" cy="310" r="120" fill="#ffb64f"/><path d="M775 650L1200 80" stroke="#ffffff" stroke-width="32"/></g>
 <rect x="42" y="42" width="1116" height="591" rx="18" fill="none" stroke="#40527e" stroke-opacity=".34" stroke-width="3"/>
-<rect x="76" y="82" width="13" height="35" rx="6" fill="#e45977"/>
-<text x="106" y="110" fill="#223d79" font-family="Arial,sans-serif" font-weight="800" font-size="25" letter-spacing="3">USA ANIME CLUB · ${e(a.category.toUpperCase())}</text>
+<rect x="76" y="82" width="13" height="35" rx="6" fill="#ffb64f"/>
+<text x="106" y="110" fill="#2454a4" font-family="Arial,sans-serif" font-weight="800" font-size="25" letter-spacing="3">USA ANIME CLUB · ${e(a.category.toUpperCase())}</text>
 ${lines.slice(0,4).map((l,i)=>`<text x="76" y="${305+i*61}" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">${e(l)}</text>`).join("")}
-<path d="M76 555h516" stroke="#df496d" stroke-width="8"/>
+<path d="M76 555h516" stroke="#0fa59b" stroke-width="8"/>
 <text x="76" y="599" fill="#4b5676" font-family="Arial,sans-serif" font-size="21" font-weight="700">ORIGINAL EDITORIAL ART · ${a.date}</text>
-<text x="1000" y="570" fill="#2449a0" fill-opacity=".75" font-size="113" font-family="Arial,sans-serif" text-anchor="middle">${e(a.symbol)}</text></svg>\n`;
+<text x="1000" y="570" fill="#285bd0" fill-opacity=".75" font-size="113" font-family="Arial,sans-serif" text-anchor="middle">${e(a.symbol)}</text></svg>\n`;
   }
   const pages=[
 ["about","About Us","About USA Anime Club | Independent US Anime News","Learn about USA Anime Club, an independent fan-run publication covering verified anime news for audiences in the United States.","about USA Anime Club, independent anime newsroom, verified US anime news",`<p>USA Anime Club is an independent fan-run publication about anime developments that matter to viewers in the United States.</p><p>We focus on sourced release announcements, North American streaming rights, movie screenings and production updates. We do not publish unrelated lifestyle material or general anime guides on this site.</p><h2>Our editorial approach</h2><p>Every news report links to an original dated announcement and states what remains unconfirmed. We never claim to have conducted interviews or attended events without actually doing so.</p><p>USA Anime Club Editorial is our publication byline. Questions: <a href="mailto:${EMAIL}">${EMAIL}</a>. Our <a href="/editorial-policy/">editorial policy</a> explains how we verify claims.</p>`],

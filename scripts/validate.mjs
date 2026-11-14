@@ -122,4 +122,19 @@ assert.equal(returningDeclined.loaded.length,0,"declined visitor should remain u
 const returningAccepted=consentHarness("accepted");
 assert.equal(returningAccepted.loaded.length,2,"accepted visitor should load both analytics scripts");
 
+
+const homeHtml=read("index.html");
+const style=read("assets/styles.css");
+const uiScript=read("assets/site.js");
+assert(homeHtml.includes('id="local-clock"'),"visitor-local clock missing from masthead");
+assert(homeHtml.includes("THE ANIME NEWS DESK"),"editorial left label missing");
+assert(!homeHtml.includes("UNITED STATES EDITION"),"obsolete masthead text remains");
+assert(!homeHtml.includes("INDEPENDENT ANIME JOURNALISM"),"obsolete strapline remains");
+assert(style.includes("color-scheme:light"),"light theme required");
+assert(style.includes("--teal:#089e98")&&style.includes("--violet:#6e54db"),"anime palette incomplete");
+assert(uiScript.includes("Intl.DateTimeFormat")&&uiScript.includes("updateClock()"),"live local clock is not wired");
+for(const path of ["assets/styles.css","assets/favicon.svg","scripts/build.mjs"]){
+  assert(!/#(?:df496d|ff4f9a|d52e58|e45977|ffe9ef|fff0f2)\b/i.test(read(path)),"old pink palette remains in "+path);
+}
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

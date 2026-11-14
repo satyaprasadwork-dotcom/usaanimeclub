@@ -1,5 +1,19 @@
 (()=>{
   "use strict";
+  // Visitor-local clock: browser timezone, no location permission or external time service.
+  const clock=document.getElementById("local-clock");
+  if(clock){
+    const formatter=new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit",timeZoneName:"short"});
+    const updateClock=()=>{
+      const now=new Date();
+      clock.dateTime=now.toISOString();
+      clock.textContent=formatter.format(now);
+      clock.title="Current time in your device's local time zone";
+    };
+    updateClock();
+    window.setInterval(updateClock,30_000);
+    document.addEventListener("visibilitychange",()=>{if(!document.hidden)updateClock()});
+  }
   const toggle=document.querySelector("[data-menu-toggle]");
   const nav=document.querySelector("[data-nav]");
   const closeMenu=()=>{if(toggle&&nav){toggle.setAttribute("aria-expanded","false");nav.classList.remove("is-open")}};
