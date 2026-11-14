@@ -483,6 +483,9 @@ assert(read("corrections/index.html").includes('>Request a correction</a>'),"Cor
 assert(read("assets/styles.css").includes(".prose a.btn,.prose a.btn:visited,.prose a.btn:hover,.prose a.btn:focus-visible{color:#fff;text-decoration:none}"),"Prose call-to-action contrast regression");
 assert(read("assets/styles.css").includes(".prose a.btn.alt,.prose a.btn.alt:visited{color:var(--text)}"),"Outlined prose button contrast regression");
 assert(htaccess.includes('Header set CDN-Cache-Control "no-store"'),"No CDN anti-staleness header");
+const htmlCachePolicy=htaccess.slice(htaccess.indexOf("<FilesMatch"),htaccess.indexOf("</FilesMatch>"));
+assert(htmlCachePolicy.includes('Header set Cache-Control "no-store, max-age=0, must-revalidate"'),"HTML pages must not retain outdated versions");
+assert(htmlCachePolicy.includes('Header set CDN-Cache-Control "no-store"'),"HTML must disable CDN caching where supported");
 assert(htaccess.includes('RewriteRule ^press/?$ /contact/ [R=301,L]'),"Retired press URL must redirect to contact");
 
 
