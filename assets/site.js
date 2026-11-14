@@ -1,9 +1,45 @@
-(()=>{"use strict";
-const toggle=document.querySelector("[data-menu-toggle]"),nav=document.querySelector("[data-nav]");
-if(toggle&&nav){toggle.addEventListener("click",()=>{const expanded=toggle.getAttribute("aria-expanded")==="true";toggle.setAttribute("aria-expanded",String(!expanded));nav.classList.toggle("is-open",!expanded)});nav.addEventListener("click",e=>{if(e.target.closest("a")){toggle.setAttribute("aria-expanded","false");nav.classList.remove("is-open")}})}
-const buttons=[...document.querySelectorAll("[data-category]")],cards=[...document.querySelectorAll("[data-news-category]")];
-buttons.forEach(button=>button.addEventListener("click",()=>{const cat=button.dataset.category;buttons.forEach(b=>b.setAttribute("aria-pressed",String(b===button)));cards.forEach(card=>{card.hidden=cat!=="All"&&card.dataset.newsCategory!==cat});const count=cards.filter(c=>!c.hidden).length;const status=document.getElementById("filter-status");if(status)status.textContent=count+" stor"+(count===1?"y":"ies")+" shown"}));
-document.addEventListener("keydown",event=>{if(event.key==="Escape"&&toggle&&nav&&nav.classList.contains("is-open")){nav.classList.remove("is-open");toggle.setAttribute("aria-expanded","false");toggle.focus()}});
-const hero=document.querySelector(".hero"),panel=document.getElementById("pg");
-if(hero&&panel&&window.matchMedia&&window.matchMedia("(prefers-reduced-motion: no-preference)").matches){hero.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const r=hero.getBoundingClientRect();panel.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*24+"deg");panel.style.setProperty("--rx",-((e.clientY-r.top)/r.height-.5)*16+"deg")},{passive:true})}
+(()=>{
+  "use strict";
+  const toggle=document.querySelector("[data-menu-toggle]");
+  const nav=document.querySelector("[data-nav]");
+  const closeMenu=()=>{if(toggle&&nav){toggle.setAttribute("aria-expanded","false");nav.classList.remove("is-open")}};
+  if(toggle&&nav){
+    toggle.addEventListener("click",()=>{
+      const next=toggle.getAttribute("aria-expanded")!=="true";
+      toggle.setAttribute("aria-expanded",String(next));
+      nav.classList.toggle("is-open",next);
+    });
+    nav.addEventListener("click",e=>{if(e.target.closest("a"))closeMenu()});
+    document.addEventListener("click",e=>{if(!nav.contains(e.target)&&!toggle.contains(e.target))closeMenu()});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav.classList.contains("is-open")){closeMenu();toggle.focus()}});
+  }
+  const buttons=[...document.querySelectorAll("[data-category]")];
+  const cards=[...document.querySelectorAll("[data-news-category]")];
+  const search=document.querySelector("[data-news-search]");
+  if(cards.length&&buttons.length){
+    const available=buttons.map(b=>b.dataset.category);
+    const params=new URLSearchParams(location.search);
+    let category=available.includes(params.get("category"))?params.get("category"):"All";
+    function apply(){
+      const query=(search?.value||"").trim().toLocaleLowerCase();
+      let count=0;
+      buttons.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.category===category)));
+      cards.forEach(card=>{
+        const visible=(category==="All"||card.dataset.newsCategory===category)&&(!query||card.textContent.toLocaleLowerCase().includes(query));
+        card.hidden=!visible;if(visible)count++;
+      });
+      const status=document.getElementById("filter-status");
+      if(status)status.textContent=count+" stor"+(count===1?"y":"ies")+" shown on this page";
+      const empty=document.getElementById("no-results");if(empty)empty.hidden=count>0;
+    }
+    buttons.forEach(button=>button.addEventListener("click",()=>{
+      category=button.dataset.category;
+      const url=new URL(location.href);
+      if(category==="All")url.searchParams.delete("category");else url.searchParams.set("category",category);
+      history.replaceState(null,"",url);
+      apply();
+    }));
+    if(search)search.addEventListener("input",apply);
+    apply();
+  }
 })();
