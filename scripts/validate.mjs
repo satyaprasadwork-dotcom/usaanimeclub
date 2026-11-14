@@ -79,7 +79,7 @@ assert(read("robots.txt").includes(base+"/sitemap.xml"),"robots.txt lacks sitema
 const rss=read("feed.xml");
 for(const a of articles)assert(rss.includes("<guid isPermaLink=\"true\">"+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
 const homepage=read("index.html");
-const mostRecent=[...articles].sort((a,b)=>b.sourceDate.localeCompare(a.sourceDate)||b.date.localeCompare(a.date)||a.title.localeCompare(b.title))[0];
+const mostRecent=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title))[0];
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
@@ -319,5 +319,19 @@ assert(movingTickerCSS.includes("@keyframes news-ticker-left"),"Ticker animation
 assert(movingTickerCSS.includes("translateX(-50%)"),"Ticker must move right to left");
 assert(movingTickerCSS.includes("prefers-reduced-motion:reduce")&&movingTickerCSS.includes(".news-ticker-track{animation:none"),"Reduced-motion ticker fallback missing");
 assert(movingTickerCSS.includes(".news-ticker-window:hover .news-ticker-track"),"Ticker must pause on hover");
+
+
+// Filtering is restricted to archive cards: ticker headlines must never be
+// hidden or included in the archive's visible-story count.
+const runtime=read("assets/site.js");
+assert(runtime.includes('.archive-grid .news-card[data-news-category]'),"Archive selector must be scoped to archive cards");
+assert(!runtime.includes('querySelectorAll("[data-news-category]")'),"Global category selector would hide ticker headlines");
+const sheet=read("assets/styles.css");
+assert(sheet.includes('.edition-bar{display:block}'),"Mobile clock strip must remain visible");
+assert(sheet.includes('.edition-inner{justify-content:flex-end}'),"Small mobile screens need clock-only layout");
+for(const loc of urls){
+  const html=read(localPath(loc));
+  assert(html.includes('id="local-clock"'),"Device local clock absent on "+loc);
+}
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

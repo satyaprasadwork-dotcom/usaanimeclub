@@ -431,3 +431,14 @@ h1,h2,h3{letter-spacing:-.03em}
  .news-ticker-window{overflow-x:auto;scrollbar-width:thin}
  .news-ticker-set[aria-hidden="true"]{display:none}
 }
+
+/* Mobile readers still need the device-local clock. The original breakpoint hid it. */
+@media(max-width:620px){
+ .edition-bar{display:block}
+ .edition-inner{min-height:31px;padding-block:.15rem;gap:.6rem}
+ #local-clock{font-size:.72rem;font-variant-numeric:tabular-nums}
+}
+@media(max-width:420px){
+ .edition-left{display:none}
+ .edition-inner{justify-content:flex-end}
+}

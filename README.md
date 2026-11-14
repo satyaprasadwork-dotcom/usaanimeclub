@@ -43,3 +43,7 @@ Every news article inherits the same bottom-of-page **Add as a preferred source 
 ## Automatically updated news ticker
 
 All pages display a right-to-left scrolling headline strip directly below the header. It comes from **every article in `content/articles.json`**, sorted newest first. New articles automatically join the scroller on site rebuild, with clickable canonical article links and category badges. The ticker pauses when hovered or focused, repeats a hidden-from-assistive-technology visual copy for seamless movement, and becomes manually scrollable when reduced motion is preferred. No external news service or script is required.
+
+## Audit fixes: archive and mobile clock
+
+News-card filtering is scoped to `.archive-grid` and never counts or hides the always-visible headline ticker. The mobile header retains the browser-local time strip; on very narrow screens it hides the decorative newsroom label instead of the clock. The lead story, headline ticker and archive order by **site publication date**, then source date, so future newly published articles surface correctly.

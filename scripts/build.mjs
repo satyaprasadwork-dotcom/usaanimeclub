@@ -25,7 +25,7 @@ function buildSite(articles){
     const paragraphs=a.sections.flatMap(section=>section[1]);
     if(new Set(paragraphs.map(p=>p.trim())).size!==paragraphs.length)throw Error("Article contains duplicate paragraphs: "+a.slug);
   }
-  const items=[...articles].sort((a,b)=>b.sourceDate.localeCompare(a.sourceDate)||b.date.localeCompare(a.date)||a.title.localeCompare(b.title));
+  const items=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const url=a=>"/news/"+a.slug+"/";
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
@@ -91,13 +91,13 @@ ${newsTicker}
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
 <div class="card-folio"><span class="card-category">${e(a.category)}</span></div>
 <div class="card-media"><img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="Original editorial title graphic for ${e(a.title)}"></div>
-<div class="tx"><div class="card-meta"><span>Source announced</span><time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></div>
+<div class="tx"><div class="card-meta"><span>Published</span><time datetime="${a.date}">${fmt(a.date)}</time></div>
 <h3>${e(a.title)}</h3><p class="card-summary">${e(a.description)}</p>
 <div class="card-footer"><span>USA ANIME CLUB</span><span class="card-read">READ STORY</span></div></div></a>`;
   }
   const first=items[0];
   const shortItem=a=>`<a class="latest-item" data-news-category="${e(a.category)}" href="${url(a)}">
-<span class="story-kicker">${e(a.category)} <span aria-hidden="true">·</span> <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span>
+<span class="story-kicker">${e(a.category)} <span aria-hidden="true">·</span> <time datetime="${a.date}">${fmt(a.date)}</time></span>
 <strong>${e(a.title)}</strong><span class="rail-read">Read article</span></a>`;
   const home=`<section class="front-intro"><div class="wrap">
 <div><span class="eyebrow"><span class="red-dot" aria-hidden="true"></span> THE ANIME NEWS DESK</span><h1>Latest anime news<span class="headline-period">.</span></h1>
@@ -106,7 +106,7 @@ ${newsTicker}
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
 <a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-folio"><span class="card-category">${e(first.category)}</span></div><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
-<div class="feature-copy"><span class="story-kicker"><span class="lead-label">LEAD STORY</span> ${e(first.category)} · ${fmt(first.sourceDate)}</span>
+<div class="feature-copy"><span class="story-kicker"><span class="lead-label">LEAD STORY</span> ${e(first.category)} · ${fmt(first.date)}</span>
 <h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="read-story">Read the report</span></div></a>
 <aside class="latest-rail" aria-label="More recent anime reports"><div class="rail-title"><div><span class="eyebrow">THE WIRE</span><h2>Latest updates</h2></div><span class="rail-count">${Math.min(3,items.length-1)} STORIES</span></div>
 <div class="latest-list">${items.slice(1,4).map(shortItem).join("")}</div>
@@ -120,7 +120,7 @@ ${newsTicker}
 <a href="/news/?category=Manga"><span class="topic-eyebrow">COVERAGE</span><strong>Manga</strong><span>English manga releases and licensing</span><small>${items.filter(a=>a.category==="Manga").length} reports</small></a>
 <a href="/news/?category=Manhwa"><span class="topic-eyebrow">COVERAGE</span><strong>Manhwa</strong><span>Korean comics, webtoons and editions</span><small>${items.filter(a=>a.category==="Manhwa").length} reports</small></a>
 <a href="/news/?category=Web%20Novels"><span class="topic-eyebrow">COVERAGE</span><strong>Web Novels</strong><span>Online fiction and serialized translations</span><small>${items.filter(a=>a.category==="Web Novels").length} reports</small></a></div></div></section>
-<section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from what remains unknown, verify US availability, and identify the original reporting source in every article.</p></div>
+<section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from unanswered questions, identify whether US availability is confirmed, and link to original sources.</p></div>
 <a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
   const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
   const homeDesc="Verified anime, manga, manhwa and web-novel news for US readers, with release dates, publisher announcements and primary sources.";
@@ -137,7 +137,7 @@ pageLd("/",homeTitle,homeDesc)]});
     const title=`Anime News Archive${p===1?"":" — Page "+p} | USA Anime Club`,desc=`Browse anime, manga, manhwa and online-fiction updates for US readers, archive page ${p}.`;
     const main=`<section class="archive-page"><div class="wrap">${bread([["Home","/"],["News Archive",path]])}
 <header class="archive-intro"><span class="eyebrow">THE NEWS ARCHIVE / PAGE ${p}</span><h1>All anime news<span class="headline-period">.</span></h1>
-<p>Verified anime, manga, manhwa and online-fiction news, ordered by the announcement date or date the source was checked.</p></header>
+<p>Verified anime, manga, manhwa and online-fiction news, ordered by publication date. Each story also identifies its original source.</p></header>
 <div class="archive-toolbar"><div><h2>Browse stories</h2><p>Choose a topic or search the headlines on this page.</p></div>
 <div class="archive-search"><label for="news-search">Search this page</label><input type="search" id="news-search" data-news-search placeholder="Search headlines..." autocomplete="off"></div></div>
 ${chips}<div class="grid archive-grid">${sub.map(card).join("")}</div><p class="no-results" id="no-results" hidden>No matches on this page. Try another topic or search term.</p>

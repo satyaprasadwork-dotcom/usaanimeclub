@@ -28,7 +28,9 @@
     document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav.classList.contains("is-open")){closeMenu();toggle.focus()}});
   }
   const buttons=[...document.querySelectorAll("[data-category]")];
-  const cards=[...document.querySelectorAll("[data-news-category]")];
+  // Only archive story cards belong to the archive filter. The ticker and lead
+  // story also carry category data and must never be hidden or counted here.
+  const cards=[...document.querySelectorAll(".archive-grid .news-card[data-news-category]")];
   const search=document.querySelector("[data-news-search]");
   if(cards.length&&buttons.length){
     const available=buttons.map(b=>b.dataset.category);
