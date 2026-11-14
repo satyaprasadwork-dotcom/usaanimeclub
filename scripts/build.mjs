@@ -46,8 +46,8 @@ function buildSite(articles){
     +'</div></div></div></nav>';
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
     const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta name="twitter:image" content="${BASE+image}">`:"";
-    const selected=path.startsWith("/news/")?"News":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
-    const nav=[["Latest","/"],["News","/news/"],["Anime","/news/?category=Anime"],["Manga","/news/?category=Manga"],["Manhwa","/news/?category=Manhwa"],["Web Novels","/news/?category=Web%20Novels"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
+    const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
+    const nav=[["Latest","/"],["News","/news/"],["Anime","/news/category/anime/"],["Manga","/news/category/manga/"],["Manhwa","/news/category/manhwa/"],["Web Novels","/news/category/web-novels/"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
     return `<!doctype html>
 <html lang="en-US"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -61,7 +61,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=headline-ticker-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=audit-fixes-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -85,7 +85,7 @@ ${newsTicker}
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=headline-ticker-20261114" defer></script><script src="/assets/privacy.js?v=headline-ticker-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=audit-fixes-20261114" defer></script><script src="/assets/privacy.js?v=audit-fixes-20261114" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
@@ -116,10 +116,10 @@ ${newsTicker}
 <div class="grid">${items.slice(1,10).map(card).join("")}</div></div></section>
 <section class="topic-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">FIND YOUR BEAT</span><h2>Follow a story type</h2></div><p class="muted">Filter the news by what matters to you.</p></div>
 <div class="topic-grid">
-<a href="/news/?category=Anime"><span class="topic-eyebrow">COVERAGE</span><strong>Anime</strong><span>Adaptations, broadcasts and streaming news</span><small>${items.filter(a=>a.category==="Anime").length} reports</small></a>
-<a href="/news/?category=Manga"><span class="topic-eyebrow">COVERAGE</span><strong>Manga</strong><span>English manga releases and licensing</span><small>${items.filter(a=>a.category==="Manga").length} reports</small></a>
-<a href="/news/?category=Manhwa"><span class="topic-eyebrow">COVERAGE</span><strong>Manhwa</strong><span>Korean comics, webtoons and editions</span><small>${items.filter(a=>a.category==="Manhwa").length} reports</small></a>
-<a href="/news/?category=Web%20Novels"><span class="topic-eyebrow">COVERAGE</span><strong>Web Novels</strong><span>Online fiction and serialized translations</span><small>${items.filter(a=>a.category==="Web Novels").length} reports</small></a></div></div></section>
+<a href="/news/category/anime/"><span class="topic-eyebrow">COVERAGE</span><strong>Anime</strong><span>Adaptations, broadcasts and streaming news</span><small>${items.filter(a=>a.category==="Anime").length} reports</small></a>
+<a href="/news/category/manga/"><span class="topic-eyebrow">COVERAGE</span><strong>Manga</strong><span>English manga releases and licensing</span><small>${items.filter(a=>a.category==="Manga").length} reports</small></a>
+<a href="/news/category/manhwa/"><span class="topic-eyebrow">COVERAGE</span><strong>Manhwa</strong><span>Korean comics, webtoons and editions</span><small>${items.filter(a=>a.category==="Manhwa").length} reports</small></a>
+<a href="/news/category/web-novels/"><span class="topic-eyebrow">COVERAGE</span><strong>Web Novels</strong><span>Online fiction and serialized translations</span><small>${items.filter(a=>a.category==="Web Novels").length} reports</small></a></div></div></section>
 <section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from unanswered questions, identify whether US availability is confirmed, and link to original sources.</p></div>
 <a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
   const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
@@ -140,10 +140,49 @@ pageLd("/",homeTitle,homeDesc)]});
 <p>Verified anime, manga, manhwa and online-fiction news, ordered by publication date. Each story also identifies its original source.</p></header>
 <div class="archive-toolbar"><div><h2>Browse stories</h2><p>Choose a topic or search the headlines on this page.</p></div>
 <div class="archive-search"><label for="news-search">Search this page</label><input type="search" id="news-search" data-news-search placeholder="Search headlines..." autocomplete="off"></div></div>
-${chips}<div class="grid archive-grid">${sub.map(card).join("")}</div><p class="no-results" id="no-results" hidden>No matches on this page. Try another topic or search term.</p>
+${chips}<a class="category-all-link" id="category-all-link" href="/news/" hidden>See all stories in this category</a><div class="grid archive-grid">${sub.map(card).join("")}</div><p class="no-results" id="no-results" hidden>No matches on this page. Try another topic or search term.</p>
 ${pag}</div></section>`;
     files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:`anime manga manhwa web novel news page ${p}, US comics and serial fiction releases`,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc([["Home","/"],["News Archive",path]])]});
   }
+  // Topic landing pages are complete archives, even when content exceeds one page.
+  // Article URLs themselves remain unique and canonical.
+  const categoryRoutes=[["Anime","anime"],["Manga","manga"],["Manhwa","manhwa"],["Web Novels","web-novels"]];
+  const categoryDescriptions={
+    Anime:"Verified anime adaptation, television and streaming developments for US readers.",
+    Manga:"English-language manga volume releases, licensing notices and publisher updates.",
+    Manhwa:"Korean comics, webtoon releases, official awards and English editions.",
+    "Web Novels":"Serial fiction platforms, translated light novels and online reading updates."
+  };
+  for(const [category,slug] of categoryRoutes){
+    const group=items.filter(a=>a.category===category);
+    if(!group.length)continue;
+    const pageCount=Math.ceil(group.length/12);
+    for(let n=1;n<=pageCount;n++){
+      const path=n===1?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+n+"/";
+      const shown=group.slice((n-1)*12,n*12);
+      const name=category+" News"+(n>1?" — Page "+n:"");
+      const title=name+" | USA Anime Club";
+      const desc=categoryDescriptions[category]+" "+(n>1?"Browse page "+n+" of "+pageCount+".":"Browse "+group.length+" verified reports.");
+      const choices='<nav class="category-directory" aria-label="Browse all news categories">'
+        +'<a href="/news/">All news</a>'
+        +categoryRoutes.map(([label,route])=>'<a href="/news/category/'+route+'/"'+(label===category?' aria-current="page"':'')+'>'+e(label)+'</a>').join("")
+        +'</nav>';
+      const navPages='<nav class="btns" aria-label="'+e(category)+' archive pages">'
+        +(n>1?'<a class="btn alt" href="'+(n===2?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+(n-1)+"/")+'">← Newer</a>':"")
+        +(n<pageCount?'<a class="btn alt" href="/news/category/'+slug+'/page/'+(n+1)+'/">Older →</a>':"")
+        +'</nav>';
+      const main='<section class="archive-page category-archive"><div class="wrap">'
+        +bread([["Home","/"],["News Archive","/news/"],[category,path]])
+        +'<header class="archive-intro"><span class="eyebrow">BROWSE STORIES / '+e(category.toUpperCase())+'</span>'
+        +'<h1>'+e(category)+' news<span class="headline-period">.</span></h1>'
+        +'<p>'+e(categoryDescriptions[category])+' '+group.length+' '+(group.length===1?"report":"reports")+' in this category.</p></header>'
+        +choices+'<div class="grid archive-grid">'+shown.map(card).join("")+'</div>'
+        +navPages+'</div></section>';
+      files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:category.toLowerCase()+" news USA, "+slug.replaceAll("-"," ")+" official announcements, USA Anime Club archive",main,
+        schemas:[pageLd(path,title,desc,"CollectionPage"),bc([["Home","/"],["News Archive","/news/"],[category,path]])]});
+    }
+  }
+
   for(const a of items){
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");

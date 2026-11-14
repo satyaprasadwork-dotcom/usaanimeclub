@@ -44,6 +44,15 @@
         const visible=(category==="All"||card.dataset.newsCategory===category)&&(!query||card.textContent.toLocaleLowerCase().includes(query));
         card.hidden=!visible;if(visible)count++;
       });
+      const fullCategory=document.getElementById("category-all-link");
+      if(fullCategory){
+        const categoryRoutes={"Anime":"anime","Manga":"manga","Manhwa":"manhwa","Web Novels":"web-novels"};
+        fullCategory.hidden=category==="All"||!categoryRoutes[category];
+        if(!fullCategory.hidden){
+          fullCategory.href="/news/category/"+categoryRoutes[category]+"/";
+          fullCategory.textContent="See all "+category+" reports";
+        }
+      }
       const status=document.getElementById("filter-status");
       if(status)status.textContent=count+" stor"+(count===1?"y":"ies")+" shown on this page";
       const empty=document.getElementById("no-results");if(empty)empty.hidden=count>0;

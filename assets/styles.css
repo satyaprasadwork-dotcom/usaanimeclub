@@ -442,3 +442,11 @@ h1,h2,h3{letter-spacing:-.03em}
  .edition-left{display:none}
  .edition-inner{justify-content:flex-end}
 }
+
+/* Category landing pages show all stories even after archive pagination. */
+.category-directory{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem;margin:.6rem 0 1.6rem}
+.category-directory a{display:inline-flex;padding:.46rem .8rem;border:1px solid #c9d4e2;background:#fff;border-radius:5px;color:#27415d;text-decoration:none;font:600 .82rem/1.4 var(--body)}
+.category-directory a:hover,.category-directory a[aria-current="page"]{background:#173A70;border-color:#173A70;color:#fff}
+.category-all-link{display:inline-block;color:#173A70;font:700 .87rem/1.4 var(--body);text-decoration:underline;text-underline-offset:3px;margin:.35rem 0 1.25rem}
+.category-archive .archive-intro{padding-bottom:1rem}
+.category-archive .archive-grid{row-gap:1.65rem}

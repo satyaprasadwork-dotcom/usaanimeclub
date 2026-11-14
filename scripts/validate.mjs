@@ -181,7 +181,7 @@ for(const loc of urls){
  assert(html.includes("/assets/privacy.js"),"Shared analytics code missing from "+loc);
  assert(html.includes("/assets/site.js"),"Shared JS missing from "+loc);
 }
-assert(read("index.html").includes("category=Web%20Novels"),"Web novel navigation missing");
+assert(read("index.html").includes("/news/category/web-novels/"),"Web novel navigation missing");
 
 
 
@@ -333,5 +333,29 @@ for(const loc of urls){
   const html=read(localPath(loc));
   assert(html.includes('id="local-clock"'),"Device local clock absent on "+loc);
 }
+
+
+// Topic archives are complete, canonical, paginated collections, not
+// query-parameter filters limited to the current 12-story page.
+const routeNames={"Anime":"anime","Manga":"manga","Manhwa":"manhwa","Web Novels":"web-novels"};
+for(const [category,slug] of Object.entries(routeNames)){
+ const matching=articles.filter(a=>a.category===category);
+ const count=Math.ceil(matching.length/12);
+ for(let number=1;number<=count;number++){
+   const path=number===1?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+number+"/";
+   const canonical=base+path;
+   assert(urls.includes(canonical),"Topic collection missing from sitemap "+path);
+   const html=read(localPath(canonical));
+   assert(html.includes('<h1>'+category+' news'),"Topic collection heading wrong "+path);
+   assert(html.includes('rel="canonical" href="'+canonical+'"'),"Category canonical wrong "+path);
+   const grid=html.slice(html.indexOf('class="grid archive-grid"'));
+   for(const story of matching.slice((number-1)*12,number*12)){
+     assert(grid.includes('href="/news/'+story.slug+'/"'),"Topic collection omitted "+story.slug);
+   }
+   assert((grid.match(/class="news-card"/g)||[]).length===Math.min(12,matching.length-(number-1)*12),"Category card count wrong "+path);
+ }
+ assert(homeHtml.includes('href="/news/category/'+slug+'/"'),"Homepage category path wrong "+slug);
+}
+assert(read("assets/site.js").includes('getElementById("category-all-link")'),"Archive filter lacks all-topic link");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

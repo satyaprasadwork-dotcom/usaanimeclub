@@ -47,3 +47,7 @@ All pages display a right-to-left scrolling headline strip directly below the he
 ## Audit fixes: archive and mobile clock
 
 News-card filtering is scoped to `.archive-grid` and never counts or hides the always-visible headline ticker. The mobile header retains the browser-local time strip; on very narrow screens it hides the decorative newsroom label instead of the clock. The lead story, headline ticker and archive order by **site publication date**, then source date, so future newly published articles surface correctly.
+
+## Complete topic archives
+
+The four categories have independent, indexable collection pages under `/news/category/` and automatic 12-article pagination. The main news archive retains its in-page filters but offers a separate link to the complete selected category. Main navigation and homepage category tiles lead to the full archives; publication URLs and the shared article layout remain unchanged.
