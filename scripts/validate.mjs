@@ -549,4 +549,33 @@ assert(homeFeatured==="/news/"+orderedPublished[0].slug+"/","Hero did not select
 const archiveCards=[...read("news/index.html").matchAll(/class="news-card" href="(\/news\/[^"]+\/)"/g)].map(x=>x[1]);
 assert.deepEqual(archiveCards,orderedPublished.slice(0,12).map(a=>"/news/"+a.slug+"/"),"Newest articles must precede older reports in first archive page");
 
+// Ensure publisher code, consent defaults and discovery documents stay in sync on EVERY generated route.
+const adsPublisher="ca-pub-7937216909291905";
+const adsSrc="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+adsPublisher;
+const documentPaths=[...urls.map(localPath),"404.html"];
+for(const filePath of documentPaths){
+ const html=read(filePath);
+ const matches=html.split('src="'+adsSrc+'"').length-1;
+ assert.equal(matches,1,"AdSense code must occur once in "+filePath);
+ assert(html.includes('name="google-adsense-account" content="'+adsPublisher+'"'),"AdSense account missing in "+filePath);
+ const consentPos=html.indexOf('window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied"');
+ const adPos=html.indexOf('src="'+adsSrc+'"');
+ assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
+ assert(html.includes('src="/assets/privacy.js?v='+info.buildId+'"'),"Shared privacy runtime missing "+filePath);
+}
+assert(read("ads.txt").trim()==="google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0","AdSense ads.txt seller entry missing");
+const privacyNotice=read("privacy/index.html");
+assert(privacyNotice.includes("Google AdSense publisher script"),"Privacy policy must disclose AdSense");
+assert(read("assets/privacy.js").includes('window.gtag("consent","update",{analytics_storage:"granted"})'),"Analytics choice must not overwrite ad consent");
+const robotsRules=read("robots.txt");
+assert(robotsRules.includes("User-agent: *")&&robotsRules.includes("Allow: /"),"robots.txt must permit public pages");
+assert(robotsRules.includes(base+"/sitemap.xml")&&robotsRules.includes(base+"/news-sitemap.xml"),"robots.txt must include both sitemaps");
+const llmLinks=read("llms.txt");
+for(const suffix of ["/news/","/news/category/anime/","/news/category/manga/","/news/category/manhwa/","/news/category/web-novels/","/editorial-policy/","/sitemap.xml"]){
+ assert(llmLinks.includes(base+suffix),"llms.txt missing "+suffix);
+}
+const indexNowKey="05c970ca16a23e9256d8594bfad3a38f";
+assert(read(indexNowKey+".txt").trim()===indexNowKey,"IndexNow verification key file absent");
+assert(urls.every(u=>u.startsWith(base+"/")),"IndexNow must only submit same-host canonical URLs");
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

@@ -1,0 +1,33 @@
+name: Notify Bing and IndexNow of USA Anime Club URLs
+on:
+  workflow_run:
+    workflows: ["Build and validate USA Anime Club"]
+    types: [completed]
+  schedule:
+    - cron: "11 5 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: usa-anime-indexnow
+  cancel-in-progress: false
+jobs:
+  indexnow:
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Recall whether this version was already submitted
+        id: previous
+        uses: actions/cache@v4
+        with:
+          path: .indexnow-submitted
+          key: usa-anime-indexnow-${{ hashFiles('build-info.json') }}
+      - name: Verify live deployment and submit all canonical URLs
+        if: steps.previous.outputs.cache-hit != 'true'
+        run: node scripts/indexnow.mjs
