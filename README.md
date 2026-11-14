@@ -51,3 +51,7 @@ News-card filtering is scoped to `.archive-grid` and never counts or hides the a
 ## Complete topic archives
 
 The four categories have independent, indexable collection pages under `/news/category/` and automatic 12-article pagination. The main news archive retains its in-page filters but offers a separate link to the complete selected category. Main navigation and homepage category tiles lead to the full archives; publication URLs and the shared article layout remain unchanged.
+
+## Interactive accessibility checks
+
+The headline ticker has an explicit Pause/Resume control (in addition to hover/focus pause and reduced-motion fallback). CI runs a small simulated-browser test of archive filtering, search, category links and the ticker pause/resume behavior. It also checks internal article anchors and duplicate HTML IDs on every canonical page.

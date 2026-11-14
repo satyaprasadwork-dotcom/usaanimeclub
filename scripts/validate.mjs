@@ -358,4 +358,73 @@ for(const [category,slug] of Object.entries(routeNames)){
 }
 assert(read("assets/site.js").includes('getElementById("category-all-link")'),"Archive filter lacks all-topic link");
 
+
+// Regression test: the ticker must not be treated as archive-card content.
+// Simulate archive interactions without a browser or external services.
+function archiveInteractionHarness(){
+ const categories=["All","Anime","Manga","Manhwa","Web Novels"];
+ const buttons=categories.map(category=>({
+   dataset:{category},attrs:{},handlers:{},setAttribute(k,value){this.attrs[k]=value},
+   addEventListener(k,fn){this.handlers[k]=fn},
+   click(){this.handlers.click?.()}
+ }));
+ const cards=[
+   {dataset:{newsCategory:"Anime"},textContent:"Hirayasumi Netflix release",hidden:false},
+   {dataset:{newsCategory:"Manga"},textContent:"One Piece volume 113",hidden:false},
+   {dataset:{newsCategory:"Manga"},textContent:"Pokémon Adventures",hidden:false},
+   {dataset:{newsCategory:"Manhwa"},textContent:"Omniscient Reader",hidden:false},
+   {dataset:{newsCategory:"Web Novels"},textContent:"Royal Road Writathon",hidden:false}
+ ];
+ const tickerLinks=[{dataset:{newsCategory:"Anime"},textContent:"Ticker anime",hidden:false},{dataset:{newsCategory:"Manga"},textContent:"Ticker manga",hidden:false}];
+ const status={textContent:""},empty={hidden:true},fullCategory={hidden:true,href:"",textContent:""};
+ const search={value:"",handlers:{},addEventListener(k,fn){this.handlers[k]=fn},input(v){this.value=v;this.handlers.input?.()}};
+ const tickerState={paused:false,classList:{toggle(){tickerState.paused=!tickerState.paused;return tickerState.paused}}};
+ const tickerButton={attrs:{},textContent:"Pause",handlers:{},closest:()=>tickerState,setAttribute(k,v){this.attrs[k]=v},addEventListener(k,fn){this.handlers[k]=fn},click(){this.handlers.click?.()}};
+ const document={
+   getElementById(id){return({"filter-status":status,"no-results":empty,"category-all-link":fullCategory})[id]??null},
+   querySelector(sel){return({"[data-news-search]":search,"[data-ticker-toggle]":tickerButton})[sel]??null},
+   querySelectorAll(sel){return({
+      "[data-category]":buttons,
+      ".archive-grid .news-card[data-news-category]":cards,
+      "[data-news-category]":[...cards,...tickerLinks]
+   })[sel]??[]},
+   addEventListener(){}
+ };
+ const location={search:"?category=Manga",href:"https://usaanimeclub.com/news/?category=Manga"};
+ const history={replaceState(_s,_t,next){location.href=String(next);location.search=new URL(location.href).search}};
+ runInNewContext(runtime,{document,location,history,window:{setInterval(){}},URL,URLSearchParams,Intl,Date});
+ assert.equal(status.textContent,"2 stories shown on this page","Archive should count only archive cards");
+ assert.equal(cards.filter(x=>!x.hidden).length,2,"Manga filter should show two cards");
+ assert(tickerLinks.every(x=>!x.hidden),"Archive filter must not hide the ticker");
+ assert.equal(fullCategory.href,"/news/category/manga/","Manga archive link incorrect");
+ buttons.find(x=>x.dataset.category==="Anime").click();
+ assert.equal(cards.filter(x=>!x.hidden).length,1,"Anime filter should show one card");
+ assert.equal(fullCategory.href,"/news/category/anime/","Anime archive link incorrect");
+ search.input("irrelevant match");
+ assert.equal(status.textContent,"0 stories shown on this page","Archive search should update count");
+ assert.equal(empty.hidden,false,"Archive empty state should show");
+ assert(tickerLinks.every(x=>!x.hidden),"Search must not hide ticker links");
+ buttons.find(x=>x.dataset.category==="All").click();
+ search.input("");
+ assert.equal(status.textContent,"5 stories shown on this page","Show-all filtering should restore all cards");
+ assert.equal(fullCategory.hidden,true,"Full category link should hide when browsing all");
+ tickerButton.click();
+ assert.equal(tickerState.paused,true,"Ticker pause button did not stop animation");
+ assert.equal(tickerButton.attrs["aria-pressed"],"true","Ticker pause state inaccessible");
+ tickerButton.click();
+ assert.equal(tickerState.paused,false,"Ticker resume button did not restart animation");
+}
+archiveInteractionHarness();
+// Check all internal TOC anchors and duplicate element IDs for every canonical page.
+for(const u of urls){
+ const html=read(localPath(u));
+ const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
+ assert.equal(new Set(ids).size,ids.length,"Duplicate element IDs on "+u);
+ for(const href of [...html.matchAll(/\bhref="#([^"]+)"/g)].map(x=>x[1])){
+   assert(ids.includes(href),"Broken in-page anchor #"+href+" on "+u);
+ }
+ assert(html.includes('data-ticker-toggle'),"Ticker pause control missing on "+u);
+}
+assert(read("assets/styles.css").includes(".news-ticker.is-paused .news-ticker-track"),"Pause-state CSS missing");
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

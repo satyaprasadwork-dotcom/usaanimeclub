@@ -450,3 +450,10 @@ h1,h2,h3{letter-spacing:-.03em}
 .category-all-link{display:inline-block;color:#173A70;font:700 .87rem/1.4 var(--body);text-decoration:underline;text-underline-offset:3px;margin:.35rem 0 1.25rem}
 .category-archive .archive-intro{padding-bottom:1rem}
 .category-archive .archive-grid{row-gap:1.65rem}
+
+/* An explicit pause control meets WCAG expectations for automatically moving content. */
+.news-ticker-toggle{flex:0 0 auto;min-width:74px;background:#fff;color:#173A70;cursor:pointer;border:0;border-left:1px solid #cbd7e4;padding:0 .7rem;font:700 .75rem/1.2 var(--body)}
+.news-ticker-toggle:hover,.news-ticker-toggle:focus-visible{background:#eaf1fa;color:#173A70}
+.news-ticker.is-paused .news-ticker-track{animation-play-state:paused}
+@media(max-width:620px){.news-ticker-toggle{min-width:61px;font-size:.72rem;padding:0 .45rem}}
+@media(prefers-reduced-motion:reduce){.news-ticker-toggle{display:none}}

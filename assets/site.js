@@ -14,6 +14,16 @@
     window.setInterval(updateClock,30_000);
     document.addEventListener("visibilitychange",()=>{if(!document.hidden)updateClock()});
   }
+  const tickerButton=document.querySelector("[data-ticker-toggle]");
+  if(tickerButton){
+    const ticker=tickerButton.closest(".news-ticker");
+    tickerButton.addEventListener("click",()=>{
+      const paused=ticker?.classList.toggle("is-paused")||false;
+      tickerButton.setAttribute("aria-pressed",String(paused));
+      tickerButton.setAttribute("aria-label",paused?"Resume scrolling news headlines":"Pause scrolling news headlines");
+      tickerButton.textContent=paused?"Resume":"Pause";
+    });
+  }
   const toggle=document.querySelector("[data-menu-toggle]");
   const nav=document.querySelector("[data-nav]");
   const closeMenu=()=>{if(toggle&&nav){toggle.setAttribute("aria-expanded","false");nav.classList.remove("is-open")}};

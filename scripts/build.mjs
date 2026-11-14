@@ -43,7 +43,7 @@ function buildSite(articles){
     +'<div class="news-ticker-window"><div class="news-ticker-track" style="--ticker-duration:'+tickerSpeed+'s" aria-live="off">'
     +'<div class="news-ticker-set">'+items.map(a=>tickerLink(a)).join("")+'</div>'
     +'<div class="news-ticker-set" aria-hidden="true">'+items.map(a=>tickerLink(a,true)).join("")+'</div>'
-    +'</div></div></div></nav>';
+    +'</div></div><button class="news-ticker-toggle" type="button" data-ticker-toggle aria-pressed="false" aria-label="Pause scrolling news headlines">Pause</button></div></nav>';
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
     const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta name="twitter:image" content="${BASE+image}">`:"";
     const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
