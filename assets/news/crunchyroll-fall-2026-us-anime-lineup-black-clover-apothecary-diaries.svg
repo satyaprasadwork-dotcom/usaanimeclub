@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Original editorial illustration: Fall 2026 US Anime Lineup: Crunchyroll Confirms Black Clover and Apothecary Diaries" width="1200" height="675" viewBox="0 0 1200 675"><defs>
-<linearGradient id="g" x2="1" y2="1"><stop stop-color="#f2f4ff"/><stop offset=".52" stop-color="hsl(273 78% 91%)"/><stop offset="1" stop-color="#fff0f2"/></linearGradient>
+<linearGradient id="g" x2="1" y2="1"><stop stop-color="#f2f4ff"/><stop offset=".52" stop-color="hsl(199 78% 91%)"/><stop offset="1" stop-color="#fff9eb"/></linearGradient>
 <pattern id="p" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#213466" opacity=".12"/></pattern></defs>
 <rect width="1200" height="675" fill="url(#g)"/><rect width="1200" height="675" fill="url(#p)"/>
 <path d="M0 520L1200 160" stroke="#ffffff" stroke-width="140" opacity=".45"/>
-<g opacity=".35"><circle cx="1025" cy="260" r="185" fill="none" stroke="#234cba" stroke-width="12"/><circle cx="1068" cy="310" r="120" fill="#e45977"/><path d="M775 650L1200 80" stroke="#ffffff" stroke-width="32"/></g>
+<g opacity=".35"><circle cx="1025" cy="260" r="185" fill="none" stroke="#234cba" stroke-width="12"/><circle cx="1068" cy="310" r="120" fill="#ffb64f"/><path d="M775 650L1200 80" stroke="#ffffff" stroke-width="32"/></g>
 <rect x="42" y="42" width="1116" height="591" rx="18" fill="none" stroke="#40527e" stroke-opacity=".34" stroke-width="3"/>
-<rect x="76" y="82" width="13" height="35" rx="6" fill="#e45977"/>
-<text x="106" y="110" fill="#223d79" font-family="Arial,sans-serif" font-weight="800" font-size="25" letter-spacing="3">USA ANIME CLUB · STREAMING</text>
+<rect x="76" y="82" width="13" height="35" rx="6" fill="#ffb64f"/>
+<text x="106" y="110" fill="#2454a4" font-family="Arial,sans-serif" font-weight="800" font-size="25" letter-spacing="3">USA ANIME CLUB · STREAMING</text>
 <text x="76" y="305" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">Fall 2026 US Anime</text><text x="76" y="366" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">Lineup: Crunchyroll</text><text x="76" y="427" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">Confirms Black Clover</text><text x="76" y="488" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">and Apothecary Diaries</text>
-<path d="M76 555h516" stroke="#df496d" stroke-width="8"/>
+<path d="M76 555h516" stroke="#0fa59b" stroke-width="8"/>
 <text x="76" y="599" fill="#4b5676" font-family="Arial,sans-serif" font-size="21" font-weight="700">ORIGINAL EDITORIAL ART · 2026-11-14</text>
-<text x="1000" y="570" fill="#2449a0" fill-opacity=".75" font-size="113" font-family="Arial,sans-serif" text-anchor="middle">新</text></svg>
+<text x="1000" y="570" fill="#285bd0" fill-opacity=".75" font-size="113" font-family="Arial,sans-serif" text-anchor="middle">新</text></svg>
