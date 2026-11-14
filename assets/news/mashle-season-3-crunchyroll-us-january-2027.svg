@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Original editorial illustration: MASHLE Season 3 Confirmed for Crunchyroll Streaming in January 2027" width="1200" height="675" viewBox="0 0 1200 675"><defs>
-<linearGradient id="g" x2="1" y2="1"><stop stop-color="#f2f4ff"/><stop offset=".52" stop-color="hsl(256 78% 91%)"/><stop offset="1" stop-color="#fff9eb"/></linearGradient>
-<pattern id="p" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#213466" opacity=".12"/></pattern></defs>
-<rect width="1200" height="675" fill="url(#g)"/><rect width="1200" height="675" fill="url(#p)"/>
-<path d="M0 520L1200 160" stroke="#ffffff" stroke-width="140" opacity=".45"/>
-<g opacity=".35"><circle cx="1025" cy="260" r="185" fill="none" stroke="#234cba" stroke-width="12"/><circle cx="1068" cy="310" r="120" fill="#ffb64f"/><path d="M775 650L1200 80" stroke="#ffffff" stroke-width="32"/></g>
-<rect x="42" y="42" width="1116" height="591" rx="18" fill="none" stroke="#40527e" stroke-opacity=".34" stroke-width="3"/>
-<rect x="76" y="82" width="13" height="35" rx="6" fill="#ffb64f"/>
-<text x="106" y="110" fill="#2454a4" font-family="Arial,sans-serif" font-weight="800" font-size="25" letter-spacing="3">USA ANIME CLUB · TV ANIME</text>
-<text x="76" y="305" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">MASHLE Season 3</text><text x="76" y="366" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">Confirmed for</text><text x="76" y="427" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">Crunchyroll Streaming in</text><text x="76" y="488" fill="#152141" font-family="Arial,sans-serif" font-weight="800" font-size="45">January 2027</text>
-<path d="M76 555h516" stroke="#0fa59b" stroke-width="8"/>
-<text x="76" y="599" fill="#4b5676" font-family="Arial,sans-serif" font-size="21" font-weight="700">ORIGINAL EDITORIAL ART · 2026-11-14</text>
-<text x="1000" y="570" fill="#285bd0" fill-opacity=".75" font-size="113" font-family="Arial,sans-serif" text-anchor="middle">魔</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editorial cover: MASHLE Season 3 Confirmed for Crunchyroll Streaming in January 2027" width="1200" height="675" viewBox="0 0 1200 675">
+<rect width="1200" height="675" fill="#fff2e2"/>
+<rect x="0" y="0" width="18" height="675" fill="#a85b16"/>
+<path d="M76 161H1125" stroke="#a85b16" stroke-width="3" opacity=".55"/>
+<path d="M76 573H1125" stroke="#a85b16" stroke-width="2" opacity=".45"/>
+<text x="76" y="101" fill="#a85b16" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
+<text x="76" y="137" fill="#80410d" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">TELEVISION ANIME</text>
+<text x="76" y="278" fill="#80410d" font-family="Georgia,serif" font-weight="700" font-size="43">MASHLE Season 3 Confirmed</text><text x="76" y="344" fill="#80410d" font-family="Georgia,serif" font-weight="700" font-size="43">for Crunchyroll Streaming</text><text x="76" y="410" fill="#80410d" font-family="Georgia,serif" font-weight="700" font-size="43">in January 2027</text>
+<text x="76" y="613" fill="#80410d" font-family="Arial,sans-serif" font-size="22" font-weight="600">OFFICIAL ANNOUNCEMENT  ·  2026-10-28</text>
+<text x="1119" y="611" text-anchor="end" fill="#a85b16" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
+</svg>
