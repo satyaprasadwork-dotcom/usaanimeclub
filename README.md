@@ -71,3 +71,7 @@ On every generator run, obsolete paginated pages under `news/page/` and `news/ca
 ## Numbered pagination for every category
 
 The main news archive and all four topic pages use the same 12-article pagination utility in `scripts/pagination.mjs`. Navigation shows numbered pages, Previous/Next controls, and a clear "Showing X–Y of Z articles · Page N of M" indicator, even when a category has only one page. Each page has its own canonical URL and appears in the regenerated sitemap. When the thirteenth article enters a category, `/news/category/<category>/page/2/` is created automatically; stale pages disappear if content is later removed. Tests cover categories containing 12, 13, 24, 25 and 100 articles without introducing demo articles into production.
+
+## Same-day publishing order
+
+Each new article published on a date already used by an existing article should include an increasing positive integer `publishSequence` (higher numbers are newer). The generator sorts by publication date, then `publishSequence`, then original announcement date. This prevents a freshly written article about an older official announcement from appearing beneath an older article. Category pages, featured story, ticker and archive inherit the same order. Do not modify the original source date to manipulate order.

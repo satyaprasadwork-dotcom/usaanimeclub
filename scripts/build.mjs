@@ -27,6 +27,7 @@ function buildSite(articles){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(a.sourceDate)||Number.isNaN(Date.parse(a.sourceDate+"T12:00:00Z")))throw Error("Missing or invalid sourceDate: "+a.slug);
     if(a.sourceDate>a.date)throw Error("Original source announcement cannot postdate site article: "+a.slug);
     if(a.date>TODAY)throw Error("Future publication date: "+a.slug);
+    if(a.publishSequence!==undefined&&(!Number.isSafeInteger(a.publishSequence)||a.publishSequence<1))throw Error("Invalid publication sequence: "+a.slug);
     if(typeof a.title!=="string"||typeof a.description!=="string"||!a.title.trim()||!a.description.trim())throw Error("Missing title or description: "+a.slug);
     if(!a.source?.startsWith("https://")||!Array.isArray(a.sections)||a.sections.length===0)throw Error("Article requires HTTPS source and sections: "+a.slug);
   }
@@ -39,7 +40,7 @@ function buildSite(articles){
     const paragraphs=a.sections.flatMap(section=>section[1]);
     if(new Set(paragraphs.map(p=>p.trim())).size!==paragraphs.length)throw Error("Article contains duplicate paragraphs: "+a.slug);
   }
-  const items=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
+  const items=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const url=a=>"/news/"+a.slug+"/";
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});

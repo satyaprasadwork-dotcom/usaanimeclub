@@ -80,7 +80,7 @@ assert(read("robots.txt").includes(base+"/sitemap.xml"),"robots.txt lacks sitema
 const rss=read("feed.xml");
 for(const a of articles)assert(rss.includes("<guid isPermaLink=\"true\">"+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
 const homepage=read("index.html");
-const mostRecent=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title))[0];
+const mostRecent=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title))[0];
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
@@ -350,7 +350,7 @@ for(const [category,slug] of Object.entries(routeNames)){
    assert(html.includes('<h1>'+category+' news'),"Topic collection heading wrong "+path);
    assert(html.includes('rel="canonical" href="'+canonical+'"'),"Category canonical wrong "+path);
    const grid=html.slice(html.indexOf('class="grid archive-grid"'));
-   for(const story of getPageItems(matching.sort((a,b)=>b.date.localeCompare(a.date)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title)),number)){
+   for(const story of getPageItems(matching.sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title)),number)){
      assert(grid.includes('href="/news/'+story.slug+'/"'),"Topic collection omitted "+story.slug);
    }
    assert((grid.match(/class="news-card"/g)||[]).length===getPageItems(matching,number).length,"Category card count wrong "+path);
@@ -518,5 +518,17 @@ const mainArchive=read("news/index.html");
 assert(mainArchive.includes('class="news-pagination"'),"Main news archive pagination missing");
 assert((mainArchive.match(/class="news-card"/g)||[]).length<=12,"Main news archive exceeds 12 cards");
 assert(read("assets/styles.css").includes(".pagination-number[aria-current="),"Current pagination styling missing");
+
+
+// Publishing order for same-day articles uses an explicit increasing sequence.
+// It is not incorrectly based on the date of the original external announcement.
+const sequenced=articles.filter(a=>a.publishSequence!==undefined);
+assert(sequenced.every(a=>Number.isSafeInteger(a.publishSequence)&&a.publishSequence>0),"Invalid publishing sequence");
+unique(sequenced.map(a=>a.publishSequence),"publishing sequences");
+const orderedPublished=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
+const homeFeatured=read("index.html").match(/class="feature-card"[^>]*href="(\/news\/[^"]+\/)"/)?.[1];
+assert(homeFeatured==="/news/"+orderedPublished[0].slug+"/","Hero did not select newest published article");
+const archiveCards=[...read("news/index.html").matchAll(/class="news-card" href="(\/news\/[^"]+\/)"/g)].map(x=>x[1]);
+assert.deepEqual(archiveCards,orderedPublished.slice(0,12).map(a=>"/news/"+a.slug+"/"),"Newest articles must precede older reports in first archive page");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
