@@ -51,7 +51,7 @@ function buildSite(articles){
 <meta name="twitter:card" content="${image?"summary_large_image":"summary"}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(desc)}">${ogimage}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/assets/styles.css?v=editorial-folio-20261114">
+<link rel="stylesheet" href="/assets/styles.css?v=news-category-20261114">
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -74,12 +74,11 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <strong>Your privacy choices</strong>
 <p>Optional Google Analytics and Microsoft Clarity load only when you accept analytics. Declining leaves them off. <a href="/privacy/">Privacy details</a>.</p>
 <div class="btns"><button type="button" class="btn alt" data-consent-decline>Decline analytics</button><button type="button" class="btn" data-consent-accept>Accept analytics</button></div></div>
-<script src="/assets/site.js?v=editorial-folio-20261114" defer></script><script src="/assets/privacy.js?v=editorial-folio-20261114" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=news-category-20261114" defer></script><script src="/assets/privacy.js?v=news-category-20261114" defer></script></body></html>\n`;
   }
   function card(a){
-    const folio=String(items.findIndex(item=>item.slug===a.slug)+1).padStart(2,"0");
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
-<div class="card-folio"><span class="card-edition">DISPATCH <span class="card-number">${folio}</span></span><span class="card-category">${e(a.category)}</span></div>
+<div class="card-folio"><span class="card-category">${e(a.category)}</span></div>
 <div class="card-media"><img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="Original editorial title graphic for ${e(a.title)}"></div>
 <div class="tx"><div class="card-meta"><span>Source announced</span><time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></div>
 <h3>${e(a.title)}</h3><p class="card-summary">${e(a.description)}</p>
@@ -95,7 +94,7 @@ ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\
 <div class="intro-actions"><a class="text-link" href="/news/">Explore the news archive</a><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></div>
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
-<a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-folio"><span>LEAD DISPATCH</span><span>${e(first.category)}</span></div><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
+<a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-folio"><span class="card-category">${e(first.category)}</span></div><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
 <div class="feature-copy"><span class="story-kicker"><span class="lead-label">LEAD STORY</span> ${e(first.category)} · ${fmt(first.sourceDate)}</span>
 <h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="read-story">Read the report</span></div></a>
 <aside class="latest-rail" aria-label="More recent anime reports"><div class="rail-title"><div><span class="eyebrow">THE WIRE</span><h2>Latest updates</h2></div><span class="rail-count">${Math.min(3,items.length-1)} STORIES</span></div>

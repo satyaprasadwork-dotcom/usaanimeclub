@@ -218,6 +218,9 @@ for(const html of htmlPages){
 }
 assert(read("index.html").includes('class="card-folio"'),"Folio header missing from cards");
 assert(read("index.html").includes('class="feature-folio"'),"Lead folio header missing");
+assert(!read("index.html").includes("DISPATCH"),"Card dispatch numbering or label still visible");
+assert(!read("index.html").includes('class="card-number"'),"Card numbering still visible");
+assert(read("assets/styles.css").includes("justify-content:flex-end;gap:1rem;background:var(--accent)"),"Category headers must align right");
 const everyStory=JSON.parse(read("content/articles.json"));
 const bylines=everyStory.flatMap(a=>a.sections.flatMap(s=>s[1]));
 assert(!bylines.some(p=>p.includes("USA Anime Club is")||p.includes("USA Anime Club will")),"Self-referential story boilerplate remains");

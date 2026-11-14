@@ -24,6 +24,6 @@ AdSense approval cannot be inferred from article length or passing CI. Before ap
 
 ## Site identity and Google's Preferred Sources
 
-Cards use a single folio-style component and a four-category color system. Site typography uses Fraunces headlines, IBM Plex Sans text and IBM Plex Mono editorial labels. The Google link is an official publisher deeplink to `https://www.google.com/preferences/source?q=usaanimeclub.com`; users must select the site themselves, and Google controls source eligibility. No third-party script is necessary for that link.
+Cards use a shared category-header component with the category name right-aligned and a four-category color system; there are no dispatch labels or numbers. Site typography uses Fraunces headlines, IBM Plex Sans text and IBM Plex Mono editorial labels. The Google link is an official publisher deeplink to `https://www.google.com/preferences/source?q=usaanimeclub.com`; users must select the site themselves, and Google controls source eligibility. No third-party script is necessary for that link.
 
 Editorial quality is assessed through primary-source attribution, editing and accuracy checks. Automated paragraph and similarity checks do not certify a zero-plagiarism score. Do not present generated content as independent eyewitness reporting or assert a human review that did not occur.
