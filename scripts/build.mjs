@@ -275,7 +275,7 @@ for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path
 // Purge only obsolete generated article routes and associated SVGs.
 const slugs=new Set(input.map(a=>a.slug));
 for(const entry of readdirSync(resolve(ROOT,"news"),{withFileTypes:true})){
-  if(!entry.isDirectory()||entry.name==="page"||slugs.has(entry.name))continue;
+  if(!entry.isDirectory()||entry.name==="page"||entry.name==="category"||slugs.has(entry.name))continue;
   if(check){console.error("Stale article:",entry.name);errors++}
   else rmSync(resolve(ROOT,"news",entry.name),{recursive:true,force:true});
 }

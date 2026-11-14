@@ -172,7 +172,7 @@ for(const file of readdirSync(resolve(root,"assets/news"))){
  if(file.endsWith(".svg"))assert(sourceSlugs.has(file.slice(0,-4)),"orphaned artwork "+file);
 }
 for(const file of readdirSync(resolve(root,"news"),{withFileTypes:true})){
- if(file.isDirectory()&&file.name!=="page")assert(sourceSlugs.has(file.name),"orphaned article page "+file.name);
+ if(file.isDirectory()&&file.name!=="page"&&file.name!=="category")assert(sourceSlugs.has(file.name),"orphaned article page "+file.name);
 }
 const consentCode=read("assets/privacy.js");
 assert(consentCode.includes("G-G0TNMR0FQL")&&consentCode.includes("yyqq9cryjc"),"Analytics IDs missing from shared consent");
