@@ -26,6 +26,10 @@ if(liveInfo.buildId!==info.buildId||liveInfo.articleCount!==info.articleCount||l
 const payload={host:domain,key,keyLocation:base+"/"+keyPath,urlList:urls};
 const response=await fetchWithTimeout("https://api.indexnow.org/indexnow",{method:"POST",headers:{"Content-Type":"application/json; charset=utf-8"},body:JSON.stringify(payload)});
 const detail=(await response.text()).slice(0,500);
-if(![200,202].includes(response.status))throw Error("IndexNow rejected "+urls.length+" URLs; HTTP "+response.status+" "+detail);
+if(response.status===202){
+ console.log("RECEIVED "+urls.length+" canonical URLs; HTTP 202 (key verification pending). Do not cache as completed; retry on the daily schedule.");
+ process.exit(0);
+}
+if(response.status!==200)throw Error("IndexNow rejected "+urls.length+" URLs; HTTP "+response.status+" "+detail);
 writeFileSync(marker,info.buildId+"\n");
-console.log("SUBMITTED "+urls.length+" distinct canonical URLs; IndexNow HTTP "+response.status+"; build "+info.buildId+". Receipt is not a guarantee of indexing.");
+console.log("CONFIRMED "+urls.length+" canonical URLs received by IndexNow; HTTP 200; build "+info.buildId+". Search indexing is not guaranteed.");

@@ -30,6 +30,7 @@ jobs:
           node --check assets/site.js
           node --check assets/privacy.js
           node --check scripts/validate.mjs
+          node --check scripts/indexnow.mjs
       - name: Rebuild news pages, sitemap and feeds
         run: node scripts/build.mjs
       - name: Test generated pages, links, SEO, schema and UX scripts
