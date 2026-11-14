@@ -9,12 +9,16 @@ Options -MultiViews
 </IfModule>
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # The retired press desk now uses the contact page.
+  RewriteRule ^press/?$ /contact/ [R=301,L]
   RewriteRule ^(?:scripts|content|node_modules|\.github|\.git)(?:/|$) - [F,L]
   RewriteRule ^(?:\.env(?:\.[^/]*)?|package(?:-lock)?\.json|README\.md|DEPLOYMENT\.md|\.gitignore)$ - [F,L]
 </IfModule>
 <IfModule mod_headers.c>
   <Files "build-info.json">
-    Header set Cache-Control "no-cache, must-revalidate"
+    Header set Cache-Control "no-store, max-age=0, must-revalidate"
+    Header set CDN-Cache-Control "no-store"
+    Header set Surrogate-Control "no-store"
     Header set X-Robots-Tag "noindex"
   </Files>
 </IfModule>
