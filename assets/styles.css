@@ -140,6 +140,8 @@ p{margin:0 0 1.15rem}
 .prose section{scroll-margin-top:140px}
 .prose p{margin:0 0 1.28rem}
 .prose a,.source-note a{color:#285bc2;text-decoration:underline;text-underline-offset:2px}
+/* Keep call-to-action labels readable inside prose; ordinary links stay blue. */
+.prose a.btn,.prose a.btn:visited,.prose a.btn:hover,.prose a.btn:focus-visible{color:#fff;text-decoration:none}
 .prose ul{padding-left:1.4rem}
 .source-note{padding:1.45rem 0 1rem;border-top:2px solid var(--text);margin:2.8rem 0}
 .source-note strong{font-size:.88rem;letter-spacing:.035em}
