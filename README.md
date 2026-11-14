@@ -63,3 +63,7 @@ The site continues using the editable SVG covers inside the article pages. Durin
 ## Deployment mismatch diagnostics
 
 Every HTML page includes the same deterministic `site-build` meta tag and a public `build-info.json` file with a source fingerprint, article count and newest article slug. Use `DEPLOYMENT.md` to compare the live site with GitHub, check Hostinger Git integration and safely clear caches. Source directories and repository configuration are denied in the generated Apache `.htaccess`; do not assume these rules apply on non-Apache hosting or external CDN layers.
+
+## Stale archive cleanup
+
+On every generator run, obsolete paginated pages under `news/page/` and `news/category/` are removed when articles are deleted or categories shrink, avoiding indexable orphaned archive pages. CI verifies remaining category and archive indexes are present in the current sitemap. Other manually maintained directories are not swept.

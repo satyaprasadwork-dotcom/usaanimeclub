@@ -468,4 +468,21 @@ const htaccess=read(".htaccess");
 assert(htaccess.includes("RewriteRule ^(?:scripts|content|"),"Source directories accessible through hosting");
 assert(htaccess.includes("build-info.json"),"Build marker cache policy missing");
 
+
+// Pagination routes left over after deleting articles would be indexable orphan
+// pages. Check they all appear in the current generated sitemap.
+const expectedPublishedPages=new Set(urls.map(localPath));
+function checkLiveCollectionPageTree(dir){
+ if(!existsSync(dir))return;
+ for(const entry of readdirSync(dir,{withFileTypes:true})){
+   const target=resolve(dir,entry.name);
+   if(entry.isDirectory())checkLiveCollectionPageTree(target);
+   else if(entry.isFile()&&entry.name==="index.html"){
+     const rel=target.slice(root.length+1).replaceAll("\\","/");
+     assert(expectedPublishedPages.has(rel),"Obsolete collection page remains "+rel);
+   }
+ }
+}
+for(const relativeDir of ["news/page","news/category"])checkLiveCollectionPageTree(resolve(root,relativeDir));
+
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");

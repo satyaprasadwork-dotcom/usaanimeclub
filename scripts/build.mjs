@@ -314,4 +314,21 @@ for(const entry of readdirSync(resolve(ROOT,"assets/news"),{withFileTypes:true})
   if(check){console.error("Stale illustration:",entry.name);errors++}
   else rmSync(resolve(ROOT,"assets/news",entry.name),{force:true});
 }
+
+// Remove only generated pagination routes that are no longer referenced.
+// A site shrinking from 13 to 12 stories must not keep an obsolete /page/2/.
+function checkObsoleteCollectionPages(folder){
+ if(!existsSync(folder))return;
+ for(const entry of readdirSync(folder,{withFileTypes:true})){
+   const target=resolve(folder,entry.name);
+   if(entry.isDirectory())checkObsoleteCollectionPages(target);
+   else if(entry.isFile()&&entry.name==="index.html"){
+     const rel=target.slice(ROOT.length+1).replaceAll("\\","/");
+     if(Object.prototype.hasOwnProperty.call(results,rel))continue;
+     if(check){console.error("Obsolete generated archive:",rel);errors++}
+     else rmSync(target,{force:true});
+   }
+ }
+}
+for(const route of ["news/page","news/category"])checkObsoleteCollectionPages(resolve(ROOT,route));
 if(errors){process.exitCode=1}else console.log((check?"Validated ":"Generated ")+Object.keys(results).length+" website files.");
