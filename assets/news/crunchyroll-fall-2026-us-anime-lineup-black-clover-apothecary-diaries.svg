@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675"><defs>
+<linearGradient id="g" x2="1" y2="1"><stop stop-color="#0c0b1e"/><stop offset=".6" stop-color="hsl(273 70% 30%)"/><stop offset="1" stop-color="#18123a"/></linearGradient>
+<pattern id="p" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2" fill="white" opacity=".12"/></pattern></defs>
+<rect width="1200" height="675" fill="url(#g)"/><rect width="1200" height="675" fill="url(#p)"/>
+<g opacity=".6"><circle cx="1010" cy="180" r="185" stroke="#3de8ff" fill="none" stroke-width="12"/><circle cx="1035" cy="270" r="110" fill="#ff4f9a"/>
+<path d="M730 610L1180 95" stroke="#ffd166" stroke-width="27"/></g>
+<rect x="50" y="48" width="1100" height="576" rx="24" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="5"/>
+<text x="76" y="122" fill="#3de8ff" font-family="Arial,sans-serif" font-weight="800" font-size="26" letter-spacing="3">USA ANIME CLUB · STREAMING</text><text x="76" y="306" fill="#fff" font-family="Arial,sans-serif" font-weight="800" font-size="43">Fall 2026 US Anime</text><text x="76" y="368" fill="#fff" font-family="Arial,sans-serif" font-weight="800" font-size="43">Lineup: Crunchyroll</text><text x="76" y="430" fill="#fff" font-family="Arial,sans-serif" font-weight="800" font-size="43">Confirms Black Clover</text><text x="76" y="492" fill="#fff" font-family="Arial,sans-serif" font-weight="800" font-size="43">and Apothecary Diaries</text>
+<path d="M76 554h530" stroke="#ff4f9a" stroke-width="11"/><text x="76" y="599" fill="#e9e4ff" font-family="Arial,sans-serif" font-size="21" font-weight="700">US ANIME NEWS · 2026-11-14</text>
+<text x="1030" y="565" fill="#fff" font-size="105" font-family="Arial,sans-serif" text-anchor="middle">新</text></svg>

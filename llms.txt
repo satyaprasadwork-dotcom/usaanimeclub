@@ -1,0 +1,21 @@
+# USA Anime Club
+> Independent US-focused anime news, sourced to official announcements.
+
+Website: https://usaanimeclub.com/
+Contact: satyaprasadwork@gmail.com
+
+## Pages
+- [Latest news](https://usaanimeclub.com/)
+- [News archive](https://usaanimeclub.com/news/)
+- [Editorial standards](https://usaanimeclub.com/editorial-policy/)
+- [Corrections](https://usaanimeclub.com/corrections/)
+- [RSS feed](https://usaanimeclub.com/feed.xml)
+- [XML sitemap](https://usaanimeclub.com/sitemap.xml)
+
+## Recent reports
+- [Fall 2026 US Anime Lineup: Crunchyroll Confirms Black Clover and Apothecary Diaries](https://usaanimeclub.com/news/crunchyroll-fall-2026-us-anime-lineup-black-clover-apothecary-diaries/)
+- [MASHLE Season 3 Confirmed for Crunchyroll Streaming in January 2027](https://usaanimeclub.com/news/mashle-season-3-crunchyroll-us-january-2027/)
+- [Medaka Kuroiwa Season 2 Heads to Crunchyroll in January 2027](https://usaanimeclub.com/news/medaka-kuroiwa-season-2-crunchyroll-january-2027/)
+- [Rascal Does Not Dream of a Dear Friend Sets February 2027 US Screenings](https://usaanimeclub.com/news/rascal-does-not-dream-dear-friend-us-theaters-february-2027/)
+
+Reporting links to original source announcements; no rights-holder affiliation is implied.
