@@ -280,8 +280,8 @@ ${artworkLines}
   // Keep source/configuration files private from the served static site.
   files[".htaccess"]+=String.raw`<IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(?:scripts|content|\.github)(?:/|$) - [F,L]
-  RewriteRule ^(?:package(?:-lock)?\.json|README\.md|\.gitignore)$ - [F,L]
+  RewriteRule ^(?:scripts|content|node_modules|\.github|\.git)(?:/|$) - [F,L]
+  RewriteRule ^(?:\.env(?:\.[^/]*)?|package(?:-lock)?\.json|README\.md|DEPLOYMENT\.md|\.gitignore)$ - [F,L]
 </IfModule>
 `;
   files[".htaccess"]+=`<IfModule mod_headers.c>
