@@ -24,7 +24,7 @@ assert(Array.isArray(reviews),"Review records must be an array");
 const boruto=series.find(s=>s.kind==="manga"&&s.slug==="boruto-two-blue-vortex");
 assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter reviews");
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
-assert(borutoChapters.length>=10,"At least ten published Boruto chapter reviews required");
+assert(borutoChapters.length>=15,"At least fifteen published Boruto chapter reviews required");
 assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
 for(const r of borutoChapters){
  const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
@@ -73,6 +73,41 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
   assert(!html.includes('class="review-published-card"'),"Individual review cards belong only inside series hubs "+page);
  }
 }
+
+// Review series archives automatically paginate at twelve chapters or episodes.
+// Validate the full partition, canonical URLs, sitemap, next/previous controls,
+// newest-first sorting and an accessible current page marker.
+for(const s of series){
+ const items=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug)
+  .sort((a,b)=>b.publishedOn.localeCompare(a.publishedOn)||b.installmentNumber-a.installmentNumber);
+ const basePath="/reviews/"+s.kind+"/"+s.slug+"/";
+ const pageCount=getPageCount(items.length);
+ const visited=[];
+ for(let page=1;page<=pageCount;page++){
+  const route=page===1?basePath:basePath+"page/"+page+"/";
+  const path="reviews/"+s.kind+"/"+s.slug+"/"+(page===1?"":"page/"+page+"/")+"index.html";
+  const html=read(path);
+  assert(html.includes('rel="canonical" href="'+base+route+'"'),"Incorrect review pagination canonical "+route);
+  if(items.length)assert(urls.includes(base+route),"Published review pagination omitted from sitemap "+route);
+  const actual=[...html.matchAll(/class="review-published-card" href="([^"]+)"/g)].map(m=>m[1]);
+  const expected=getPageItems(items,page).map(r=>basePath+r.installmentSlug+"/");
+  assert(actual.length<=ARTICLES_PER_PAGE,"Review page exceeds twelve cards "+route);
+  assert.deepEqual(actual,expected,"Review chapter order, overlap or missing cards "+route);
+  visited.push(...actual);
+  if(pageCount>1){
+   assert(html.includes('class="news-pagination"'),"Review pagination missing "+route);
+   assert(html.includes("Page "+page+" of "+pageCount),"Incorrect review page summary "+route);
+   assert(html.includes('aria-current="page"'),"Review page selection not marked "+route);
+   if(page<pageCount)assert(html.includes('href="'+basePath+"page/"+(page+1)+'/" rel="next"'),"Next page missing "+route);
+   if(page>1)assert(html.includes('href="'+(page===2?basePath:basePath+"page/"+(page-1)+"/")+'" rel="prev"'),"Previous page missing "+route);
+  }
+ }
+ assert.equal(visited.length,items.length,"Some reviews missing from series pages "+s.slug);
+ assert.equal(new Set(visited).size,visited.length,"Duplicate reviews across series pages "+s.slug);
+}
+const borutoPageTwo="reviews/manga/boruto-two-blue-vortex/page/2/index.html";
+assert(existsSync(resolve(root,borutoPageTwo)),"Boruto page two missing");
+
 assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missing");
 assert(read("index.html").includes('<li><a href="/reviews/">Reviews</a></li>'),"Reviews footer link missing");
 if(reviews.length===0)assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be in sitemap");
