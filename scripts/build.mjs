@@ -198,7 +198,7 @@ ${pag}</div></section>`;
         +'<p>'+e(categoryDescriptions[category])+' '+group.length+' '+(group.length===1?"report":"reports")+' in this category.</p></header>'
         +choices+'<div class="grid archive-grid">'+shown.map(card).join("")+'</div>'
         +navPages+'</div></section>';
-      files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:category.toLowerCase()+" news USA, "+slug.replaceAll("-"," ")+" official announcements, USA Anime Club archive",main,
+      files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:category.toLowerCase()+" news USA, "+slug.replaceAll("-"," ")+" official announcements, USA Anime Club archive"+(n>1?", page "+n:""),main,
         schemas:[pageLd(path,title,desc,"CollectionPage"),bc([["Home","/"],["News Archive","/news/"],[category,path]])]});
     }
   }
