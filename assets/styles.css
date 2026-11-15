@@ -492,3 +492,9 @@ h1,h2,h3{letter-spacing:-.03em}
 .reader-guide h2{font:700 clamp(1.18rem,2vw,1.48rem)/1.35 var(--head);margin:.55rem 0 .65rem;color:#193455}
 .reader-guide p{color:#304b68;margin:0;font:400 1rem/1.65 var(--body)}
 @media(max-width:620px){.reader-guide{padding:1.1rem 1.15rem}}
+
+/* Short, source-linked answer section. Accessible HTML, not a special AI-search tag. */
+.tldr h2.tldr-label{font:800 .74rem/1.4 var(--label);margin:0;letter-spacing:.07em;color:#27519c}
+.tldr .answer-source{margin:1rem 0 0;font:500 .82rem/1.5 var(--body);color:#435b73}
+.tldr .answer-source a{color:#195bab;text-decoration:underline;text-underline-offset:2px}
+#quick-answer,#primary-source{scroll-margin-top:140px}

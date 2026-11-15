@@ -62,8 +62,19 @@ for(const pageUrl of urls){
    const ld=scripts.find(x=>x["@type"]==="NewsArticle");
    assert(ld,"NewsArticle JSON-LD missing "+file);
    assert(ld.datePublished.startsWith(article.date),"incorrect publish date "+file);
-   assert(ld.dateModified.startsWith("2026-11-15"),"2026-11-15 editorial update date missing "+file);
+   assert(ld.dateModified.startsWith(JSON.parse(read("content/editorial-guides.json"))[article.slug].updated||article.date),"Story-specific update date incorrect "+file);
    assert(ld.editor?.name==="Satya Prasad","Editor-in-Chief not named in NewsArticle "+file);
+   assert(ld.abstract===article.summary,"Article abstract differs from on-page short answer "+file);
+   assert(html.includes('id="quick-answer"')&&html.includes('id="quick-answer-heading"'),"Source-linked quick answer missing "+file);
+   assert(html.includes('id="primary-source"'),"Primary source anchor missing "+file);
+   const answerStart=html.indexOf('<section class="tldr" id="quick-answer"');
+   const answerEnd=html.indexOf('</section>',answerStart);
+   const answer=html.slice(answerStart,answerEnd);
+   assert(answer.includes(article.summary.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Quick answer does not match summary "+file);
+   assert(answer.includes('href="'+article.source.replaceAll("&","&amp;")+'"'),"Quick answer must cite original source "+file);
+   assert(answer.includes('datetime="'+article.sourceDate+'"'),"Quick answer has no source record date "+file);
+   assert(html.includes('href="#quick-answer"')&&html.includes('href="#primary-source"'),"Answer/source missing from contents "+file);
+
    assert(html.includes('href="/about/#editor-in-chief"'),"Editor-in-Chief credit absent "+file);
    assert(html.includes('class="reader-guide"'),"Reader guide absent "+file);
    assert(html.includes('datetime="'+article.sourceDate+'"'),"source date absent "+file);

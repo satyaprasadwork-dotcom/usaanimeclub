@@ -214,7 +214,7 @@ ${pag}</div></section>`;
     const relatedStories=relatedTo(a);
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-    const contents=a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("");
+    const contents=`<a href="#quick-answer">Quick answer</a>`+a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("")+`<a href="#primary-source">Primary source</a>`;
     const content=`<div class="post-layout">${bread([["Home","/"],["News","/news/"],[a.title,path]])}
 <article><header class="post-head"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">/</span> US ANIME NEWS</span>
 <h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
@@ -223,10 +223,10 @@ ${pag}</div></section>`;
 <p>Published <time datetime="${a.date}">${fmt(a.date)}</time> <span aria-hidden="true">·</span> Updated <time datetime="${a.modified||a.date}">${fmt(a.modified||a.date)}</time></p></div></div></header>
 <div class="article-columns"><div class="article-primary">
 <img class="post-hero" src="${pic}" width="1200" height="675" alt="Original conceptual illustration for ${e(a.title)}">
-<div class="tldr"><span class="tldr-label">THE STORY AT A GLANCE</span><p>${e(a.summary)}</p></div>
+<section class="tldr" id="quick-answer" aria-labelledby="quick-answer-heading"><h2 class="tldr-label" id="quick-answer-heading">QUICK ANSWER</h2><p>${e(a.summary)}</p><p class="answer-source">Source record: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time> <span aria-hidden="true">·</span> <cite><a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">Read the original source</a></cite></p></section>
 <aside class="reader-guide" aria-label="Reader decision guide"><span class="reader-guide-kicker">WHAT TO CHECK NEXT</span><h2>${e(a.readerGuide.question)}</h2><p>${e(a.readerGuide.action)}</p></aside>
 <div class="prose">${a.sections.map(([h,paras])=>`<section aria-labelledby="${sectionId(h)}"><h2 id="${sectionId(h)}">${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}</section>`).join("")}</div>
-<div class="source-note"><strong>Primary source and reporting notes</strong>
+<div class="source-note" id="primary-source"><strong>Primary source and reporting notes</strong>
 <p>Based on ${e(a.sourceLabel)}. This report distinguishes confirmed details from information not established by the original source.</p>
 <p class="source-link-row"><a class="source-primary-link" href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a><span>Source date / checked: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span></p>
 <p>Found a factual error? <a href="mailto:${EMAIL}?subject=${encodeURIComponent("Correction: "+a.title)}">Contact the editorial desk</a>.</p></div>
@@ -236,7 +236,7 @@ ${pag}</div></section>`;
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
