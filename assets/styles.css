@@ -609,3 +609,18 @@ h1,h2,h3{letter-spacing:-.03em}
 .review-chapter-nav a{color:#2159aa;font-weight:650;text-underline-offset:3px}
 .review-chapter-nav p{font-size:.87rem;margin:1rem 0 0}
 @media(max-width:620px){.review-chapter-nav{padding:1.1rem}.review-chapter-links{flex-direction:column}}
+
+/* Itachi evergreen reading map: a contextual aid, not a new site-wide theme. */
+.itachi-reading-map{margin:1.4rem 0 2rem;padding:1.3rem;border:1px solid #d5e3f0;border-radius:14px;background:linear-gradient(145deg,#f4f9ff,#fff)}
+.itachi-map-intro h2{font-size:clamp(1.35rem,2.2vw,1.85rem);margin:.4rem 0}
+.itachi-map-intro p{max-width:730px;font-size:.86rem;line-height:1.6;color:#485f77;margin:.25rem 0 1rem}
+.itachi-map-intro strong{color:#913a36}
+.itachi-map-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}
+.itachi-map-links a{display:flex;flex-direction:column;gap:.28rem;min-width:0;padding:.8rem;border:1px solid #dbe8f3;border-radius:10px;background:#fff;text-decoration:none;color:#1e4f89;transition:background .15s ease,border-color .15s ease}
+.itachi-map-links a strong{font-size:.85rem;line-height:1.35}
+.itachi-map-links a span{font-size:.76rem;line-height:1.45;color:#516880}
+.itachi-map-links a:hover,.itachi-map-links a:focus-visible{border-color:#275ea4;background:#f0f7ff;text-decoration:underline;text-underline-offset:3px}
+.itachi-map-links a[aria-current="page"]{border-color:#88acd4;background:#eaf3ff;box-shadow:inset 3px 0 #285ca2}
+@media(max-width:740px){.itachi-map-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:470px){.itachi-reading-map{padding:.92rem}.itachi-map-links{grid-template-columns:1fr}.itachi-map-links a{padding:.64rem .8rem}}
+@media(prefers-reduced-motion:reduce){.itachi-map-links a{transition:none}}
