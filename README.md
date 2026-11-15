@@ -136,3 +136,7 @@ Series hubs now show verified release facts, source links, review cards and rela
 ## Reviews navigation: series only
 
 The three Reviews landing/category pages (`/reviews/`, `/reviews/anime/`, `/reviews/manga/`) show only their relevant series cards, never a second grid of individual article cards. Individual critical responses are linked within each specific series hub (`/reviews/anime/<series>/`, `/reviews/manga/<series>/`), and their standalone article URLs remain unchanged. The generator and CI enforce this arrangement for future additions.
+
+## Compact review archive intro cleanup
+
+The shared `/reviews/`, `/reviews/anime/`, and `/reviews/manga/` archive template no longer renders the two-column introductory paragraphs. All three review navigation tabs and series-card grids remain; individual reviews still appear only inside the relevant series hub. The unused introduction CSS is removed, and CI checks prohibit its return.
