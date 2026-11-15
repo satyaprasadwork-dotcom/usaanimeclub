@@ -46,7 +46,7 @@ else for(const r of reviews){
  const u=base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
  assert(urls.includes(u),"Published original review missing from sitemap "+u);
  const html=read("reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/index.html");
- const schema=[...html.matchAll(/<script type="application\\/ld\\+json">([^<]+)<\\/script>/g)].map(x=>JSON.parse(x[1])).find(s=>s["@type"]==="Review");
+ const schema=[...html.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1])).find(x=>x["@type"]==="Review");
  assert(schema,"Published review requires Review schema "+u);
  assert.equal(schema.author?.name,r.reviewerName,"Review author must be a named actual reviewer "+u);
  assert.equal(schema.dateModified,r.updatedAt,"Review update timestamp is stale "+u);
