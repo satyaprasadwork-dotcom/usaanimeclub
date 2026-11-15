@@ -407,8 +407,9 @@ for(const a of articles){
  assert(new Set(paragraphs).size===paragraphs.length,"Duplicate paragraphs in "+a.slug);
  const page=read("news/"+a.slug+"/index.html");
  const blocks=[...page.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1]));
- const schema=blocks.find(s=>s["@type"]==="NewsArticle");
- assert(schema,"Missing news JSON-LD "+a.slug);
+ const expectedType=editorialFormats[a.slug]==="news"?"NewsArticle":"Article";
+ const schema=blocks.find(s=>s["@type"]===expectedType);
+ assert(schema,"Missing "+expectedType+" JSON-LD "+a.slug);
  assert.equal(schema.wordCount,count,"Schema word count mismatch "+a.slug);
  assert(schema.citation?.includes(a.source),"Source citation omitted from JSON-LD "+a.slug);
  assert.equal(schema.about?.name,a.category,"Article category inconsistent "+a.slug);
@@ -662,7 +663,7 @@ for(const a of articles){
  assert(html.includes('property="og:image" content="'+canonical+'"'),"Social OG image incorrect "+a.slug);
  assert(html.includes('name="twitter:image" content="'+canonical+'"'),"Social share image incorrect "+a.slug);
  const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(x=>JSON.parse(x[1]));
- assert(scripts.some(x=>x["@type"]==="NewsArticle"&&x.image?.includes(canonical)),"Schema image not raster "+a.slug);
+ assert(scripts.some(x=>x["@type"]===(editorialFormats[a.slug]==="news"?"NewsArticle":"Article")&&x.image?.includes(canonical)),"Schema image not raster "+a.slug);
 }
 const firstArticle=articles.find(a=>read("index.html").includes('class="feature-card" data-news-category="'+a.category+'" href="/news/'+a.slug+'/'));
 assert(firstArticle,"Cannot identify homepage feature article");
