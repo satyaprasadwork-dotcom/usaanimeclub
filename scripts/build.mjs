@@ -208,7 +208,7 @@ ${pag}</div></section>`;
   const titleTerms=a=>new Set(a.title.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>=4&&!ignoredTerms.has(w)));
   function relatedTo(a){
     const terms=titleTerms(a);
-    return items.filter(b=>b.slug!==a.slug).map(b=>({story:b,score:(b.category===a.category?10:0)+[...titleTerms(b)].filter(w=>terms.has(w)).length*8}))
+    return items.filter(b=>b.slug!==a.slug).map(b=>({story:b,score:(b.category===a.category?4:0)+[...titleTerms(b)].filter(w=>terms.has(w)).length*20}))
       .sort((x,y)=>y.score-x.score||items.indexOf(x.story)-items.indexOf(y.story)).slice(0,3).map(x=>x.story);
   }
   for(const a of items){

@@ -323,5 +323,53 @@
     "question": "How do you find the correct manga chapter after an anime season ends?",
     "action": "Match the season's last adapted scene to the publisher's actual chapters, check edition and US access, and move a few chapters earlier if the anime condensed or reordered events.",
     "updated": "2026-11-15"
+  },
+  "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us": {
+    "scene": "calendar",
+    "label": "JOJO FRIDAYS",
+    "question": "How many Steel Ball Run 2nd–3rd STAGE episodes are scheduled on Netflix?",
+    "action": "Netflix announced eleven episodes across the 2nd–3rd STAGES, starting September 25, 2026, with Friday releases; confirm later episode times and split-cour gaps on the current title page.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:41:40Z"
+  },
+  "frieren-season-3-october-2027-golden-land-arc-official-premiere": {
+    "scene": "portal",
+    "label": "GOLDEN LAND",
+    "question": "Has Frieren Season 3 received a confirmed premiere and US streaming date?",
+    "action": "The official anime committee confirms an October 2027 Japanese broadcast of the Golden Land Arc, but the announcement does not provide a specific day or US service schedule.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:41:40Z"
+  },
+  "delicious-in-dungeon-season-2-october-2027-netflix-us-confirmed": {
+    "scene": "screen",
+    "label": "DUNGEON RETURNS",
+    "question": "Is Delicious in Dungeon Season 2 confirmed for US Netflix?",
+    "action": "Yes. Netflix's US Media Center lists October 2027 for Season 2; an exact date, episode count and English-dub timetable remain to be announced.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:42:46Z"
+  },
+  "frieren-manga-volume-15-viz-us-english-december-2026-edition": {
+    "scene": "books",
+    "label": "VOLUME FIFTEEN",
+    "question": "When does Frieren Volume 15 release in English, and is it the Golden Land anime arc?",
+    "action": "VIZ lists December 8, 2026 for the 192-page English Volume 15 (paperback ISBN 9781974769148); it covers Serie and the Shadow Warriors, not the announced anime season's Golden Land adaptation.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:42:46Z"
+  },
+  "blue-exorcist-volume-33-viz-english-december-2026-official-reading": {
+    "scene": "books",
+    "label": "VOLUME THIRTY-THREE",
+    "question": "When does Blue Exorcist Volume 33 release in English and how can you read chapters legally?",
+    "action": "VIZ lists the English paperback for December 1, 2026 (202 pages, ISBN 9781974769087). Check VIZ's official chapter index and MANGA Plus for separate digital chapter access.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:43:51Z"
+  },
+  "regression-of-the-close-combat-mage-english-webtoon-official-reading-guide": {
+    "scene": "reader",
+    "label": "OFFICIAL WEBTOON",
+    "question": "Is Regression of the Close Combat Mage complete, and where can US readers start?",
+    "action": "WEBTOON marks the English series completed, shows Episodes 1–5 on its public listing, and directs readers to its app for more; check title-specific unlock terms.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:43:51Z"
   }
 }
