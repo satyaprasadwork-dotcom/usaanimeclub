@@ -62,7 +62,10 @@ for(const pageUrl of urls){
    const ld=scripts.find(x=>x["@type"]==="NewsArticle");
    assert(ld,"NewsArticle JSON-LD missing "+file);
    assert(ld.datePublished.startsWith(article.date),"incorrect publish date "+file);
-   assert(ld.dateModified.startsWith(article.modified||article.date),"incorrect modified date "+file);
+   assert(ld.dateModified.startsWith("2026-11-15"),"2026-11-15 editorial update date missing "+file);
+   assert(ld.editor?.name==="Satya Prasad","Editor-in-Chief not named in NewsArticle "+file);
+   assert(html.includes('href="/about/#editor-in-chief"'),"Editor-in-Chief credit absent "+file);
+   assert(html.includes('class="reader-guide"'),"Reader guide absent "+file);
    assert(html.includes('datetime="'+article.sourceDate+'"'),"source date absent "+file);
    assert(html.includes(article.source.replaceAll("&","&amp;")),"primary source absent "+file);
    assert(existsSync(resolve(root,"assets/news/"+article.slug+".svg")),"image not generated "+file);
@@ -577,5 +580,21 @@ for(const suffix of ["/news/","/news/category/anime/","/news/category/manga/","/
 const indexNowKey="05c970ca16a23e9256d8594bfad3a38f";
 assert(read(indexNowKey+".txt").trim()===indexNowKey,"IndexNow verification key file absent");
 assert(urls.every(u=>u.startsWith(base+"/")),"IndexNow must only submit same-host canonical URLs");
+
+const briefs=JSON.parse(read("content/editorial-guides.json"));
+assert.equal(Object.keys(briefs).length,articles.length,"Every article needs an original guide");
+const validScenes=new Set(["books","compare","reader","screen","calendar","clock","cinema","trophy","portal"]);
+for(const a of articles){
+  const b=briefs[a.slug];
+  assert(b&&validScenes.has(b.scene)&&b.label&&b.question&&b.action,"Missing story-specific guidance "+a.slug);
+  const html=read("news/"+a.slug+"/index.html");
+  assert(html.includes(b.question.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Question does not match story "+a.slug);
+  assert(html.includes(b.action.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Action does not match story "+a.slug);
+  const svg=read("assets/news/"+a.slug+".svg");
+  assert(svg.includes("ORIGINAL EDITORIAL CONCEPT ART"),"Old text-only cover still present "+a.slug);
+  assert(!svg.includes(a.title),"Headline should not dominate preview image "+a.slug);
+}
+assert(read("about/index.html").includes('id="editor-in-chief"'),"Editor-in-Chief bio anchor absent");
+assert(read("editorial-policy/index.html").includes("Satya Prasad"),"Editorial-policy leadership absent");
 
 console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
