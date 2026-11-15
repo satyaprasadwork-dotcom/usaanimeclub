@@ -2,5 +2,26 @@
   "note": "One-time reconciliation for Boruto: Two Blue Vortex chapter reviews 1–20. These canonical URLs were in the historical baseline without an IndexNow HTTP 200 receipt. Only targeted, sitemap-listed review URLs may be sent once, and only after the live deployment/key check; this file records confirmed receipts, not Bing indexing.",
   "targetChapterStart": 1,
   "targetChapterEnd": 20,
-  "confirmed": []
+  "confirmed": [
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-1/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-10/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-11/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-12/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-13/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-14/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-15/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-16/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-17/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-18/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-19/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-2/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-20/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-3/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-4/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-5/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-6/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-7/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-8/",
+    "https://usaanimeclub.com/reviews/manga/boruto-two-blue-vortex/chapter-9/"
+  ]
 }
