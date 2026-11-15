@@ -13,6 +13,8 @@ Options -MultiViews
   RewriteEngine On
   # The retired press desk now uses the contact page.
   RewriteRule ^press/?$ /contact/ [R=301,L]
+  # Chapter 39 moved from news into the same URL family as all other Boruto chapters.
+  RewriteRule ^news/boruto-two-blue-vortex-chapter-39-release-date-preview-predictions/?$ /reviews/manga/boruto-two-blue-vortex/chapter-39/ [R=301,L]
   RewriteRule ^(?:scripts|content|node_modules|\.github|\.git)(?:/|$) - [F,L]
   RewriteRule ^(?:\.env(?:\.[^/]*)?|package(?:-lock)?\.json|README\.md|DEPLOYMENT\.md|\.gitignore)$ - [F,L]
 </IfModule>
