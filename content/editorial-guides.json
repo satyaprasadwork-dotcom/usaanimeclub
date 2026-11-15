@@ -443,5 +443,21 @@
     "action": "Bandai confirms a simultaneous worldwide launch in June 2027 with starter decks for Naruto, Sasuke and Gaara plus an initial booster. The exact launch day and retail prices are not established in the checked original announcement.",
     "updated": "2026-11-15",
     "updatedAt": "2026-11-15T15:37:44Z"
+  },
+  "naruto-mobile-worldwide-launch-us-release-status-official": {
+    "scene": "screen",
+    "label": "MOBILE WORLDWIDE",
+    "question": "Is Naruto Mobile officially coming to the US, and when?",
+    "action": "A worldwide expansion was announced in October 2026, but the official statement has no exact release date and cautions that countries and supported languages may differ. US availability must be confirmed from an authorized regional listing.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:38:56Z"
+  },
+  "jump-festa-2027-naruto-shadow-rising-anime-official-stage-guide": {
+    "scene": "calendar",
+    "label": "JUMP FESTA 2027",
+    "question": "When is the Naruto stage at Jump Festa 2027 and what should fans expect?",
+    "action": "The official Naruto stage is Saturday December 19, 2026 from 16:55 to 17:25 JST. Follow-up Shadow Rising and Project Rasengan information is expected, but exact new release dates are not predetermined.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:38:56Z"
   }
 }
