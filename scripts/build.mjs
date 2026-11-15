@@ -4,6 +4,7 @@ import {fileURLToPath} from "node:url";
 import {Resvg} from "@resvg/resvg-js";
 import {createHash} from "node:crypto";
 import {ARTICLES_PER_PAGE,getPageCount,getPageItems,paginationHtml} from "./pagination.mjs";
+import {editorialCover} from "./editorial-art.mjs";
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
   const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
@@ -68,7 +69,7 @@ function buildSite(articles){
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${e(title)}</title><meta name="description" content="${e(desc)}"><meta name="keywords" content="${e(kw)}">
 <meta name="robots" content="${noindex?"noindex, nofollow":"index, follow, max-image-preview:large"}">
-<meta name="author" content="${BRAND}"><meta name="theme-color" content="#ffffff"><meta name="site-build" content="${buildId}"><meta name="google-adsense-account" content="ca-pub-7937216909291905">
+<meta name="author" content="${article?"USA Anime Club Editorial":BRAND}"><meta name="theme-color" content="#ffffff"><meta name="site-build" content="${buildId}"><meta name="google-adsense-account" content="ca-pub-7937216909291905">
 <link rel="canonical" href="${absolute}"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="USA Anime Club news" href="/feed.xml">
 <meta property="og:site_name" content="${BRAND}"><meta property="og:type" content="${article?"article":"website"}"><meta property="og:locale" content="en_US">
@@ -201,7 +202,15 @@ ${pag}</div></section>`;
     }
   }
 
+  const ignoredTerms=new Set(["the","and","with","from","into","guide","official","english","november","december","2026","2027","edition","release","anime","manga","manhwa","novel","webtoon","season","volume","status","streaming","reader","read","what","how","where","current","usa","vs","us"]);
+  const titleTerms=a=>new Set(a.title.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>=4&&!ignoredTerms.has(w)));
+  function relatedTo(a){
+    const terms=titleTerms(a);
+    return items.filter(b=>b.slug!==a.slug).map(b=>({story:b,score:(b.category===a.category?10:0)+[...titleTerms(b)].filter(w=>terms.has(w)).length*8}))
+      .sort((x,y)=>y.score-x.score||items.indexOf(x.story)-items.indexOf(y.story)).slice(0,3).map(x=>x.story);
+  }
   for(const a of items){
+    const relatedStories=relatedTo(a);
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     const contents=a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("");
@@ -209,10 +218,12 @@ ${pag}</div></section>`;
 <article><header class="post-head"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">/</span> US ANIME NEWS</span>
 <h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
 <div class="article-byline"><span class="byline-badge" aria-hidden="true">桜</span><div><strong><a href="/about/">USA Anime Club Editorial</a></strong>
+<p class="editor-credit">Editor-in-Chief: <a href="/about/#editor-in-chief">Satya Prasad</a></p>
 <p>Published <time datetime="${a.date}">${fmt(a.date)}</time> <span aria-hidden="true">·</span> Updated <time datetime="${a.modified||a.date}">${fmt(a.modified||a.date)}</time></p></div></div></header>
 <div class="article-columns"><div class="article-primary">
-<img class="post-hero" src="${pic}" width="1200" height="675" alt="Original typographic editorial illustration for ${e(a.title)}">
+<img class="post-hero" src="${pic}" width="1200" height="675" alt="Original conceptual illustration for ${e(a.title)}">
 <div class="tldr"><span class="tldr-label">THE STORY AT A GLANCE</span><p>${e(a.summary)}</p></div>
+<aside class="reader-guide" aria-label="Reader decision guide"><span class="reader-guide-kicker">WHAT TO CHECK NEXT</span><h2>${e(a.readerGuide.question)}</h2><p>${e(a.readerGuide.action)}</p></aside>
 <div class="prose">${a.sections.map(([h,paras])=>`<section aria-labelledby="${sectionId(h)}"><h2 id="${sectionId(h)}">${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}</section>`).join("")}</div>
 <div class="source-note"><strong>Primary source and reporting notes</strong>
 <p>Based on ${e(a.sourceLabel)}. This report distinguishes confirmed details from information not established by the original source.</p>
@@ -222,40 +233,12 @@ ${pag}</div></section>`;
 <nav aria-label="Article sections" class="contents-list">${contents}</nav></div>
 <div class="sidebar-panel sidebar-note"><strong>Editorial standard</strong><p>Independent summary, source linked, US availability distinguished from other territories.</p><a href="/editorial-policy/">How we verify news</a></div></aside></div></article>
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
-<div class="grid">${items.filter(x=>x.slug!==a.slug).slice(0,3).map(card).join("")}</div></section>
+<div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
-    // Restrained publisher-owned editorial cover art, not AI-styled imagery or licensed anime artwork.
-    const palette=({
-      "Anime":{paper:"#EAF1FA",edge:"#173A70",ink:"#173A70",label:"#FFFFFF"},
-      "Manga":{paper:"#FBECEF",edge:"#932B3B",ink:"#792030",label:"#FFFFFF"},
-      "Manhwa":{paper:"#FFF7D8",edge:"#F4C542",ink:"#554300",label:"#22200E"},
-      "Web Novels":{paper:"#E8F5ED",edge:"#16744A",ink:"#14583C",label:"#FFFFFF"}
-    })[a.category]||{paper:"#EAF1FA",edge:"#173A70",ink:"#173A70",label:"#FFFFFF"};
-    const words=a.title.split(/\s+/),lines=[];let line="";
-    for(const word of words){
-      if((line+" "+word).trim().length>27&&line){lines.push(line);line=word}
-      else line=(line+" "+word).trim();
-    }
-    if(line)lines.push(line);
-    const categoryText=({Anime:"ANIME NEWS",Manga:"MANGA NEWS",Manhwa:"KOREAN COMICS","Web Novels":"ONLINE FICTION"})[a.category]||"PUBLISHING NEWS";
-    const artworkLines=lines.slice(0,4).map((line,i)=>
-      `<text x="76" y="${278+i*66}" fill="${palette.ink}" font-family="Georgia,serif" font-weight="700" font-size="43">${e(line)}</text>`
-    ).join("");
-    files["assets/news/"+a.slug+".svg"]=`<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Editorial cover: ${e(a.title)}" width="1200" height="675" viewBox="0 0 1200 675">
-<rect width="1200" height="675" fill="${palette.paper}"/>
-<rect x="0" y="0" width="1200" height="168" fill="${palette.edge}"/><rect x="0" y="0" width="14" height="675" fill="${palette.ink}"/>
-<path d="M76 167H1125" stroke="#ffffff" stroke-width="2" opacity=".7"/>
-<path d="M76 573H1125" stroke="${palette.edge}" stroke-width="2" opacity=".45"/>
-<text x="76" y="101" fill="${palette.label}" font-family="Arial,sans-serif" font-weight="700" font-size="26" letter-spacing="3">USA ANIME CLUB</text>
-<text x="76" y="137" fill="${palette.label}" font-family="Arial,sans-serif" font-weight="600" font-size="17" letter-spacing="2.2">${e(categoryText)}</text>
-${artworkLines}
-<text x="76" y="613" fill="${palette.ink}" font-family="Arial,sans-serif" font-size="22" font-weight="600">SOURCE DATE / CHECKED  ·  ${a.sourceDate}</text>
-<text x="1119" y="611" text-anchor="end" fill="${palette.edge}" font-family="Georgia,serif" font-style="italic" font-size="22">U.S. edition</text>
-</svg>\n`;
-    // A PNG version of the actual publisher-owned SVG is used for Open Graph,
-    // social cards and NewsArticle structured data (SVG is retained on-page).
+    // Original 16:9 concept imagery from each story-specific editorial visual brief.
+    files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
     files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
   }
   files["assets/logo.png"]=new Resvg(readFileSync(resolve(ROOT,"assets/favicon.svg"),"utf8"),{fitTo:{mode:"width",value:256}}).render().asPng();
@@ -303,6 +286,14 @@ ${artworkLines}
   return files;
 }
 const input=JSON.parse(readFileSync(resolve(ROOT,"content/articles.json"),"utf8"));
+const editorialGuides=JSON.parse(readFileSync(resolve(ROOT,"content/editorial-guides.json"),"utf8"));
+if(Object.keys(editorialGuides).length!==input.length)throw Error("Every article needs a curated editorial guide");
+for(const a of input){
+  const brief=editorialGuides[a.slug];
+  if(!brief||!["books","compare","reader","screen","calendar","clock","cinema","trophy","portal"].includes(brief.scene)||!brief.label||!brief.question||!brief.action)throw Error("Missing editorial guide "+a.slug);
+  a.readerGuide=brief;
+  a.modified="2026-11-15"; // Substantive visual and reader-guidance update; original datePublished retained.
+}
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}
 // Purge only obsolete generated article routes and associated SVGs.
