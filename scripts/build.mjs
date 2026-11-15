@@ -301,7 +301,7 @@ for(const a of input){
   a.modifiedAt=brief.updatedAt||null; // Explicit UTC timestamp for actual same-day substantive revisions.
   if(a.modified<a.date)throw Error("Update date precedes publication: "+a.slug);
   if(a.modifiedAt&&(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(a.modifiedAt)||a.modifiedAt.slice(0,10)!==a.modified))throw Error("Timestamp must match actual modified date: "+a.slug);
-  if(a.checkedOn&&(!/^\d{4}-\d{2}-\d{2}$/.test(a.checkedOn)||a.checkedOn>TODAY))throw Error("Invalid source recheck date: "+a.slug);
+  if(a.checkedOn&&(!/^\d{4}-\d{2}-\d{2}$/.test(a.checkedOn)||a.checkedOn>new Date().toISOString().slice(0,10)))throw Error("Invalid source recheck date: "+a.slug);
 }
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}
