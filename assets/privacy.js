@@ -22,14 +22,15 @@ function clarityConsent(state){
 function start(){
   if(previouslyAccepted)window.gtag("consent","update",{analytics_storage:"granted"});
   window.gtag("js",new Date());
-  window.gtag("config",ID,{anonymize_ip:true});
+  window.gtag("config",ID,{anonymize_ip:true,send_page_view:true});
   const ga=document.createElement("script");
   ga.async=true;
   ga.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(ID);
   document.head.appendChild(ga);
 
-  // Clarity's no-consent mode permits limited cookieless page measurement.
-  // Never infer ad or analytics-cookie consent from the absence of a banner.
+  // Clarity automatically measures navigation, interaction and session behavior.
+  // Restricted mode remains cookieless without affirmative analytics consent.
+  // Neither provider needs a second, hand-built event collector for standard tracking.
   (function(c,l,a,r,i,t,y){
     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
     clarityConsent(previouslyAccepted?"granted":"denied");
