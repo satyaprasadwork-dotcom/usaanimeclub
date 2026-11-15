@@ -2,9 +2,10 @@
   "royal-road-vs-j-novel-club-vs-webnovel-official-reading-models-usa": {
     "scene": "compare",
     "label": "READING MODELS",
-    "question": "Are subscriptions, ebooks and individual chapter unlocks interchangeable?",
-    "action": "Check whether each platform grants temporary access, a downloadable book or an account-bound chapter unlock before comparing its price.",
-    "updated": "2026-11-15"
+    "question": "Which reading platform offers free chapters, and which lets you keep a purchased ebook?",
+    "action": "Royal Road largely offers public serials, J-Novel Club sells downloadable DRM-free EPUBs separately from timed Prepub access, and WebNovel unlocks chapters per book.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:35:29Z"
   },
   "j-novel-club-november-2026-new-english-light-novel-licenses-guide": {
     "scene": "books",
@@ -72,9 +73,10 @@
   "eleceed-webtoon-official-english-episodes-reading-status-2026": {
     "scene": "reader",
     "label": "SERIES STATUS",
-    "question": "Which English episodes are currently readable without early access?",
-    "action": "Compare the directory's newest listed chapter with the episodes that your account can actually open.",
-    "updated": "2026-11-15"
+    "question": "What is Eleceed's latest visible English episode, and which newer chapters are free?",
+    "action": "On November 15 the English directory shows Episode 411 dated November 9 and advertises newer app-only episodes; check WEBTOON's Tuesday listing and Fast Pass terms before paying.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:35:29Z"
   },
   "greatest-estate-developer-official-english-webtoon-completed-reading-guide": {
     "scene": "books",
@@ -93,9 +95,10 @@
   "remarried-empress-spin-off-webtoon-english-readers-starting-guide": {
     "scene": "books",
     "label": "SPIN-OFF GUIDE",
-    "question": "Should a new reader start with the main story or the spin-off?",
-    "action": "Check the official work description and spoiler warnings; a spin-off can rely on relationships introduced in the original.",
-    "updated": "2026-11-15"
+    "question": "Should you read the original Remarried Empress before its official spin-off?",
+    "action": "Start with the original completed Fantasy WEBTOON for Navier's main story, then use the separate Romance spin-off listing; verify chapters and access directly.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:35:29Z"
   },
   "december-2026-viz-english-manga-release-calendar-usa": {
     "scene": "calendar",
