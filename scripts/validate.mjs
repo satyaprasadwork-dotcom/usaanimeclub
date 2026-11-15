@@ -19,7 +19,7 @@ const expectedArticles=articles.map(a=>base+"/news/"+a.slug+"/");
 const series=JSON.parse(read("content/review-series.json"));
 const reviews=JSON.parse(read("content/reviews.json"));
 assert.equal(series.length,6,"Six pilot review series required");
-assert.equal(reviews.length,0,"No unsigned or unverified review should publish in the initial review launch");
+assert(Array.isArray(reviews),"Review records must be an array");
 assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
 assert.equal(series.filter(s=>s.kind==="manga").length,3,"Pilot needs three manga series");
 for(const s of series){
@@ -29,17 +29,29 @@ for(const s of series){
  assert(html.includes('rel="canonical" href="'+base+"/reviews/"+s.kind+"/"+s.slug+'/"'),"Incorrect review hub canonical "+path);
  assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
  assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
- assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Unreviewed release hub must be noindex "+path);
+ const activeReviews=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug);
+ if(activeReviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Unreviewed release hub must be noindex "+path);
+ else assert(!html.includes('meta name="robots" content="noindex, nofollow"'),"Reviewed hub must be indexable "+path);
  for(const newsSlug of s.relatedNewsSlugs)assert(html.includes('/news/'+newsSlug+'/'),"Source-linked related news missing "+path);
 }
 for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/manga/index.html"]){
  const html=read(page);
- assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Empty critical archive must not be indexed "+page);
+ if(reviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Empty critical archive must not be indexed "+page);
  assert(html.includes("OFFICIAL")||html.includes("official"),"Review landing lacks source-backed context "+page);
 }
 assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missing");
 assert(read("index.html").includes('<li><a href="/reviews/">Reviews</a></li>'),"Reviews footer link missing");
-assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be included in sitemap");
+if(reviews.length===0)assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be included in sitemap");
+else for(const r of reviews){
+ const u=base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
+ assert(urls.includes(u),"Published original review missing from sitemap "+u);
+ const html=read("reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/index.html");
+ const schema=[...html.matchAll(/<script type="application\\/ld\\+json">([^<]+)<\\/script>/g)].map(x=>JSON.parse(x[1])).find(s=>s["@type"]==="Review");
+ assert(schema,"Published review requires Review schema "+u);
+ assert.equal(schema.author?.name,r.reviewerName,"Review author must be a named actual reviewer "+u);
+ assert.equal(schema.dateModified,r.updatedAt,"Review update timestamp is stale "+u);
+ assert(schema.itemReviewed?.url===r.officialInstallmentUrl,"Review must link its actual official installment "+u);
+}
 const requiredNewStories=[
   "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us",
   "frieren-season-3-october-2027-golden-land-arc-official-premiere",
