@@ -54,7 +54,9 @@ for(const s of series){
   assert(!html.includes("currently lists Chapter 38"),"Boruto review hub must omit latest-release paragraph");
   assert(!html.includes("LATEST VERIFIED ENTRY"),"Boruto archive should not display release status");
   assert(html.includes("Open the official chapter directory"),"Authorized manga link missing from Boruto hub");
-  assert.equal((html.match(/class="review-published-card"/g)||[]).length,borutoChapters.length,"Boruto series must list every published chapter card");
+  const allBorutoCards=Array.from({length:getPageCount(borutoChapters.length)},(_,i)=>i===0?html:read("reviews/manga/boruto-two-blue-vortex/page/"+(i+1)+"/index.html"))
+    .reduce((total,pageHtml)=>total+(pageHtml.match(/class="review-published-card"/g)||[]).length,0);
+  assert.equal(allBorutoCards,borutoChapters.length,"Boruto series pagination must list every published chapter card");
  }
 
 }
