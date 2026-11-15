@@ -21,6 +21,16 @@ This is a repository-level technical/content preflight, **not** an indexing guar
 5. Sitemap lastmod set only for articles and reviews with per-item revision dates; omit unverifiable freshness claims for collection and trust pages.
 6. A generated-site-wide indexing audit is added to CI so regressions block publication. Existing new-only Bing IndexNow and consent-aware tracking remain untouched.
 
+## Verified implementation result (GitHub Actions, November 15, 2026)
+
+- PASS: `node scripts/build.mjs`, revision checks, existing site validator, new `node scripts/indexability-audit.mjs`, and generator reproducibility.
+- PASS: **131 canonical pages**, **67 editorial articles**, **31 source-based critical responses**, **22,586 internal references**, **275 JSON-LD blocks**.
+- The standard XML sitemap contains 131 canonical URLs. 98 article/critical-response URLs have per-item truthful `lastmod`; other archive/trust pages omit unverified date assertions.
+- The separate Google News sitemap contains **30 classified news URLs**, rather than all 67 features and guides. No evergreen feature was included.
+- No regressions to website design, shared GA4, Clarity, AdSense integration, or the new-only Bing IndexNow workflow.
+- CI reported 0 pending new editorial URLs; **no repeat Bing submission was necessary**.
+- The resulting regenerated files were committed to the GitHub `main` branch; this verifies source/build output, not live Hostinger delivery.
+
 ## Live verification still required
 
 - Inspect representative templates and failed URLs in Google Search Console URL Inspection, Page Indexing, Manual Actions and Crawl Stats. Confirm live HTTP 200/404, Googlebot HTML, selected canonical and indexing reason.
