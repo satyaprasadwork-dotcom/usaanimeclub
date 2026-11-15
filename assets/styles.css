@@ -559,9 +559,6 @@ h1,h2,h3{letter-spacing:-.03em}
 .review-focus-list{margin:1rem 0 1.2rem;padding-left:1.25rem}
 .review-focus-list li{margin:.85rem 0;line-height:1.55;font-size:.94rem}
 .review-lens p{font-size:.81rem;color:#5f7081}
-.review-series-context{max-width:920px;border-bottom:1px solid #dce6f0;padding-bottom:1.1rem}
-.review-series-context h2{font-size:clamp(1.6rem,2.5vw,2.4rem)}
-.review-series-context p{max-width:830px;color:#455873;line-height:1.88;margin-bottom:1.4rem}
 .review-related{padding:2.1rem 0}
 .review-related h2{font-size:1.5rem}
 .review-related-list{padding-left:1.2rem;max-width:860px}
