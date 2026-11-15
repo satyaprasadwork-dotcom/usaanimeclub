@@ -729,7 +729,26 @@ assert(privacyRuntime.includes('ID="'+ga4Id+'"')&&privacyRuntime.includes('CLARI
 assert(privacyRuntime.includes("https://www.googletagmanager.com/gtag/js?id="),"GA4 must load through the shared consent runtime");
 assert(privacyRuntime.includes("https://www.clarity.ms/tag/"),"Clarity must load through the shared consent runtime");
 assert(privacyRuntime.includes('window.gtag("config",ID'),"GA4 configuration must use the shared measurement ID");
-const documentPaths=[...urls.map(localPath),"404.html"];
+// Validate EVERY committed and newly generated HTML file, even if intentionally
+// noindexed and omitted from the sitemap. This prevents new standalone pages
+// from silently missing the shared tag and privacy controls.
+const documentPaths=[];
+function collectHtml(relativeDir=""){
+ for(const entry of readdirSync(resolve(root,relativeDir),{withFileTypes:true})){
+  if(entry.isDirectory()){
+   if(![".git","node_modules",".next","coverage","dist"].includes(entry.name)){
+    collectHtml(relativeDir?relativeDir+"/"+entry.name:entry.name);
+   }
+  }else if(entry.isFile()&&entry.name.endsWith(".html")){
+   documentPaths.push(relativeDir?relativeDir+"/"+entry.name:entry.name);
+  }
+ }
+}
+collectHtml();
+documentPaths.sort();
+for(const expected of [...urls.map(localPath),"404.html"]){
+ assert(documentPaths.includes(expected),"Generated route is missing from the HTML audit: "+expected);
+}
 for(const filePath of documentPaths){
  const html=read(filePath);
  const count=fragment=>html.split(fragment).length-1;
@@ -741,6 +760,9 @@ for(const filePath of documentPaths){
  assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
  assert.equal(count('window.gtag("consent","default",'),1,"Duplicate consent default in "+filePath);
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
+ assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
+ assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"Duplicate AdSense account metadata in "+filePath);
+ assert(html.includes('data-privacy-choices'),"Accessible privacy controls missing in "+filePath);
  assert.equal(count("www.googletagmanager.com/gtag/js"),0,"GA4 must not bypass analytics consent in "+filePath);
  assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
 }
