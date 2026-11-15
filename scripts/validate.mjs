@@ -9,6 +9,9 @@ import {findNewEditorialUrls,isEditorialArticleUrl} from "./indexnow-urls.mjs";
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const read=p=>readFileSync(resolve(root,p),"utf8");
 const articles=JSON.parse(read("content/articles.json"));
+const editorialFormats=JSON.parse(read("content/editorial-formats.json"));
+assert.deepEqual(Object.keys(editorialFormats).sort(),articles.map(a=>a.slug).sort(),"Every article needs a declared format");
+for(const a of articles)assert(["news","feature"].includes(editorialFormats[a.slug]),"Invalid editorial type "+a.slug);
 const base="https://usaanimeclub.com";
 const sitemap=read("sitemap.xml");
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
@@ -242,11 +245,12 @@ for(const pageUrl of urls){
  for(const img of [...html.matchAll(/<img\b[^>]*>/g)])assert(/\balt="/.test(img[0]),"missing image alternative "+file);
  const article=articles.find(a=>pageUrl===base+"/news/"+a.slug+"/");
  if(article){
-   const ld=scripts.find(x=>x["@type"]==="NewsArticle");
-   assert(ld,"NewsArticle JSON-LD missing "+file);
-   assert(ld.datePublished.startsWith(article.date),"incorrect publish date "+file);
+   const type=editorialFormats[article.slug]==="news"?"NewsArticle":"Article";
+   const ld=scripts.find(x=>x["@type"]===type);
+   assert(ld,type+" JSON-LD missing "+file);
+   assert.equal(ld.datePublished,article.date,"Publication date must not invent a timestamp: "+file);
    const revision=JSON.parse(read("content/editorial-guides.json"))[article.slug];
-   assert.equal(ld.dateModified,revision.updatedAt||(revision.updated||article.date)+"T12:00:00Z","Story-specific update timestamp incorrect "+file);
+   assert.equal(ld.dateModified,revision.updatedAt||(revision.updated||article.date),"Story-specific update date incorrect "+file);
    if(revision.updatedAt)assert(html.includes('datetime="'+revision.updatedAt+'"'),"Visible updated timestamp missing "+file);
    if(article.checkedOn)assert(html.includes('datetime="'+article.checkedOn+'"'),"Visible source recheck date missing "+file);
    assert(ld.editor?.name==="Satya Prasad","Editor-in-Chief not named in NewsArticle "+file);
@@ -280,7 +284,7 @@ for(const pageUrl of urls){
 unique(titles,"SEO titles");unique(descriptions,"SEO descriptions");unique(keywords,"SEO keywords");
 const expectedNews=articles.filter(a=>{
  const published=Date.parse(a.date+"T12:00:00Z");
- return published<=Date.now()&&Date.now()-published<=48*60*60*1000;
+ return editorialFormats[a.slug]==="news"&&published<=Date.now()&&Date.now()-published<=48*60*60*1000;
 }).map(a=>base+"/news/"+a.slug+"/");
 const newsXml=read("news-sitemap.xml");
 const foundNews=[...newsXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);

@@ -12,6 +12,7 @@ function buildSite(articles){
   if(!Array.isArray(articles)||articles.length===0)throw Error("A news site needs at least one publishable article");
   const reviewSeries=JSON.parse(readFileSync(resolve(ROOT,"content/review-series.json"),"utf8"));
   const publishedReviews=JSON.parse(readFileSync(resolve(ROOT,"content/reviews.json"),"utf8"));
+  const editorialFormats=JSON.parse(readFileSync(resolve(ROOT,"content/editorial-formats.json"),"utf8"));
   // Deterministic build ID: changes whenever generator, content, CSS or runtime changes.
   // No changing timestamps/commit SHA are embedded, so CI regeneration stays stable.
   const buildId=createHash("sha256")
@@ -23,6 +24,7 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"content/site-pages.json")))
     .update(readFileSync(resolve(ROOT,"content/review-series.json")))
     .update(readFileSync(resolve(ROOT,"content/reviews.json")))
+    .update(readFileSync(resolve(ROOT,"content/editorial-formats.json")))
     .update(readFileSync(resolve(ROOT,"scripts/review-experience.mjs")))
     .update(readFileSync(resolve(ROOT,"scripts/pagination.mjs")))
     .update(JSON.stringify(articles))
@@ -39,6 +41,9 @@ function buildSite(articles){
     if(typeof a.title!=="string"||typeof a.description!=="string"||!a.title.trim()||!a.description.trim())throw Error("Missing title or description: "+a.slug);
     if(!a.source?.startsWith("https://")||!Array.isArray(a.sections)||a.sections.length===0)throw Error("Article requires HTTPS source and sections: "+a.slug);
   }
+  // Explicit editorial classification prevents evergreen features entering Google News.
+  if(Object.keys(editorialFormats).length!==articles.length)throw Error("Article format manifest must match the published collection");
+  for(const a of articles)if(!["news","feature"].includes(editorialFormats[a.slug]))throw Error("Article requires explicit news/feature type: "+a.slug);
   // Enforce the publication's long-form threshold on the actual article paragraphs.
   // Google/Bing do not mandate a word count; this is an editorial publishing preference.
   const countWords=text=>String(text).trim().split(/\s+/).filter(Boolean).length;
@@ -250,7 +255,7 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:a.modifiedAt||(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":editorialFormats[a.slug]==="news"?"NewsArticle":"Article","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date,dateModified:a.modifiedAt||(a.modified||a.date),wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
@@ -268,11 +273,13 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
   const allPaths=Object.keys(files).filter(k=>k==="index.html"||k.endsWith("/index.html")).map(k=>"/"+k.replace(/index\.html$/,""));
   // No-index only those review hubs without any evidence-supported critical response or firsthand review.
   const paths=allPaths.filter(p=>!files[p==="/"?"index.html":p.slice(1)+"index.html"].includes('<meta name="robots" content="noindex, nofollow">'));
-  const reviewLastmod=publishedReviews.reduce((m,r)=>r.updatedAt.slice(0,10)>m?r.updatedAt.slice(0,10):m,SITE_START);
-  files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc><lastmod>${items.find(a=>url(a)===p)?.modified||items.find(a=>url(a)===p)?.date||(p.startsWith("/reviews/")?reviewLastmod:(p==="/"||p.startsWith("/news/")?items.reduce((m,a)=>a.date>m?a.date:m,SITE_START):SITE_START))}</lastmod></url>`).join("\n")}\n</urlset>\n`;
+  // Only published articles and critical responses have verifiable per-item revision dates.
+  const articleLastmod=new Map(items.map(a=>[url(a),(a.modifiedAt||(a.modified||a.date)).slice(0,10)]));
+  const reviewLastmod=new Map(publishedReviews.map(r=>["/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/",r.updatedAt.slice(0,10)]));
+  files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc>${articleLastmod.get(p)||reviewLastmod.get(p)?`<lastmod>${articleLastmod.get(p)||reviewLastmod.get(p)}</lastmod>`:""}</url>`).join("\n")}\n</urlset>\n`;
   // Google News requires a rolling 48-hour window; CI refreshes this file daily.
-  const recent=items.filter(a=>{const published=Date.parse(a.date+"T12:00:00Z");return published<=Date.now()&&Date.now()-published<=48*60*60*1000});
-  files["news-sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${recent.map(a=>`<url><loc>${xml(BASE+url(a))}</loc><news:news><news:publication><news:name>USA Anime Club</news:name><news:language>en</news:language></news:publication><news:publication_date>${a.date}T12:00:00Z</news:publication_date><news:title>${xml(a.title)}</news:title></news:news></url>`).join("\n")}\n</urlset>\n`;
+  const recent=items.filter(a=>{const published=Date.parse(a.date+"T12:00:00Z");return editorialFormats[a.slug]==="news"&&published<=Date.now()&&Date.now()-published<=48*60*60*1000});
+  files["news-sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${recent.map(a=>`<url><loc>${xml(BASE+url(a))}</loc><news:news><news:publication><news:name>USA Anime Club</news:name><news:language>en</news:language></news:publication><news:publication_date>${a.date}</news:publication_date><news:title>${xml(a.title)}</news:title></news:news></url>`).join("\n")}\n</urlset>\n`;
   files["robots.txt"]="# USA Anime Club: public editorial content may be crawled.\nUser-agent: *\nAllow: /\n\nSitemap: "+BASE+"/sitemap.xml\nSitemap: "+BASE+"/news-sitemap.xml\n";
   files["llms.txt"]=`# USA Anime Club\n> Independent US-focused coverage of anime, manga, manhwa and web novels with dated reports and cited original sources.\n\nOfficial website: ${BASE}/\nContact: ${EMAIL}\n\n## Main pages\n- [Homepage](${BASE}/)\n- [Complete news archive](${BASE}/news/)\n- [Episode and chapter review desk](${BASE}/reviews/)\n- [About](${BASE}/about/)\n- [Editorial policy](${BASE}/editorial-policy/)\n- [Corrections policy](${BASE}/corrections/)\n- [Privacy policy](${BASE}/privacy/)\n- [Contact](${BASE}/contact/)\n\n## Topic collections\n- [Anime](${BASE}/news/category/anime/)\n- [Manga](${BASE}/news/category/manga/)\n- [Manhwa](${BASE}/news/category/manhwa/)\n- [Web novels](${BASE}/news/category/web-novels/)\n- [Anime review schedule](${BASE}/reviews/anime/)\n- [Manga chapter review schedule](${BASE}/reviews/manga/)\n\n## Discovery feeds\n- [RSS](${BASE}/feed.xml)\n- [XML sitemap](${BASE}/sitemap.xml)\n- [Google News sitemap](${BASE}/news-sitemap.xml)\n\n## Recent reports\n${items.map(a=>`- [${a.title}](${BASE+url(a)})`).join("\n")}\n\nReports distinguish confirmed US access from announcements in other territories. Check each report's source date and linked original publisher or platform for later changes. USA Anime Club is independent of the studios and companies it covers. This text file is a navigational aid, not a replacement for structured data, robots.txt or editorial verification.\n`;
   files["feed.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>USA Anime Club — US Anime News</title><link>${BASE}/</link><description>Source-linked US anime, manga, manhwa and web-fiction reporting.</description><language>en-us</language>${items.map(a=>`<item><title>${xml(a.title)}</title><link>${BASE+url(a)}</link><guid isPermaLink="true">${BASE+url(a)}</guid><pubDate>${new Date(a.date+"T12:00:00Z").toUTCString()}</pubDate><description>${xml(a.description)}</description><category>${xml(a.category)}</category></item>`).join("")}</channel></rss>\n`;
