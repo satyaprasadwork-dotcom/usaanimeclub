@@ -498,3 +498,10 @@ h1,h2,h3{letter-spacing:-.03em}
 .tldr .answer-source{margin:1rem 0 0;font:500 .82rem/1.5 var(--body);color:#435b73}
 .tldr .answer-source a{color:#195bab;text-decoration:underline;text-underline-offset:2px}
 #quick-answer,#primary-source{scroll-margin-top:140px}
+
+/* More than one dated primary record can support a reported claim. */
+.supporting-sources{margin:1.15rem 0;padding:1rem 1.1rem;background:#f4f8fc;border-radius:7px;border:1px solid #d2ddea}
+.supporting-sources>strong{font:700 .9rem/1.4 var(--body);color:#193653}
+.supporting-sources ul{margin:.5rem 0 0;padding-left:1.15rem}
+.supporting-sources li{margin:.48rem 0;line-height:1.55}
+.supporting-sources time{color:#536781;font-size:.79rem;white-space:nowrap;margin-left:.25rem}

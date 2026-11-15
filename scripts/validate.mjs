@@ -65,6 +65,15 @@ for(const pageUrl of urls){
    assert(ld.dateModified.startsWith(JSON.parse(read("content/editorial-guides.json"))[article.slug].updated||article.date),"Story-specific update date incorrect "+file);
    assert(ld.editor?.name==="Satya Prasad","Editor-in-Chief not named in NewsArticle "+file);
    assert(ld.abstract===article.summary,"Article abstract differs from on-page short answer "+file);
+   if(article.references?.length){
+     assert(html.includes('class="supporting-sources"'),"Additional primary records block absent "+file);
+     for(const record of article.references){
+       assert(ld.citation.includes(record.url),"Supplementary citation missing from schema "+file);
+       assert(html.includes('href="'+record.url.replaceAll("&","&amp;")+'"'),"Supplementary source not linked in article "+file);
+       assert(html.includes('datetime="'+record.date+'"'),"Supplementary source date absent "+file);
+     }
+   }
+
    assert(html.includes('id="quick-answer"')&&html.includes('id="quick-answer-heading"'),"Source-linked quick answer missing "+file);
    assert(html.includes('id="primary-source"'),"Primary source anchor missing "+file);
    const answerStart=html.indexOf('<section class="tldr" id="quick-answer"');

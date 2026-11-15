@@ -100,3 +100,7 @@ Every article has a visible, accessible `Quick answer` section derived from its 
 These changes help human readers and crawlers locate attributed context. They **do not** constitute any special Google AI markup or promise Google AI Overview, ChatGPT, Gemini, or other citation placement. Before publication, an editor must inspect the official source and confirm individual factual statements, US-specific territory/date, media rights, and meaningful original value. Existing articles still await independent claim-by-claim human verification; a code test is not editorial fact-checking.
 
 For research and title prioritization, see `.github/editorial/us-search-opportunities-2026-11-15.md`. Search predictions are hypotheses until measured in Google Trends Explore and verified against Search Console.
+
+## November 15, 2026 — ten requested editorial upgrades
+
+Six new source-linked articles, four substantively revised existing articles at the original canonical paths, 46 articles total. New multi-source articles list supplementary dated official records visibly under the original source and include the same URLs in NewsArticle citation JSON-LD. All titles are retained in one shared data file; adding future articles requires a reader-guide brief, primary HTTPS source and editorial validation. The source-checking checklist remains mandatory; automation cannot certify all external factual claims or live streaming access.
