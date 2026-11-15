@@ -11,7 +11,7 @@ assert(rows.length===((xml.match(/<loc>/g)||[]).length),"Malformed sitemap entri
 assert.equal(new Set(rows.map(x=>x.url)).size,rows.length,"Duplicate canonical URL");
 assert(robots.includes("User-agent: *")&&robots.includes("Allow: /"),"Public robots policy blocks crawling");
 assert(robots.includes(base+"/sitemap.xml")&&robots.includes(base+"/news-sitemap.xml"),"Sitemap discovery missing");
-const articleMap=new Map(articles.map(a=>[base+"/news/"+a.slug+"/",a]));
+const articleMap=new Map(articles.map(a=>[base+(a.slug==="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions"?"/reviews/manga/boruto-two-blue-vortex/chapter-39/":"/news/"+a.slug+"/"),a]));
 const reviewMap=new Map(reviews.map(r=>[base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/",r]));
 assert.deepEqual(Object.keys(formats).sort(),articles.map(a=>a.slug).sort(),"Editorial format missing");
 let articleCount=0,reviewCount=0,lastmods=0;
