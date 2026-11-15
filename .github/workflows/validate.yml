@@ -36,12 +36,15 @@ jobs:
           node --check scripts/validate-revisions.mjs
           node --check scripts/indexnow.mjs
           node --check scripts/indexnow-urls.mjs
+          node --check scripts/indexability-audit.mjs
       - name: Rebuild news pages, sitemap and feeds
         run: node scripts/build.mjs
       - name: Enforce an updated timestamp on substantively edited articles
         run: node scripts/validate-revisions.mjs
       - name: Test generated pages, links, SEO, schema and UX scripts
         run: node scripts/validate.mjs
+      - name: Audit every canonical URL for Google and Bing indexing eligibility
+        run: node scripts/indexability-audit.mjs
       - name: Check IndexNow incremental scope without submitting anything
         run: node scripts/indexnow.mjs --dry-run
       - name: Check generator reproducibility
