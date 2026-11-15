@@ -16,6 +16,30 @@ assert(urls.length>=articles.length+8,"sitemap omits articles or trust pages");
 unique(urls,"sitemap URLs");
 unique(articles.map(a=>a.slug),"article slugs");
 const expectedArticles=articles.map(a=>base+"/news/"+a.slug+"/");
+const series=JSON.parse(read("content/review-series.json"));
+const reviews=JSON.parse(read("content/reviews.json"));
+assert.equal(series.length,6,"Six pilot review series required");
+assert.equal(reviews.length,0,"No unsigned or unverified review should publish in the initial review launch");
+assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
+assert.equal(series.filter(s=>s.kind==="manga").length,3,"Pilot needs three manga series");
+for(const s of series){
+ const path="reviews/"+s.kind+"/"+s.slug+"/index.html";
+ assert(existsSync(resolve(root,path)),"Review series hub missing: "+path);
+ const html=read(path);
+ assert(html.includes('rel="canonical" href="'+base+"/reviews/"+s.kind+"/"+s.slug+'/"'),"Incorrect review hub canonical "+path);
+ assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
+ assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
+ assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Unreviewed release hub must be noindex "+path);
+ for(const newsSlug of s.relatedNewsSlugs)assert(html.includes('/news/'+newsSlug+'/'),"Source-linked related news missing "+path);
+}
+for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/manga/index.html"]){
+ const html=read(page);
+ assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Empty critical archive must not be indexed "+page);
+ assert(html.includes("OFFICIAL")||html.includes("official"),"Review landing lacks source-backed context "+page);
+}
+assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missing");
+assert(read("index.html").includes('<li><a href="/reviews/">Reviews</a></li>'),"Reviews footer link missing");
+assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be included in sitemap");
 const requiredNewStories=[
   "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us",
   "frieren-season-3-october-2027-golden-land-arc-official-premiere",
