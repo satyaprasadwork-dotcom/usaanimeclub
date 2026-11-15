@@ -35,6 +35,7 @@ jobs:
           node --check scripts/validate.mjs
           node --check scripts/validate-revisions.mjs
           node --check scripts/indexnow.mjs
+          node --check scripts/indexnow-urls.mjs
       - name: Rebuild news pages, sitemap and feeds
         run: node scripts/build.mjs
       - name: Enforce an updated timestamp on substantively edited articles
