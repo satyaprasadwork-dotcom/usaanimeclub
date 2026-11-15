@@ -41,6 +41,8 @@ jobs:
         run: node scripts/validate-revisions.mjs
       - name: Test generated pages, links, SEO, schema and UX scripts
         run: node scripts/validate.mjs
+      - name: Check IndexNow incremental scope without submitting anything
+        run: node scripts/indexnow.mjs --dry-run
       - name: Check generator reproducibility
         run: node scripts/build.mjs --check
       - name: Commit refreshed generated files
