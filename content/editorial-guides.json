@@ -323,5 +323,21 @@
     "question": "How do you find the correct manga chapter after an anime season ends?",
     "action": "Match the season's last adapted scene to the publisher's actual chapters, check edition and US access, and move a few chapters earlier if the anime condensed or reordered events.",
     "updated": "2026-11-15"
+  },
+  "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us": {
+    "scene": "calendar",
+    "label": "JOJO FRIDAYS",
+    "question": "How many Steel Ball Run 2nd–3rd STAGE episodes are scheduled on Netflix?",
+    "action": "Netflix announced eleven episodes across the 2nd–3rd STAGES, starting September 25, 2026, with Friday releases; confirm later episode times and split-cour gaps on the current title page.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:41:40Z"
+  },
+  "frieren-season-3-october-2027-golden-land-arc-official-premiere": {
+    "scene": "portal",
+    "label": "GOLDEN LAND",
+    "question": "Has Frieren Season 3 received a confirmed premiere and US streaming date?",
+    "action": "The official anime committee confirms an October 2027 Japanese broadcast of the Golden Land Arc, but the announcement does not provide a specific day or US service schedule.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:41:40Z"
   }
 }
