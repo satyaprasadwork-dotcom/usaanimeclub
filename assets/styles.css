@@ -602,3 +602,10 @@ h1,h2,h3{letter-spacing:-.03em}
 .review-sources li a{color:#2458a5;text-decoration:underline;text-underline-offset:3px;font-weight:650}
 .review-sources time{display:inline-block;font-size:.78rem;color:#61758a;margin-left:.3rem}
 @media(max-width:620px){.review-sources li a{display:block}.review-sources time{margin-left:0}}
+
+.review-chapter-nav{max-width:860px;padding:1.5rem 1.65rem;margin:1.5rem 0 2rem;border:1px solid #d7e3ee;border-radius:12px;background:#f8fbff}
+.review-chapter-nav h2{font-size:1.4rem;margin:0 0 .85rem}
+.review-chapter-links{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.review-chapter-nav a{color:#2159aa;font-weight:650;text-underline-offset:3px}
+.review-chapter-nav p{font-size:.87rem;margin:1rem 0 0}
+@media(max-width:620px){.review-chapter-nav{padding:1.1rem}.review-chapter-links{flex-direction:column}}
