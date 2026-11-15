@@ -509,5 +509,26 @@
     "question": "Is the ability Itachi's own, inherited from another eye, or a forbidden jutsu?",
     "action": "Distinguish Tsukuyomi, Amaterasu, Susanoo and Izanami from Shisui's Kotoamatsukami; then ask about timing, strain, sacrifices and matchup conditions.",
     "updated": "2026-11-15"
+  },
+  "itachi-shisui-kotoamatsukami-crow-uchiha-plan-explained": {
+    "scene": "compare",
+    "label": "FOLLOW THE EYES",
+    "question": "Which of Shisui's eyes reached Danzō, and which reached Naruto?",
+    "action": "Danzō seized Shisui's right eye; Shisui gave his left to Itachi. The crow later carried that eye's Kotoamatsukami and freed reanimated Itachi.",
+    "updated": "2026-11-15"
+  },
+  "itachi-watch-order-naruto-shippuden-episodes-novels-manga": {
+    "scene": "reader",
+    "label": "SPOILER-SAFE ROUTE",
+    "question": "Watching Naruto for the first time or revisiting Itachi's full story?",
+    "action": "First-time: follow the main story. Rewatch: follow childhood, massacre, Akatsuki, Sasuke duel and war. Itachi Shinden is Shippuden 451–458, or 671–678 in the combined official episode count.",
+    "updated": "2026-11-15"
+  },
+  "was-itachi-a-hero-or-villain-naruto-moral-legacy": {
+    "scene": "compare",
+    "label": "MOTIVES VS IMPACT",
+    "question": "Can protective intentions coexist with serious moral responsibility?",
+    "action": "Read Itachi's motives alongside the deaths, Sasuke's trauma and the role of village leaders. The final confession changes his relationship to Sasuke; it does not erase the past.",
+    "updated": "2026-11-15"
   }
 }
