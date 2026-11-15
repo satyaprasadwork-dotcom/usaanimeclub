@@ -306,5 +306,19 @@
     "question": "Should a first-time viewer begin with the original anime, the manga, or Netflix's remake?",
     "action": "Choose the manga for the original chapter sequence, the 1999 anime for a long TV journey, or WIT Studio's February 2027 seven-episode remake for a new East Blue introduction.",
     "updated": "2026-11-15"
+  },
+  "crunchyroll-vs-netflix-vs-hidive-usa-anime-availability-guide": {
+    "scene": "compare",
+    "label": "US STREAMING GUIDE",
+    "question": "Which platform has the specific anime seasons you want to watch in the US?",
+    "action": "Check title-level evidence: Crunchyroll's Fall 2026 lineup, Netflix's named releases and HIDIVE's November catalog; verify current playback and audio options before paying.",
+    "updated": "2026-11-15"
+  },
+  "anime-to-manga-chapter-guide-where-to-continue-after-latest-season": {
+    "scene": "books",
+    "label": "MANGA CONTINUATION",
+    "question": "How do you find the correct manga chapter after an anime season ends?",
+    "action": "Match the season's last adapted scene to the publisher's actual chapters, check edition and US access, and move a few chapters earlier if the anime condensed or reordered events.",
+    "updated": "2026-11-15"
   }
 }
