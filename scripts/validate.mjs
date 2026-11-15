@@ -4,6 +4,7 @@ import {resolve,dirname} from "node:path";
 import {fileURLToPath} from "node:url";
 import {runInNewContext} from "node:vm";
 import {ARTICLES_PER_PAGE,getPageCount,getPageItems,paginationHtml} from "./pagination.mjs";
+import {findNewEditorialUrls,isEditorialArticleUrl} from "./indexnow-urls.mjs";
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const read=p=>readFileSync(resolve(root,p),"utf8");
@@ -24,7 +25,7 @@ assert(Array.isArray(reviews),"Review records must be an array");
 const boruto=series.find(s=>s.kind==="manga"&&s.slug==="boruto-two-blue-vortex");
 assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter reviews");
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
-assert(borutoChapters.length>=15,"At least fifteen published Boruto chapter reviews required");
+assert(borutoChapters.length>=25,"At least twenty-five published Boruto chapter reviews required");
 assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
 for(const r of borutoChapters){
  const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
@@ -815,6 +816,32 @@ const llmLinks=read("llms.txt");
 for(const suffix of ["/news/","/news/category/anime/","/news/category/manga/","/news/category/manhwa/","/news/category/web-novels/","/editorial-policy/","/sitemap.xml"]){
  assert(llmLinks.includes(base+suffix),"llms.txt missing "+suffix);
 }
+
+// IndexNow must never resend the full sitemap or any previously existing URL.
+// Only newly created editorial news/review pages are eligible; archives and
+// review pagination stay in the sitemap but OUT of IndexNow submissions.
+const indexNowBaseline=JSON.parse(read("content/indexnow-baseline.json"));
+const indexNowLedger=JSON.parse(read("content/indexnow-notified.json"));
+const incremental=findNewEditorialUrls(sitemap,indexNowBaseline,indexNowLedger);
+const knownIndexNow=new Set([...indexNowBaseline.urls,...indexNowLedger.urls]);
+const publishedEditorial=new Set([
+ ...articles.map(a=>base+"/news/"+a.slug+"/"),
+ ...reviews.map(r=>base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/")
+]);
+assert.equal(indexNowBaseline.urls.length,93,"Do not rewrite the original pre-21 article baseline");
+assert(indexNowBaseline.urls.every(isEditorialArticleUrl),"Baseline must contain only editorial URLs");
+assert(indexNowLedger.urls.every(isEditorialArticleUrl),"Notification ledger must contain only editorial URLs");
+assert(indexNowLedger.urls.every(u=>!indexNowBaseline.urls.includes(u)),"An old URL was marked as a new IndexNow notification");
+assert(incremental.every(u=>isEditorialArticleUrl(u)&&publishedEditorial.has(u)&&!knownIndexNow.has(u)),"IndexNow should include new articles ONLY");
+assert(!incremental.some(u=>u.includes("/page/")||u.includes("/category/")),"IndexNow selected a non-article URL");
+for(let n=21;n<=25;n++){
+ const u=base+"/reviews/manga/boruto-two-blue-vortex/chapter-"+n+"/";
+ assert(!indexNowBaseline.urls.includes(u),"A new chapter was accidentally backfilled into the preexisting baseline");
+ assert(incremental.includes(u)||indexNowLedger.urls.includes(u),"New Boruto chapter must be pending or successfully notified: "+n);
+}
+const synthetic="<urlset><url><loc>"+base+"/news/old-story/</loc></url><url><loc>"+base+"/news/new-story/</loc></url><url><loc>"+base+"/reviews/manga/example/page/2/</loc></url><url><loc>"+base+"/reviews/manga/example/chapter-2/</loc></url></urlset>";
+assert.deepEqual(findNewEditorialUrls(synthetic,{urls:[base+"/news/old-story/"]},{urls:[]}),[base+"/news/new-story/",base+"/reviews/manga/example/chapter-2/"],"Incremental URL selection test failed");
+
 const indexNowKey="05c970ca16a23e9256d8594bfad3a38f";
 assert(read(indexNowKey+".txt").trim()===indexNowKey,"IndexNow verification key file absent");
 assert(urls.every(u=>u.startsWith(base+"/")),"IndexNow must only submit same-host canonical URLs");
