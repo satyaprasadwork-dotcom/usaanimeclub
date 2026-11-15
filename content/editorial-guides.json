@@ -488,5 +488,26 @@
     "question": "Have you finished the series you want to explore?",
     "action": "The introduction is spoiler-aware, but the numbered analysis reveals major deaths, hidden identities and endings. Finish the relevant show before reading its section.",
     "updated": "2026-11-15"
+  },
+  "why-did-itachi-kill-uchiha-clan-danzo-coup-explained": {
+    "scene": "compare",
+    "label": "THE FOUR RESPONSIBILITIES",
+    "question": "Who planned the coup, who imposed the ultimatum, and who committed the killings?",
+    "action": "Separate the Uchiha political crisis, Danzō's coercion, Itachi's decision and Sasuke's consequences. Understanding a motive is not an endorsement of the act.",
+    "updated": "2026-11-15"
+  },
+  "how-did-itachi-die-illness-sasuke-fight-explained": {
+    "scene": "screen",
+    "label": "THE FINAL SCENE",
+    "question": "Did Sasuke defeat Itachi or directly kill him with a finishing blow?",
+    "action": "Sasuke survives the duel; Itachi collapses after extreme exertion while seriously ill. The manga does not provide an official diagnosis or a simple finishing strike.",
+    "updated": "2026-11-15"
+  },
+  "itachi-powers-explained-tsukuyomi-amaterasu-susanoo-izanami": {
+    "scene": "compare",
+    "label": "TECHNIQUE AND COST",
+    "question": "Is the ability Itachi's own, inherited from another eye, or a forbidden jutsu?",
+    "action": "Distinguish Tsukuyomi, Amaterasu, Susanoo and Izanami from Shisui's Kotoamatsukami; then ask about timing, strain, sacrifices and matchup conditions.",
+    "updated": "2026-11-15"
   }
 }
