@@ -292,5 +292,19 @@
     "question": "When does Sakamoto Days Season 2 reach US Netflix?",
     "action": "Netflix confirms January 2027 and an undercover JCC story; the cited notices do not give a specific US premiere day or complete episode schedule.",
     "updated": "2026-11-15"
+  },
+  "cyberpunk-edgerunners-season-2-netflix-availability-what-connects-both-seasons": {
+    "scene": "screen",
+    "label": "NEW NIGHT CITY",
+    "question": "Is Cyberpunk: Edgerunners 2 a direct sequel, and where can Americans watch it?",
+    "action": "Netflix and CD PROJEKT RED named October 20, 2026 for the 10-episode standalone series; check the Netflix US title page for present account access.",
+    "updated": "2026-11-15"
+  },
+  "one-piece-original-anime-vs-netflix-the-one-piece-remake-starting-guide": {
+    "scene": "compare",
+    "label": "WHICH ONE PIECE?",
+    "question": "Should a first-time viewer begin with the original anime, the manga, or Netflix's remake?",
+    "action": "Choose the manga for the original chapter sequence, the 1999 anime for a long TV journey, or WIT Studio's February 2027 seven-episode remake for a new East Blue introduction.",
+    "updated": "2026-11-15"
   }
 }
