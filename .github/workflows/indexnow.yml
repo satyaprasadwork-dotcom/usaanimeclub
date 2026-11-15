@@ -1,4 +1,4 @@
-name: Notify Bing and IndexNow of new USA Anime Club articles
+name: Notify Bing and IndexNow of NEW USA Anime Club articles
 on:
   workflow_run:
     workflows: ["Build and validate USA Anime Club"]
@@ -9,7 +9,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: usa-anime-indexnow
+  group: usa-anime-new-article-indexnow
   cancel-in-progress: false
 jobs:
   indexnow:
@@ -19,31 +19,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
           persist-credentials: true
+          fetch-depth: 1
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Notify IndexNow about new published articles only
-        run: node scripts/indexnow.mjs
-      - name: Persist accepted article URLs to avoid repeated submissions
+      - name: Check URL selection syntax
         run: |
-          if git diff --quiet -- .github/indexnow-submitted-articles.json; then
-            echo "No new article URLs accepted; ledger unchanged."
+          node --check scripts/indexnow.mjs
+          node --check scripts/indexnow-urls.mjs
+      - name: Preview only new editorial article URLs
+        run: node scripts/indexnow.mjs --dry-run
+      - name: Verify live deployment and submit only new editorial article URLs
+        run: node scripts/indexnow.mjs
+      - name: Remember only URLs confirmed by IndexNow
+        run: |
+          if git diff --quiet -- content/indexnow-notified.json; then
+            echo "No confirmed new articles to record."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/indexnow-submitted-articles.json
-          git commit -m "chore: record new article URLs accepted by IndexNow"
-          for attempt in 1 2 3 4 5; do
-            git fetch origin main
-            git rebase origin/main
-            if git push origin HEAD:main; then
-              echo "Saved accepted new article URLs. No previously submitted URLs will be resent."
-              exit 0
-            fi
-            echo "::warning::Concurrent repository update; retrying ledger push ($attempt)."
-          done
-          echo "::error::Could not persist IndexNow article submission ledger."
-          exit 1
+          git add content/indexnow-notified.json
+          git commit -m "chore(indexnow): remember newly notified article URLs [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
