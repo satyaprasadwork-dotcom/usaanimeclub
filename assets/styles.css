@@ -483,3 +483,12 @@ h1,h2,h3{letter-spacing:-.03em}
  .pagination-links{justify-content:center}
  .pagination-number,.pagination-step{min-height:2.7rem}
 }
+
+/* Explicit newsroom attribution and article-specific reader guidance. */
+.article-byline .editor-credit{margin:.2rem 0 .12rem;color:#41556b;font-weight:600}
+.article-byline .editor-credit a{color:#21519a;text-decoration:underline;text-underline-offset:2px}
+.reader-guide{border:1px solid #c9d8e6;background:#f5f9fc;border-radius:9px;padding:1.3rem 1.45rem;margin:0 0 2.2rem}
+.reader-guide-kicker{display:block;color:#255a97;font:800 .73rem/1.4 var(--label);letter-spacing:.085em}
+.reader-guide h2{font:700 clamp(1.18rem,2vw,1.48rem)/1.35 var(--head);margin:.55rem 0 .65rem;color:#193455}
+.reader-guide p{color:#304b68;margin:0;font:400 1rem/1.65 var(--body)}
+@media(max-width:620px){.reader-guide{padding:1.1rem 1.15rem}}

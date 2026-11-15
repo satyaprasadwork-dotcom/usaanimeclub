@@ -1,0 +1,282 @@
+{
+  "royal-road-vs-j-novel-club-vs-webnovel-official-reading-models-usa": {
+    "scene": "compare",
+    "label": "READING MODELS",
+    "question": "Are subscriptions, ebooks and individual chapter unlocks interchangeable?",
+    "action": "Check whether each platform grants temporary access, a downloadable book or an account-bound chapter unlock before comparing its price.",
+    "updated": "2026-11-15"
+  },
+  "j-novel-club-november-2026-new-english-light-novel-licenses-guide": {
+    "scene": "books",
+    "label": "NEW LICENSES",
+    "question": "Is a series announced for serialization, print or both?",
+    "action": "Use the publisher's individual series listing to distinguish prepublication access from a separately scheduled ebook or paperback.",
+    "updated": "2026-11-15"
+  },
+  "beginning-after-the-end-tbate-novel-vs-tapas-comic-editions-2026": {
+    "scene": "compare",
+    "label": "NOVEL OR COMIC",
+    "question": "Which edition continues the story you are currently reading?",
+    "action": "Compare the novel and Tapas comic as separate adaptations; their chapter numbers and publication progress do not correspond one-to-one.",
+    "updated": "2026-11-15"
+  },
+  "the-weight-of-a-dead-world-camimu-royal-road-premise-status": {
+    "scene": "portal",
+    "label": "SERIAL FICTION",
+    "question": "Does the original fiction page show an ongoing release or a completed story?",
+    "action": "Check the author's own chapter index, content notices and last-posted date instead of assuming the serial has a fixed publication schedule.",
+    "updated": "2026-11-15"
+  },
+  "black-apron-max-level-archmaid-royal-road-ravensdagger-new-litrpg": {
+    "scene": "portal",
+    "label": "LITRPG PREMISE",
+    "question": "Does the story's game-based setup match the kind of serial you want?",
+    "action": "Read the original synopsis and a sample chapter, then inspect the author's current release notice before following.",
+    "updated": "2026-11-15"
+  },
+  "royal-road-rising-stars-november-2026-serial-fiction-discovery": {
+    "scene": "screen",
+    "label": "RISING STARS",
+    "question": "Is the ranking a fixed editorial list or a changing snapshot?",
+    "action": "Treat the Rising Stars page as a changing platform ranking; record the date and category before comparing positions.",
+    "updated": "2026-11-15"
+  },
+  "shadow-slave-webnovel-official-novel-current-status-reading-access": {
+    "scene": "reader",
+    "label": "CHAPTER ACCESS",
+    "question": "How are newer chapters unlocked on the official platform?",
+    "action": "Inspect the current chapter directory and access rules directly; a displayed chapter total does not mean every chapter is freely accessible.",
+    "updated": "2026-11-15"
+  },
+  "manhwa-vs-webtoon-vs-manga-publishing-format-differences-guide": {
+    "scene": "compare",
+    "label": "COMICS FORMATS",
+    "question": "Are these labels describing origin, platform or reading layout?",
+    "action": "Compare the work's country of origin with its distribution format; a vertical-scroll presentation does not by itself establish its country.",
+    "updated": "2026-11-15"
+  },
+  "webtoon-trending-korean-fantasy-comics-november-2026-rankings": {
+    "scene": "screen",
+    "label": "TRENDING LIST",
+    "question": "Is a listed position current, or preserved from an earlier snapshot?",
+    "action": "Check WEBTOON's live ranking and category on the day you visit; do not treat a changing list as a permanent popularity measure.",
+    "updated": "2026-11-15"
+  },
+  "lookism-webtoon-official-english-episodes-update-guide-november-2026": {
+    "scene": "reader",
+    "label": "ENGLISH EPISODES",
+    "question": "Does the episode directory distinguish free and early-access chapters?",
+    "action": "Use the official English series page for current availability and update timing rather than relying on an older episode count.",
+    "updated": "2026-11-15"
+  },
+  "eleceed-webtoon-official-english-episodes-reading-status-2026": {
+    "scene": "reader",
+    "label": "SERIES STATUS",
+    "question": "Which English episodes are currently readable without early access?",
+    "action": "Compare the directory's newest listed chapter with the episodes that your account can actually open.",
+    "updated": "2026-11-15"
+  },
+  "greatest-estate-developer-official-english-webtoon-completed-reading-guide": {
+    "scene": "books",
+    "label": "WHERE TO START",
+    "question": "Is the main series complete, and is every chapter immediately free?",
+    "action": "Separate a completed serialization status from the site's chapter-unlock rules and any separately published print editions.",
+    "updated": "2026-11-15"
+  },
+  "omniscient-reader-webtoon-hiatus-return-date-official-status-2026": {
+    "scene": "clock",
+    "label": "HIATUS STATUS",
+    "question": "Has the publisher announced a return date or only a hiatus?",
+    "action": "Follow the official English series notice; a fan prediction is not a confirmed return timetable.",
+    "updated": "2026-11-15"
+  },
+  "remarried-empress-spin-off-webtoon-english-readers-starting-guide": {
+    "scene": "books",
+    "label": "SPIN-OFF GUIDE",
+    "question": "Should a new reader start with the main story or the spin-off?",
+    "action": "Check the official work description and spoiler warnings; a spin-off can rely on relationships introduced in the original.",
+    "updated": "2026-11-15"
+  },
+  "december-2026-viz-english-manga-release-calendar-usa": {
+    "scene": "calendar",
+    "label": "DECEMBER RELEASES",
+    "question": "Does the publisher date apply to the US edition and format you want?",
+    "action": "Check the exact volume, ISBN and edition in the VIZ calendar; retailers can show different shipping estimates.",
+    "updated": "2026-11-15"
+  },
+  "viz-shonen-jump-vs-manga-plus-official-chapter-access-usa": {
+    "scene": "compare",
+    "label": "CHAPTER OPTIONS",
+    "question": "Do both apps offer the same library and chapter access?",
+    "action": "Compare the specific series' US availability and reread limits instead of assuming every Shonen Jump title appears under identical terms.",
+    "updated": "2026-11-15"
+  },
+  "sakamoto-days-volume-24-viz-december-2026-english-release": {
+    "scene": "books",
+    "label": "VOLUME 24",
+    "question": "Is this the English collected volume or a weekly digital chapter?",
+    "action": "Match the volume number and US publisher listing before comparing retailer dates or editions.",
+    "updated": "2026-11-15"
+  },
+  "ichi-the-witch-volume-6-us-english-edition-december-2026": {
+    "scene": "books",
+    "label": "ENGLISH EDITION",
+    "question": "Which physical and digital editions are actually announced?",
+    "action": "Confirm the VIZ product format and release date on the specific volume page, not the series-wide chapter feed.",
+    "updated": "2026-11-15"
+  },
+  "one-piece-chapter-1198-vs-volume-113-manga-release-differences": {
+    "scene": "compare",
+    "label": "CHAPTER VS VOLUME",
+    "question": "Why do the latest weekly chapter and newest US volume have different numbers?",
+    "action": "Keep Japanese serialization, official digital chapters and English collected-book schedules separate when choosing where to resume.",
+    "updated": "2026-11-15"
+  },
+  "one-piece-box-set-5-wano-egghead-us-collector-checklist": {
+    "scene": "books",
+    "label": "BOX SET GUIDE",
+    "question": "Which numbered volumes are included in the box set?",
+    "action": "Use the publisher's contents list and product identifiers before comparing it with individually owned editions.",
+    "updated": "2026-11-15"
+  },
+  "kagurabachi-volume-9-us-release-viz-weekly-chapters-guide": {
+    "scene": "compare",
+    "label": "MANGA FORMATS",
+    "question": "Does volume nine correspond to the newest weekly chapters?",
+    "action": "Compare the collected edition's included chapters with the official serialized chapter index instead of treating their release calendars as equal.",
+    "updated": "2026-11-15"
+  },
+  "dandadan-volume-22-english-release-viz-reading-options": {
+    "scene": "books",
+    "label": "VOLUME 22",
+    "question": "Would you prefer a volume edition or individual official chapters?",
+    "action": "Check the US volume date and exact digital or print product independently from the ongoing chapter service.",
+    "updated": "2026-11-15"
+  },
+  "charisma-anime-january-7-2027-japan-premiere-cast-us-streaming": {
+    "scene": "calendar",
+    "label": "PREMIERE STATUS",
+    "question": "Does a Japan premiere announcement also name a US streaming service?",
+    "action": "Separate the Japanese broadcaster and date from any explicitly announced North American license; an unannounced stream is not confirmed.",
+    "updated": "2026-11-15"
+  },
+  "winter-2027-anime-confirmed-premieres-us-streaming-status": {
+    "scene": "calendar",
+    "label": "WINTER 2027",
+    "question": "Which premiere dates and US streams are actually confirmed?",
+    "action": "Verify each title from its studio or platform announcement; do not interpret a Japanese television date as a US streaming guarantee.",
+    "updated": "2026-11-15"
+  },
+  "solo-leveling-season-3-official-status-beyond-the-system-film": {
+    "scene": "cinema",
+    "label": "FILM VS SEASON",
+    "question": "What has been announced: another season, a film or both?",
+    "action": "Distinguish the officially announced project from separate speculation about season three and its possible release date.",
+    "updated": "2026-11-15"
+  },
+  "bocchi-the-rock-hoshi-no-ashiato-2027-prequel-film-us-release": {
+    "scene": "cinema",
+    "label": "PREQUEL FILM",
+    "question": "Has an overseas theatrical date been confirmed?",
+    "action": "Check the production announcement for the Japan premiere and look for a separate US distributor notice before planning a screening.",
+    "updated": "2026-11-15"
+  },
+  "overgeared-anime-korean-novel-webtoon-crunchyroll-us-streaming": {
+    "scene": "screen",
+    "label": "ANIME ADAPTATION",
+    "question": "Are novel, webtoon and anime versions at the same story point?",
+    "action": "Use the official anime schedule for US streaming and treat the novel and webtoon as distinct source editions.",
+    "updated": "2026-11-15"
+  },
+  "fall-2026-crunchyroll-anime-us-simulcast-dub-schedule-guide": {
+    "scene": "calendar",
+    "label": "FALL SIMULCAST",
+    "question": "Is the listed time for subtitles, English dubbing or the initial TV broadcast?",
+    "action": "Compare Crunchyroll's North America territory line and its separate subtitle and dub timetable for each title.",
+    "updated": "2026-11-15"
+  },
+  "black-clover-season-2-us-crunchyroll-streaming-sub-dub-schedule": {
+    "scene": "screen",
+    "label": "SUB AND DUB",
+    "question": "Does the currently published US schedule cover both audio versions?",
+    "action": "Check the most recent official season listing for separate subtitled and dubbed release times; the schedules may change.",
+    "updated": "2026-11-15"
+  },
+  "apothecary-diaries-season-3-us-watch-schedule-dub-status": {
+    "scene": "screen",
+    "label": "SEASON THREE",
+    "question": "Is the English dub released alongside the subtitled episode?",
+    "action": "Check the latest US platform schedule for subtitle and dub listings separately, rather than assuming the same launch time.",
+    "updated": "2026-11-15"
+  },
+  "royal-road-november-2026-writathon-serial-fiction": {
+    "scene": "clock",
+    "label": "WRITATHON",
+    "question": "Who can participate, and what counts toward the challenge?",
+    "action": "Check the event rules and deadline on Royal Road rather than treating a community summary as authoritative.",
+    "updated": "2026-11-15"
+  },
+  "j-novel-club-putting-a-price-on-world-peace-english-serial": {
+    "scene": "reader",
+    "label": "PREPUB EDITION",
+    "question": "Are early translated parts equivalent to a completed ebook?",
+    "action": "Read the title-specific series details to distinguish member prepublication access from an eventual full-volume product.",
+    "updated": "2026-11-15"
+  },
+  "one-piece-volume-113-november-2026-viz-us": {
+    "scene": "books",
+    "label": "US MANGA RELEASE",
+    "question": "Is the listed edition the official English paperback?",
+    "action": "Verify the volume's publisher page and format before using retail availability or reseller information.",
+    "updated": "2026-11-15"
+  },
+  "albus-changes-the-world-us-manga-debut-november-2026": {
+    "scene": "books",
+    "label": "SERIES DEBUT",
+    "question": "Is volume one the best official starting point in English?",
+    "action": "Match the publisher's launch listing with its ISBN and format; international versions can follow different schedules.",
+    "updated": "2026-11-15"
+  },
+  "pokemon-adventures-red-blue-deluxe-volume-one-us": {
+    "scene": "books",
+    "label": "DELUXE EDITION",
+    "question": "What material does this hardcover actually collect?",
+    "action": "Confirm the contents and format from the publisher rather than assuming the hardcover matches a single earlier paperback.",
+    "updated": "2026-11-15"
+  },
+  "hirayasumi-anime-netflix-january-2027-viz": {
+    "scene": "screen",
+    "label": "NETFLIX RELEASE",
+    "question": "Does the announcement guarantee the same release date in the United States?",
+    "action": "Read the distribution language carefully and confirm the US catalog separately when the release window arrives.",
+    "updated": "2026-11-15"
+  },
+  "otaku-vampires-love-bite-anime-viz-adaptation": {
+    "scene": "cinema",
+    "label": "ANIME ANNOUNCED",
+    "question": "What does the teaser confirm about the adaptation?",
+    "action": "Distinguish the announced television project from any unannounced US streaming or English dub plans.",
+    "updated": "2026-11-15"
+  },
+  "world-webtoon-awards-2026-omniscient-reader-winners": {
+    "scene": "trophy",
+    "label": "AWARDS REPORT",
+    "question": "Is the list an official award result or a popularity ranking?",
+    "action": "Use the organizer's winners announcement and identify the named category; awards and platform popularity charts measure different things.",
+    "updated": "2026-11-15"
+  },
+  "shiba-inu-rooms-anime-summer-2027-teaser": {
+    "scene": "portal",
+    "label": "2027 TEASER",
+    "question": "Is the announced date a broadcast season or a specific US release?",
+    "action": "Check the official anime site for its announced window and avoid claiming an international platform before one is named.",
+    "updated": "2026-11-15"
+  },
+  "remarried-empress-vol-11-ize-press-us-edition": {
+    "scene": "books",
+    "label": "PRINT VOLUME",
+    "question": "Is this the same release as the original online serialization?",
+    "action": "Check the English print publisher, volume number and edition information separately from the webtoon chapter list.",
+    "updated": "2026-11-15"
+  }
+}

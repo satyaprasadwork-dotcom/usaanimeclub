@@ -1,5 +1,5 @@
 {
-  "version": 3,
-  "templateHash": "a088d085",
-  "description": "Shared article HTML template. Every article ends with a Google Preferred Sources action after Related coverage and before the site footer. Primary source links remain in reporting notes. Only intentionally approved layout changes should update this lock."
+  "version": 4,
+  "templateHash": "743a377b",
+  "description": "Shared article HTML includes Editor-in-Chief attribution, per-story reader guidance, topic-linked related coverage, original concept imagery and the existing Preferred Sources footer."
 }
