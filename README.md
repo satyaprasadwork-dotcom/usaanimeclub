@@ -132,3 +132,7 @@ Every critical response has a source-linked research note, genuine opinion quali
 ## Compact reviews layout
 
 Series hubs now show verified release facts, source links, review cards and related coverage, without the redundant “What US readers should know” explanatory text or “Critical responses and reviews” heading. The Reviews landing and category pages also omit the extra “Published criticism” heading above their published article cards. Review articles, attribution, source links, SEO and published/updated timestamps are unchanged.
+
+## Reviews navigation: series only
+
+The three Reviews landing/category pages (`/reviews/`, `/reviews/anime/`, `/reviews/manga/`) show only their relevant series cards, never a second grid of individual article cards. Individual critical responses are linked within each specific series hub (`/reviews/anime/<series>/`, `/reviews/manga/<series>/`), and their standalone article URLs remain unchanged. The generator and CI enforce this arrangement for future additions.
