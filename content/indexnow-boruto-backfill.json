@@ -1,0 +1,6 @@
+{
+  "note": "One-time reconciliation for Boruto: Two Blue Vortex chapter reviews 1–20. These canonical URLs were in the historical baseline without an IndexNow HTTP 200 receipt. Only targeted, sitemap-listed review URLs may be sent once, and only after the live deployment/key check; this file records confirmed receipts, not Bing indexing.",
+  "targetChapterStart": 1,
+  "targetChapterEnd": 20,
+  "confirmed": []
+}
