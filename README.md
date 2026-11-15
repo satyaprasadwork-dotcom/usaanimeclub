@@ -91,4 +91,4 @@ Satya Prasad is identified as Editor-in-Chief in the About, Editorial Policy, ar
 
 Original article publication dates remain unchanged; the actual substantive editorial upgrade date is shown separately as November 15, 2026. Verify live sources, distribution territories and rights manually before declaring a factual review complete. A passing generator check establishes structural consistency, not independent reporting verification.
 
-When publishing a new story, add a new unique entry to both `content/articles.json` and `content/editorial-guides.json` before running the build.
+When publishing a new story, add a new unique entry to both `content/articles.json` and `content/editorial-guides.json` before running the build. Record its actual latest substantive editorial update in the guide `updated` field; do not backdate or forward-date revisions.
