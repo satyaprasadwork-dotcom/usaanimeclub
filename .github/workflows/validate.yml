@@ -27,6 +27,7 @@ jobs:
       - name: Check JS syntax
         run: |
           node --check scripts/build.mjs
+          node --check scripts/review-experience.mjs
           node --check scripts/editorial-art.mjs
           node --check scripts/pagination.mjs
           node --check assets/site.js
