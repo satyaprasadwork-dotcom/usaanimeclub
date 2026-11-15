@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 2
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -31,9 +32,12 @@ jobs:
           node --check assets/site.js
           node --check assets/privacy.js
           node --check scripts/validate.mjs
+          node --check scripts/validate-revisions.mjs
           node --check scripts/indexnow.mjs
       - name: Rebuild news pages, sitemap and feeds
         run: node scripts/build.mjs
+      - name: Enforce an updated timestamp on substantively edited articles
+        run: node scripts/validate-revisions.mjs
       - name: Test generated pages, links, SEO, schema and UX scripts
         run: node scripts/validate.mjs
       - name: Check generator reproducibility

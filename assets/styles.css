@@ -505,3 +505,7 @@ h1,h2,h3{letter-spacing:-.03em}
 .supporting-sources ul{margin:.5rem 0 0;padding-left:1.15rem}
 .supporting-sources li{margin:.48rem 0;line-height:1.55}
 .supporting-sources time{color:#536781;font-size:.79rem;white-space:nowrap;margin-left:.25rem}
+
+/* Real same-day editorial revisions display a precise UTC timestamp; source rechecks remain distinct. */
+.source-rechecked{display:inline-block;margin-left:.2rem;color:#435b73}
+.article-byline time{font-variant-numeric:tabular-nums}
