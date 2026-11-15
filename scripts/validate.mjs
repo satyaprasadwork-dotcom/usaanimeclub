@@ -30,6 +30,26 @@ assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter review
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
 assert(borutoChapters.length>=38,"At least thirty-eight published Boruto chapter reviews required");
 assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
+// Chapter 39 is a PRE-RELEASE news feature, not a fabricated completed review.
+// Keep its distinct canonical URL and editorial context when a real review is
+// eventually published after the official release.
+const chapter39PreviewSlug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
+const chapter39Preview=articles.find(a=>a.slug===chapter39PreviewSlug);
+assert(chapter39Preview,"Chapter 39 pre-release article missing");
+assert(chapter39Preview.category==="Manga"&&chapter39Preview.title.includes("Chapter 39 Preview"),"Chapter 39 must remain clearly labeled pre-release");
+assert(chapter39Preview.source==="https://naruto-official.com/en/news/01_2722","Chapter 39 preview needs verified November 13 official source");
+assert(chapter39Preview.sections.reduce((n,x)=>n+x[1].join(" ").trim().split(/\s+/).length,0)>=1200,"Chapter 39 pre-release article needs original depth");
+assert(chapter39Preview.references.some(r=>r.url.includes("viz.com/shonenjump/chapters/boruto-two-blue-vortex")),"Chapter 39 preview must verify current English release listing");
+assert(chapter39Preview.references.some(r=>r.url.includes("reddit.com/")),"Chapter 39 needs sourced, explicitly labeled fan context");
+assert(!reviews.some(r=>r.installmentSlug===chapter39PreviewSlug),"Do not masquerade as a completed Chapter 39 review");
+assert(read("news/"+chapter39PreviewSlug+"/index.html").includes('rel="canonical" href="'+base+"/news/"+chapter39PreviewSlug+'/\"'),"Chapter 39 news article canonical missing");
+const currentBorutoHub=read("reviews/manga/boruto-two-blue-vortex/index.html");
+if(!borutoChapters.some(r=>r.installmentNumber===39)){
+ assert(currentBorutoHub.includes("PRE-RELEASE / NOT A REVIEW"),"Pre-release Chapter 39 caveat missing from series archive");
+ assert(currentBorutoHub.includes('/news/'+chapter39PreviewSlug+'/'),"Chapter 39 preview link missing from Boruto archive");
+ assert(read("reviews/manga/boruto-two-blue-vortex/chapter-38/index.html").includes('/news/'+chapter39PreviewSlug+'/'),"Chapter 38 must guide readers to the genuine Chapter 39 preview");
+}
+
 for(const r of borutoChapters){
  const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
  assert(wordCount>=1000,"Boruto chapter criticism must contain 1000+ analysis words: "+r.installmentSlug);
