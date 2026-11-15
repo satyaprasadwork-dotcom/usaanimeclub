@@ -41,16 +41,40 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
 }
 assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missing");
 assert(read("index.html").includes('<li><a href="/reviews/">Reviews</a></li>'),"Reviews footer link missing");
-if(reviews.length===0)assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be included in sitemap");
-else for(const r of reviews){
- const u=base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
- assert(urls.includes(u),"Published original review missing from sitemap "+u);
- const html=read("reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/index.html");
- const schema=[...html.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1])).find(x=>x["@type"]==="Review");
- assert(schema,"Published review requires Review schema "+u);
- assert.equal(schema.author?.name,r.reviewerName,"Review author must be a named actual reviewer "+u);
- assert.equal(schema.dateModified,r.updatedAt,"Review update timestamp is stale "+u);
- assert(schema.itemReviewed?.url===r.officialInstallmentUrl,"Review must link its actual official installment "+u);
+if(reviews.length===0)assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be in sitemap");
+else {
+  assert.equal(reviews.length,6,"Launch edition needs six substantive source-attributed critical responses");
+  for(const r of reviews){
+    const u=base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
+    assert(urls.includes(u),"Published criticism missing from sitemap "+u);
+    const path="reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/index.html";
+    const html=read(path);
+    const scripts=[...html.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1]));
+    const analysis=r.reviewMode==="sourced";
+    const schema=scripts.find(s=>s["@type"]===(analysis?"Article":"Review"));
+    assert(schema,"Incorrect critical analysis structured data "+u);
+    assert.equal(schema.author?.name,r.reviewerName,"Author attribution mismatch "+u);
+    assert.equal(schema.dateModified,r.updatedAt,"Review update timestamp stale "+u);
+    assert(html.includes('datetime="'+r.updatedAt+'"'),"Visible updated date missing "+u);
+    assert(html.includes('href="'+r.officialInstallmentUrl+'"'),"Official installment link absent "+u);
+    assert(html.includes('class="review-cover"'),"Original preview artwork missing "+u);
+    assert(existsSync(resolve(root,"assets/reviews/"+r.kind+"-"+r.seriesSlug+"-"+r.installmentSlug+".svg")),"Original review illustration missing "+u);
+    assert(existsSync(resolve(root,"assets/reviews/"+r.kind+"-"+r.seriesSlug+"-"+r.installmentSlug+".png")),"Preview PNG missing "+u);
+    if(analysis){
+      assert(!r.firsthandConfirmed&&!r.watchedOrReadOn&&r.score===undefined,"Sourced critique must not imply firsthand reading or scoring "+u);
+      assert(html.includes("Research-based critical analysis")&&html.includes("not a firsthand review"),"Research disclaimer absent "+u);
+      assert(schema.genre==="Source-based critical analysis","Sourced critique must use Article schema "+u);
+      assert(!schema.reviewRating,"Sourced analysis incorrectly contains a rating "+u);
+      assert.equal(schema.citation.length,r.references.length,"Citation count mismatch "+u);
+      assert(html.includes('datetime="'+r.researchCheckedOn+'"'),"Research check date absent "+u);
+      for(const ref of r.references){
+        assert(html.includes('href="'+ref.url.replaceAll("&","&amp;")+'"'),"Visible cited research link missing "+u);
+        assert(schema.citation.includes(ref.url),"Research link missing from structured data "+u);
+        assert(html.includes('datetime="'+ref.date+'"'),"Dated reference missing "+u);
+      }
+    }else assert(schema.itemReviewed?.url===r.officialInstallmentUrl,"Firsthand review lacks linked official installment "+u);
+    assert(html.includes('href="/corrections/"'),"Corrections route missing "+u);
+  }
 }
 const requiredNewStories=[
   "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us",
