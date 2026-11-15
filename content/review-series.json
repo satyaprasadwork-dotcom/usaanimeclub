@@ -72,6 +72,31 @@
     ]
   },
   {
+    "slug": "boruto-two-blue-vortex",
+    "kind": "manga",
+    "title": "Boruto: Two Blue Vortex",
+    "subtitle": "Chapter-by-chapter critical analysis · from Chapter 1",
+    "schedule": "VIZ's official English chapter directory currently lists Chapter 38 dated October 20, 2026. This archive starts at Chapter 1 and adds five carefully researched chapters per batch; check VIZ for the newest release and access requirements.",
+    "latestLabel": "Chapter 38 · October 20, 2026 (latest listed at November 15 check)",
+    "latestDate": "2026-10-20",
+    "latestUnit": "chapter",
+    "platform": "VIZ / MANGA Plus",
+    "officialUrl": "https://www.viz.com/shonenjump/chapters/boruto-two-blue-vortex",
+    "sourceLabel": "VIZ Shonen Jump English chapter directory · checked November 15",
+    "sourceDate": "2026-11-15",
+    "checkedOn": "2026-11-15",
+    "summary": "An independently researched, spoiler-labeled chapter archive of Boruto's return after Omnipotence, the Claw Grimes and the rise of the Divine Trees. Five original critical responses are added per batch, with publisher references, distinct analysis and no invented firsthand ratings.",
+    "reviewFocus": [
+      "Character choices, memory, loyalty and the cost of the time skip",
+      "Whether new powers and antagonists create meaningful story consequences",
+      "Pacing, visual storytelling, unresolved questions and honest criticism"
+    ],
+    "relatedNewsSlugs": [
+      "boruto-manga-reading-order-next-generations-two-blue-vortex-official",
+      "kishimoto-vs-ikemoto-boruto-two-blue-vortex-creator-writing-art-credits"
+    ]
+  },
+  {
     "slug": "one-piece",
     "kind": "manga",
     "title": "One Piece",
