@@ -62,7 +62,10 @@ for(const pageUrl of urls){
    const ld=scripts.find(x=>x["@type"]==="NewsArticle");
    assert(ld,"NewsArticle JSON-LD missing "+file);
    assert(ld.datePublished.startsWith(article.date),"incorrect publish date "+file);
-   assert(ld.dateModified.startsWith(JSON.parse(read("content/editorial-guides.json"))[article.slug].updated||article.date),"Story-specific update date incorrect "+file);
+   const revision=JSON.parse(read("content/editorial-guides.json"))[article.slug];
+   assert.equal(ld.dateModified,revision.updatedAt||(revision.updated||article.date)+"T12:00:00Z","Story-specific update timestamp incorrect "+file);
+   if(revision.updatedAt)assert(html.includes('datetime="'+revision.updatedAt+'"'),"Visible updated timestamp missing "+file);
+   if(article.checkedOn)assert(html.includes('datetime="'+article.checkedOn+'"'),"Visible source recheck date missing "+file);
    assert(ld.editor?.name==="Satya Prasad","Editor-in-Chief not named in NewsArticle "+file);
    assert(ld.abstract===article.summary,"Article abstract differs from on-page short answer "+file);
    if(article.references?.length){

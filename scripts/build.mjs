@@ -46,6 +46,7 @@ function buildSite(articles){
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const url=a=>"/news/"+a.slug+"/";
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
+  const fmtUpdate=t=>new Date(t).toLocaleString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true})+" UTC";
   const ld=x=>JSON.stringify(x).replace(/</g,"\\u003c");
   const org={"@type":"Organization","@id":BASE+"/#organization",name:BRAND,url:BASE+"/",email:EMAIL,logo:{"@type":"ImageObject",url:BASE+"/assets/logo.png"}};
   function bc(links){return {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:links.map(([name,path],i)=>({"@type":"ListItem",position:i+1,name,item:BASE+path}))}}
@@ -222,7 +223,7 @@ ${pag}</div></section>`;
 <h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
 <div class="article-byline"><span class="byline-badge" aria-hidden="true">桜</span><div><strong><a href="/about/">USA Anime Club Editorial</a></strong>
 <p class="editor-credit">Editor-in-Chief: <a href="/about/#editor-in-chief">Satya Prasad</a></p>
-<p>Published <time datetime="${a.date}">${fmt(a.date)}</time> <span aria-hidden="true">·</span> Updated <time datetime="${a.modified||a.date}">${fmt(a.modified||a.date)}</time></p></div></div></header>
+<p>Published <time datetime="${a.date}">${fmt(a.date)}</time> <span aria-hidden="true">·</span> Updated <time datetime="${a.modifiedAt||a.modified||a.date}">${a.modifiedAt?fmtUpdate(a.modifiedAt):fmt(a.modified||a.date)}</time></p></div></div></header>
 <div class="article-columns"><div class="article-primary">
 <img class="post-hero" src="${pic}" width="1200" height="675" alt="Original conceptual illustration for ${e(a.title)}">
 <section class="tldr" id="quick-answer" aria-labelledby="quick-answer-heading"><h2 class="tldr-label" id="quick-answer-heading">QUICK ANSWER</h2><p>${e(a.summary)}</p><p class="answer-source">Source record: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time> <span aria-hidden="true">·</span> <cite><a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">Read the original source</a></cite></p></section>
@@ -230,7 +231,7 @@ ${pag}</div></section>`;
 <div class="prose">${a.sections.map(([h,paras])=>`<section aria-labelledby="${sectionId(h)}"><h2 id="${sectionId(h)}">${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}</section>`).join("")}</div>
 <div class="source-note" id="primary-source"><strong>Primary source and reporting notes</strong>
 <p>Based on ${e(a.sourceLabel)}. This report distinguishes confirmed details from information not established by the original source.</p>
-<p class="source-link-row"><a class="source-primary-link" href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a><span>Source date / checked: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span></p>
+<p class="source-link-row"><a class="source-primary-link" href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a><span>Source date / checked: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time>${a.checkedOn?` <span class="source-rechecked">· Rechecked <time datetime="${a.checkedOn}">${fmt(a.checkedOn)}</time></span>`:""}</span></p>
 ${evidence.length?`<div class="supporting-sources"><strong>Additional primary records</strong><ul>${evidence.map(ref=>`<li><a href="${e(ref.url)}" target="_blank" rel="noopener noreferrer">${e(ref.label)}</a> <time datetime="${ref.date}">${fmt(ref.date)}</time></li>`).join("")}</ul></div>`:""}
 <p>Found a factual error? <a href="mailto:${EMAIL}?subject=${encodeURIComponent("Correction: "+a.title)}">Contact the editorial desk</a>.</p></div>
 </div><aside class="article-sidebar"><div class="sidebar-panel"><span class="eyebrow">IN THIS REPORT</span>
@@ -239,7 +240,7 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:a.modifiedAt||(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
@@ -296,8 +297,11 @@ for(const a of input){
   const brief=editorialGuides[a.slug];
   if(!brief||!["books","compare","reader","screen","calendar","clock","cinema","trophy","portal"].includes(brief.scene)||!brief.label||!brief.question||!brief.action)throw Error("Missing editorial guide "+a.slug);
   a.readerGuide=brief;
-  a.modified=brief.updated||a.modified||a.date; // Actual substantive change date, never reset future articles to an older date.
+  a.modified=brief.updated||a.modified||a.date; // Publication date remains unchanged.
+  a.modifiedAt=brief.updatedAt||null; // Explicit UTC timestamp for actual same-day substantive revisions.
   if(a.modified<a.date)throw Error("Update date precedes publication: "+a.slug);
+  if(a.modifiedAt&&(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(a.modifiedAt)||a.modifiedAt.slice(0,10)!==a.modified))throw Error("Timestamp must match actual modified date: "+a.slug);
+  if(a.checkedOn&&(!/^\d{4}-\d{2}-\d{2}$/.test(a.checkedOn)||a.checkedOn>new Date().toISOString().slice(0,10)))throw Error("Invalid source recheck date: "+a.slug);
 }
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}

@@ -5,12 +5,12 @@
     "date": "2026-11-14",
     "publishSequence": 40,
     "sourceDate": "2026-11-14",
-    "title": "Royal Road vs. J-Novel Club vs. WebNovel: How the Reading Models Differ",
-    "description": "Compare Royal Road's serial fiction, J-Novel Club's translated light-novel prepubs, and WebNovel's chapter access for US readers.",
-    "keywords": "Royal Road vs J-Novel Club vs WebNovel 2026, web novel subscription comparison US, J-Novel Club Prepub Library Priority Pass, Royal Road Premium, WebNovel chapter access",
-    "summary": "Royal Road hosts author-posted fiction with optional ad-free Premium, J-Novel Club licenses and translates novels using distinct library/prepub subscriptions and ebooks, and WebNovel offers a chapter-based serial reader. Their catalogs and paid access rights are not interchangeable.",
+    "title": "Royal Road vs J-Novel Club vs WebNovel: Free Chapters, Subscriptions and Ownership Compared",
+    "description": "Compare Royal Road's free fiction and Reader Premium, J-Novel Club's Library and Priority plans and downloadable ebooks, and WebNovel's paid chapter unlocks.",
+    "keywords": "Royal Road vs J-Novel Club vs WebNovel subscription 2026, Royal Road premium price 3.49, J-Novel Club library priority dual pass cost, WebNovel coins privilege chapter ownership",
+    "summary": "Royal Road mainly provides public author-posted chapters, with optional $3.49/month Reader Premium for ad-free convenience. J-Novel Club lists $3.50 Library, $4.95 Priority and $7.95 Dual monthly plans, plus separate DRM-free ebook purchases. WebNovel uses title-specific chapter unlocks and optional Privilege tiers; none of these is a universal cross-platform book ownership pass.",
     "source": "https://j-novel.club/faq",
-    "sourceLabel": "J-Novel Club's official subscription and prepublication FAQ, cross-checked with Royal Road's Premium help and the original WebNovel reader catalog",
+    "sourceLabel": "J-Novel Club's live subscription, Prepub and purchased-ebook FAQ, rechecked November 15, 2026; other services cited individually below",
     "symbol": "3RD",
     "hue": 165,
     "sections": [
@@ -76,7 +76,63 @@
           "Authors can change their chapter schedules, translations can move from Prepub to finished books, and platforms can modify reading rules. An article based on one date's public help page should not promise that every price and entitlement will remain unchanged. Future reporting should identify the company and the exact change, whether it is a newly licensed title, a revised subscription benefit, or an official completion notice. A promotional badge without supporting terms is not enough evidence.",
           "The useful November 2026 conclusion is that all three are legitimate places to discover or access fiction, but they serve different roles. Royal Road foregrounds writer-posted chapters and community discovery, J-Novel Club manages licensed English translations and book editions, and WebNovel offers serialized titles with its own chapter reader. Readers can choose confidently by identifying the work, the kind of access desired and the terms of the named service."
         ]
+      ],
+      [
+        "November 2026 price snapshot: three very different payments",
+        [
+          "Royal Road's own subscription page displays Reader Premium at $3.49 per month or $34.99 per year before applicable regional differences. This generally buys reading conveniences, including ad-free browsing, rather than a new library of exclusive paid novels. J-Novel Club's current US FAQ lists a Library Pass at $3.50 per month, Priority Pass at $4.95 per month and Dual Pass at $7.95 per month. The Library tier provides access to selected complete volumes; Priority gives access to ongoing Prepub translation parts; Dual combines them. Those prices describe different benefits and should never be placed in one ranking as though each subscription unlocks the same catalog.",
+          "A simple six-month example clarifies the distinction: six monthly Royal Road Reader Premium payments at the posted $3.49 would total $20.94, six J-Novel Club Library payments at $3.50 would total $21.00, and six Priority payments at $4.95 would total $29.70, excluding taxes and promotions. None of these amounts buys the full contents of the other platforms, and none includes every individually purchased ebook. This arithmetic is an illustration of advertised monthly rates on November 15, not a personalized checkout quote. Confirm the active plan, app-store billing and tax details before subscribing."
+        ]
+      ],
+      [
+        "Ownership test: downloaded ebook, temporary Prepub and WebNovel unlock",
+        [
+          "J-Novel Club provides the most explicit distinction among the three for downloadable books. Its FAQ says direct purchases using Coins provide DRM-free EPUB3 files, and a customer who has downloaded a purchased file keeps that copy even if the publisher later loses online download rights. J-Novel Club also says Prepub access ends after the finished volume is published, making subscription reading a temporary benefit rather than the same thing as owning a completed edition. Readers who want files to retain should check the purchased-book path, not rely only on seeing an installment in a subscription library.",
+          "Royal Road's premium app offers offline reading as a convenience but explains that an author's deleted fiction can disappear from the downloaded tab within 24 hours. That is not the same as a permanent, independently owned ebook file. WebNovel's publisher-facing help describes premium chapter and Privilege mechanisms attached to particular books, with app-only early access for Privilege chapters. Its published rules indicate that certain Privilege tiers are paid monthly. A platform unlock is an account-based entitlement governed by service terms; it should not be advertised as interchangeable with a DRM-free ebook available to archive on your own device."
+        ]
+      ],
+      [
+        "How to choose based on one real reading objective",
+        [
+          "If your objective is to explore independent progression fantasy without a recurring fee, begin with a public Royal Road chapter directory and subscribe to a specific author only if their stated extras matter to you. If you want Japanese light novels being officially translated while a volume is still in progress, J-Novel Club Priority Pass is the relevant option; if you want a rotating library of completed books, compare its Library Pass instead. Readers who value keeping a completed translation should inspect direct J-Novel ebook purchase and download terms. WebNovel is primarily a title-by-title decision, because later chapters can have individual unlocking requirements.",
+          "Before spending money, open the exact work and author you want, check whether its first chapters are free, identify the payment requirement for the next unread chapter and determine what rights remain if you cancel. These questions outperform a simplistic free-versus-paid badge because the three services sell fundamentally different things: community reading convenience, licensed book access and purchases, or account-bound serial chapters. The public documents cited here describe policies, not a private test of account balances, individual author Patreon offers or every current WebNovel chapter price."
+        ]
+      ],
+      [
+        "What a verified comparison should update next",
+        [
+          "Price or entitlement changes can happen without the associated book moving platforms. Recheck the specific membership checkout and official FAQ before changing this article's monthly amounts; a mobile subscription might use a localized price or app-store billing. If J-Novel Club revises its plan names, discounts or Prepub expiration rules, identify which plan changed rather than implying that a platform-wide price rise applies to a specific ebook already owned. If WebNovel modifies its early-access terms, link the relevant help notice and distinguish chapter unlocks from subscription-style Privilege.",
+          "The publication originally appeared on November 14, 2026, and this comparison was substantively revised on November 15 using the official source records. That date matters: prices and catalog rights are not timeless facts. We do not claim that a person logged into all three services, independently purchased every tier or tested offline access under a paid account. The article instead documents the companies' posted product descriptions and shows a reproducible way for US readers to compare real costs, access duration and whether a purchased file can be retained."
+        ]
       ]
+    ],
+    "checkedOn": "2026-11-15",
+    "references": [
+      {
+        "label": "Royal Road official Reader Premium plan and monthly price",
+        "url": "https://www.royalroad.com/premium/subscription",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "Royal Road official Reader Premium features and offline terms",
+        "url": "https://www.royalroad.com/support/knowledgebase/109",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "J-Novel Club plan options, ebook purchases and free previews",
+        "url": "https://j-novel.club/howitworks",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "WebNovel Inkstone: Privilege unlocks are title-specific and app-only",
+        "url": "https://www.webnovel.com/inkstone/help/list?id=9",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "WebNovel's published chapter unlocking and monthly Privilege rules",
+        "url": "https://en.webnovel.com/book/8057964805003305/26272231298491341",
+        "date": "2026-11-15"
+      }
     ]
   },
   {
@@ -722,12 +778,12 @@
     "date": "2026-11-14",
     "publishSequence": 29,
     "sourceDate": "2026-11-09",
-    "title": "Eleceed on WEBTOON: Official English Reading Options and Series Status",
-    "description": "Eleceed remains active on English WEBTOON, with Episode 411 listed November 9, 2026. Check its creators, weekly schedule and app-only access distinctions.",
-    "keywords": "Eleceed WEBTOON English 2026 status, Eleceed episode 411 November 2026, Eleceed Jeho Son ZHENA where to read, Eleceed weekly updates",
-    "summary": "The official Eleceed English listing displays Episode 411 dated November 9, 2026 and a Tuesday update label. Written by Jeho Son with art by ZHENA, the action comic offers web-accessible episodes alongside additional app-only reading choices.",
+    "title": "Eleceed: Latest English Episodes, Free Reading Options and Update Schedule",
+    "description": "WEBTOON's English Eleceed directory lists Episode 411 dated November 9, 2026 and says updates arrive Tuesdays. Compare free episodes, Fast Pass, and app-only access.",
+    "keywords": "Eleceed latest English episode 411 2026, Eleceed WEBTOON Tuesday release schedule, Eleceed free episodes Fast Pass app-only, Jiwoo Kayden Jeho Son ZHENA",
+    "summary": "As checked November 15, 2026, WEBTOON's English Eleceed page lists Episode 411 dated November 9 and labels the series 'UP EVERY TUESDAY.' It also advertises 10 newer app-only episodes; these are not the same as freely listed web episodes. Fast Pass can offer early paid access, with eligible episodes later released free.",
     "source": "https://www.webtoons.com/en/action/eleceed/list?page=1&title_no=1571",
-    "sourceLabel": "Official English WEBTOON Eleceed episode directory, showing Episode 411 on November 9, 2026",
+    "sourceLabel": "Official English WEBTOON Eleceed episode directory; latest publicly listed Episode 411 is dated November 9, 2026, with a Tuesday release label (rechecked November 15, 2026)",
     "symbol": "EL",
     "hue": 210,
     "sections": [
@@ -778,7 +834,41 @@
           "A careful update should also distinguish a creator interview from a WEBTOON interface notice and avoid inventing intentions. A social account may discuss production challenges without establishing an official English release schedule. If a weekly badge changes, verify that it refers to Eleceed rather than another title on the platform's homepage. Keeping the documentation specific protects readers from rumors spreading between fandoms.",
           "As of the November 14 check, Eleceed's English WEBTOON listing is active, Episode 411 is dated November 9 and the title page identifies Tuesday as the normal update day. Readers can open the official episode list, confirm their place in the story and inspect current app options for any chapters not shown in the ordinary web directory."
         ]
+      ],
+      [
+        "Episode 411, Tuesday updates, and the date-display difference",
+        [
+          "WEBTOON's English episode list currently shows Episode 411 with a November 9, 2026 date, and the preceding visible entries include Episode 410 dated November 2 and Episode 409 dated October 26. These successive displayed dates fall on Mondays, while the same official series page says 'UP EVERY TUESDAY.' It would be misleading to resolve that visible difference by claiming a precise release hour or a confirmed North American time-zone conversion when the public listing does not supply one. A reader should check the platform's actual new-episode notice and local display, rather than assuming the next item must appear at midnight on a particular US coast.",
+          "Because the directory is updated over time, Episode 411 is a dated snapshot, not a permanent current-chapter number. The correct wording is 'latest publicly listed episode in the directory checked November 15,' not 'final episode' or 'most recently created Korean chapter.' English WEBTOON episode numbering also need not match separate Korean or translated editions, which may have different release schedules. If Episode 412 appears on the verified English page later, revise the number and the check date together; never update the headline with a new count while leaving the evidence snapshot unchanged."
+        ]
+      ],
+      [
+        "What is free now versus what requires early access",
+        [
+          "The English WEBTOON page shows an app prompt offering ten new episodes beyond what its publicly visible list displays. That does not establish that all ten are free on the website. WEBTOON's own help center explains that ongoing Originals have ordinary free episodes and that some series offer Fast Pass to read ahead using Coins in the app. Fast Pass installments become free after a platform-defined period; the required Coins and timing vary by series. Those details are more reliable than assuming an app advertisement is a promise that ten additional chapters are immediately free.",
+          "For a budget-conscious reader, start with Episode 1 using the official English page and continue through the regular episode directory. If a newly numbered chapter is labeled Fast Pass, inspect the in-app unlock notice before spending Coins. If you are happy to wait for the regular rollout, avoid treating the app-only chapter count as part of the free public schedule. WEBTOON also has Daily Pass for some completed works, but Eleceed's current English page describes an ongoing Tuesday series; the separate Daily Pass model should not be copied onto it without title-specific evidence."
+        ]
+      ],
+      [
+        "A practical check before paying for an early episode",
+        [
+          "Open the exact Eleceed listing credited to Jeho Son and ZHENA, then compare the visible public episode number with the additional chapters advertised on mobile. Note the free release date shown for the particular episode and check the displayed Coin cost before confirming a Fast Pass unlock. The WEBTOON help center says Coin-based access is tied to the app and that unlocked episodes remain available while the series remains on the service, a very different arrangement from buying a downloadable ebook. A screenshot of a price on one day is not a fixed permanent price.",
+          "A reader interested in accessible English releases should also check that the story is being opened under the official English-language Eleceed listing rather than an overseas localized edition. A chapter number seen in another language's page can differ even if the underlying story is the same. This article does not claim to have purchased Coins, tested the latest ten app-only installments or accessed a private account. Its public status and access statements come from the English episode directory and WEBTOON's published help rules."
+        ]
       ]
+    ],
+    "checkedOn": "2026-11-15",
+    "references": [
+      {
+        "label": "WEBTOON Help Center: Fast Pass episodes, free access and Coins",
+        "url": "https://help2.line.me/LINE_WEBTOON/ios/pc?lang=en",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "WEBTOON Help Center: differences between Fast Pass and Daily Pass",
+        "url": "https://help2.line.me/LINE_WEBTOON/ios/categoryId/20006013/pc?lang=en",
+        "date": "2026-11-15"
+      }
     ]
   },
   {
@@ -917,12 +1007,12 @@
     "date": "2026-11-14",
     "publishSequence": 28,
     "sourceDate": "2026-11-14",
-    "title": "The Remarried Empress: Spin-off — What Readers Should Know Before Starting",
-    "description": "WEBTOON now lists The Remarried Empress: Spin-off in English. Learn how it relates to the completed original series, the credited creators, and where to start.",
-    "keywords": "The Remarried Empress Spin-off WEBTOON English 2026, Remarried Empress spinoff start reading, Navier WEBTOON sequel guide, Alphatart HereLee SUMPUL",
-    "summary": "WEBTOON has a separate English title page for The Remarried Empress: Spin-off, credited to SUMPUL, HereLee and Alphatart. The original The Remarried Empress is marked completed; newcomers should distinguish the spin-off series listing from the original romance-fantasy story.",
+    "title": "The Remarried Empress: Main Story vs Spin-off — Where Should You Start?",
+    "description": "A spoiler-light guide comparing the completed original The Remarried Empress WEBTOON with its separate English spin-off listing, the reading order and app access.",
+    "keywords": "The Remarried Empress main story vs spin-off reading order 2026, Navier remarried empress completed original, WEBTOON spin off english where start, SUMPUL HereLee Alphatart",
+    "summary": "Read The Remarried Empress's completed original WEBTOON first if you are new to Navier's story. WEBTOON lists the spin-off as a distinct English Romance title with overlapping creators, while the original appears under Fantasy and is marked completed. The spin-off's episode count and release schedule could not be confirmed from its public listing checked November 15, 2026.",
     "source": "https://www.webtoons.com/en/romance/the-remarried-empress-spin-off/list?title_no=11640",
-    "sourceLabel": "Official English WEBTOON listing for The Remarried Empress: Spin-off, checked November 14, 2026",
+    "sourceLabel": "WEBTOON's English listing for The Remarried Empress: Spin-off, showing its independent title and creators (rechecked November 15, 2026)",
     "symbol": "RE",
     "hue": 310,
     "sections": [
@@ -973,7 +1063,53 @@
           "If the platform updates access conditions, an article should distinguish the change from normal promotion. A newly visible episode, a temporary reading discount and a paid episode moving into the free directory are not the same event. That distinction can help returning readers decide when and where to continue. Content warnings and age ratings should also be taken from the particular spin-off's listing rather than copied blindly from the parent work.",
           "For November 2026, the source-supported reader guide is straightforward: WEBTOON has an English Remarried Empress spin-off listing with shared credited creators, while the parent work remains marked completed. The safest beginning is the official title page, with the original's opening episodes available for narrative context. Any detailed episode calendar or unannounced print plan needs its own direct confirmation."
         ]
+      ],
+      [
+        "Reading order: why the completed original is the stronger first stop",
+        [
+          "The safest spoiler-light path for a reader meeting Navier for the first time is the English WEBTOON page titled The Remarried Empress. It introduces the Eastern Empire, Navier's marriage, the divorce conflict and the choice that gives the work its name. WEBTOON explicitly marks that original comic completed. Because the spin-off is marketed using the same franchise title, it is reasonable to expect it to rely on some of that context. However, the public spin-off page did not provide a full episode synopsis in the material available for this review, so treating any particular character outcome as the confirmed setting of its opening chapter would go beyond the evidence.",
+          "A returning reader who already knows the original story can go directly to the separate spin-off listing without being required to reread hundreds of episodes. For a newcomer deciding between the two, the distinction is one of narrative orientation rather than compulsory rules: the original page supplies the main premise and development, while the related title is labeled a spin-off. A published spin-off might explore supplementary events, but only an actual episode or publisher synopsis could confirm its precise chronology. This guide avoids inventing that chronology to make its recommendation sound more definitive."
+        ]
+      ],
+      [
+        "Main story versus spin-off: four reliable distinctions",
+        [
+          "First, the two works have different canonical English WEBTOON URLs, so use the full page titles when searching. Second, the original appears under Fantasy and is marked completed, while the spin-off page is categorized under Romance. Third, both pages name SUMPUL for art, HereLee for adaptation and Alphatart for the underlying work. Fourth, WEBTOON's public metadata is not an episode-by-episode reading-order map: the separate spin-off page does not currently supply enough visible chapter details to verify an exact jump-in episode number or a weekly release hour.",
+          "These differences answer what to open first without pretending the category tag reveals everything about the story. A Fantasy label can sit alongside romance and court politics; a Romance label does not establish the absence of political stakes. If WEBTOON later adds a synopsis specifying whether the spin-off is a prequel, interlude or epilogue, that statement should be quoted accurately and linked directly. Until then, telling readers to finish the main story first is a conservative spoiler-avoidance recommendation, not a claim that the spin-off is formally inaccessible beforehand."
+        ]
+      ],
+      [
+        "The separate 2026 Disney+ and Hulu drama is not the spin-off",
+        [
+          "Another source of confusion is The Remarried Empress live-action drama released in November 2026. Disney announced that its first four episodes arrived on November 3 on Disney+ and Hulu, and that further episodes would follow weekly through November 25. This is a screen adaptation of the main property, not WEBTOON's separately cataloged spin-off comic. A streaming trailer, actor interview or television episode count should therefore not be presented as an announcement of new spin-off chapters.",
+          "If your goal is to read the original Navier story, use WEBTOON's completed main series. If you want the connected new comic, open the dedicated spin-off page. If you want to watch actors perform an adaptation, use the Disney+ or Hulu title page and note that its episode release pattern is a television distribution schedule. These three routes may share characters and branding, but their formats and release evidence are distinct. Keeping them separate helps US fans avoid clicking an apparently relevant headline that answers a different question."
+        ]
+      ],
+      [
+        "Free access and what a completed series label does not guarantee",
+        [
+          "A completed WEBTOON series is not automatically a promise that all episodes are permanently free to reread without an account. The platform's published Daily Pass program lets readers unlock episodes of selected completed works for a limited reading period, while Coins can be used for paid access under the applicable terms. This is a general policy, not proof that every chapter of The Remarried Empress is currently gated under Daily Pass. The specific title's episode list and app controls are the evidence for its current payment status.",
+          "Readers comparing the original and spin-off should check the actual English account interface for each title. The new spin-off's public listing did not expose a reliable complete English episode count during this review, so this article does not claim to have watched or read a specific numbered installment. Paying for Coins should follow the actual on-screen unlock notice, including the duration of access and whether the title offers a free waiting path. That approach is more useful than guessing which chapter is free on a service that frequently changes access rules."
+        ]
       ]
+    ],
+    "checkedOn": "2026-11-15",
+    "references": [
+      {
+        "label": "WEBTOON original The Remarried Empress: completed main series",
+        "url": "https://www.webtoons.com/en/fantasy/the-remarried-empress/list?title_no=2135",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "WEBTOON Help Center: Daily Pass for completed series and Fast Pass",
+        "url": "https://help2.line.me/LINE_WEBTOON/ios/categoryId/20006013/pc?lang=en",
+        "date": "2026-11-15"
+      },
+      {
+        "label": "Disney's November 2026 statement on the separate live-action adaptation",
+        "url": "https://thewaltdisneycompany.com/news/remarried-empress-early-premiere/",
+        "date": "2026-11-03"
+      }
     ]
   },
   {
