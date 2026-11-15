@@ -395,5 +395,29 @@
     "action": "The official Naruto site confirmed Part 2 was in production in March 2023 after Episode 293, but no premiere date or US streaming schedule has been officially announced in the checked records.",
     "updated": "2026-11-15",
     "updatedAt": "2026-11-15T15:34:41Z"
+  },
+  "naruto-live-action-movie-team-7-global-casting-director-confirmed": {
+    "scene": "screen",
+    "label": "LIVE-ACTION FILM",
+    "question": "Who is confirmed to direct the live-action Naruto movie, and has Team 7 been cast?",
+    "action": "Destin Daniel Cretton is the confirmed director and Lionsgate launched a worldwide search for Naruto, Sasuke and Sakura. The checked official sources did not name a completed Team 7 cast or theatrical premiere date.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:36:16Z"
+  },
+  "project-rasengan-naruto-boruto-official-roadmap-explained": {
+    "scene": "calendar",
+    "label": "PROJECT ROADMAP",
+    "question": "What exactly is confirmed under Project Rasengan?",
+    "action": "Officially named projects include Naruto × Ninkū, Kishimoto's Shadow Rising manga, a worldwide Naruto Mobile expansion and Bandai's June 2027 Naruto Card Game. Other roadmap entries remain unannounced.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:36:16Z"
+  },
+  "naruto-2023-delayed-anniversary-episodes-vs-2026-ninku-crossover": {
+    "scene": "compare",
+    "label": "TWO PROJECTS",
+    "question": "Are Naruto's delayed 2023 anniversary episodes and Naruto × Ninkū the same four episodes?",
+    "action": "The official sources describe a postponed 2023 anniversary production and a newly announced 2026 Naruto × Ninkū crossover. They have not established that the two are identical.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:36:16Z"
   }
 }
