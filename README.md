@@ -92,3 +92,11 @@ Satya Prasad is identified as Editor-in-Chief in the About, Editorial Policy, ar
 Original article publication dates remain unchanged; the actual substantive editorial upgrade date is shown separately as November 15, 2026. Verify live sources, distribution territories and rights manually before declaring a factual review complete. A passing generator check establishes structural consistency, not independent reporting verification.
 
 When publishing a new story, add a new unique entry to both `content/articles.json` and `content/editorial-guides.json` before running the build. Record its actual latest substantive editorial update in the guide `updated` field; do not backdate or forward-date revisions.
+
+## Source-linked short answers (November 2026)
+
+Every article has a visible, accessible `Quick answer` section derived from its story-specific factual summary. The answer links directly to the primary source and names the source record date. The table of contents links to both the answer and the detailed primary-source note. `NewsArticle.abstract` matches the visible short answer, while publisher, byline, datePublished, dateModified, canonical, and NewsArticle citation metadata remain truthful.
+
+These changes help human readers and crawlers locate attributed context. They **do not** constitute any special Google AI markup or promise Google AI Overview, ChatGPT, Gemini, or other citation placement. Before publication, an editor must inspect the official source and confirm individual factual statements, US-specific territory/date, media rights, and meaningful original value. Existing articles still await independent claim-by-claim human verification; a code test is not editorial fact-checking.
+
+For research and title prioritization, see `.github/editorial/us-search-opportunities-2026-11-15.md`. Search predictions are hypotheses until measured in Google Trends Explore and verified against Search Console.
