@@ -42,11 +42,10 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
  if(reviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Empty critical archive must not be indexed "+page);
  assert(html.includes("OFFICIAL")||html.includes("official"),"Review landing lacks source-backed context "+page);
  assert(!html.includes("Published criticism"),"Review archives should show cards without a redundant heading "+page);
- if(page==="reviews/index.html"){
-  assert(!html.includes('class="review-published-card"'),"Main reviews index must not duplicate article cards");
-  assert.equal((html.match(/class="review-series-card"/g)||[]).length,series.length,"Main reviews index must retain all six series cards");
- }else if(reviews.some(r=>page==="reviews/"+r.kind+"/index.html")){
-  assert(html.includes('class="review-published-card"'),"Review category should retain the article cards "+page);
+ for(const [path,expected] of [["reviews/index.html",series.length],["reviews/anime/index.html",3],["reviews/manga/index.html",3]]){
+  if(page!==path)continue;
+  assert.equal((html.match(/class="review-series-card"/g)||[]).length,expected,"Review landing must show only its series cards "+page);
+  assert(!html.includes('class="review-published-card"'),"Individual review cards belong only inside series hubs "+page);
  }
 }
 assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missing");
