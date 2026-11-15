@@ -45,8 +45,8 @@ assert(!reviews.some(r=>r.installmentSlug===chapter39PreviewSlug),"Do not masque
 assert(read("news/"+chapter39PreviewSlug+"/index.html").includes('rel="canonical" href="'+base+"/news/"+chapter39PreviewSlug+'/\"'),"Chapter 39 news article canonical missing");
 const currentBorutoHub=read("reviews/manga/boruto-two-blue-vortex/index.html");
 if(!borutoChapters.some(r=>r.installmentNumber===39)){
- assert(currentBorutoHub.includes("PRE-RELEASE / NOT A REVIEW"),"Pre-release Chapter 39 caveat missing from series archive");
- assert(currentBorutoHub.includes('/news/'+chapter39PreviewSlug+'/'),"Chapter 39 preview link missing from Boruto archive");
+ assert(!currentBorutoHub.includes("PRE-RELEASE / NOT A REVIEW"),"Chapter 39 should not use a separate pre-release banner");
+ assert(currentBorutoHub.includes('class="review-published-card" href="/news/'+chapter39PreviewSlug+'/"><span class="review-kind-tag">CHAPTER 39</span>'),"Chapter 39 preview must appear as an ordinary first chapter card");
  assert(read("reviews/manga/boruto-two-blue-vortex/chapter-38/index.html").includes('/news/'+chapter39PreviewSlug+'/'),"Chapter 38 must guide readers to the genuine Chapter 39 preview");
 }
 
@@ -119,9 +119,11 @@ for(const s of series){
   assert(!html.includes("currently lists Chapter 38"),"Boruto review hub must omit latest-release paragraph");
   assert(!html.includes("LATEST VERIFIED ENTRY"),"Boruto archive should not display release status");
   assert(html.includes("Open the official chapter directory"),"Authorized manga link missing from Boruto hub");
-  const allBorutoCards=Array.from({length:getPageCount(borutoChapters.length)},(_,i)=>i===0?html:read("reviews/manga/boruto-two-blue-vortex/page/"+(i+1)+"/index.html"))
+  const hasPreview=borutoChapters.every(r=>r.installmentNumber!==39);
+  const expectedCards=borutoChapters.length+(hasPreview?1:0);
+  const allBorutoCards=Array.from({length:getPageCount(expectedCards)},(_,i)=>i===0?html:read("reviews/manga/boruto-two-blue-vortex/page/"+(i+1)+"/index.html"))
     .reduce((total,pageHtml)=>total+(pageHtml.match(/class="review-published-card"/g)||[]).length,0);
-  assert.equal(allBorutoCards,borutoChapters.length,"Boruto series pagination must list every published chapter card");
+  assert.equal(allBorutoCards,expectedCards,"Boruto series pagination must list every chapter card including the Chapter 39 preview until review publication");
  }
 
 }
@@ -145,8 +147,10 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
 for(const s of series){
  const items=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug)
   .sort((a,b)=>b.publishedOn.localeCompare(a.publishedOn)||b.installmentNumber-a.installmentNumber);
+ const isBorutoPreview=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex"&&!items.some(r=>r.installmentNumber===39);
+ const archiveItems=isBorutoPreview?[{preview:chapter39Preview},...items]:items;
  const basePath="/reviews/"+s.kind+"/"+s.slug+"/";
- const pageCount=getPageCount(items.length);
+ const pageCount=getPageCount(archiveItems.length);
  const visited=[];
  for(let page=1;page<=pageCount;page++){
   const route=page===1?basePath:basePath+"page/"+page+"/";
@@ -155,7 +159,7 @@ for(const s of series){
   assert(html.includes('rel="canonical" href="'+base+route+'"'),"Incorrect review pagination canonical "+route);
   if(items.length)assert(urls.includes(base+route),"Published review pagination omitted from sitemap "+route);
   const actual=[...html.matchAll(/class="review-published-card" href="([^"]+)"/g)].map(m=>m[1]);
-  const expected=getPageItems(items,page).map(r=>basePath+r.installmentSlug+"/");
+  const expected=getPageItems(archiveItems,page).map(item=>item.preview?"/news/"+item.preview.slug+"/":basePath+item.installmentSlug+"/");
   assert(actual.length<=ARTICLES_PER_PAGE,"Review page exceeds twelve cards "+route);
   assert.deepEqual(actual,expected,"Review chapter order, overlap or missing cards "+route);
   visited.push(...actual);
@@ -167,7 +171,7 @@ for(const s of series){
    if(page>1)assert(html.includes('href="'+(page===2?basePath:basePath+"page/"+(page-1)+"/")+'" rel="prev"'),"Previous page missing "+route);
   }
  }
- assert.equal(visited.length,items.length,"Some reviews missing from series pages "+s.slug);
+ assert.equal(visited.length,archiveItems.length,"Some chapter cards missing from series pages "+s.slug);
  assert.equal(new Set(visited).size,visited.length,"Duplicate reviews across series pages "+s.slug);
 }
 const borutoPageTwo="reviews/manga/boruto-two-blue-vortex/page/2/index.html";
