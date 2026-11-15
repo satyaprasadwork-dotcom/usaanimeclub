@@ -399,6 +399,7 @@ function analyticsHarness({legacy=null,optOut=null}={}){
 const fresh=analyticsHarness();
 assert.equal(fresh.loaded.length,2,"New visitors must load both cookieless analytics tags");
 assert(fresh.loaded.some(url=>url.includes("gtag/js?id=G-G0TNMR0FQL")),"GA4 not loaded for new visitor");
+assert(fresh.window.dataLayer.some(args=>args[0]==="config"&&args[1]==="G-G0TNMR0FQL"&&args[2]?.send_page_view===true),"GA4 standard page_view must be enabled");
 assert(fresh.loaded.some(url=>url.includes("clarity.ms/tag/yyqq9cryjc")),"Clarity not loaded for new visitor");
 assert.equal(fresh.loaded.filter(url=>url.includes("gtag/js?id=")).length,1,"Duplicate GA4 tag");
 assert.equal(fresh.loaded.filter(url=>url.includes("clarity.ms/tag/")).length,1,"Duplicate Clarity tag");
@@ -886,6 +887,8 @@ assert(privacyRuntime.includes('ID="'+ga4Id+'"')&&privacyRuntime.includes('CLARI
 assert(privacyRuntime.includes("https://www.googletagmanager.com/gtag/js?id="),"GA4 must load through the shared consent runtime");
 assert(privacyRuntime.includes("https://www.clarity.ms/tag/"),"Clarity must load through the shared consent runtime");
 assert(privacyRuntime.includes('window.gtag("config",ID'),"GA4 configuration must use the shared measurement ID");
+assert(privacyRuntime.includes("send_page_view:true"),"GA4 automatic pageviews must remain enabled");
+assert(!read("assets/site.js").includes("Editorial interaction analytics"),"Do not duplicate GA4 and Clarity native event collection with custom instrumentation");
 // Validate EVERY committed and newly generated HTML file, even if intentionally
 // noindexed and omitted from the sitemap. This prevents new standalone pages
 // from silently missing the shared tag and privacy controls.
