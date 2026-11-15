@@ -371,5 +371,29 @@
     "action": "WEBTOON marks the English series completed, shows Episodes 1–5 on its public listing, and directs readers to its app for more; check title-specific unlock terms.",
     "updated": "2026-11-15",
     "updatedAt": "2026-11-15T13:43:51Z"
+  },
+  "naruto-shadow-rising-kishimoto-new-manga-team-7-teaser-confirmed": {
+    "scene": "books",
+    "label": "SHADOW RISING",
+    "question": "Is Naruto Shadow Rising official and when will it be released?",
+    "action": "Yes. The official Naruto site names Naruto: Shadow Rising as a new manga drawn by Masashi Kishimoto; the publication date and US English access remain unannounced. Further details are expected at the December 19, 2026 Jump Festa Naruto stage.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:34:41Z"
+  },
+  "naruto-ninku-four-episode-anime-crossover-story-confirmed-details": {
+    "scene": "portal",
+    "label": "NINJA CROSSOVER",
+    "question": "Is Naruto × Ninkū four episodes, and when can Americans watch it?",
+    "action": "The official production is four episodes with a Team 7/Fūsuke crossover supervised by Kishimoto and Kiriyama. The premiere date and US streaming platform have not been announced.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:34:41Z"
+  },
+  "boruto-anime-part-2-production-status-return-date-confirmed": {
+    "scene": "clock",
+    "label": "RETURN STATUS",
+    "question": "When is Boruto anime Part 2 coming out?",
+    "action": "The official Naruto site confirmed Part 2 was in production in March 2023 after Episode 293, but no premiere date or US streaming schedule has been officially announced in the checked records.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:34:41Z"
   }
 }
