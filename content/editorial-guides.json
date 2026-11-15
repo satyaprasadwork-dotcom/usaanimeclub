@@ -419,5 +419,29 @@
     "action": "The official sources describe a postponed 2023 anniversary production and a newly announced 2026 Naruto × Ninkū crossover. They have not established that the two are identical.",
     "updated": "2026-11-15",
     "updatedAt": "2026-11-15T15:36:16Z"
+  },
+  "boruto-manga-reading-order-next-generations-two-blue-vortex-official": {
+    "scene": "reader",
+    "label": "BORUTO READING",
+    "question": "Do I start Boruto: Two Blue Vortex after Naruto Next Generations Volume 20?",
+    "action": "Yes. Finish Boruto: Naruto Next Generations Chapter 80 (Volume 20), then begin Boruto: Two Blue Vortex at its Chapter 1 or Volume 1, using VIZ/MANGA Plus official English listings.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:37:44Z"
+  },
+  "kishimoto-vs-ikemoto-boruto-two-blue-vortex-creator-writing-art-credits": {
+    "scene": "compare",
+    "label": "BORUTO CREDITS",
+    "question": "Who draws Boruto: Two Blue Vortex, and what does Kishimoto do?",
+    "action": "VIZ credits Masashi Kishimoto with creation/supervision and Mikio Ikemoto with artwork. Ukyo Kodachi is named in the early Naruto Next Generations script credits; the writing arrangement changed in November 2020.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:37:44Z"
+  },
+  "naruto-card-game-june-2027-worldwide-starter-decks-official-guide": {
+    "scene": "books",
+    "label": "NARUTO CARD GAME",
+    "question": "When does Bandai's Naruto Card Game release, and which starter decks are confirmed?",
+    "action": "Bandai confirms a simultaneous worldwide launch in June 2027 with starter decks for Naruto, Sasuke and Gaara plus an initial booster. The exact launch day and retail prices are not established in the checked original announcement.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T15:37:44Z"
   }
 }
