@@ -16,6 +16,22 @@ assert(urls.length>=articles.length+8,"sitemap omits articles or trust pages");
 unique(urls,"sitemap URLs");
 unique(articles.map(a=>a.slug),"article slugs");
 const expectedArticles=articles.map(a=>base+"/news/"+a.slug+"/");
+const requiredNewStories=[
+  "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us",
+  "frieren-season-3-october-2027-golden-land-arc-official-premiere",
+  "delicious-in-dungeon-season-2-october-2027-netflix-us-confirmed",
+  "frieren-manga-volume-15-viz-us-english-december-2026-edition",
+  "blue-exorcist-volume-33-viz-english-december-2026-official-reading",
+  "regression-of-the-close-combat-mage-english-webtoon-official-reading-guide"
+];
+for(const slug of requiredNewStories){
+ const a=articles.find(a=>a.slug===slug);
+ assert(a,"Required new article missing: "+slug);
+ assert.equal(a.date,"2026-11-15","New article publication date mismatch "+slug);
+ assert(a.references?.length>=2,"Expected multiple verified first-party records "+slug);
+ assert(a.sections.reduce((n,s)=>n+s[1].join(" ").split(/\s+/).length,0)>=1000,"Article below editorial depth threshold "+slug);
+}
+
 for(const href of expectedArticles)assert(urls.includes(href),"missing article from sitemap "+href);
 
 const localPath=url=>{
