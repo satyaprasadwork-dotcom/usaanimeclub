@@ -68,6 +68,10 @@ function buildSite(articles){
     +'<div class="news-ticker-set">'+items.map(a=>tickerLink(a)).join("")+'</div>'
     +'<div class="news-ticker-set" aria-hidden="true">'+items.map(a=>tickerLink(a,true)).join("")+'</div>'
     +'</div></div><button class="news-ticker-toggle" type="button" data-ticker-toggle aria-pressed="false" aria-label="Pause scrolling news headlines">Pause</button></div></nav>';
+  // All site routes, articles, reviews, policies and the 404 page use this
+  // shared shell. Keep AdSense and consent defaults here, and keep the
+  // consent-aware GA4/Clarity loaders centralized in assets/privacy.js.
+  // Do NOT paste standalone gtag/Clarity snippets into individual articles.
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
     const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(title)}">`:"";
     const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/reviews/")?"Reviews":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
