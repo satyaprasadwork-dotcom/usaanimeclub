@@ -295,7 +295,7 @@ for(const pageUrl of urls){
  assert(html.includes('rel="canonical" href="'+pageUrl+'"'),"wrong canonical "+file);
  assert(html.includes("/assets/privacy.js"),"privacy controls missing "+file);
  assert(html.includes("/assets/site.js"),"shared runtime missing "+file);
- assert(html.includes("data-privacy-choices"),"privacy choice inaccessible "+file);
+ assert(html.includes("data-analytics-toggle"),"privacy choice inaccessible "+file);
  for(const [re,array,label] of [
    [/<title>([^<]+)<\/title>/,titles,"title"],
    [/<meta name="description" content="([^"]+)"/,descriptions,"description"],
@@ -371,65 +371,72 @@ const mostRecent=[...newsArticles].sort((a,b)=>b.date.localeCompare(a.date)||(b.
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
-// Simulate optional analytics consent without loading any third-party scripts.
-function consentHarness(previous){
- const saved=new Map(previous?[["usa-anime-club-analytics-consent-v1",previous]]:[]);
+// New visitors use cookieless analytics without a consent pop-up, with opt-out.
+function analyticsHarness({legacy=null,optOut=null}={}){
+ const stored=new Map();
+ if(legacy!==null)stored.set("usa-anime-club-analytics-consent-v1",legacy);
+ if(optOut!==null)stored.set("usa-anime-club-analytics-opt-out-v1",optOut);
  const loaded=[];
- const controls={};
- const element=()=>({handlers:{},addEventListener(name,fn){this.handlers[name]=fn},click(){this.handlers.click?.()}});
- const accept=element(),decline=element(),choice=element(),focusButton=element();
- focusButton.focus=()=>{}; // Browser buttons expose focus(); the test double must too.
- const banner={hidden:true,querySelector:()=>focusButton};
- const head={appendChild(x){loaded.push(x.src)}};
+ const control={handlers:{},attrs:{},textContent:"",
+   setAttribute(name,value){this.attrs[name]=value},
+   addEventListener(name,fn){this.handlers[name]=fn},
+   click(){this.handlers.click?.()}};
  const document={
-   getElementById:id=>id==="privacy-banner"?banner:null,
-   querySelectorAll:sel=>sel==="[data-consent-accept]"?[accept]:sel==="[data-consent-decline]"?[decline]:sel==="[data-privacy-choices]"?[choice]:[],
+   querySelector:selector=>selector==="[data-analytics-toggle]"?control:null,
    createElement:()=>({}),
-   getElementsByTagName:()=>[{parentNode:{insertBefore:x=>loaded.push(x.src)}}],
-   head
+   getElementsByTagName:()=>[{parentNode:{insertBefore:script=>loaded.push(script.src)}}],
+   head:{appendChild:script=>loaded.push(script.src)}
  };
  let reloads=0;
- // Simulate the early inline head snippet, which executes before deferred privacy.js.
  const window={dataLayer:[],location:{reload:()=>reloads++}};
  window.gtag=(...args)=>window.dataLayer.push(args);
  window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
- const localStorage={getItem:key=>saved.get(key)||null,setItem:(key,value)=>saved.set(key,value)};
+ const localStorage={getItem:key=>stored.get(key)??null,setItem:(key,value)=>stored.set(key,value)};
  runInNewContext(read("assets/privacy.js"),{document,window,localStorage,Date,encodeURIComponent});
- return {accept,decline,choice,banner,loaded,saved,window,getReloads:()=>reloads};
+ const signals=()=>Array.from(window.clarity?.q||[]).filter(args=>args[0]==="consentv2").map(args=>args[1]);
+ return {loaded,control,stored,window,signals,getReloads:()=>reloads};
 }
-const newVisitor=consentHarness();
-assert.equal(newVisitor.loaded.length,0,"analytics loaded without consent");
-assert.equal(newVisitor.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="default").length,1,"Consent defaults must initialize once in the head");
-assert(!newVisitor.window.clarity,"Clarity must not initialize until analytics consent");
-assert.equal(newVisitor.banner.hidden,false,"new visitor sees no privacy choice");
-newVisitor.decline.click();
-assert.equal(newVisitor.loaded.length,0,"declining loaded analytics");
-const accepted=consentHarness();
-accepted.accept.click();
-assert(accepted.loaded.some(x=>x.includes("gtag/js?id=G-G0TNMR0FQL")),"GA4 not loaded on accept");
-assert(accepted.loaded.some(x=>x.includes("clarity.ms/tag/yyqq9cryjc")),"Clarity not loaded on accept");
-assert.equal(accepted.loaded.filter(x=>x.includes("gtag/js?id=")).length,1,"Duplicate GA4 script injected");
-assert.equal(accepted.loaded.filter(x=>x.includes("clarity.ms/tag/")).length,1,"Duplicate Clarity script injected");
-assert(accepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"GA4 must receive analytics consent before loading");
-const acceptedClaritySignals=()=>Array.from(accepted.window.clarity?.q||[]).filter(args=>args[0]==="consentv2").map(args=>args[1]);
-assert.equal(acceptedClaritySignals().length,1,"Clarity V2 consent must be sent exactly once after opting in");
-assert.equal(acceptedClaritySignals()[0].analytics_Storage,"granted","Clarity must receive granted analytics consent");
-assert.equal(acceptedClaritySignals()[0].ad_Storage,"denied","Analytics consent cannot grant advertising consent");
-accepted.choice.click();
-accepted.accept.click();
-assert.equal(accepted.loaded.length,2,"Re-accepting analytics must not duplicate loaders or pageviews");
-accepted.choice.click();accepted.decline.click();
-assert.equal(accepted.getReloads(),1,"revocation should reload page");
-assert.equal(acceptedClaritySignals().length,2,"Clarity must receive withdrawal signal before reload");
-assert.equal(acceptedClaritySignals()[1].analytics_Storage,"denied","Clarity should revoke analytics storage immediately");
-assert.equal(acceptedClaritySignals()[1].ad_Storage,"denied","Clarity may never gain advertising consent through analytics choices");
-assert(accepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="denied"),"GA4 must receive consent withdrawal");
-const returningDeclined=consentHarness("declined");
-assert.equal(returningDeclined.loaded.length,0,"declined visitor should remain untracked");
-const returningAccepted=consentHarness("accepted");
-assert.equal(returningAccepted.loaded.length,2,"accepted visitor should load both analytics scripts");
-assert.equal(Array.from(returningAccepted.window.clarity.q).filter(args=>args[0]==="consentv2").length,1,"Returning visitor's Clarity Consent V2 must be restored on every page");
-assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred privacy loader must not duplicate the synchronous Consent Mode v2 defaults in the head");
+const fresh=analyticsHarness();
+assert.equal(fresh.loaded.length,2,"New visitors must load both cookieless analytics tags");
+assert(fresh.loaded.some(url=>url.includes("gtag/js?id=G-G0TNMR0FQL")),"GA4 not loaded for new visitor");
+assert(fresh.loaded.some(url=>url.includes("clarity.ms/tag/yyqq9cryjc")),"Clarity not loaded for new visitor");
+assert.equal(fresh.loaded.filter(url=>url.includes("gtag/js?id=")).length,1,"Duplicate GA4 tag");
+assert.equal(fresh.loaded.filter(url=>url.includes("clarity.ms/tag/")).length,1,"Duplicate Clarity tag");
+assert.equal(fresh.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="default").length,1,"Consent defaults must initialize once in the head");
+assert(!fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"New visitor must not be silently granted analytics cookies");
+assert.equal(fresh.signals().length,1,"Clarity Consent V2 must initialize before load");
+assert.equal(fresh.signals()[0].analytics_Storage,"denied","New visitors must have cookieless Clarity");
+assert.equal(fresh.signals()[0].ad_Storage,"denied","Analytics must never grant advertising consent");
+assert.equal(fresh.control.textContent,"Disable analytics","Footer opt-out must be available without a banner");
+fresh.control.click();
+assert.equal(fresh.stored.get("usa-anime-club-analytics-opt-out-v1"),"true","Opt-out must persist");
+assert.equal(fresh.stored.get("usa-anime-club-analytics-consent-v1"),"declined","Opt-out must preserve declined choice");
+assert.equal(fresh.getReloads(),1,"Opt-out must reload to stop loading tags");
+assert.equal(fresh.signals().at(-1).analytics_Storage,"denied","Opt-out must revoke Clarity cookie storage");
+const blocked=analyticsHarness({legacy:"declined"});
+assert.equal(blocked.loaded.length,0,"Previously declined users must remain untracked");
+assert.equal(blocked.control.textContent,"Enable basic analytics","Previously declined user must see re-enable option");
+const overridden=analyticsHarness({legacy:"accepted",optOut:"true"});
+assert.equal(overridden.loaded.length,0,"Explicit opt-out overrides earlier acceptance");
+const priorAccepted=analyticsHarness({legacy:"accepted"});
+assert.equal(priorAccepted.loaded.length,2,"Previously accepted analytics must still load");
+assert(priorAccepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"Only earlier consent can grant analytics storage");
+assert.equal(priorAccepted.signals()[0].analytics_Storage,"granted","Preserve prior Clarity consent");
+assert.equal(priorAccepted.signals()[0].ad_Storage,"denied","Analytics consent cannot grant ads consent");
+priorAccepted.control.click();
+assert.equal(priorAccepted.getReloads(),1,"Revocation must reload");
+assert.equal(priorAccepted.signals().at(-1).analytics_Storage,"denied","Clarity revocation required");
+const reenable=analyticsHarness({legacy:"declined",optOut:"true"});
+reenable.control.click();
+assert.equal(reenable.stored.get("usa-anime-club-analytics-opt-out-v1"),"false","Re-enable should reset opt-out");
+assert.equal(reenable.stored.get("usa-anime-club-analytics-consent-v1"),"basic","Re-enable must not restore cookie consent");
+assert.equal(reenable.getReloads(),1,"Re-enable should reload");
+const basic=analyticsHarness({legacy:"basic",optOut:"false"});
+assert.equal(basic.loaded.length,2,"Re-enabled basic measurement should load both services");
+assert.equal(basic.signals()[0].analytics_Storage,"denied","Re-enabled measurement stays cookieless");
+assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred analytics must not duplicate consent defaults");
+assert(!read("scripts/build.mjs").includes('id="privacy-banner"'),"Analytics consent pop-up must not be generated");
+
 
 
 const homeHtml=read("index.html");
@@ -912,7 +919,7 @@ for(const filePath of documentPaths){
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
  assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
  assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"Duplicate AdSense account metadata in "+filePath);
- assert(html.includes('data-privacy-choices'),"Accessible privacy controls missing in "+filePath);
+ assert(html.includes('data-analytics-toggle'),"Accessible privacy controls missing in "+filePath);
  assert.equal(count("www.googletagmanager.com/gtag/js"),0,"GA4 must not bypass analytics consent in "+filePath);
  assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
 }
