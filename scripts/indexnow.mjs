@@ -14,7 +14,7 @@ const isArticleUrl=value=>{
   try{
     const parsed=new URL(value);
     return parsed.origin===base &&
-      /^\\/news\\/[a-z0-9]+(?:-[a-z0-9]+)*\\/$/.test(parsed.pathname) &&
+      new RegExp("^/news/[a-z0-9]+(?:-[a-z0-9]+)*/$").test(parsed.pathname) &&
       !parsed.search&&!parsed.hash&&parsed.href===value;
   }catch{return false;}
 };
@@ -28,7 +28,7 @@ if(new Set(articleUrls).size!==articleUrls.length||!articleUrls.every(isArticleU
 if(new Set(ledger.submitted).size!==ledger.submitted.length||!ledger.submitted.every(isArticleUrl)){
   throw Error("Invalid or duplicate URL in IndexNow submission ledger");
 }
-const sitemap=[...readFileSync("sitemap.xml","utf8").matchAll(/<loc>([^<]+)<\\/loc>/g)]
+const sitemap=[...readFileSync("sitemap.xml","utf8").matchAll(new RegExp("<loc>([^<]+)</loc>","g"))]
   .map(match=>match[1].replaceAll("&amp;","&"));
 const sitemapSet=new Set(sitemap);
 if(!articleUrls.every(url=>sitemapSet.has(url))){
@@ -63,7 +63,7 @@ try{
     throw Error("Live sitemap / key HTTP "+liveSitemap.status+" / "+liveKey.status);
   }
   if((await liveKey.text()).trim()!==key)throw Error("Live IndexNow verification key mismatch");
-  liveUrls=new Set([...(await liveSitemap.text()).matchAll(/<loc>([^<]+)<\\/loc>/g)]
+  liveUrls=new Set([...(await liveSitemap.text()).matchAll(new RegExp("<loc>([^<]+)</loc>","g"))]
     .map(match=>match[1].replaceAll("&amp;","&")));
 }catch(error){
   console.log("DEFERRED: live website not verifiable ("+error.message+"); daily check will retry NEW articles only.");
@@ -104,7 +104,7 @@ if(response.status!==200&&response.status!==202){
 }
 for(const url of ready)submitted.add(url);
 ledger.submitted=[...submitted].sort();
-writeFileSync(ledgerPath,JSON.stringify(ledger,null,2)+"\\n");
+writeFileSync(ledgerPath,JSON.stringify(ledger,null,2)+String.fromCharCode(10));
 console.log("IndexNow HTTP "+response.status+": "+ready.length+" NEW article URL(s) accepted and recorded.");
 if(response.status===202)console.log("Key verification remains pending at IndexNow; no automatic duplicate POST will be sent.");
 console.log("Search indexing is never guaranteed by an IndexNow notification.");
