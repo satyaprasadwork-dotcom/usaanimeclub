@@ -355,5 +355,21 @@
     "action": "VIZ lists December 8, 2026 for the 192-page English Volume 15 (paperback ISBN 9781974769148); it covers Serie and the Shadow Warriors, not the announced anime season's Golden Land adaptation.",
     "updated": "2026-11-15",
     "updatedAt": "2026-11-15T13:42:46Z"
+  },
+  "blue-exorcist-volume-33-viz-english-december-2026-official-reading": {
+    "scene": "books",
+    "label": "VOLUME THIRTY-THREE",
+    "question": "When does Blue Exorcist Volume 33 release in English and how can you read chapters legally?",
+    "action": "VIZ lists the English paperback for December 1, 2026 (202 pages, ISBN 9781974769087). Check VIZ's official chapter index and MANGA Plus for separate digital chapter access.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:43:51Z"
+  },
+  "regression-of-the-close-combat-mage-english-webtoon-official-reading-guide": {
+    "scene": "reader",
+    "label": "OFFICIAL WEBTOON",
+    "question": "Is Regression of the Close Combat Mage complete, and where can US readers start?",
+    "action": "WEBTOON marks the English series completed, shows Episodes 1–5 on its public listing, and directs readers to its app for more; check title-specific unlock terms.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:43:51Z"
   }
 }
