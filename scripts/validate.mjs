@@ -24,7 +24,8 @@ assert(Array.isArray(reviews),"Review records must be an array");
 const boruto=series.find(s=>s.kind==="manga"&&s.slug==="boruto-two-blue-vortex");
 assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter reviews");
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
-assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),[1,2,3,4,5,6,7,8,9,10],"Ten sequential Boruto chapter reviews required");
+assert(borutoChapters.length>=10,"At least ten published Boruto chapter reviews required");
+assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
 for(const r of borutoChapters){
  const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
  assert(wordCount>=1000,"Boruto chapter criticism must contain 1000+ analysis words: "+r.installmentSlug);
@@ -53,7 +54,7 @@ for(const s of series){
   assert(!html.includes("currently lists Chapter 38"),"Boruto review hub must omit latest-release paragraph");
   assert(!html.includes("LATEST VERIFIED ENTRY"),"Boruto archive should not display release status");
   assert(html.includes("Open the official chapter directory"),"Authorized manga link missing from Boruto hub");
-  assert.equal((html.match(/class="review-published-card"/g)||[]).length,10,"Boruto series must list ten chapter cards");
+  assert.equal((html.match(/class="review-published-card"/g)||[]).length,borutoChapters.length,"Boruto series must list every published chapter card");
  }
 
 }
