@@ -111,7 +111,7 @@ for(let i=0;i<narutoBatchSlugs.length;i++){
  assert.equal(a.publishSequence,53+i,"Article ordering gap "+slug);
  assert(["Anime","Manga"].includes(a.category),"Article must reuse the approved category system "+slug);
  assert(a.sections.length>=8,"Original topic coverage too shallow "+slug);
- assert(a.sections.reduce((n,s)=>n+s[1].join(" ").trim().split(/\\s+/).length,0)>=1000,"New article below 1000 words "+slug);
+ assert(a.sections.reduce((n,s)=>n+s[1].join(" ").trim().split(/\s+/).length,0)>=1000,"New article below 1000 words "+slug);
  assert(a.references.length>=3,"New article needs several independently useful official sources "+slug);
  assert(a.references.every(r=>r.label&&r.url.startsWith("https://")&&r.date),"Source metadata incomplete "+slug);
  const p="news/"+slug+"/index.html";
@@ -121,7 +121,7 @@ for(let i=0;i<narutoBatchSlugs.length;i++){
  assert(urls.includes(base+"/news/"+slug+"/"),"New article omitted from sitemap "+slug);
  assert(html.includes("Sources & further reading"),"Article must expose primary research "+slug);
  assert(html.includes("Keep reading"),"Article must expose related reporting "+slug);
- const titleTag=(html.match(/<title>([^<]*)<\\/title>/)||[])[1]||"";
+ const titleTag=(html.match(/<title>([^<]*)<\/title>/)||[])[1]||"";
  assert(titleTag.length>15,"New article has no SEO title "+slug);
 }
 const requiredNewStories=[
