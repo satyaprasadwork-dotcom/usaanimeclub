@@ -1,4 +1,4 @@
-// Shared pagination for the news archive and all topic/category collections.
+// Shared 12-item pagination for news archives, topic collections and review-series pages.
 export const ARTICLES_PER_PAGE=12;
 
 export function getPageCount(total){
@@ -16,7 +16,7 @@ export function getPageItems(items,page){
 export function paginationHtml({basePath,page,total,label="News"}){
   const pages=getPageCount(total);
   if(!Number.isInteger(page)||page<1||page>pages)throw new RangeError("Invalid pagination page");
-  if(!/^\/(?:news\/)(?:category\/[a-z-]+\/)?$/.test(basePath))throw new Error("Invalid news pagination base path");
+  if(!/^\/(?:news\/(?:category\/[a-z-]+\/)?|reviews\/(?:anime|manga)\/[a-z0-9-]+\/)$/.test(basePath))throw new Error("Invalid pagination base path");
   const escape=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const pathFor=n=>n===1?basePath:basePath+"page/"+n+"/";
   const first=total===0?0:(page-1)*ARTICLES_PER_PAGE+1;
