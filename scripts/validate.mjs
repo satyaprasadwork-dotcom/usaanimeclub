@@ -279,7 +279,7 @@ for(const a of articles){
  const html=read("news/"+a.slug+"/index.html");
  assert(!html.includes("ORIGINAL ANNOUNCEMENT"),"Original announcement sidebar card not removed: "+a.slug);
  assert(!html.includes('class="sidebar-panel sidebar-source"'),"Old source sidebar remains: "+a.slug);
- const noteStart=html.indexOf('<div class="source-note">');
+ const noteStart=html.indexOf('<div class="source-note" id="primary-source">');
  const noteEnd=html.indexOf('</div>',noteStart);
  const note=noteStart>=0&&noteEnd>noteStart?html.slice(noteStart,noteEnd):"";
  assert(note&&note.includes("Primary source and reporting notes"),"Reporting notes missing: "+a.slug);
