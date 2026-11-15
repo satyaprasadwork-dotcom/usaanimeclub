@@ -28,13 +28,24 @@ assert(Array.isArray(reviews),"Review records must be an array");
 const boruto=series.find(s=>s.kind==="manga"&&s.slug==="boruto-two-blue-vortex");
 assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter reviews");
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
-assert(borutoChapters.length>=25,"At least twenty-five published Boruto chapter reviews required");
+assert(borutoChapters.length>=30,"At least thirty published Boruto chapter reviews required");
 assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
 for(const r of borutoChapters){
  const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
  assert(wordCount>=1000,"Boruto chapter criticism must contain 1000+ analysis words: "+r.installmentSlug);
  assert(r.reviewMode==="sourced"&&!r.firsthandConfirmed&&r.score===undefined,"No invented firsthand rating: "+r.installmentSlug);
  assert(r.references.length>=4,"Boruto chapter needs official and independent research: "+r.installmentSlug);
+}
+
+// The current five-chapter batch needs original 1,000+ word analyses, a
+// publisher reference and dated independent research for every installment.
+for(let n=26;n<=30;n++){
+ const r=borutoChapters.find(r=>r.installmentNumber===n);
+ assert(r,"Missing chapter "+n);
+ assert(r.references.some(ref=>ref.url.includes("viz.com/shonenjump/boruto-two-blue-vortex-chapter-"+n+"/")),"Missing exact official VIZ chapter link "+n);
+ assert(r.references.some(ref=>ref.url.includes("shueisha.co.jp/books/items/")),"Missing primary Shueisha volume source "+n);
+ assert(r.references.some(ref=>ref.url.includes("thegeekiary.com/boruto-two-blue-vortex-manga-issue-"+n+"-review")),"Missing contemporary chapter-specific critical evidence "+n);
+ assert(r.sections.length>=6,"Chapter "+n+" lacks substantial structured editorial critique");
 }
 
 assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
@@ -839,7 +850,7 @@ assert(indexNowLedger.urls.every(isEditorialArticleUrl),"Notification ledger mus
 assert(indexNowLedger.urls.every(u=>!indexNowBaseline.urls.includes(u)),"An old URL was marked as a new IndexNow notification");
 assert(incremental.every(u=>isEditorialArticleUrl(u)&&publishedEditorial.has(u)&&!knownIndexNow.has(u)),"IndexNow should include new articles ONLY");
 assert(!incremental.some(u=>u.includes("/page/")||u.includes("/category/")),"IndexNow selected a non-article URL");
-for(let n=21;n<=25;n++){
+for(let n=21;n<=30;n++){
  const u=base+"/reviews/manga/boruto-two-blue-vortex/chapter-"+n+"/";
  assert(!indexNowBaseline.urls.includes(u),"A new chapter was accidentally backfilled into the preexisting baseline");
  assert(incremental.includes(u)||indexNowLedger.urls.includes(u),"New Boruto chapter must be pending or successfully notified: "+n);
