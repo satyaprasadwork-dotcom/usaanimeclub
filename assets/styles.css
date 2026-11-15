@@ -596,3 +596,18 @@ h1,h2,h3{letter-spacing:-.03em}
  .review-method{padding:1.3rem}
 }
 @media(prefers-reduced-motion:reduce){.review-series-card:hover{transform:none}}
+
+/* Source-based criticism is visually distinguished from personally watched/read reviews. */
+.review-method-note{margin:1.5rem 0 1.4rem;padding:1.25rem 1.5rem;border:1px solid #a9bfd9;border-left:5px solid #275fcb;border-radius:10px;background:#f2f7fe;max-width:880px}
+.review-method-note>strong{display:block;font-weight:800;color:#1a416f;margin-bottom:.35rem}
+.review-method-note p{color:#38516e;font-size:.92rem;line-height:1.72;margin:0}
+.review-cover{border-radius:13px;overflow:hidden;width:100%;max-width:1000px;aspect-ratio:16/9;object-fit:cover;margin:1rem 0 1.25rem;box-shadow:0 10px 32px rgba(20,48,78,.1)}
+.review-spoiler-note{font-weight:650;color:#814313;font-size:.88rem;background:#fff8ed;padding:.55rem .9rem;border-radius:7px;max-width:860px}
+.review-sources{max-width:860px;margin:2.5rem 0;border-top:1px solid #d5e2ef;padding-top:1.3rem}
+.review-sources h2{font-size:1.65rem}
+.review-sources p{font-size:.91rem;color:#4a6278}
+.review-sources ul{padding-left:1.25rem}
+.review-sources li{margin:.8rem 0;line-height:1.5}
+.review-sources li a{color:#2458a5;text-decoration:underline;text-underline-offset:3px;font-weight:650}
+.review-sources time{display:inline-block;font-size:.78rem;color:#61758a;margin-left:.3rem}
+@media(max-width:620px){.review-method-note{padding:1.1rem}.review-sources li a{display:block}.review-sources time{margin-left:0}}

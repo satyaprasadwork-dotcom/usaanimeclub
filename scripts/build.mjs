@@ -253,7 +253,7 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
     files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
   }
   files["assets/logo.png"]=new Resvg(readFileSync(resolve(ROOT,"assets/favicon.svg"),"utf8"),{fitTo:{mode:"width",value:256}}).render().asPng();
-  Object.assign(files,buildReviewExperience({BASE,series:reviewSeries,reviews:publishedReviews,articles,files,shell,pageLd,bc,bread,e,fmt,org}));
+  Object.assign(files,buildReviewExperience({BASE,series:reviewSeries,reviews:publishedReviews,articles,files,shell,pageLd,bc,bread,e,fmt,org,editorialCover,Resvg}));
   const pages=JSON.parse(readFileSync(resolve(ROOT,"content/site-pages.json"),"utf8"));
   for(const {slug,name,title,desc,kw,content} of pages){
     const path="/"+slug+"/",main=`<section class="wrap page">${bread([["Home","/"],[name,path]])}<span class="eyebrow">USA ANIME CLUB</span><h1>${e(name)}</h1><div class="prose">${content}</div></section>`;
@@ -262,9 +262,10 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
   files["404.html"]=shell({path:"/404.html",title:"Page Not Found | USA Anime Club",desc:"This page is not available. Browse the USA Anime Club US anime news archive.",kw:"anime news page not found",noindex:true,main:`<section class="wrap page not-found"><h1>Page not found</h1><p>That page may have moved.</p><a class="btn" href="/news/">Browse anime news</a></section>`});
   const xml=s=>e(s).replace(/'/g,"&apos;");
   const allPaths=Object.keys(files).filter(k=>k==="index.html"||k.endsWith("/index.html")).map(k=>"/"+k.replace(/index\.html$/,""));
-  // The pilot release ledgers have useful facts but no real critique yet; keep them out of search results and sitemaps until a first firsthand review is published.
+  // No-index only those review hubs without any evidence-supported critical response or firsthand review.
   const paths=allPaths.filter(p=>!files[p==="/"?"index.html":p.slice(1)+"index.html"].includes('<meta name="robots" content="noindex, nofollow">'));
-  files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc><lastmod>${items.find(a=>url(a)===p)?.modified||items.find(a=>url(a)===p)?.date||(p==="/"||p.startsWith("/news/")?items.reduce((m,a)=>a.date>m?a.date:m,SITE_START):SITE_START)}</lastmod></url>`).join("\n")}\n</urlset>\n`;
+  const reviewLastmod=publishedReviews.reduce((m,r)=>r.updatedAt.slice(0,10)>m?r.updatedAt.slice(0,10):m,SITE_START);
+  files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc><lastmod>${items.find(a=>url(a)===p)?.modified||items.find(a=>url(a)===p)?.date||(p.startsWith("/reviews/")?reviewLastmod:(p==="/"||p.startsWith("/news/")?items.reduce((m,a)=>a.date>m?a.date:m,SITE_START):SITE_START))}</lastmod></url>`).join("\n")}\n</urlset>\n`;
   // Google News requires a rolling 48-hour window; CI refreshes this file daily.
   const recent=items.filter(a=>{const published=Date.parse(a.date+"T12:00:00Z");return published<=Date.now()&&Date.now()-published<=48*60*60*1000});
   files["news-sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${recent.map(a=>`<url><loc>${xml(BASE+url(a))}</loc><news:news><news:publication><news:name>USA Anime Club</news:name><news:language>en</news:language></news:publication><news:publication_date>${a.date}T12:00:00Z</news:publication_date><news:title>${xml(a.title)}</news:title></news:news></url>`).join("\n")}\n</urlset>\n`;
