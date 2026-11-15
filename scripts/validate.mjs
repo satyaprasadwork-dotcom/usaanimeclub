@@ -19,7 +19,11 @@ const unique=(values,label)=>assert.equal(new Set(values).size,values.length,"du
 assert(urls.length>=articles.length+8,"sitemap omits articles or trust pages");
 unique(urls,"sitemap URLs");
 unique(articles.map(a=>a.slug),"article slugs");
-const expectedArticles=articles.map(a=>base+"/news/"+a.slug+"/");
+const chapter39PreviewSlug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
+const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/";
+const articlePath=a=>a.slug===chapter39PreviewSlug?chapter39Path:"/news/"+a.slug+"/";
+const newsArticles=articles.filter(a=>a.slug!==chapter39PreviewSlug);
+const expectedArticles=articles.map(a=>base+articlePath(a));
 const series=JSON.parse(read("content/review-series.json"));
 const reviews=JSON.parse(read("content/reviews.json"));
 assert(series.length>=6,"The original review series must remain");
@@ -30,10 +34,7 @@ assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter review
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
 assert(borutoChapters.length>=38,"At least thirty-eight published Boruto chapter reviews required");
 assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
-// Chapter 39 is a PRE-RELEASE news feature, not a fabricated completed review.
-// Keep its distinct canonical URL and editorial context when a real review is
-// eventually published after the official release.
-const chapter39PreviewSlug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
+// Chapter 39 is a sourced preview in the manga chapter sequence, not a fabricated completed review.
 const chapter39Preview=articles.find(a=>a.slug===chapter39PreviewSlug);
 assert(chapter39Preview,"Chapter 39 pre-release article missing");
 assert(chapter39Preview.category==="Manga"&&chapter39Preview.title.includes("Chapter 39 Preview"),"Chapter 39 must remain clearly labeled pre-release");
@@ -42,12 +43,13 @@ assert(chapter39Preview.sections.reduce((n,x)=>n+x[1].join(" ").trim().split(/\s
 assert(chapter39Preview.references.some(r=>r.url.includes("viz.com/shonenjump/chapters/boruto-two-blue-vortex")),"Chapter 39 preview must verify current English release listing");
 assert(chapter39Preview.references.some(r=>r.url.includes("reddit.com/")),"Chapter 39 needs sourced, explicitly labeled fan context");
 assert(!reviews.some(r=>r.installmentSlug===chapter39PreviewSlug),"Do not masquerade as a completed Chapter 39 review");
-assert(read("news/"+chapter39PreviewSlug+"/index.html").includes('rel="canonical" href="'+base+"/news/"+chapter39PreviewSlug+'/\"'),"Chapter 39 news article canonical missing");
+assert(read("reviews/manga/boruto-two-blue-vortex/chapter-39/index.html").includes('rel="canonical" href="'+base+chapter39Path+'"'),"Chapter 39 chapter canonical missing");
+assert(!urls.includes(base+"/news/"+chapter39PreviewSlug+"/"),"Legacy news URL must not remain canonical or in sitemap");
 const currentBorutoHub=read("reviews/manga/boruto-two-blue-vortex/index.html");
 if(!borutoChapters.some(r=>r.installmentNumber===39)){
  assert(!currentBorutoHub.includes("PRE-RELEASE / NOT A REVIEW"),"Chapter 39 should not use a separate pre-release banner");
- assert(currentBorutoHub.includes('class="review-published-card" href="/news/'+chapter39PreviewSlug+'/"><span class="review-kind-tag">CHAPTER 39</span>'),"Chapter 39 preview must appear as an ordinary first chapter card");
- assert(read("reviews/manga/boruto-two-blue-vortex/chapter-38/index.html").includes('/news/'+chapter39PreviewSlug+'/'),"Chapter 38 must guide readers to the genuine Chapter 39 preview");
+ assert(currentBorutoHub.includes('class="review-published-card" href="'+chapter39Path+'"><span class="review-kind-tag">CHAPTER 39</span>'),"Chapter 39 preview must appear as an ordinary first chapter card");
+ assert(read("reviews/manga/boruto-two-blue-vortex/chapter-38/index.html").includes(chapter39Path),"Chapter 38 must link to Chapter 39 preview");
 }
 
 for(const r of borutoChapters){
@@ -159,7 +161,7 @@ for(const s of series){
   assert(html.includes('rel="canonical" href="'+base+route+'"'),"Incorrect review pagination canonical "+route);
   if(items.length)assert(urls.includes(base+route),"Published review pagination omitted from sitemap "+route);
   const actual=[...html.matchAll(/class="review-published-card" href="([^"]+)"/g)].map(m=>m[1]);
-  const expected=getPageItems(archiveItems,page).map(item=>item.preview?"/news/"+item.preview.slug+"/":basePath+item.installmentSlug+"/");
+  const expected=getPageItems(archiveItems,page).map(item=>item.preview?chapter39Path:basePath+item.installmentSlug+"/");
   assert(actual.length<=ARTICLES_PER_PAGE,"Review page exceeds twelve cards "+route);
   assert.deepEqual(actual,expected,"Review chapter order, overlap or missing cards "+route);
   visited.push(...actual);
@@ -314,7 +316,7 @@ for(const pageUrl of urls){
    testedLinks++;
  }
  for(const img of [...html.matchAll(/<img\b[^>]*>/g)])assert(/\balt="/.test(img[0]),"missing image alternative "+file);
- const article=articles.find(a=>pageUrl===base+"/news/"+a.slug+"/");
+ const article=articles.find(a=>pageUrl===base+articlePath(a));
  if(article){
    const type=editorialFormats[article.slug]==="news"?"NewsArticle":"Article";
    const ld=scripts.find(x=>x["@type"]===type);
@@ -353,7 +355,7 @@ for(const pageUrl of urls){
  }
 }
 unique(titles,"SEO titles");unique(descriptions,"SEO descriptions");unique(keywords,"SEO keywords");
-const expectedNews=articles.filter(a=>{
+const expectedNews=newsArticles.filter(a=>{
  const published=Date.parse(a.date+"T12:00:00Z");
  return editorialFormats[a.slug]==="news"&&published<=Date.now()&&Date.now()-published<=48*60*60*1000;
 }).map(a=>base+"/news/"+a.slug+"/");
@@ -362,9 +364,10 @@ const foundNews=[...newsXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 assert.deepEqual(foundNews.sort(),expectedNews.sort(),"Google News sitemap contains stale or missing URLs");
 assert(read("robots.txt").includes(base+"/sitemap.xml"),"robots.txt lacks sitemap");
 const rss=read("feed.xml");
-for(const a of articles)assert(rss.includes("<guid isPermaLink=\"true\">"+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
+for(const a of newsArticles)assert(rss.includes('<guid isPermaLink="true">'+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
+assert(!rss.includes(base+"/news/"+chapter39PreviewSlug+"/"),"Former Chapter 39 news URL remains in RSS");
 const homepage=read("index.html");
-const mostRecent=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title))[0];
+const mostRecent=[...newsArticles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title))[0];
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
@@ -476,7 +479,7 @@ for(const a of articles){
  const count=paragraphs.reduce((total,p)=>total+wc(p),0);
  assert(count>=1000,a.slug+" has only "+count+" content words");
  assert(new Set(paragraphs).size===paragraphs.length,"Duplicate paragraphs in "+a.slug);
- const page=read("news/"+a.slug+"/index.html");
+ const page=read(articlePath(a).slice(1)+"index.html");
  const blocks=[...page.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1]));
  const expectedType=editorialFormats[a.slug]==="news"?"NewsArticle":"Article";
  const schema=blocks.find(s=>s["@type"]===expectedType);
@@ -556,7 +559,7 @@ assert(fourColorCSS.includes("color:var(--accent-contrast,#fff)"),"Category head
 
 
 for(const a of articles){
- const html=read("news/"+a.slug+"/index.html");
+ const html=read(articlePath(a).slice(1)+"index.html");
  assert(!html.includes("ORIGINAL ANNOUNCEMENT"),"Original announcement sidebar card not removed: "+a.slug);
  assert(!html.includes('class="sidebar-panel sidebar-source"'),"Old source sidebar remains: "+a.slug);
  const noteStart=html.indexOf('<div class="source-note" id="primary-source">');
@@ -573,7 +576,7 @@ for(const a of articles){
 
 
 for(const story of articles){
- const html=read("news/"+story.slug+"/index.html");
+ const html=read(articlePath(story).slice(1)+"index.html");
  const mainStart=html.indexOf('<main id="main">'),mainEnd=html.indexOf("</main>",mainStart);
  const main=html.slice(mainStart,mainEnd);
  const related=main.lastIndexOf('class="related-section"');
@@ -602,12 +605,12 @@ for(const pageUrl of urls){
  assert(originalStart>=0&&cloneStart>originalStart,"Ticker repeat groups missing: "+pageUrl);
  const accessible=html.slice(originalStart,cloneStart);
  const repeat=html.slice(cloneStart,mainStart);
- for(const a of articles){
+ for(const a of newsArticles){
    const link='/news/'+a.slug+'/';
    assert(accessible.includes('href="'+link+'"'),"Ticker omitted "+a.slug+" on "+pageUrl);
    assert(repeat.includes('href="'+link+'" tabindex="-1"'),"Ticker duplicate not hidden from tab order for "+a.slug);
  }
- assert((accessible.match(/class="news-ticker-link"/g)||[]).length===articles.length,"Ticker count doesn't match published stories: "+pageUrl);
+ assert((accessible.match(/class="news-ticker-link"/g)||[]).length===newsArticles.length,"Ticker count doesn't match published stories: "+pageUrl);
 }
 const movingTickerCSS=read("assets/styles.css");
 assert(movingTickerCSS.includes("@keyframes news-ticker-left"),"Ticker animation missing");
@@ -634,7 +637,7 @@ for(const loc of urls){
 // query-parameter filters limited to the current 12-story page.
 const routeNames={"Anime":"anime","Manga":"manga","Manhwa":"manhwa","Web Novels":"web-novels"};
 for(const [category,slug] of Object.entries(routeNames)){
- const matching=articles.filter(a=>a.category===category);
+ const matching=newsArticles.filter(a=>a.category===category);
  const count=getPageCount(matching.length);
  for(let number=1;number<=count;number++){
    const path=number===1?"/news/category/"+slug+"/":"/news/category/"+slug+"/page/"+number+"/";
@@ -739,7 +742,7 @@ checkPng("assets/logo.png",256,256);
 for(const a of articles){
  const image="/assets/news/"+a.slug+".png",canonical=base+image;
  checkPng("assets/news/"+a.slug+".png",1200,675);
- const html=read("news/"+a.slug+"/index.html");
+ const html=read(articlePath(a).slice(1)+"index.html");
  assert(html.includes('property="og:image" content="'+canonical+'"'),"Social OG image incorrect "+a.slug);
  assert(html.includes('name="twitter:image" content="'+canonical+'"'),"Social share image incorrect "+a.slug);
  const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(x=>JSON.parse(x[1]));
@@ -766,6 +769,8 @@ for(const u of urls){
 const htaccess=read(".htaccess");
 assert(htaccess.includes("RewriteRule ^(?:scripts|content|"),"Source directories accessible through hosting");
 assert(htaccess.includes("build-info.json"),"Build marker cache policy missing");
+assert(htaccess.includes("RewriteRule ^news/boruto-two-blue-vortex-chapter-39-release-date-preview-predictions/?$ /reviews/manga/boruto-two-blue-vortex/chapter-39/ [R=301,L]"),"Permanent redirect missing for former Chapter 39 URL");
+assert(!existsSync(resolve(root,"news/"+chapter39PreviewSlug+"/index.html")),"Old Chapter 39 news HTML must be removed to prevent duplicates");
 for(const pageUrl of urls){
  const pageHtml=read(localPath(pageUrl));
  for(const [asset,attr] of [["styles.css","href"],["site.js","src"],["privacy.js","src"]]){
@@ -837,7 +842,7 @@ assert(read("assets/styles.css").includes(".pagination-number[aria-current="),"C
 const sequenced=articles.filter(a=>a.publishSequence!==undefined);
 assert(sequenced.every(a=>Number.isSafeInteger(a.publishSequence)&&a.publishSequence>0),"Invalid publishing sequence");
 unique(sequenced.map(a=>a.publishSequence),"publishing sequences");
-const orderedPublished=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
+const orderedPublished=[...newsArticles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
 const homeFeatured=read("index.html").match(/class="feature-card"[^>]*href="(\/news\/[^"]+\/)"/)?.[1];
 assert(homeFeatured==="/news/"+orderedPublished[0].slug+"/","Hero did not select newest published article");
 const archiveCards=[...read("news/index.html").matchAll(/class="news-card" href="(\/news\/[^"]+\/)"/g)].map(x=>x[1]);
@@ -937,7 +942,7 @@ const validScenes=new Set(["books","compare","reader","screen","calendar","clock
 for(const a of articles){
   const b=briefs[a.slug];
   assert(b&&validScenes.has(b.scene)&&b.label&&b.question&&b.action,"Missing story-specific guidance "+a.slug);
-  const html=read("news/"+a.slug+"/index.html");
+  const html=read(articlePath(a).slice(1)+"index.html");
   assert(html.includes(b.question.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Question does not match story "+a.slug);
   assert(html.includes(b.action.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Action does not match story "+a.slug);
   const svg=read("assets/news/"+a.slug+".svg");
