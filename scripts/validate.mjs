@@ -26,6 +26,9 @@ for(const s of series){
  const path="reviews/"+s.kind+"/"+s.slug+"/index.html";
  assert(existsSync(resolve(root,path)),"Review series hub missing: "+path);
  const html=read(path);
+ assert(!html.includes("What US readers should know")&&!html.includes("review-series-context"),"Redundant series context must be removed "+path);
+ assert(!html.includes("Critical responses and reviews"),"Redundant review heading must be removed "+path);
+ if(reviews.some(r=>r.kind===s.kind&&r.seriesSlug===s.slug))assert(html.includes('class="review-published-card"'),"Cards missing from series hub "+path);
  assert(html.includes('rel="canonical" href="'+base+"/reviews/"+s.kind+"/"+s.slug+'/"'),"Incorrect review hub canonical "+path);
  assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
  assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
@@ -38,6 +41,7 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
  const html=read(page);
  if(reviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Empty critical archive must not be indexed "+page);
  assert(html.includes("OFFICIAL")||html.includes("official"),"Review landing lacks source-backed context "+page);
+ assert(!html.includes("Published criticism"),"Review archives should show cards without a redundant heading "+page);
 }
 assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missing");
 assert(read("index.html").includes('<li><a href="/reviews/">Reviews</a></li>'),"Reviews footer link missing");
