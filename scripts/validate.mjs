@@ -20,6 +20,18 @@ const series=JSON.parse(read("content/review-series.json"));
 const reviews=JSON.parse(read("content/reviews.json"));
 assert(series.length>=6,"The original review series must remain");
 assert(Array.isArray(reviews),"Review records must be an array");
+
+const boruto=series.find(s=>s.kind==="manga"&&s.slug==="boruto-two-blue-vortex");
+assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter reviews");
+const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
+assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),[1,2,3,4,5,6,7,8,9,10],"Ten sequential Boruto chapter reviews required");
+for(const r of borutoChapters){
+ const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
+ assert(wordCount>=1000,"Boruto chapter criticism must contain 1000+ analysis words: "+r.installmentSlug);
+ assert(r.reviewMode==="sourced"&&!r.firsthandConfirmed&&r.score===undefined,"No invented firsthand rating: "+r.installmentSlug);
+ assert(r.references.length>=4,"Boruto chapter needs official and independent research: "+r.installmentSlug);
+}
+
 assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
 assert(series.filter(s=>s.kind==="manga").length>=3,"Original manga review series must remain");
 for(const s of series){
@@ -36,6 +48,14 @@ for(const s of series){
  if(activeReviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Unreviewed release hub must be noindex "+path);
  else assert(!html.includes('meta name="robots" content="noindex, nofollow"'),"Reviewed hub must be indexable "+path);
  for(const newsSlug of s.relatedNewsSlugs)assert(html.includes('/news/'+newsSlug+'/'),"Source-linked related news missing "+path);
+ if(s.slug==="boruto-two-blue-vortex"){
+  assert(!html.includes("US platform / publisher"),"Boruto review hub must omit optional publisher metadata");
+  assert(!html.includes("currently lists Chapter 38"),"Boruto review hub must omit latest-release paragraph");
+  assert(!html.includes("LATEST VERIFIED ENTRY"),"Boruto archive should not display release status");
+  assert(html.includes("Open the official chapter directory"),"Authorized manga link missing from Boruto hub");
+  assert.equal((html.match(/class="review-published-card"/g)||[]).length,10,"Boruto series must list ten chapter cards");
+ }
+
 }
 for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/manga/index.html"]){
  const html=read(page);
