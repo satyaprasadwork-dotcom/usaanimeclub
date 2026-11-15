@@ -16,7 +16,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     if(!s.officialUrl.startsWith("https://")||!s.sourceDate||!s.checkedOn||!Array.isArray(s.reviewFocus)||s.reviewFocus.length!==3)throw Error("Unverified review series "+s.slug);
     if(!s.relatedNewsSlugs?.length||s.relatedNewsSlugs.some(slug=>!news.has(slug)))throw Error("Invalid related reporting "+s.slug);
   }
-  if(series.length!==6||group("anime").length!==3||group("manga").length!==3)throw Error("Pilot scope requires three anime and three manga");
+  if(group("anime").length<3||group("manga").length<3)throw Error("Review archive must preserve the original anime and manga series");
   const reviewed=new Map(series.map(s=>[s.kind+":"+s.slug,[]]));
   const reviewPaths=new Set();
   for(const r of reviews){
@@ -47,9 +47,9 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   const reviewCard=r=>'<a class="review-published-card" href="'+renderLink(r)+'"><span class="review-kind-tag">'+e(r.installmentSlug.replace("-"," ").toUpperCase())+'</span><h3>'+e(r.headline)+'</h3><p>'+e(r.verdict)+'</p><span class="review-card-foot">'+(r.reviewMode==="sourced"?"Source-based analysis by ":"Review by ")+e(r.reviewerName)+' · '+dateFmt(r.publishedOn)+'</span></a>';
   const crosslinks=s=>'<ul class="review-related-list">'+s.relatedNewsSlugs.map(slug=>{const a=news.get(slug);return '<li><a href="/news/'+e(a.slug)+'/">'+e(a.title)+'</a></li>'}).join("")+'</ul>';
   const archives=[
-    {path:"/reviews/",name:"Reviews",title:"Anime Episode & Manga Chapter Reviews | USA Anime Club",desc:"Follow six US anime and manga series, official release updates and original episode-by-episode or chapter-by-chapter reviews after firsthand editorial checks.",kw:"anime episode reviews, manga chapter reviews, official US release tracker, critical review archive",listing:series},
+    {path:"/reviews/",name:"Reviews",title:"Anime Episode & Manga Chapter Reviews | USA Anime Club",desc:"Explore anime and manga series with official release sources and spoiler-labeled original episode and chapter criticism.",kw:"anime episode reviews, manga chapter reviews, official US release tracker, critical review archive",listing:series},
     {path:"/reviews/anime/",name:"Anime Episode Reviews",title:"Anime Episode Reviews & Verified US Schedules | USA Anime Club",desc:"Follow Steel Ball Run, The Apothecary Diaries Season 3 and Black Clover Season 2 with official US episode schedules and independent reviews.",kw:"Steel Ball Run review episodes, Apothecary Diaries season 3 episode reviews, Black Clover season 2 reviews",listing:group("anime")},
-    {path:"/reviews/manga/",name:"Manga Chapter Reviews",title:"Manga Chapter Reviews & Official English Releases | USA Anime Club",desc:"Track official English One Piece, Kagurabachi and Dandadan chapters and read original critical reviews after release.",kw:"One Piece chapter reviews, Kagurabachi chapter reviews, Dandadan chapter reviews, official VIZ US chapters",listing:group("manga")}
+    {path:"/reviews/manga/",name:"Manga Chapter Reviews",title:"Manga Chapter Reviews & Official English Releases | USA Anime Club",desc:"Explore Boruto: Two Blue Vortex, One Piece, Kagurabachi and Dandadan chapter criticism, official US editions and sourced commentary.",kw:"Boruto Two Blue Vortex chapter reviews, One Piece chapter reviews, Kagurabachi reviews, Dandadan chapter reviews, VIZ manga USA",listing:group("manga")}
   ];
   for(const a of archives){
     const path=a.path;
