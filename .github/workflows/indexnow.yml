@@ -1,4 +1,4 @@
-name: Notify Bing and IndexNow of NEW USA Anime Club articles
+name: Notify Bing and IndexNow of new USA Anime Club articles and Boruto backfill
 on:
   workflow_run:
     workflows: ["Build and validate USA Anime Club"]
@@ -28,19 +28,19 @@ jobs:
         run: |
           node --check scripts/indexnow.mjs
           node --check scripts/indexnow-urls.mjs
-      - name: Preview only new editorial article URLs
+      - name: Preview new article URLs and one-time Boruto 1-20 backfill
         run: node scripts/indexnow.mjs --dry-run
-      - name: Verify live deployment and submit only new editorial article URLs
+      - name: Verify live deployment and submit targeted IndexNow URLs
         run: node scripts/indexnow.mjs
-      - name: Remember only URLs confirmed by IndexNow
+      - name: Record only URLs confirmed by IndexNow
         run: |
-          if git diff --quiet -- content/indexnow-notified.json; then
-            echo "No confirmed new articles to record."
+          if git diff --quiet -- content/indexnow-notified.json content/indexnow-boruto-backfill.json; then
+            echo "No newly confirmed URLs to record."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/indexnow-notified.json
+          git add content/indexnow-notified.json content/indexnow-boruto-backfill.json
           git commit -m "chore(indexnow): remember newly notified article URLs [skip ci]"
           git pull --rebase origin main
           git push origin HEAD:main
