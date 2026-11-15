@@ -163,6 +163,12 @@ else {
     assert(urls.includes(u),"Published criticism missing from sitemap "+u);
     const path="reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/index.html";
     const html=read(path);
+    const seriesInfo=series.find(s=>s.kind===r.kind&&s.slug===r.seriesSlug);
+    const installmentLabel=r.installmentSlug.replace("-"," ").replace(/\b\w/g,ch=>ch.toUpperCase());
+    const expectedReviewTitle=seriesInfo.title+" "+installmentLabel+" Review: "+r.headline;
+    assert(html.includes("<title>"+expectedReviewTitle.replaceAll("&","&amp;")+" | USA Anime Club</title>"),"Review page title should use Review, not Critical Response: "+u);
+    assert(html.includes("<h1>"+expectedReviewTitle.replaceAll("&","&amp;")+"</h1>"),"Review page H1 should use Review: "+u);
+    assert(!html.includes(" Critical Response:"),"Legacy Critical Response label in review: "+u);
     const scripts=[...html.matchAll(new RegExp('<script type="application/ld[+]json">([^<]+)</script>','g'))].map(x=>JSON.parse(x[1]));
     const analysis=r.reviewMode==="sourced";
     const schema=scripts.find(s=>s["@type"]===(analysis?"Article":"Review"));
@@ -177,7 +183,7 @@ else {
     if(analysis){
       assert(!r.firsthandConfirmed&&!r.watchedOrReadOn&&r.score===undefined,"Sourced critique must not imply firsthand reading or scoring "+u);
       assert(!html.includes("review-method-note")&&!html.includes("Our editorial desk has not independently streamed or read this complete installment"),"Removed review disclaimer panel must not reappear "+u);
-      assert(html.includes("Source-based commentary by")&&html.includes("Research sources and release verification"),"Accurate byline or sources missing "+u);
+      assert(html.includes("Source-based review by")&&html.includes("Research sources and release verification"),"Accurate byline or sources missing "+u);
       assert(schema.genre==="Source-based critical analysis","Sourced critique must use Article schema "+u);
       assert(!schema.reviewRating,"Sourced analysis incorrectly contains a rating "+u);
       assert.equal(schema.citation.length,r.references.length,"Citation count mismatch "+u);
