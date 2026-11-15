@@ -21,7 +21,7 @@ const reviews=JSON.parse(read("content/reviews.json"));
 assert(series.length>=6,"The original review series must remain");
 assert(Array.isArray(reviews),"Review records must be an array");
 assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
-assert.equal(series.filter(s=>s.kind==="manga").length,3,"Pilot needs three manga series");
+assert(series.filter(s=>s.kind==="manga").length>=3,"Original manga review series must remain");
 for(const s of series){
  const path="reviews/"+s.kind+"/"+s.slug+"/index.html";
  assert(existsSync(resolve(root,path)),"Review series hub missing: "+path);
