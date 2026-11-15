@@ -53,9 +53,13 @@ function buildSite(articles){
     const paragraphs=a.sections.flatMap(section=>section[1]);
     if(new Set(paragraphs.map(p=>p.trim())).size!==paragraphs.length)throw Error("Article contains duplicate paragraphs: "+a.slug);
   }
-  const items=[...articles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
+  // Keep the Chapter 39 preview in the chapter archive, not in News.
+  // When the chapter releases, editorial can replace this preview with the finished review.
+  const chapter39Slug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
+  const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/";
+  const items=articles.filter(a=>a.slug!==chapter39Slug).sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  const url=a=>"/news/"+a.slug+"/";
+  const url=a=>a.slug===chapter39Slug?chapter39Path:"/news/"+a.slug+"/";
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
   const fmtUpdate=t=>new Date(t).toLocaleString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true})+" UTC";
   const ld=x=>JSON.stringify(x).replace(/</g,"\\u003c");
@@ -230,7 +234,7 @@ ${pag}</div></section>`;
   const itachiPaths=[["why-did-itachi-kill-uchiha-clan-danzo-coup-explained","Why the clan died","Political decisions and victims"],["how-did-itachi-die-illness-sasuke-fight-explained","How he died","Illness and Sasuke's last battle"],["itachi-powers-explained-tsukuyomi-amaterasu-susanoo-izanami","How his powers work","Skills, costs and misconceptions"],["itachi-shisui-kotoamatsukami-crow-uchiha-plan-explained","Why Shisui matters","The two eyes and the crow"],["itachi-watch-order-naruto-shippuden-episodes-novels-manga","Where to start","Spoiler-aware episodes and novels"],["was-itachi-a-hero-or-villain-naruto-moral-legacy","Was he right?","Love, harm and responsibility"],["itachi-vs-obito-kakashi-minato-madara-who-wins-canon-analysis","Four matchups","Canon evidence and hypothetical outcomes"]];
   const itachiSlugs=new Set(itachiPaths.map(path=>path[0]));
   for(const [slug] of itachiPaths)if(!seenSlugs.has(slug))throw Error("Missing Itachi guide "+slug);
-  for(const a of items){
+  for(const a of articles){
     const relatedStories=relatedTo(a);
     const itachiMap=itachiSlugs.has(a.slug)
       ?'<nav class="itachi-reading-map" aria-label="Explore Itachi\'s story"><div class="itachi-map-intro"><span class="eyebrow">THE ITACHI CASE FILE</span><h2>Choose your next question</h2><p>Seven researched guides to the choices, techniques and relationships behind Itachi. <strong>Spoilers:</strong> All except the watch-order guide discuss major Naruto Shippuden revelations.</p></div><div class="itachi-map-links">'+itachiPaths.map(([slug,label,why])=>'<a href="/news/'+slug+'/"'+(slug===a.slug?' aria-current="page"':'')+'><strong>'+e(label)+'</strong><span>'+e(why)+'</span></a>').join("")+'</div></nav>'
@@ -241,8 +245,10 @@ ${pag}</div></section>`;
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     const contents=`<a href="#quick-answer">Quick answer</a>`+a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("")+`<a href="#primary-source">Primary source</a>`;
-    const content=`<div class="post-layout">${bread([["Home","/"],["News","/news/"],[a.title,path]])}
-<article><header class="post-head"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">/</span> US ANIME NEWS</span>
+    const crumbs=a.slug===chapter39Slug?[["Home","/"],["Reviews","/reviews/"],["Manga Chapter Reviews","/reviews/manga/"],["Boruto: Two Blue Vortex","/reviews/manga/boruto-two-blue-vortex/"],[a.title,path]]:[["Home","/"],["News","/news/"],[a.title,path]];
+    const reportLabel=a.slug===chapter39Slug?"BORUTO CHAPTERS":"US ANIME NEWS";
+    const content=`<div class="post-layout">${bread(crumbs)}
+<article><header class="post-head"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">/</span> ${reportLabel}</span>
 <h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
 <div class="article-byline"><span class="byline-badge" aria-hidden="true">桜</span><div><strong><a href="/about/">USA Anime Club Editorial</a></strong>
 <p class="editor-credit">Editor-in-Chief: <a href="/about/#editor-in-chief">Satya Prasad</a></p>
@@ -265,7 +271,7 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
     const schema={"@context":"https://schema.org","@type":editorialFormats[a.slug]==="news"?"NewsArticle":"Article","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date,dateModified:a.modifiedAt||(a.modified||a.date),wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
-    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
+    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc(crumbs)]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
     files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
@@ -283,7 +289,7 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
   // No-index only those review hubs without any evidence-supported critical response or firsthand review.
   const paths=allPaths.filter(p=>!files[p==="/"?"index.html":p.slice(1)+"index.html"].includes('<meta name="robots" content="noindex, nofollow">'));
   // Only published articles and critical responses have verifiable per-item revision dates.
-  const articleLastmod=new Map(items.map(a=>[url(a),(a.modifiedAt||(a.modified||a.date)).slice(0,10)]));
+  const articleLastmod=new Map(articles.map(a=>[url(a),(a.modifiedAt||(a.modified||a.date)).slice(0,10)]));
   const reviewLastmod=new Map(publishedReviews.map(r=>["/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/",r.updatedAt.slice(0,10)]));
   files["sitemap.xml"]=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`<url><loc>${xml(BASE+p)}</loc>${articleLastmod.get(p)||reviewLastmod.get(p)?`<lastmod>${articleLastmod.get(p)||reviewLastmod.get(p)}</lastmod>`:""}</url>`).join("\n")}\n</urlset>\n`;
   // Google News requires a rolling 48-hour window; CI refreshes this file daily.
@@ -299,6 +305,8 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
   RewriteEngine On
   # The retired press desk now uses the contact page.
   RewriteRule ^press/?$ /contact/ [R=301,L]
+  # Chapter 39 moved from news into the same URL family as all other Boruto chapters.
+  RewriteRule ^news/boruto-two-blue-vortex-chapter-39-release-date-preview-predictions/?$ /reviews/manga/boruto-two-blue-vortex/chapter-39/ [R=301,L]
   RewriteRule ^(?:scripts|content|node_modules|\.github|\.git)(?:/|$) - [F,L]
   RewriteRule ^(?:\.env(?:\.[^/]*)?|package(?:-lock)?\.json|README\.md|DEPLOYMENT\.md|\.gitignore)$ - [F,L]
 </IfModule>
@@ -336,14 +344,14 @@ for(const a of input){
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}
 // Purge only obsolete generated article routes and associated SVGs.
-const slugs=new Set(input.map(a=>a.slug));
+const slugs=new Set(input.filter(a=>a.slug!=="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions").map(a=>a.slug));
 for(const entry of readdirSync(resolve(ROOT,"news"),{withFileTypes:true})){
   if(!entry.isDirectory()||entry.name==="page"||entry.name==="category"||slugs.has(entry.name))continue;
   if(check){console.error("Stale article:",entry.name);errors++}
   else rmSync(resolve(ROOT,"news",entry.name),{recursive:true,force:true});
 }
 for(const entry of readdirSync(resolve(ROOT,"assets/news"),{withFileTypes:true})){
-  if(!entry.isFile()||!(entry.name.endsWith(".svg")||entry.name.endsWith(".png"))||slugs.has(entry.name.slice(0,-4)))continue;
+  if(!entry.isFile()||!(entry.name.endsWith(".svg")||entry.name.endsWith(".png"))||input.some(a=>a.slug===entry.name.slice(0,-4)))continue;
   if(check){console.error("Stale illustration:",entry.name);errors++}
   else rmSync(resolve(ROOT,"assets/news",entry.name),{force:true});
 }
