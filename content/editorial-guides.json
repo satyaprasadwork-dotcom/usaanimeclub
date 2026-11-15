@@ -278,5 +278,19 @@
     "question": "Is this the same release as the original online serialization?",
     "action": "Check the English print publisher, volume number and edition information separately from the webtoon chapter list.",
     "updated": "2026-11-15"
+  },
+  "the-one-piece-netflix-remake-february-2027-seven-episodes-original-anime-differences": {
+    "scene": "cinema",
+    "label": "EAST BLUE REMAKE",
+    "question": "When does The One Piece launch on US Netflix and how many episodes are planned?",
+    "action": "Netflix confirms a February 2027 US release with all seven episodes together, covering roughly 50 manga chapters in about 300 minutes; no exact day has been supplied.",
+    "updated": "2026-11-15"
+  },
+  "sakamoto-days-season-2-january-2027-netflix-release-what-to-know": {
+    "scene": "screen",
+    "label": "JCC RETURNS",
+    "question": "When does Sakamoto Days Season 2 reach US Netflix?",
+    "action": "Netflix confirms January 2027 and an undercover JCC story; the cited notices do not give a specific US premiere day or complete episode schedule.",
+    "updated": "2026-11-15"
   }
 }
