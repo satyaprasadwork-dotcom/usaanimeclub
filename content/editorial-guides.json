@@ -163,15 +163,15 @@
   "winter-2027-anime-confirmed-premieres-us-streaming-status": {
     "scene": "calendar",
     "label": "WINTER 2027",
-    "question": "Which premiere dates and US streams are actually confirmed?",
-    "action": "Verify each title from its studio or platform announcement; do not interpret a Japanese television date as a US streaming guarantee.",
+    "question": "Which Winter 2027 anime releases have confirmed US streaming platforms?",
+    "action": "Use Crunchyroll's MASHLE and BLESS announcements and VIZ's Hirayasumi Netflix notice; keep Japan-only broadcasts separate.",
     "updated": "2026-11-15"
   },
   "solo-leveling-season-3-official-status-beyond-the-system-film": {
     "scene": "cinema",
     "label": "FILM VS SEASON",
-    "question": "What has been announced: another season, a film or both?",
-    "action": "Distinguish the officially announced project from separate speculation about season three and its possible release date.",
+    "question": "Has Solo Leveling Season 3 received an official premiere date?",
+    "action": "The cited Aniplex and Crunchyroll announcement confirms the Beyond the System film, not a Season 3 broadcast date; distinguish the two formats.",
     "updated": "2026-11-15"
   },
   "bocchi-the-rock-hoshi-no-ashiato-2027-prequel-film-us-release": {
@@ -198,15 +198,15 @@
   "black-clover-season-2-us-crunchyroll-streaming-sub-dub-schedule": {
     "scene": "screen",
     "label": "SUB AND DUB",
-    "question": "Does the currently published US schedule cover both audio versions?",
-    "action": "Check the most recent official season listing for separate subtitled and dubbed release times; the schedules may change.",
+    "question": "Are Black Clover Season 2 subtitled and dubbed episodes scheduled together?",
+    "action": "Crunchyroll currently lists both for Saturday at 8:00 a.m. Pacific; verify the actual language track on each new US episode.",
     "updated": "2026-11-15"
   },
   "apothecary-diaries-season-3-us-watch-schedule-dub-status": {
     "scene": "screen",
     "label": "SEASON THREE",
-    "question": "Is the English dub released alongside the subtitled episode?",
-    "action": "Check the latest US platform schedule for subtitle and dub listings separately, rather than assuming the same launch time.",
+    "question": "When are Season 3 subtitles and English-dubbed episodes scheduled in the US?",
+    "action": "Check Friday at 8:00 a.m. PT in the updated Crunchyroll seasonal listing, then confirm the audio options on the individual episode page.",
     "updated": "2026-11-15"
   },
   "royal-road-november-2026-writathon-serial-fiction": {
