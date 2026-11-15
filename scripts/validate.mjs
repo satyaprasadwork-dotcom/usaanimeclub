@@ -389,13 +389,18 @@ function consentHarness(previous){
    head
  };
  let reloads=0;
+ // Simulate the early inline head snippet, which executes before deferred privacy.js.
  const window={dataLayer:[],location:{reload:()=>reloads++}};
+ window.gtag=(...args)=>window.dataLayer.push(args);
+ window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
  const localStorage={getItem:key=>saved.get(key)||null,setItem:(key,value)=>saved.set(key,value)};
  runInNewContext(read("assets/privacy.js"),{document,window,localStorage,Date,encodeURIComponent});
  return {accept,decline,choice,banner,loaded,saved,window,getReloads:()=>reloads};
 }
 const newVisitor=consentHarness();
 assert.equal(newVisitor.loaded.length,0,"analytics loaded without consent");
+assert.equal(newVisitor.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="default").length,1,"Consent defaults must initialize once in the head");
+assert(!newVisitor.window.clarity,"Clarity must not initialize until analytics consent");
 assert.equal(newVisitor.banner.hidden,false,"new visitor sees no privacy choice");
 newVisitor.decline.click();
 assert.equal(newVisitor.loaded.length,0,"declining loaded analytics");
@@ -403,12 +408,28 @@ const accepted=consentHarness();
 accepted.accept.click();
 assert(accepted.loaded.some(x=>x.includes("gtag/js?id=G-G0TNMR0FQL")),"GA4 not loaded on accept");
 assert(accepted.loaded.some(x=>x.includes("clarity.ms/tag/yyqq9cryjc")),"Clarity not loaded on accept");
+assert.equal(accepted.loaded.filter(x=>x.includes("gtag/js?id=")).length,1,"Duplicate GA4 script injected");
+assert.equal(accepted.loaded.filter(x=>x.includes("clarity.ms/tag/")).length,1,"Duplicate Clarity script injected");
+assert(accepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"GA4 must receive analytics consent before loading");
+const acceptedClaritySignals=()=>Array.from(accepted.window.clarity?.q||[]).filter(args=>args[0]==="consentv2").map(args=>args[1]);
+assert.equal(acceptedClaritySignals().length,1,"Clarity V2 consent must be sent exactly once after opting in");
+assert.equal(acceptedClaritySignals()[0].analytics_Storage,"granted","Clarity must receive granted analytics consent");
+assert.equal(acceptedClaritySignals()[0].ad_Storage,"denied","Analytics consent cannot grant advertising consent");
+accepted.choice.click();
+accepted.accept.click();
+assert.equal(accepted.loaded.length,2,"Re-accepting analytics must not duplicate loaders or pageviews");
 accepted.choice.click();accepted.decline.click();
 assert.equal(accepted.getReloads(),1,"revocation should reload page");
+assert.equal(acceptedClaritySignals().length,2,"Clarity must receive withdrawal signal before reload");
+assert.equal(acceptedClaritySignals()[1].analytics_Storage,"denied","Clarity should revoke analytics storage immediately");
+assert.equal(acceptedClaritySignals()[1].ad_Storage,"denied","Clarity may never gain advertising consent through analytics choices");
+assert(accepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="denied"),"GA4 must receive consent withdrawal");
 const returningDeclined=consentHarness("declined");
 assert.equal(returningDeclined.loaded.length,0,"declined visitor should remain untracked");
 const returningAccepted=consentHarness("accepted");
 assert.equal(returningAccepted.loaded.length,2,"accepted visitor should load both analytics scripts");
+assert.equal(Array.from(returningAccepted.window.clarity.q).filter(args=>args[0]==="consentv2").length,1,"Returning visitor's Clarity Consent V2 must be restored on every page");
+assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred privacy loader must not duplicate the synchronous Consent Mode v2 defaults in the head");
 
 
 const homeHtml=read("index.html");
