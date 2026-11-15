@@ -699,19 +699,30 @@ assert(homeFeatured==="/news/"+orderedPublished[0].slug+"/","Hero did not select
 const archiveCards=[...read("news/index.html").matchAll(/class="news-card" href="(\/news\/[^"]+\/)"/g)].map(x=>x[1]);
 assert.deepEqual(archiveCards,orderedPublished.slice(0,12).map(a=>"/news/"+a.slug+"/"),"Newest articles must precede older reports in first archive page");
 
-// Ensure publisher code, consent defaults and discovery documents stay in sync on EVERY generated route.
+// Lock publisher IDs and consent-aware, single-inclusion tracking on EVERY generated route.
+const ga4Id="G-G0TNMR0FQL";
+const clarityId="yyqq9cryjc";
 const adsPublisher="ca-pub-7937216909291905";
 const adsSrc="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+adsPublisher;
+const privacyRuntime=read("assets/privacy.js");
+assert(privacyRuntime.includes('ID="'+ga4Id+'"')&&privacyRuntime.includes('CLARITY="'+clarityId+'"'),"Shared consent runtime uses incorrect GA4 or Clarity project ID");
+assert(privacyRuntime.includes("https://www.googletagmanager.com/gtag/js?id="),"GA4 must load through the shared consent runtime");
+assert(privacyRuntime.includes("https://www.clarity.ms/tag/"),"Clarity must load through the shared consent runtime");
+assert(privacyRuntime.includes('window.gtag("config",ID'),"GA4 configuration must use the shared measurement ID");
 const documentPaths=[...urls.map(localPath),"404.html"];
 for(const filePath of documentPaths){
  const html=read(filePath);
- const matches=html.split('src="'+adsSrc+'"').length-1;
- assert.equal(matches,1,"AdSense code must occur once in "+filePath);
+ const count=fragment=>html.split(fragment).length-1;
+ assert.equal(count('src="'+adsSrc+'"'),1,"AdSense code must occur once in "+filePath);
+ assert.equal(count("adsbygoogle.js"),1,"Duplicate AdSense loader in "+filePath);
  assert(html.includes('name="google-adsense-account" content="'+adsPublisher+'"'),"AdSense account missing in "+filePath);
  const consentPos=html.indexOf('window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied"');
  const adPos=html.indexOf('src="'+adsSrc+'"');
  assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
- assert(html.includes('src="/assets/privacy.js?v='+info.buildId+'"'),"Shared privacy runtime missing "+filePath);
+ assert.equal(count('window.gtag("consent","default",'),1,"Duplicate consent default in "+filePath);
+ assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
+ assert.equal(count("www.googletagmanager.com/gtag/js"),0,"GA4 must not bypass analytics consent in "+filePath);
+ assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
 }
 assert(read("ads.txt").trim()==="google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0","AdSense ads.txt seller entry missing");
 const privacyNotice=read("privacy/index.html");
