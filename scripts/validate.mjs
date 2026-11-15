@@ -457,7 +457,7 @@ for(const a of articles){
  assert(page.includes('class="tldr"'),"Answer-first summary missing "+a.slug);
 }
 // Itachi topic cluster provides real cross-guide navigation and a spoiler boundary.
-const itachiGuides=["why-did-itachi-kill-uchiha-clan-danzo-coup-explained","how-did-itachi-die-illness-sasuke-fight-explained","itachi-powers-explained-tsukuyomi-amaterasu-susanoo-izanami","itachi-shisui-kotoamatsukami-crow-uchiha-plan-explained","itachi-watch-order-naruto-shippuden-episodes-novels-manga","was-itachi-a-hero-or-villain-naruto-moral-legacy"];
+const itachiGuides=["why-did-itachi-kill-uchiha-clan-danzo-coup-explained","how-did-itachi-die-illness-sasuke-fight-explained","itachi-powers-explained-tsukuyomi-amaterasu-susanoo-izanami","itachi-shisui-kotoamatsukami-crow-uchiha-plan-explained","itachi-watch-order-naruto-shippuden-episodes-novels-manga","was-itachi-a-hero-or-villain-naruto-moral-legacy","itachi-vs-obito-kakashi-minato-madara-who-wins-canon-analysis"];
 for(const slug of itachiGuides){
  const html=read("news/"+slug+"/index.html");
  assert(html.includes('class="itachi-reading-map"'),"Itachi guide navigator missing: "+slug);

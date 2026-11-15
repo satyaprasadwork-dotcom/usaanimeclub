@@ -226,14 +226,14 @@ ${pag}</div></section>`;
     return items.filter(b=>b.slug!==a.slug).map(b=>({story:b,score:(b.category===a.category?4:0)+[...titleTerms(b)].filter(w=>terms.has(w)).length*20}))
       .sort((x,y)=>y.score-x.score||items.indexOf(x.story)-items.indexOf(y.story)).slice(0,3).map(x=>x.story);
   }
-  // The six Itachi evergreen guides have distinct search intents and form one useful reader path.
-  const itachiPaths=[["why-did-itachi-kill-uchiha-clan-danzo-coup-explained","Why the clan died","Political decisions and victims"],["how-did-itachi-die-illness-sasuke-fight-explained","How he died","Illness and Sasuke's last battle"],["itachi-powers-explained-tsukuyomi-amaterasu-susanoo-izanami","How his powers work","Skills, costs and misconceptions"],["itachi-shisui-kotoamatsukami-crow-uchiha-plan-explained","Why Shisui matters","The two eyes and the crow"],["itachi-watch-order-naruto-shippuden-episodes-novels-manga","Where to start","Spoiler-aware episodes and novels"],["was-itachi-a-hero-or-villain-naruto-moral-legacy","Was he right?","Love, harm and responsibility"]];
+  // The seven Itachi evergreen guides have distinct search intents and form one useful reader path.
+  const itachiPaths=[["why-did-itachi-kill-uchiha-clan-danzo-coup-explained","Why the clan died","Political decisions and victims"],["how-did-itachi-die-illness-sasuke-fight-explained","How he died","Illness and Sasuke's last battle"],["itachi-powers-explained-tsukuyomi-amaterasu-susanoo-izanami","How his powers work","Skills, costs and misconceptions"],["itachi-shisui-kotoamatsukami-crow-uchiha-plan-explained","Why Shisui matters","The two eyes and the crow"],["itachi-watch-order-naruto-shippuden-episodes-novels-manga","Where to start","Spoiler-aware episodes and novels"],["was-itachi-a-hero-or-villain-naruto-moral-legacy","Was he right?","Love, harm and responsibility"],["itachi-vs-obito-kakashi-minato-madara-who-wins-canon-analysis","Four matchups","Canon evidence and hypothetical outcomes"]];
   const itachiSlugs=new Set(itachiPaths.map(path=>path[0]));
   for(const [slug] of itachiPaths)if(!seenSlugs.has(slug))throw Error("Missing Itachi guide "+slug);
   for(const a of items){
     const relatedStories=relatedTo(a);
     const itachiMap=itachiSlugs.has(a.slug)
-      ?'<nav class="itachi-reading-map" aria-label="Explore Itachi\'s story"><div class="itachi-map-intro"><span class="eyebrow">THE ITACHI CASE FILE</span><h2>Choose your next question</h2><p>Six researched guides to the choices, techniques and relationships behind Itachi. <strong>Spoilers:</strong> All except the watch-order guide discuss major Naruto Shippuden revelations.</p></div><div class="itachi-map-links">'+itachiPaths.map(([slug,label,why])=>'<a href="/news/'+slug+'/"'+(slug===a.slug?' aria-current="page"':'')+'><strong>'+e(label)+'</strong><span>'+e(why)+'</span></a>').join("")+'</div></nav>'
+      ?'<nav class="itachi-reading-map" aria-label="Explore Itachi\'s story"><div class="itachi-map-intro"><span class="eyebrow">THE ITACHI CASE FILE</span><h2>Choose your next question</h2><p>Seven researched guides to the choices, techniques and relationships behind Itachi. <strong>Spoilers:</strong> All except the watch-order guide discuss major Naruto Shippuden revelations.</p></div><div class="itachi-map-links">'+itachiPaths.map(([slug,label,why])=>'<a href="/news/'+slug+'/"'+(slug===a.slug?' aria-current="page"':'')+'><strong>'+e(label)+'</strong><span>'+e(why)+'</span></a>').join("")+'</div></nav>'
       :"";
 
     const evidence=(a.references||[]).filter(r=>r.url&&r.label);
