@@ -119,8 +119,8 @@ for(let i=0;i<narutoBatchSlugs.length;i++){
  const html=read(p);
  assert(html.includes('rel="canonical" href="'+base+"/news/"+slug+'/"'),"Bad new article canonical "+slug);
  assert(urls.includes(base+"/news/"+slug+"/"),"New article omitted from sitemap "+slug);
- assert(html.includes("Sources & further reading"),"Article must expose primary research "+slug);
- assert(html.includes("Keep reading"),"Article must expose related reporting "+slug);
+ assert(html.includes('class="supporting-sources"')&&html.includes("Additional primary records"),"Article must expose attributed primary research "+slug);
+ assert(html.includes('class="related-section"')&&html.includes("Related coverage"),"Article must expose related reporting "+slug);
  const titleTag=(html.match(/<title>([^<]*)<\/title>/)||[])[1]||"";
  assert(titleTag.length>15,"New article has no SEO title "+slug);
 }
