@@ -915,7 +915,7 @@ const indexNowLedger=JSON.parse(read("content/indexnow-notified.json"));
 const incremental=findNewEditorialUrls(sitemap,indexNowBaseline,indexNowLedger);
 const knownIndexNow=new Set([...indexNowBaseline.urls,...indexNowLedger.urls]);
 const publishedEditorial=new Set([
- ...articles.map(a=>base+"/news/"+a.slug+"/"),
+ ...articles.map(a=>base+articlePath(a)),
  ...reviews.map(r=>base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/")
 ]);
 assert.equal(indexNowBaseline.urls.length,93,"Do not rewrite the original pre-21 article baseline");
