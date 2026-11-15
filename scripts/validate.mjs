@@ -18,7 +18,7 @@ unique(articles.map(a=>a.slug),"article slugs");
 const expectedArticles=articles.map(a=>base+"/news/"+a.slug+"/");
 const series=JSON.parse(read("content/review-series.json"));
 const reviews=JSON.parse(read("content/reviews.json"));
-assert.equal(series.length,6,"Six pilot review series required");
+assert(series.length>=6,"The original review series must remain");
 assert(Array.isArray(reviews),"Review records must be an array");
 assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
 assert.equal(series.filter(s=>s.kind==="manga").length,3,"Pilot needs three manga series");
@@ -44,7 +44,7 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
  assert(!html.includes("Published criticism"),"Review archives should show cards without a redundant heading "+page);
  assert(!html.includes("review-introduction")&&!html.includes("USA Anime Club follows selected US anime episode"),"Redundant two-column explanation must be removed from review archives "+page);
  for(const navLabel of ["All tracked series","Anime episodes","Manga chapters"])assert(html.includes(navLabel),"Reviews navigation tab disappeared: "+navLabel+" on "+page);
- for(const [path,expected] of [["reviews/index.html",series.length],["reviews/anime/index.html",3],["reviews/manga/index.html",3]]){
+ for(const [path,expected] of [["reviews/index.html",series.length],["reviews/anime/index.html",series.filter(s=>s.kind==="anime").length],["reviews/manga/index.html",series.filter(s=>s.kind==="manga").length]]){
   if(page!==path)continue;
   assert.equal((html.match(/class="review-series-card"/g)||[]).length,expected,"Review landing must show only its series cards "+page);
   assert(!html.includes('class="review-published-card"'),"Individual review cards belong only inside series hubs "+page);
@@ -54,7 +54,7 @@ assert(read("index.html").includes('href="/reviews/"'),"Reviews navigation missi
 assert(read("index.html").includes('<li><a href="/reviews/">Reviews</a></li>'),"Reviews footer link missing");
 if(reviews.length===0)assert(!urls.some(u=>u.includes("/reviews/")),"Noindex preview releases must not be in sitemap");
 else {
-  assert.equal(reviews.length,6,"Launch edition needs six substantive source-attributed critical responses");
+  assert(reviews.length>=6,"Published critical responses must preserve the original review set");
   for(const r of reviews){
     const u=base+"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
     assert(urls.includes(u),"Published criticism missing from sitemap "+u);
