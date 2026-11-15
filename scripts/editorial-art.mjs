@@ -5,6 +5,7 @@ const palettes={
  Manhwa:["#342409","#A0732A","#F7C868","#FFF2C9"],
  "Web Novels":["#0B302B","#20735D","#78D9B7","#D6F9EA"]
 };
+const categoryIdentity={Anime:"#173A70",Manga:"#932B3B",Manhwa:"#F4C542","Web Novels":"#16744A"};
 const scenes={
  books:'<g transform="translate(484 132) rotate(-6 160 190)"><rect x="12" y="240" width="427" height="92" rx="18" fill="url(#paper)" stroke="#fff" stroke-width="5"/><path d="M40 280h330" stroke="#142333" opacity=".28" stroke-width="10"/><rect x="65" y="140" width="390" height="91" rx="18" fill="url(#accent)" stroke="#fff" stroke-width="5"/><path d="M103 181h260" stroke="#fff" opacity=".65" stroke-width="11"/><rect x="27" y="31" width="410" height="95" rx="18" fill="url(#paper)" stroke="#fff" stroke-width="5"/><path d="M72 75h280" stroke="#173858" opacity=".32" stroke-width="10"/></g>',
  compare:'<g transform="translate(467 119)"><rect x="3" y="25" width="240" height="372" rx="28" fill="url(#paper)" stroke="#fff" stroke-width="5"/><path d="M124 34v340 M23 155h200 M23 260h200" fill="none" stroke="#193950" opacity=".28" stroke-width="11"/><rect x="287" y="0" width="238" height="396" rx="36" fill="#102437" stroke="#fff" stroke-width="6"/><rect x="311" y="41" width="189" height="303" rx="17" fill="url(#paper)"/><rect x="326" y="67" width="160" height="105" rx="10" fill="url(#accent)"/><path d="M330 209h150 M330 241h109 M330 276h150" stroke="#193950" opacity=".27" stroke-width="12"/><path d="M244 194h44" stroke="#fff" stroke-width="10" stroke-dasharray="13 12"/></g>',
@@ -27,6 +28,7 @@ export function editorialCover(article,spec){
  '<linearGradient id="paper" x2="1" y2="1"><stop stop-color="'+p[3]+'"/><stop offset="1" stop-color="'+p[2]+'"/></linearGradient>'+
  '<linearGradient id="accent" x2="1" y2="1"><stop stop-color="'+p[1]+'"/><stop offset="1" stop-color="'+p[2]+'"/></linearGradient></defs>'+
  '<rect width="1200" height="675" fill="url(#sky)"/>'+
+ '<rect x="0" y="0" width="14" height="675" fill="'+categoryIdentity[article.category]+'"/>'+
  '<g fill="none" stroke="'+p[3]+'" stroke-opacity=".19" stroke-width="2"><circle cx="'+(847+off)+'" cy="335" r="310"/><circle cx="'+(847+off)+'" cy="335" r="390"/><circle cx="'+(847+off)+'" cy="335" r="465"/>'+
  '<path d="M-70 468L420 -20 M-70 545L505 -32"/></g>'+
  '<g fill="'+p[2]+'" opacity=".8"><circle cx="'+(540+off)+'" cy="119" r="9"/><circle cx="1110" cy="562" r="8"/><circle cx="'+(492+off)+'" cy="519" r="12"/></g>'+
