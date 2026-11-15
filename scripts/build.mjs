@@ -14,6 +14,7 @@ function buildSite(articles){
   const buildId=createHash("sha256")
     .update(readFileSync(fileURLToPath(import.meta.url)))
     .update(readFileSync(resolve(ROOT,"assets/styles.css")))
+    .update(readFileSync(resolve(ROOT,"scripts/editorial-art.mjs")))
     .update(readFileSync(resolve(ROOT,"assets/site.js")))
     .update(readFileSync(resolve(ROOT,"assets/privacy.js")))
     .update(readFileSync(resolve(ROOT,"content/site-pages.json")))
@@ -292,7 +293,8 @@ for(const a of input){
   const brief=editorialGuides[a.slug];
   if(!brief||!["books","compare","reader","screen","calendar","clock","cinema","trophy","portal"].includes(brief.scene)||!brief.label||!brief.question||!brief.action)throw Error("Missing editorial guide "+a.slug);
   a.readerGuide=brief;
-  a.modified="2026-11-15"; // Substantive visual and reader-guidance update; original datePublished retained.
+  a.modified=brief.updated||a.modified||a.date; // Actual substantive change date, never reset future articles to an older date.
+  if(a.modified<a.date)throw Error("Update date precedes publication: "+a.slug);
 }
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}
