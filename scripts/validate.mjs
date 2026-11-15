@@ -42,6 +42,8 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
  if(reviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Empty critical archive must not be indexed "+page);
  assert(html.includes("OFFICIAL")||html.includes("official"),"Review landing lacks source-backed context "+page);
  assert(!html.includes("Published criticism"),"Review archives should show cards without a redundant heading "+page);
+ assert(!html.includes("review-introduction")&&!html.includes("USA Anime Club follows selected US anime episode"),"Redundant two-column explanation must be removed from review archives "+page);
+ for(const navLabel of ["All tracked series","Anime episodes","Manga chapters"])assert(html.includes(navLabel),"Reviews navigation tab disappeared: "+navLabel+" on "+page);
  for(const [path,expected] of [["reviews/index.html",series.length],["reviews/anime/index.html",3],["reviews/manga/index.html",3]]){
   if(page!==path)continue;
   assert.equal((html.match(/class="review-series-card"/g)||[]).length,expected,"Review landing must show only its series cards "+page);

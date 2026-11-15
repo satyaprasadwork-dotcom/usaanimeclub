@@ -518,8 +518,6 @@ h1,h2,h3{letter-spacing:-.03em}
 .review-subnav{display:flex;gap:.4rem;flex-wrap:wrap;border-block:1px solid var(--line);padding:.85rem 0;margin:0 0 2rem}
 .review-subnav a{padding:.54rem 1rem;border-radius:999px;color:#325078;text-decoration:none;font-weight:700;font-size:.85rem;transition:background .15s,color .15s}
 .review-subnav a:hover,.review-subnav a[aria-current="page"]{background:#234d96;color:#fff}
-.review-introduction{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;padding:0 0 2.2rem;max-width:1040px}
-.review-introduction p{font-size:.99rem;line-height:1.77;color:#475c74}
 .review-section-heading{margin:1.35rem 0 1.5rem;border-bottom:1px solid var(--line)}
 .review-section-heading h2{font-size:clamp(1.65rem,2.7vw,2.6rem);margin:.36rem 0 .3rem}
 .review-section-heading p{max-width:720px;color:var(--mut)}
@@ -582,8 +580,7 @@ h1,h2,h3{letter-spacing:-.03em}
 @media(max-width:980px){.review-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){
  .review-page{padding:1.7rem 0 3.5rem}
- .review-introduction,.review-facts-grid{grid-template-columns:1fr;gap:.7rem}
- .review-introduction{padding-bottom:1rem}
+ .review-facts-grid{grid-template-columns:1fr;gap:.7rem}
  .review-grid{grid-template-columns:1fr}
  .review-series-card{min-height:0}
  .review-hero{padding-top:1.6rem}
