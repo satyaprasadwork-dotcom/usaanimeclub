@@ -12,6 +12,8 @@ Run `node scripts/build.mjs` then `node scripts/validate.mjs`. The generator cre
 
 Every HTML page includes the shared consent handler that conditionally loads GA4 `G-G0TNMR0FQL` and Clarity `yyqq9cryjc`; do not add duplicate tags. New stories inherit all canonical, SEO, article schema, footer, policies and consent code.
 
+**Future-page tracking safeguard:** All generated HTML files—including future chapter reviews, new article templates, standalone policy pages, and noindex/404 pages—must include the same shared AdSense loader and versioned `assets/privacy.js` script exactly once. CI scans *all* HTML files, not just URLs in the sitemap, and fails when AdSense metadata, consent defaults, privacy choices or shared runtime scripts are missing or duplicated. GA4 and Clarity load once only after optional analytics consent; never paste the unconditional gtag/Clarity snippets directly into individual pages.
+
 Build passing on GitHub does not itself establish successful Hostinger deployment, Google News inclusion or AdSense approval.
 
 ## Editorial depth and source transparency
