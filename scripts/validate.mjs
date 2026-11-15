@@ -88,6 +88,42 @@ else {
     assert(html.includes('href="/corrections/"'),"Corrections route missing "+u);
   }
 }
+const narutoBatchSlugs=[
+  "naruto-shadow-rising-kishimoto-new-manga-team-7-teaser-confirmed",
+  "naruto-ninku-four-episode-anime-crossover-story-confirmed-details",
+  "boruto-anime-part-2-production-status-return-date-confirmed",
+  "naruto-live-action-movie-team-7-global-casting-director-confirmed",
+  "project-rasengan-naruto-boruto-official-roadmap-explained",
+  "naruto-2023-delayed-anniversary-episodes-vs-2026-ninku-crossover",
+  "boruto-manga-reading-order-next-generations-two-blue-vortex-official",
+  "kishimoto-vs-ikemoto-boruto-two-blue-vortex-creator-writing-art-credits",
+  "naruto-card-game-june-2027-worldwide-starter-decks-official-guide",
+  "naruto-mobile-worldwide-launch-us-release-status-official",
+  "jump-festa-2027-naruto-shadow-rising-anime-official-stage-guide"
+];
+assert.equal(narutoBatchSlugs.length,11,"Eleven Naruto and Boruto guides expected");
+for(let i=0;i<narutoBatchSlugs.length;i++){
+ const slug=narutoBatchSlugs[i];
+ const a=articles.find(x=>x.slug===slug);
+ assert(a,"Missing Naruto/Boruto article "+slug);
+ assert.equal(a.date,"2026-11-15","New publication date must be accurate "+slug);
+ assert.equal(a.checkedOn,"2026-11-15","Source recheck date missing "+slug);
+ assert.equal(a.publishSequence,53+i,"Article ordering gap "+slug);
+ assert(["Anime","Manga"].includes(a.category),"Article must reuse the approved category system "+slug);
+ assert(a.sections.length>=8,"Original topic coverage too shallow "+slug);
+ assert(a.sections.reduce((n,s)=>n+s[1].join(" ").trim().split(/\s+/).length,0)>=1000,"New article below 1000 words "+slug);
+ assert(a.references.length>=3,"New article needs several independently useful official sources "+slug);
+ assert(a.references.every(r=>r.label&&r.url.startsWith("https://")&&r.date),"Source metadata incomplete "+slug);
+ const p="news/"+slug+"/index.html";
+ assert(existsSync(resolve(root,p)),"Generated article missing "+p);
+ const html=read(p);
+ assert(html.includes('rel="canonical" href="'+base+"/news/"+slug+'/"'),"Bad new article canonical "+slug);
+ assert(urls.includes(base+"/news/"+slug+"/"),"New article omitted from sitemap "+slug);
+ assert(html.includes('class="supporting-sources"')&&html.includes("Additional primary records"),"Article must expose attributed primary research "+slug);
+ assert(html.includes('class="related-section"')&&html.includes("Related coverage"),"Article must expose related reporting "+slug);
+ const titleTag=(html.match(/<title>([^<]*)<\/title>/)||[])[1]||"";
+ assert(titleTag.length>15,"New article has no SEO title "+slug);
+}
 const requiredNewStories=[
   "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us",
   "frieren-season-3-october-2027-golden-land-arc-official-premiere",
