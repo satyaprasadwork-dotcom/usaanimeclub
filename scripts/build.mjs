@@ -212,6 +212,8 @@ ${pag}</div></section>`;
   }
   for(const a of items){
     const relatedStories=relatedTo(a);
+    const evidence=(a.references||[]).filter(r=>r.url&&r.label);
+    for(const r of evidence){if(!r.url.startsWith("https://")||!/^\d{4}-\d{2}-\d{2}$/.test(r.date))throw Error("Invalid article reference "+a.slug);}
     const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     const contents=`<a href="#quick-answer">Quick answer</a>`+a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("")+`<a href="#primary-source">Primary source</a>`;
@@ -229,6 +231,7 @@ ${pag}</div></section>`;
 <div class="source-note" id="primary-source"><strong>Primary source and reporting notes</strong>
 <p>Based on ${e(a.sourceLabel)}. This report distinguishes confirmed details from information not established by the original source.</p>
 <p class="source-link-row"><a class="source-primary-link" href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a><span>Source date / checked: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time></span></p>
+${evidence.length?`<div class="supporting-sources"><strong>Additional primary records</strong><ul>${evidence.map(ref=>`<li><a href="${e(ref.url)}" target="_blank" rel="noopener noreferrer">${e(ref.label)}</a> <time datetime="${ref.date}">${fmt(ref.date)}</time></li>`).join("")}</ul></div>`:""}
 <p>Found a factual error? <a href="mailto:${EMAIL}?subject=${encodeURIComponent("Correction: "+a.title)}">Contact the editorial desk</a>.</p></div>
 </div><aside class="article-sidebar"><div class="sidebar-panel"><span class="eyebrow">IN THIS REPORT</span>
 <nav aria-label="Article sections" class="contents-list">${contents}</nav></div>
@@ -236,7 +239,7 @@ ${pag}</div></section>`;
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    const schema={"@context":"https://schema.org","@type":"NewsArticle","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date+"T12:00:00Z",dateModified:(a.modified||a.date)+"T12:00:00Z",wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc([["Home","/"],["News","/news/"],[a.title,path]])]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
