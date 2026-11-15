@@ -46,6 +46,11 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   const pill=k=>'<span class="review-kind-tag">'+(k==="anime"?"ANIME EPISODES":"MANGA CHAPTERS")+'</span>';
   const seriesCard=s=>'<a class="review-series-card" href="'+seriesUrl(s)+'"><div class="review-card-top">'+pill(s.kind)+'<span class="review-arrow" aria-hidden="true">↗</span></div><h3>'+e(s.title)+'</h3><p class="review-subtitle">'+e(s.subtitle)+'</p><p class="review-card-excerpt">'+e(s.summary)+'</p><div class="review-card-bottom">'+(s.slug==="boruto-two-blue-vortex"?'':'<span>'+e(s.platform)+'</span>')+'<strong>'+reviewed.get(s.kind+":"+s.slug).length+' original reviews</strong></div></a>';
   const reviewCard=r=>'<a class="review-published-card" href="'+renderLink(r)+'"><span class="review-kind-tag">'+e(r.installmentSlug.replace("-"," ").toUpperCase())+'</span><h3>'+e(r.headline)+'</h3><p>'+e(r.verdict)+'</p><span class="review-card-foot">'+(r.reviewMode==="sourced"?"Source-based review by ":"Review by ")+e(r.reviewerName)+' · '+dateFmt(r.publishedOn)+'</span></a>';
+  // A Chapter 39 article joins the chapter grid as an ordinary card.
+  // When an actual Chapter 39 review is published, the preview card disappears
+  // automatically while its distinct news URL remains available.
+  const chapter39Slug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
+  const chapter39Card=article=>'<a class="review-published-card" href="/news/'+e(article.slug)+'/"><span class="review-kind-tag">CHAPTER 39</span><h3>Chapter 39: Official Preview and What Could Happen</h3><p>What the Kawaki–Himawari scene suggests, where Boruto and Code left off, and the possibilities readers are debating ahead of release.</p><span class="review-card-foot">Preview &amp; predictions by USA Anime Club Editorial · '+dateFmt(article.date)+'</span></a>';
   const crosslinks=s=>'<ul class="review-related-list">'+s.relatedNewsSlugs.map(slug=>{const a=news.get(slug);return '<li><a href="/news/'+e(a.slug)+'/">'+e(a.title)+'</a></li>'}).join("")+'</ul>';
   const archives=[
     {path:"/reviews/",name:"Reviews",title:"Anime Episode & Manga Chapter Reviews | USA Anime Club",desc:"Explore anime and manga series with official release sources and spoiler-labeled original episode and chapter criticism.",kw:"anime episode reviews, manga chapter reviews, official US release tracker, critical review archive",listing:series},
@@ -62,32 +67,29 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   for(const s of series){
     const basePath=seriesUrl(s),kindLabel=label(s.kind),list=reviewed.get(s.kind+":"+s.slug);
     const reviewOnly=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex";
+    const chapter39Article=reviewOnly&&!list.some(r=>r.installmentNumber===39)?news.get(chapter39Slug):null;
+    const archiveItems=chapter39Article?[{preview:chapter39Article},...list]:list;
     const focus='<ul class="review-focus-list">'+s.reviewFocus.map(x=>'<li>'+e(x)+'</li>').join("")+'</ul>';
     const relevant='<section class="review-related"><h2>Related USA Anime Club reporting</h2>'+crosslinks(s)+'</section>';
-    const totalPages=getPageCount(list.length);
+    const totalPages=getPageCount(archiveItems.length);
     for(let page=1;page<=totalPages;page++){
       const path=page===1?basePath:basePath+"page/"+page+"/";
-      const visible=getPageItems(list,page);
-      const pag=totalPages>1?paginationHtml({basePath,page,total:list.length,label:s.title+" chapter and episode reviews"}):"";
-      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode reviews"><div class="review-grid">'+visible.map(reviewCard).join("")+'</div></section>':'';
+      const visible=getPageItems(archiveItems,page);
+      const pag=totalPages>1?paginationHtml({basePath,page,total:archiveItems.length,label:s.title+" chapter and episode articles"}):"";
+      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(item=>item.preview?chapter39Card(item.preview):reviewCard(item)).join("")+'</div></section>':'';
       const breadcrumbs=[["Home","/"],["Reviews","/reviews/"],[kindLabel,"/reviews/"+s.kind+"/"],[s.title,basePath],...(page===1?[]:[["Page "+page,path]])];
       const mainTitle=s.title+(page===1?"":" — Page "+page);
       const summary=page===1?s.summary:"Continue browsing "+s.title+" with older, spoiler-labeled chapter and episode analysis. This is page "+page+" of "+totalPages+".";
       const chapterIntro='<header class="review-series-hero">'+pill(s.kind)+'<h1>'+e(mainTitle)+'</h1><p class="lead">'+e(page===1?s.subtitle:"Chapter reviews · Page "+page+" of "+totalPages)+'</p><p>'+e(summary)+'</p></header>';
       const chapterSource=page===1?'<section class="review-method" aria-label="Reading and editorial sources"><h2>Read the chapters</h2><p>Our analyses discuss released story events, with spoilers. Read the original manga before reviewing our interpretation.</p><p><a href="'+e(s.officialUrl)+'" target="_blank" rel="noopener noreferrer">Open the official chapter directory</a></p><p class="review-evidence-date">Official link checked <time datetime="'+s.checkedOn+'">'+dateFmt(s.checkedOn)+'</time></p></section>':'';
-      // Upcoming chapters have a separate preview feature, not a fabricated review.
-      // Automatically hide this prompt when Chapter 39 has an actual review.
-      const chapter39Preview=page===1&&s.slug==="boruto-two-blue-vortex"&&!list.some(r=>r.installmentNumber===39)&&news.has("boruto-two-blue-vortex-chapter-39-release-date-preview-predictions")
-        ?'<section class="review-method" aria-label="Upcoming chapter preview"><span class="eyebrow">PRE-RELEASE / NOT A REVIEW</span><h2>Next: Chapter 39 preview and predictions</h2><p>Chapter 39 has not been released yet. Read the publisher announcement and clearly labeled possibilities; a full review will be separate once the chapter is available.</p><a href="/news/boruto-two-blue-vortex-chapter-39-release-date-preview-predictions/">Read the Chapter 39 preview</a></section>'
-        :"";
-      const chapterHub='<div class="review-page wrap">'+bread(breadcrumbs)+chapterIntro+chapterSource+chapter39Preview+published+(page===1?relevant:"")+'<p class="review-reviewer-note">Our analysis identifies research sources and does not claim firsthand reading of restricted chapters. <a href="/corrections/">Request a correction</a>.</p>'+pag+'</div>';
+      const chapterHub='<div class="review-page wrap">'+bread(breadcrumbs)+chapterIntro+chapterSource+published+(page===1?relevant:"")+'<p class="review-reviewer-note">Our analysis identifies research sources and does not claim firsthand reading of restricted chapters. <a href="/corrections/">Request a correction</a>.</p>'+pag+'</div>';
       const regularIntro='<header class="review-series-hero">'+pill(s.kind)+'<span class="eyebrow">OFFICIAL US RELEASE RECORD</span><h1>'+e(mainTitle)+'</h1><p class="lead">'+e(s.subtitle)+'</p><p>'+e(summary)+'</p></header>';
       const regularFacts=page!==1?'':'<div class="review-facts-grid"><section class="review-verified"><span class="eyebrow">LATEST VERIFIED ENTRY</span><h2>'+e(s.latestLabel)+'</h2><p>'+e(s.schedule)+'</p><div class="review-fact-pair"><span>US platform / publisher</span><strong>'+e(s.platform)+'</strong></div><div class="review-fact-pair"><span>Source checked</span><time datetime="'+s.checkedOn+'">'+dateFmt(s.checkedOn)+'</time></div><p class="review-original-source"><a href="'+e(s.officialUrl)+'" target="_blank" rel="noopener noreferrer">Check official '+(s.kind==="anime"?"streaming announcement":"English chapter directory")+'</a></p><p class="review-evidence-date">Source: '+e(s.sourceLabel)+' · <time datetime="'+s.sourceDate+'">'+dateFmt(s.sourceDate)+'</time></p></section><section class="review-lens"><span class="eyebrow">WHAT AN ORIGINAL REVIEW WILL ASSESS</span><h2>The critical lens</h2>'+focus+'<p>These are editorial questions, not judgments about unseen releases.</p></section></div>';
       const regularHub='<div class="review-page wrap">'+bread(breadcrumbs)+regularIntro+regularFacts+published+(page===1?relevant:"")+'<p class="review-reviewer-note">Critical commentary identifies its research sources. Personal ratings or firsthand reviews require actual viewing or reading. <a href="/contact/">Contact the editorial desk</a> about corrections or contributions.</p>'+pag+'</div>';
       const main=reviewOnly?chapterHub:regularHub;
       const desc=reviewOnly?"Boruto: Two Blue Vortex chapter criticism, story analysis and character development. "+(page>1?"Older chapter reviews, page "+page+".":"Official reading links and spoiler-labeled discussions."):s.title+" official US "+(s.kind==="anime"?"episode":"English chapter")+" release record and source-backed reviews"+(page>1?", page "+page:"")+".";
       const title=s.title+" "+(s.kind==="anime"?"Episode":"Chapter")+" Reviews"+(page>1?" — Page "+page:"")+" | USA Anime Club";
-      const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((r,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:r.headline,url:BASE+renderLink(r)}))};
+      const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((item,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:item.preview?item.preview.title:item.headline,url:BASE+(item.preview?"/news/"+item.preview.slug+"/":renderLink(item))}))};
       files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:s.title+" "+(s.kind==="anime"?"episode reviews USA, anime schedule":"manga chapter reviews, official English chapters")+(page>1?", page "+page:""),noindex:list.length===0,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc(breadcrumbs),metaList]});
     }
   }
