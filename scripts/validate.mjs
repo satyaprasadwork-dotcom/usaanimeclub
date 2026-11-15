@@ -62,7 +62,8 @@ else {
     assert(existsSync(resolve(root,"assets/reviews/"+r.kind+"-"+r.seriesSlug+"-"+r.installmentSlug+".png")),"Preview PNG missing "+u);
     if(analysis){
       assert(!r.firsthandConfirmed&&!r.watchedOrReadOn&&r.score===undefined,"Sourced critique must not imply firsthand reading or scoring "+u);
-      assert(html.includes("Research-based critical analysis")&&html.includes("not a firsthand review"),"Research disclaimer absent "+u);
+      assert(!html.includes("review-method-note")&&!html.includes("Our editorial desk has not independently streamed or read this complete installment"),"Removed review disclaimer panel must not reappear "+u);
+      assert(html.includes("Source-based commentary by")&&html.includes("Research sources and release verification"),"Accurate byline or sources missing "+u);
       assert(schema.genre==="Source-based critical analysis","Sourced critique must use Article schema "+u);
       assert(!schema.reviewRating,"Sourced analysis incorrectly contains a rating "+u);
       assert.equal(schema.citation.length,r.references.length,"Citation count mismatch "+u);
