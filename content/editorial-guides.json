@@ -339,5 +339,21 @@
     "action": "The official anime committee confirms an October 2027 Japanese broadcast of the Golden Land Arc, but the announcement does not provide a specific day or US service schedule.",
     "updated": "2026-11-15",
     "updatedAt": "2026-11-15T13:41:40Z"
+  },
+  "delicious-in-dungeon-season-2-october-2027-netflix-us-confirmed": {
+    "scene": "screen",
+    "label": "DUNGEON RETURNS",
+    "question": "Is Delicious in Dungeon Season 2 confirmed for US Netflix?",
+    "action": "Yes. Netflix's US Media Center lists October 2027 for Season 2; an exact date, episode count and English-dub timetable remain to be announced.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:42:46Z"
+  },
+  "frieren-manga-volume-15-viz-us-english-december-2026-edition": {
+    "scene": "books",
+    "label": "VOLUME FIFTEEN",
+    "question": "When does Frieren Volume 15 release in English, and is it the Golden Land anime arc?",
+    "action": "VIZ lists December 8, 2026 for the 192-page English Volume 15 (paperback ISBN 9781974769148); it covers Serie and the Shadow Warriors, not the announced anime season's Golden Land adaptation.",
+    "updated": "2026-11-15",
+    "updatedAt": "2026-11-15T13:42:46Z"
   }
 }
