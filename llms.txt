@@ -7,6 +7,7 @@ Contact: satyaprasadwork@gmail.com
 ## Main pages
 - [Homepage](https://usaanimeclub.com/)
 - [Complete news archive](https://usaanimeclub.com/news/)
+- [Episode and chapter review desk](https://usaanimeclub.com/reviews/)
 - [About](https://usaanimeclub.com/about/)
 - [Editorial policy](https://usaanimeclub.com/editorial-policy/)
 - [Corrections policy](https://usaanimeclub.com/corrections/)
@@ -18,6 +19,8 @@ Contact: satyaprasadwork@gmail.com
 - [Manga](https://usaanimeclub.com/news/category/manga/)
 - [Manhwa](https://usaanimeclub.com/news/category/manhwa/)
 - [Web novels](https://usaanimeclub.com/news/category/web-novels/)
+- [Anime review schedule](https://usaanimeclub.com/reviews/anime/)
+- [Manga chapter review schedule](https://usaanimeclub.com/reviews/manga/)
 
 ## Discovery feeds
 - [RSS](https://usaanimeclub.com/feed.xml)
