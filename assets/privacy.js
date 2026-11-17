@@ -6,6 +6,7 @@ const LEGACY_KEY="usa-anime-club-analytics-consent-v1";
 const OPT_OUT_KEY="usa-anime-club-analytics-opt-out-v1";
 const ID="G-G0TNMR0FQL",CLARITY="yyqq9cryjc";
 const control=document.querySelector("[data-analytics-toggle]");
+const acceptControl=document.querySelector("[data-analytics-accept]");
 const read=key=>{try{return localStorage.getItem(key)}catch(e){return null}};
 const write=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(e){return false}};
 const legacy=read(LEGACY_KEY),disabled=read(OPT_OUT_KEY)==="true"||legacy==="declined";
@@ -55,6 +56,18 @@ if(control){
       window.gtag("consent","update",{analytics_storage:"denied"});
       clarityConsent("denied");
     }
+    window.location.reload();
+  });
+}
+if(acceptControl){
+  acceptControl.disabled=previouslyAccepted;
+  acceptControl.textContent=previouslyAccepted?"Full analytics enabled":"Enable full analytics";
+  acceptControl.addEventListener("click",()=>{
+    if(!write(LEGACY_KEY,"accepted")||!write(OPT_OUT_KEY,"false")){
+      acceptControl.textContent="Privacy settings unavailable";return;
+    }
+    window.gtag("consent","update",{analytics_storage:"granted"});
+    clarityConsent("granted");
     window.location.reload();
   });
 }
