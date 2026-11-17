@@ -123,7 +123,7 @@ ${newsTicker}
 <li><a href="/news/">News Archive</a></li><li><a href="/reviews/">Reviews</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li>
 <li><a href="/editorial-policy/">Editorial Policy</a></li><li><a href="/corrections/">Corrections</a></li><li><a href="/privacy/">Privacy Policy</a></li>
 <li><a href="/disclaimer/">Disclaimer</a></li><li><a href="/terms/">Terms &amp; Conditions</a></li></ul></nav>
-<div class="google-source-footer"><span>Follow our reporting on Google</span><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></div><button type="button" data-analytics-toggle aria-label="Toggle basic site analytics">Disable analytics</button><p class="meta" style="margin-top:1.5rem">© ${new Date().getUTCFullYear()} USA Anime Club</p></div></div></footer>
+<div class="google-source-footer"><span>Follow our reporting on Google</span><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></div><p class="meta" style="margin-top:1.5rem">© ${new Date().getUTCFullYear()} USA Anime Club</p></div></div></footer>
 <script src="/assets/site.js?v=${buildId}" defer></script><script src="/assets/privacy.js?v=${buildId}" defer></script></body></html>\n`;
   }
   function card(a){
