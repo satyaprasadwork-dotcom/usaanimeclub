@@ -99,6 +99,7 @@ function buildSite(articles){
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="/assets/styles.css?v=${buildId}">
+<script src="/assets/privacy.js?v=${buildId}" defer></script>
 <script>
 window.dataLayer=window.dataLayer||[];
 window.gtag=window.gtag||function(){window.dataLayer.push(arguments)};
@@ -124,7 +125,7 @@ ${newsTicker}
 <li><a href="/editorial-policy/">Editorial Policy</a></li><li><a href="/corrections/">Corrections</a></li><li><a href="/privacy/">Privacy Policy</a></li>
 <li><a href="/disclaimer/">Disclaimer</a></li><li><a href="/terms/">Terms &amp; Conditions</a></li></ul></nav>
 <div class="google-source-footer"><span>Follow our reporting on Google</span><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></div><p class="meta" style="margin-top:1.5rem">© ${new Date().getUTCFullYear()} USA Anime Club</p></div></div></footer>
-<script src="/assets/site.js?v=${buildId}" defer></script><script src="/assets/privacy.js?v=${buildId}" defer></script></body></html>\n`;
+<script src="/assets/site.js?v=${buildId}" defer></script></body></html>\n`;
   }
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
