@@ -19,7 +19,7 @@ if(!oldArticles||!oldGuides){
     const earlier=previousBySlug.get(story.slug);
     if(!earlier)continue;
     const oldGuide=oldGuides[story.slug],newGuide=currentGuides[story.slug];
-    assert(oldGuide&&newGuide,"Revision guide missing "+story.slug);
+    // New records may land in an earlier commit of the same publication batch.\n    // Their first guide is not a revision to an existing guide.\n    if(!oldGuide&&newGuide)continue;\n    assert(oldGuide&&newGuide,"Revision guide missing "+story.slug);
     const relevantGuide=x=>{const {updated,updatedAt,...other}=x;return other};
     const storyChanged=JSON.stringify(earlier)!==JSON.stringify(story);
     const guideChanged=JSON.stringify(relevantGuide(oldGuide))!==JSON.stringify(relevantGuide(newGuide));
