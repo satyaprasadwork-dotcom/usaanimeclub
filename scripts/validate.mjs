@@ -934,7 +934,8 @@ for(const slug of ["us-state-privacy","european-privacy"]){
  const path=slug+"/index.html";
  const html=read(path);
  assert(urls.includes(base+"/"+slug+"/"),"Regional privacy page missing from XML sitemap: "+slug);
- assert(html.includes('data-analytics-choice="granted"')&&html.includes('data-analytics-choice="denied"'),"Functional analytics consent controls missing on "+slug);
+ if(slug==="european-privacy")assert(html.includes('data-analytics-choice="granted"')&&html.includes('data-analytics-choice="denied"'),"European page must provide a genuine analytics consent choice");
+ else assert(!html.includes('data-analytics-choice="'),"US state-rights page should not duplicate European cookie consent controls");
  assert(html.includes('href="/privacy/"'),"Regional notice must link to Privacy Policy: "+slug);
  assert(read("index.html").includes('href="/'+slug+'/"'),"Regional privacy page must be linked in site footer: "+slug);
 }
