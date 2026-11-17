@@ -295,7 +295,7 @@ for(const pageUrl of urls){
  assert(html.includes('rel="canonical" href="'+pageUrl+'"'),"wrong canonical "+file);
  assert(html.includes("/assets/privacy.js"),"privacy controls missing "+file);
  assert(html.includes("/assets/site.js"),"shared runtime missing "+file);
- assert(html.includes("data-analytics-toggle")===file.includes("privacy/index.html"),"Privacy choice must appear only on privacy page "+file);
+ assert(!html.includes("data-analytics-toggle")&&!html.includes("data-analytics-accept"),"Analytics buttons must not appear "+file);
  for(const [re,array,label] of [
    [/<title>([^<]+)<\/title>/,titles,"title"],
    [/<meta name="description" content="([^"]+)"/,descriptions,"description"],
@@ -408,15 +408,8 @@ assert(!fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update
 assert.equal(fresh.signals().length,1,"Clarity Consent V2 must initialize before load");
 assert.equal(fresh.signals()[0].analytics_Storage,"denied","New visitors must have cookieless Clarity");
 assert.equal(fresh.signals()[0].ad_Storage,"denied","Analytics must never grant advertising consent");
-assert.equal(fresh.control.textContent,"Disable analytics","Footer opt-out must be available without a banner");
-fresh.control.click();
-assert.equal(fresh.stored.get("usa-anime-club-analytics-opt-out-v1"),"true","Opt-out must persist");
-assert.equal(fresh.stored.get("usa-anime-club-analytics-consent-v1"),"declined","Opt-out must preserve declined choice");
-assert.equal(fresh.getReloads(),1,"Opt-out must reload to stop loading tags");
-assert.equal(fresh.signals().at(-1).analytics_Storage,"denied","Opt-out must revoke Clarity cookie storage");
 const blocked=analyticsHarness({legacy:"declined"});
 assert.equal(blocked.loaded.length,0,"Previously declined users must remain untracked");
-assert.equal(blocked.control.textContent,"Enable basic analytics","Previously declined user must see re-enable option");
 const overridden=analyticsHarness({legacy:"accepted",optOut:"true"});
 assert.equal(overridden.loaded.length,0,"Explicit opt-out overrides earlier acceptance");
 const priorAccepted=analyticsHarness({legacy:"accepted"});
@@ -424,14 +417,6 @@ assert.equal(priorAccepted.loaded.length,2,"Previously accepted analytics must s
 assert(priorAccepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"Only earlier consent can grant analytics storage");
 assert.equal(priorAccepted.signals()[0].analytics_Storage,"granted","Preserve prior Clarity consent");
 assert.equal(priorAccepted.signals()[0].ad_Storage,"denied","Analytics consent cannot grant ads consent");
-priorAccepted.control.click();
-assert.equal(priorAccepted.getReloads(),1,"Revocation must reload");
-assert.equal(priorAccepted.signals().at(-1).analytics_Storage,"denied","Clarity revocation required");
-const reenable=analyticsHarness({legacy:"declined",optOut:"true"});
-reenable.control.click();
-assert.equal(reenable.stored.get("usa-anime-club-analytics-opt-out-v1"),"false","Re-enable should reset opt-out");
-assert.equal(reenable.stored.get("usa-anime-club-analytics-consent-v1"),"basic","Re-enable must not restore cookie consent");
-assert.equal(reenable.getReloads(),1,"Re-enable should reload");
 const basic=analyticsHarness({legacy:"basic",optOut:"false"});
 assert.equal(basic.loaded.length,2,"Re-enabled basic measurement should load both services");
 assert.equal(basic.signals()[0].analytics_Storage,"denied","Re-enabled measurement stays cookieless");
@@ -922,7 +907,7 @@ for(const filePath of documentPaths){
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
  assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
  assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"Duplicate AdSense account metadata in "+filePath);
- assert(html.includes('data-analytics-toggle')===filePath.endsWith("privacy/index.html"),"Privacy controls must appear only on privacy page "+filePath);
+ assert(!html.includes("data-analytics-toggle")&&!html.includes("data-analytics-accept"),"Analytics buttons must not appear "+filePath);
  assert.equal(count("www.googletagmanager.com/gtag/js"),0,"GA4 must not bypass analytics consent in "+filePath);
  assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
 }
