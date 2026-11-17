@@ -322,6 +322,8 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
   if(new Set(ts).size!==ts.length)throw Error("Duplicate titles");
   const ds=allPaths.map(p=>(files[p.slice(1)+"index.html"]||files["index.html"]).match(/<meta name="description" content="([^"]+)"/)?.[1]);
   if(new Set(ds).size!==ds.length)throw Error("Duplicate descriptions");
+  const kws=allPaths.map(p=>(files[p.slice(1)+"index.html"]||files["index.html"]).match(/<meta name="keywords" content="([^"]+)"/)?.[1]);
+  if(kws.some(k=>!k||k.length<12)||new Set(kws).size!==kws.length)throw Error("Missing or duplicate SEO keywords");
   return files;
 }
 const input=JSON.parse(readFileSync(resolve(ROOT,"content/articles.json"),"utf8"));
