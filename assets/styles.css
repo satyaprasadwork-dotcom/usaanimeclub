@@ -624,3 +624,12 @@ h1,h2,h3{letter-spacing:-.03em}
 @media(max-width:740px){.itachi-map-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:470px){.itachi-reading-map{padding:.92rem}.itachi-map-links{grid-template-columns:1fr}.itachi-map-links a{padding:.64rem .8rem}}
 @media(prefers-reduced-motion:reduce){.itachi-map-links a{transition:none}}
+
+/* Plain-language privacy choice controls on the two regional policy pages. */
+.privacy-controls{margin:2.2rem 0;padding:1.4rem 1.5rem;border:1px solid #b9cde2;border-radius:12px;background:#f8fbff}
+.prose .privacy-controls h2{margin:0 0 .7rem;font-size:clamp(1.35rem,2.2vw,1.65rem)}
+.privacy-choice-status{font-weight:700;color:#23456a}
+.privacy-choice-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin:1rem 0 1.2rem}
+.privacy-choice-actions button{padding:.75rem 1rem;background:#fff;color:#193d70;border:1px solid #92add0;border-radius:8px;cursor:pointer;font:650 .95rem/1.4 var(--body)}
+.privacy-choice-actions button:hover,.privacy-choice-actions button:focus-visible{outline:2px solid #315fc0;outline-offset:2px}
+.privacy-choice-actions button[aria-pressed="true"]{background:#173a70;color:#fff}

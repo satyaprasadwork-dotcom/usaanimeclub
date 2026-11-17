@@ -406,6 +406,7 @@ function analyticsHarness({legacy=null,optOut=null}={}){
  return {loaded,control,stored,window,signals,getReloads:()=>reloads};
 }
 const fresh=analyticsHarness();
+assert(read("assets/privacy.js").includes("usa-anime-club-analytics-choice-v2"),"Shared runtime must store an explicit analytics choice");
 assert.equal(fresh.loaded.length,2,"New visitors must load both cookieless analytics tags");
 assert(fresh.loaded.some(url=>url.includes("gtag/js?id=G-G0TNMR0FQL")),"GA4 not loaded for new visitor");
 assert(fresh.window.dataLayer.some(args=>args[0]==="config"&&args[1]==="G-G0TNMR0FQL"&&args[2]?.send_page_view===true),"GA4 standard page_view must be enabled");
@@ -428,6 +429,9 @@ for(const opts of [{legacy:"declined"},{legacy:"accepted",optOut:"true"},{legacy
 }
 assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred analytics must not duplicate consent defaults");
 assert(!read("scripts/build.mjs").includes('id="privacy-banner"'),"Analytics consent pop-up must not be generated");
+assert(read("assets/privacy.js").includes('window.gtag("consent","update",{analytics_storage:saved})'),"Returning visitor consent must be applied before GA4 config");
+assert(read("assets/privacy.js").includes('window.gtag("consent","update",{analytics_storage:choice})'),"Consent buttons must update Google Analytics");
+assert(read("assets/privacy.js").includes('clarityConsent(choice)'),"Consent buttons must update Clarity");
 
 
 
@@ -926,6 +930,14 @@ for(const filePath of documentPaths){
  assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
 }
 assert(read("ads.txt").trim()==="google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0","AdSense ads.txt seller entry missing");
+for(const slug of ["us-state-privacy","european-privacy"]){
+ const path=slug+"/index.html";
+ const html=read(path);
+ assert(urls.includes(base+"/"+slug+"/"),"Regional privacy page missing from XML sitemap: "+slug);
+ assert(html.includes('data-analytics-choice="granted"')&&html.includes('data-analytics-choice="denied"'),"Functional analytics consent controls missing on "+slug);
+ assert(html.includes('href="/privacy/"'),"Regional notice must link to Privacy Policy: "+slug);
+ assert(read("index.html").includes('href="/'+slug+'/"'),"Regional privacy page must be linked in site footer: "+slug);
+}
 const privacyNotice=read("privacy/index.html");
 assert(privacyNotice.includes("Google AdSense publisher script"),"Privacy policy must disclose AdSense");
 assert(!read("assets/privacy.js").includes("previouslyAccepted")&&!read("assets/privacy.js").includes("OPT_OUT_KEY"),"Obsolete testing controls must not gate GA4 or Clarity");
