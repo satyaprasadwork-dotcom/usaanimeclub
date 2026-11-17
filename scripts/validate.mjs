@@ -909,7 +909,7 @@ for(const filePath of documentPaths){
 assert(read("ads.txt").trim()==="google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0","AdSense ads.txt seller entry missing");
 const privacyNotice=read("privacy/index.html");
 assert(privacyNotice.includes("Google AdSense publisher script"),"Privacy policy must disclose AdSense");
-assert(read("assets/privacy.js").includes('window.gtag("consent","update",{analytics_storage:"granted"})'),"Analytics choice must not overwrite ad consent");
+assert(!read("assets/privacy.js").includes("previouslyAccepted")&&!read("assets/privacy.js").includes("OPT_OUT_KEY"),"Obsolete testing controls must not gate GA4 or Clarity");
 const robotsRules=read("robots.txt");
 assert(robotsRules.includes("User-agent: *")&&robotsRules.includes("Allow: /"),"robots.txt must permit public pages");
 assert(robotsRules.includes(base+"/sitemap.xml")&&robotsRules.includes(base+"/news-sitemap.xml"),"robots.txt must include both sitemaps");
