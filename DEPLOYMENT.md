@@ -28,7 +28,7 @@ If No cache preview still shows the old homepage, investigate the **connected re
 - [ ] A newly published article appears in the archive, its category page, RSS, sitemap and news ticker after GitHub Actions completes
 - [ ] All PNG share images load from the live site
 - [ ] Mobile menu, local time and ticker Pause/Resume work on real devices
-- [ ] Analytics acceptance loads only the configured GA4 and Clarity IDs; rejection prevents both; revocation reloads
+- [ ] Verify GA4 Realtime and Clarity on a new US browser; ensure EEA/UK/CH consent defaults and existing visitor opt-outs are honored
 - [ ] Verify regional consent requirements and advertising CMP separately before activating ads
 - [ ] Check the exact live source URLs, publication dates, image rights, Search Console and Bing indexing as appropriate
 

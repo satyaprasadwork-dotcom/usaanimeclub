@@ -371,7 +371,7 @@ const mostRecent=[...newsArticles].sort((a,b)=>b.date.localeCompare(a.date)||(b.
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
-// New visitors use cookieless analytics without a consent pop-up, with opt-out.
+// Normal GA4 collection applies where permitted; restricted regions and recorded opt-outs remain protected.
 function analyticsHarness({legacy=null,optOut=null}={}){
  const stored=new Map();
  if(legacy!==null)stored.set("usa-anime-club-analytics-consent-v1",legacy);
@@ -390,7 +390,8 @@ function analyticsHarness({legacy=null,optOut=null}={}){
  let reloads=0;
  const window={dataLayer:[],location:{reload:()=>reloads++}};
  window.gtag=(...args)=>window.dataLayer.push(args);
- window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+ window.gtag("consent","default",{analytics_storage:"granted",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+ window.gtag("consent","default",{analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]});
  const localStorage={getItem:key=>stored.get(key)??null,setItem:(key,value)=>stored.set(key,value)};
  runInNewContext(read("assets/privacy.js"),{document,window,localStorage,Date,encodeURIComponent});
  const signals=()=>Array.from(window.clarity?.q||[]).filter(args=>args[0]==="consentv2").map(args=>args[1]);
@@ -403,16 +404,19 @@ assert(fresh.window.dataLayer.some(args=>args[0]==="config"&&args[1]==="G-G0TNMR
 assert(fresh.loaded.some(url=>url.includes("clarity.ms/tag/yyqq9cryjc")),"Clarity not loaded for new visitor");
 assert.equal(fresh.loaded.filter(url=>url.includes("gtag/js?id=")).length,1,"Duplicate GA4 tag");
 assert.equal(fresh.loaded.filter(url=>url.includes("clarity.ms/tag/")).length,1,"Duplicate Clarity tag");
-assert.equal(fresh.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="default").length,1,"Consent defaults must initialize once in the head");
+assert.equal(fresh.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="default").length,2,"Global and regional consent defaults must each initialize once");
+assert(fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="default"&&args[2].analytics_storage==="granted"&&!args[2].region),"Global GA4 analytics should use regular measurement");
+assert(fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="default"&&args[2].analytics_storage==="denied"&&args[2].region.includes("GB")&&args[2].region.includes("CH")),"Restricted-region analytics must await consent");
 assert(!fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"New visitor must not be silently granted analytics cookies");
-assert.equal(fresh.signals().length,1,"Clarity Consent V2 must initialize before load");
-assert.equal(fresh.signals()[0].analytics_Storage,"denied","New visitors must have cookieless Clarity");
-assert.equal(fresh.signals()[0].ad_Storage,"denied","Analytics must never grant advertising consent");
-// Old test-only browser flags must never suppress measurement.
+assert.equal(fresh.signals().length,0,"Clarity should use native regional consent without globally disabling cookies");
+// Retain genuine browser preferences while allowing full tracking for new visitors.
 for(const opts of [{legacy:"declined"},{legacy:"accepted",optOut:"true"},{legacy:"accepted"},{legacy:"basic",optOut:"false"}]){
  const visitor=analyticsHarness(opts);
- assert.equal(visitor.loaded.length,2,"Legacy browser preference must not suppress GA4 or Clarity");
- assert.equal(visitor.signals()[0].analytics_Storage,"denied","Do not infer cookie consent from legacy test flags");
+ assert.equal(visitor.loaded.length,2,"Exactly one GA4 and Clarity tag must load");
+ const declined=opts.legacy==="declined"||opts.legacy==="basic"||opts.optOut==="true";
+ assert.equal(visitor.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="denied").length,declined?1:0,"Honor recorded analytics opt-outs");
+ assert.equal(visitor.signals().length,declined?1:0,"Honor Clarity opt-outs");
+ if(declined)assert.equal(visitor.signals()[0].analytics_Storage,"denied","Clarity must not override a decline");
 }
 assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred analytics must not duplicate consent defaults");
 assert(!read("scripts/build.mjs").includes('id="privacy-banner"'),"Analytics consent pop-up must not be generated");
@@ -894,10 +898,11 @@ for(const filePath of documentPaths){
  assert.equal(count('src="'+adsSrc+'"'),1,"AdSense code must occur once in "+filePath);
  assert.equal(count("adsbygoogle.js"),1,"Duplicate AdSense loader in "+filePath);
  assert(html.includes('name="google-adsense-account" content="'+adsPublisher+'"'),"AdSense account missing in "+filePath);
- const consentPos=html.indexOf('window.gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied"');
+ const consentPos=html.indexOf('window.gtag("consent","default",{analytics_storage:"granted",ad_storage:"denied"');
  const adPos=html.indexOf('src="'+adsSrc+'"');
  assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
- assert.equal(count('window.gtag("consent","default",'),1,"Duplicate consent default in "+filePath);
+ assert.equal(count('window.gtag("consent","default",'),2,"Global and restricted-region consent defaults missing in "+filePath);
+  assert(html.includes('analytics_storage:"denied",region:'),"Restricted-region analytics default missing in "+filePath);
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
  assert(html.indexOf('src="/assets/privacy.js?v='+info.buildId+'"')<html.indexOf("</head>"),"Analytics runtime must load from shared document head: "+filePath);
  assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
