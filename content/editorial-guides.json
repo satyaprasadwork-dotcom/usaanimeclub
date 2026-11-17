@@ -551,48 +551,55 @@
     "label": "NEW CLASSMATES",
     "question": "What is actually new in the November trailer?",
     "action": "The full promotional video adds classmates and cast details; April 2027 was announced earlier.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   },
   "re-zero-season-5-official-teaser-announcement": {
     "scene": "calendar",
     "label": "SEASON 5",
     "question": "Has a Re:ZERO Season 5 premiere date been confirmed?",
     "action": "Production is confirmed, but the official anniversary notice has not specified an airdate.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   },
   "witch-watch-season-2-2027-manga-finale": {
     "scene": "calendar",
     "label": "MANGA & ANIME",
     "question": "Does the Witch Watch manga ending cancel the anime?",
     "action": "No. The manga concluded in November 2026 while the second anime season is targeted for 2027.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   },
   "dandadan-chapter-253-us-release-reading-guide": {
     "scene": "books",
     "label": "CHAPTER 253",
     "question": "Where can US readers access the official new chapter?",
     "action": "VIZ lists Chapter 253 for November 16, 2026. Check its live access indicators and official MANGA Plus options.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   },
   "days-of-diamond-anime-announced-staff-lapin-track": {
     "scene": "books",
     "label": "SPORTS ANIME",
     "question": "Who is adapting The Days of Diamond?",
     "action": "Lapin Track is producing the adaptation; staff include director Takakazu Nagatomo and series composer Teruko Utsumi.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   },
   "lisa-yes-2027-grammy-anime-theme-nomination": {
     "scene": "compare",
     "label": "GRAMMY NOMINEE",
     "question": "Which award has LiSA's YES been nominated for?",
     "action": "Best Asian Pop Music Performance at the 2027 Grammys, not an anime-specific award.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   },
   "solo-leveling-igris-beru-visual-beyond-the-system": {
     "scene": "calendar",
     "label": "SHADOW VISUAL",
     "question": "Does the new character art confirm a movie date or Season 3?",
     "action": "No. The artwork highlights shadow soldiers; Beyond the System was separately announced as a film.",
-    "updated": "2026-11-17"
+    "updated": "2026-11-17",
+    "updatedAt": "2026-11-17T10:58:00Z"
   }
 }
