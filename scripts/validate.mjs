@@ -905,6 +905,7 @@ for(const filePath of documentPaths){
  assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
  assert.equal(count('window.gtag("consent","default",'),1,"Duplicate consent default in "+filePath);
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
+ assert(html.indexOf('src="/assets/privacy.js?v='+info.buildId+'"')<html.indexOf("</head>"),"Analytics runtime must load from shared document head: "+filePath);
  assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
  assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"Duplicate AdSense account metadata in "+filePath);
  assert(!html.includes("data-analytics-toggle")&&!html.includes("data-analytics-accept"),"Analytics buttons must not appear "+filePath);
