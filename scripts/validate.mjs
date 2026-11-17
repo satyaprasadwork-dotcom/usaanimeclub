@@ -408,18 +408,12 @@ assert(!fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update
 assert.equal(fresh.signals().length,1,"Clarity Consent V2 must initialize before load");
 assert.equal(fresh.signals()[0].analytics_Storage,"denied","New visitors must have cookieless Clarity");
 assert.equal(fresh.signals()[0].ad_Storage,"denied","Analytics must never grant advertising consent");
-const blocked=analyticsHarness({legacy:"declined"});
-assert.equal(blocked.loaded.length,0,"Previously declined users must remain untracked");
-const overridden=analyticsHarness({legacy:"accepted",optOut:"true"});
-assert.equal(overridden.loaded.length,0,"Explicit opt-out overrides earlier acceptance");
-const priorAccepted=analyticsHarness({legacy:"accepted"});
-assert.equal(priorAccepted.loaded.length,2,"Previously accepted analytics must still load");
-assert(priorAccepted.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"Only earlier consent can grant analytics storage");
-assert.equal(priorAccepted.signals()[0].analytics_Storage,"granted","Preserve prior Clarity consent");
-assert.equal(priorAccepted.signals()[0].ad_Storage,"denied","Analytics consent cannot grant ads consent");
-const basic=analyticsHarness({legacy:"basic",optOut:"false"});
-assert.equal(basic.loaded.length,2,"Re-enabled basic measurement should load both services");
-assert.equal(basic.signals()[0].analytics_Storage,"denied","Re-enabled measurement stays cookieless");
+// Old test-only browser flags must never suppress measurement.
+for(const opts of [{legacy:"declined"},{legacy:"accepted",optOut:"true"},{legacy:"accepted"},{legacy:"basic",optOut:"false"}]){
+ const visitor=analyticsHarness(opts);
+ assert.equal(visitor.loaded.length,2,"Legacy browser preference must not suppress GA4 or Clarity");
+ assert.equal(visitor.signals()[0].analytics_Storage,"denied","Do not infer cookie consent from legacy test flags");
+}
 assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred analytics must not duplicate consent defaults");
 assert(!read("scripts/build.mjs").includes('id="privacy-banner"'),"Analytics consent pop-up must not be generated");
 
