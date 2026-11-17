@@ -110,8 +110,8 @@ for(const s of series){
  assert(!html.includes("Critical responses and reviews"),"Redundant review heading must be removed "+path);
  if(reviews.some(r=>r.kind===s.kind&&r.seriesSlug===s.slug))assert(html.includes('class="review-published-card"'),"Cards missing from series hub "+path);
  assert(html.includes('rel="canonical" href="'+base+"/reviews/"+s.kind+"/"+s.slug+'/"'),"Incorrect review hub canonical "+path);
- assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
- assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
+ if(s.slug!=="boruto-two-blue-vortex")assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
+ if(s.slug!=="boruto-two-blue-vortex")assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
  const activeReviews=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug);
  if(activeReviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Unreviewed release hub must be noindex "+path);
  else assert(!html.includes('meta name="robots" content="noindex, nofollow"'),"Reviewed hub must be indexable "+path);
@@ -120,7 +120,7 @@ for(const s of series){
   assert(!html.includes("US platform / publisher"),"Boruto review hub must omit optional publisher metadata");
   assert(!html.includes("currently lists Chapter 38"),"Boruto review hub must omit latest-release paragraph");
   assert(!html.includes("LATEST VERIFIED ENTRY"),"Boruto archive should not display release status");
-  assert(html.includes("Open the official chapter directory"),"Authorized manga link missing from Boruto hub");
+  assert(!html.includes("Read the chapters")&&!html.includes("Open the official chapter directory"),"Unwanted chapter-directory block must be absent from Boruto hub");
   const hasPreview=borutoChapters.every(r=>r.installmentNumber!==39);
   const expectedCards=borutoChapters.length+(hasPreview?1:0);
   const allBorutoCards=Array.from({length:getPageCount(expectedCards)},(_,i)=>i===0?html:read("reviews/manga/boruto-two-blue-vortex/page/"+(i+1)+"/index.html"))
