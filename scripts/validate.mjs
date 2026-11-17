@@ -903,6 +903,12 @@ for(const filePath of documentPaths){
  assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
  assert.equal(count('window.gtag("consent","default",'),2,"Global and restricted-region consent defaults missing in "+filePath);
   assert(html.includes('analytics_storage:"denied",region:'),"Restricted-region analytics default missing in "+filePath);
+ // Keep page URL measurement identical across homepage, pagination, articles and reviews.
+ // The shared GA4 runtime reads the browser's actual URL when sending page_view.
+ assert.equal(count('analytics_storage:"granted",ad_storage:"denied"'),1,"Missing standard GA4 default in "+filePath);
+ assert(!html.includes('gtm.js?id=G-G0TNMR0FQL'),"GTM container script must not use a GA4 ID: "+filePath);
+ assert(!html.includes('gtag("config"')&&!html.includes("gtag('config'"),"No per-page GA4 configuration; use the shared runtime: "+filePath);
+ assert(!html.includes("page_location:"),"Never override the measured page URL in "+filePath);
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
  assert(html.indexOf('src="/assets/privacy.js?v='+info.buildId+'"')<html.indexOf("</head>"),"Analytics runtime must load from shared document head: "+filePath);
  assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
