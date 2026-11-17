@@ -295,7 +295,7 @@ for(const pageUrl of urls){
  assert(html.includes('rel="canonical" href="'+pageUrl+'"'),"wrong canonical "+file);
  assert(html.includes("/assets/privacy.js"),"privacy controls missing "+file);
  assert(html.includes("/assets/site.js"),"shared runtime missing "+file);
- assert(html.includes("data-analytics-toggle"),"privacy choice inaccessible "+file);
+ assert(html.includes("data-analytics-toggle")===file.includes("privacy/index.html"),"Privacy choice must appear only on privacy page "+file);
  for(const [re,array,label] of [
    [/<title>([^<]+)<\/title>/,titles,"title"],
    [/<meta name="description" content="([^"]+)"/,descriptions,"description"],
@@ -922,7 +922,7 @@ for(const filePath of documentPaths){
  assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
  assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
  assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"Duplicate AdSense account metadata in "+filePath);
- assert(html.includes('data-analytics-toggle'),"Accessible privacy controls missing in "+filePath);
+ assert(html.includes('data-analytics-toggle')===filePath.endsWith("privacy/index.html"),"Privacy controls must appear only on privacy page "+filePath);
  assert.equal(count("www.googletagmanager.com/gtag/js"),0,"GA4 must not bypass analytics consent in "+filePath);
  assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
 }
