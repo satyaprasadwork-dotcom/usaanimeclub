@@ -362,6 +362,14 @@ const expectedNews=newsArticles.filter(a=>{
 const newsXml=read("news-sitemap.xml");
 const foundNews=[...newsXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 assert.deepEqual(foundNews.sort(),expectedNews.sort(),"Google News sitemap contains stale or missing URLs");
+assert(foundNews.length<=1000,"Google News sitemap exceeds Google's 1,000-article limit");
+assert.equal((newsXml.match(/<news:news>/g)||[]).length,foundNews.length,"Every Google News URL needs a news:news element");
+assert.equal((newsXml.match(/<news:publication_date>/g)||[]).length,foundNews.length,"Every Google News URL needs a publication date");
+assert.equal((newsXml.match(/<news:title>/g)||[]).length,foundNews.length,"Every Google News URL needs a news title");
+for(const loc of foundNews){
+ assert(urls.includes(loc),"Google News sitemap URL must also exist in main sitemap: "+loc);
+ assert(loc.startsWith(base+"/news/"),"Google News sitemap must use canonical article URLs: "+loc);
+}
 assert(read("robots.txt").includes(base+"/sitemap.xml"),"robots.txt lacks sitemap");
 const rss=read("feed.xml");
 for(const a of newsArticles)assert(rss.includes('<guid isPermaLink="true">'+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
