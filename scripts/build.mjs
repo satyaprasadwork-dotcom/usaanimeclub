@@ -97,8 +97,8 @@ function buildSite(articles){
   // All site routes, articles, reviews, policies and the 404 page use this
   // The shared shell owns the standard GA4 and Clarity tags.
   // All generated pages inherit one copy; never paste duplicates into articles.
-  function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
-    const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:type" content="${image.endsWith(".jpg")?"image/jpeg":"image/png"}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(title)}">`:"";
+  function shell({path,title,desc,kw,main,schemas=[],image,imageAlt,article=false,noindex=false}){
+    const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:alt" content="${e(imageAlt||title)}"><meta property="og:image:type" content="${image.endsWith(".jpg")?"image/jpeg":"image/png"}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(imageAlt||title)}">`:"";
     const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/reviews/")?"Reviews":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
     const nav=[["Latest","/"],["News","/news/"],["Anime","/news/category/anime/"],["Manga","/news/category/manga/"],["Manhwa","/news/category/manhwa/"],["Web Novels","/news/category/web-novels/"],["Reviews","/reviews/"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
     return `<!doctype html>
@@ -277,7 +277,7 @@ ${pag}</div></section>`;
 <p class="editor-credit">Editor-in-Chief: <a href="/about/#editor-in-chief">Satya Prasad</a></p>
 <p>Published <time datetime="${a.date}">${fmt(a.date)}</time> <span aria-hidden="true">·</span> Updated <time datetime="${a.modifiedAt||a.modified||a.date}">${a.modifiedAt?fmtUpdate(a.modifiedAt):fmt(a.modified||a.date)}</time></p></div></div></header>
 <div class="article-columns"><div class="article-primary">
-<img class="post-hero" src="${pic}" width="1200" height="675" alt="Original conceptual illustration for ${e(a.title)}">
+<img class="post-hero" src="${pic}" width="1200" height="675" alt="${e(imageFor(a).alt)}">
 <section class="tldr" id="quick-answer" aria-labelledby="quick-answer-heading"><h2 class="tldr-label" id="quick-answer-heading">QUICK ANSWER</h2><p>${e(a.summary)}</p><p class="answer-source">Source record: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time> <span aria-hidden="true">·</span> <cite><a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">Read the original source</a></cite></p></section>
 <aside class="reader-guide" aria-label="Reader decision guide"><span class="reader-guide-kicker">WHAT TO CHECK NEXT</span><h2>${e(a.readerGuide.question)}</h2><p>${e(a.readerGuide.action)}</p></aside>
 ${itachiMap}
@@ -294,7 +294,7 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
     const schema={"@context":"https://schema.org","@type":editorialFormats[a.slug]==="news"?"NewsArticle":"Article","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+imageFor(a).social],datePublished:a.date,dateModified:a.modifiedAt||(a.modified||a.date),wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
-    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:imageFor(a).social,schemas:[schema,bc(crumbs)]});
+    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:imageFor(a).social,imageAlt:imageFor(a).alt,schemas:[schema,bc(crumbs)]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
     files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
