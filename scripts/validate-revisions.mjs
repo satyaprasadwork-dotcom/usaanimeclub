@@ -5,7 +5,7 @@ const read=p=>JSON.parse(readFileSync(p,"utf8"));
 const currentArticles=read("content/articles.json");
 const currentGuides=read("content/editorial-guides.json");
 function previous(path){
-  try{return JSON.parse(execFileSync("git",["show","HEAD^:"+path],{encoding:"utf8"}))}
+  try{return JSON.parse(execFileSync("git",["show","HEAD^:"+path],{encoding:"utf8",maxBuffer:64*1024*1024}))}
   catch(e){if(e.status===128)return null;throw e}
 }
 const oldArticles=previous("content/articles.json");
