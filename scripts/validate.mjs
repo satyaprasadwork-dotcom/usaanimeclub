@@ -11,6 +11,20 @@ const read=p=>readFileSync(resolve(root,p),"utf8");
 const articles=JSON.parse(read("content/articles.json"));
 const editorialFormats=JSON.parse(read("content/editorial-formats.json"));
 const featuredImages=JSON.parse(read("content/featured-images.json"));
+const reviewFeaturedImages=JSON.parse(read("content/review-featured-images.json"));
+for(const [slug,im] of Object.entries(reviewFeaturedImages)){
+  assert.equal(im.webp,"assets/reviews/"+slug+".webp");
+  assert.equal(im.jpg,"assets/reviews/"+slug+".jpg");
+  assert.equal(im.source,"original-ai-generated-editorial");
+  assert(im.alt.length>=30);
+  assert(existsSync(resolve(root,im.webp))&&existsSync(resolve(root,im.jpg)),"Missing approved review image: "+slug);
+  const reviewPath="reviews/manga/boruto-two-blue-vortex/"+slug.split("-").slice(-2).join("-")+"/index.html";
+  const html=read(reviewPath);
+  assert(html.includes('srcset="/'+im.webp+'"'),"WebP missing from "+reviewPath);
+  assert(html.includes('src="/'+im.jpg+'"'),"JPEG fallback missing from "+reviewPath);
+  assert(html.includes('alt="'+im.alt+'"'),"Alt text missing from "+reviewPath);
+  assert(html.includes('property="og:image" content="https://usaanimeclub.com/'+im.jpg+'"'),"Social preview missing from "+reviewPath);
+}
 assert.deepEqual(Object.keys(editorialFormats).sort(),articles.map(a=>a.slug).sort(),"Every article needs a declared format");
 for(const a of articles)assert(["news","feature"].includes(editorialFormats[a.slug]),"Invalid editorial type "+a.slug);
 const base="https://usaanimeclub.com";
