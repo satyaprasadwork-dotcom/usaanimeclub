@@ -706,8 +706,8 @@ for(const u of urls){
 assert(read("assets/styles.css").includes(".news-ticker.is-paused .news-ticker-track"),"Pause-state CSS missing");
 
 
-// The 5-image pilot uses original WebP artwork in cards and articles, and JPEG
-// social previews. Unlisted stories retain the generated SVG/PNG fallback.
+// Approved article illustrations use original WebP artwork in cards and articles,
+// plus JPEG social previews. Unlisted stories retain the generated SVG/PNG fallback.
 function checkPng(path,width,height){
  const data=readFileSync(resolve(root,path));
  assert(data.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),"Invalid PNG signature "+path);
@@ -729,7 +729,7 @@ function checkApprovedImage(path,type){
  }
 }
 checkPng("assets/logo.png",256,256);
-assert.equal(Object.keys(featuredImages).length,5,"Pilot must affect exactly five articles");
+assert(Object.keys(featuredImages).length>=5,"Approved image library must retain the original five images");
 for(const slug of Object.keys(featuredImages))assert(articles.some(a=>a.slug===slug),"Orphaned approved image: "+slug);
 for(const a of articles){
  const chosen=featuredImages[a.slug];
