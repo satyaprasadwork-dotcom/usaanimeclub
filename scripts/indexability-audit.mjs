@@ -29,7 +29,7 @@ for(const entry of rows){
  assert(!/noindex|noarchive|nosnippet|nocache/i.test(robot),"Sitemap URL has index-restricting directive: "+path);
  assert(h.includes('property="og:url" content="'+entry.url+'"'),"OpenGraph URL mismatch: "+path);
  assert(h.includes('href="/editorial-policy/"')&&h.includes('href="/corrections/"'),"Trust links missing: "+path);
- assert(h.includes('src="/assets/privacy.js?')&&h.includes('ca-pub-7937216909291905'),"Shared consent or AdSense missing: "+path);
+ assert(h.includes('gtag/js?id=G-G0TNMR0FQL')&&h.includes('clarity.ms/tag/')&&h.includes('ca-pub-7937216909291905'),"Standard GA4, Clarity or AdSense missing: "+path);
  const title=h.match(/<title>([^<]+)<\/title>/)?.[1],desc=h.match(/<meta name="description" content="([^"]+)"/)?.[1];
  assert(title?.length>12&&desc?.length>40,"Missing meaningful title or description: "+path);
  const schemas=[...h.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(m=>JSON.parse(m[1]));
