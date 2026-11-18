@@ -593,6 +593,10 @@ h1,h2,h3{letter-spacing:-.03em}
 
 /* Original conceptual review imagery and transparent research citations. */
 .review-cover{border-radius:13px;overflow:hidden;width:100%;max-width:1000px;aspect-ratio:16/9;object-fit:cover;margin:1rem 0 1.25rem;box-shadow:0 10px 32px rgba(20,48,78,.1)}
+/* Keep approved WebP/JPEG review art visually identical to the original single-image cover layout. */
+.review-cover-frame{display:block;width:100%;max-width:1000px;margin:1rem 0 1.25rem}
+.review-cover-frame>.review-cover{display:block;width:100%;max-width:100%;margin:0}
+
 .review-spoiler-note{font-weight:650;color:#814313;font-size:.88rem;background:#fff8ed;padding:.55rem .9rem;border-radius:7px;max-width:860px}
 .review-sources{max-width:860px;margin:2.5rem 0;border-top:1px solid #d5e2ef;padding-top:1.3rem}
 .review-sources h2{font-size:1.65rem}

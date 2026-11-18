@@ -115,7 +115,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     const approvedArt=reviewFeaturedImages[coverSlug];
     const img=approvedArt?"/"+approvedArt.webp:"/assets/reviews/"+coverSlug+".svg";
     const socialImg=approvedArt?"/"+approvedArt.jpg:img.replace(/\.svg$/,".png");
-    const coverMarkup=approvedArt?'<picture><source type="image/webp" srcset="'+img+'"><img class="review-cover" src="'+socialImg+'" width="'+approvedArt.width+'" height="'+approvedArt.height+'" alt="'+e(approvedArt.alt)+'" decoding="async" fetchpriority="high"></picture>':'<img class="review-cover" src="'+img+'" width="1200" height="675" alt="Original conceptual illustration for '+e(s.title)+' '+e(installmentName)+' criticism">';
+    const coverMarkup=approvedArt?'<picture class="review-cover-frame"><source type="image/webp" srcset="'+img+'"><img class="review-cover" src="'+socialImg+'" width="'+approvedArt.width+'" height="'+approvedArt.height+'" alt="'+e(approvedArt.alt)+'" decoding="async" fetchpriority="high"></picture>':'<img class="review-cover" src="'+img+'" width="1200" height="675" alt="Original conceptual illustration for '+e(s.title)+' '+e(installmentName)+' criticism">';
     const coverArt=editorialCover({category:r.kind==="anime"?"Anime":"Manga",slug:coverSlug,title:fullTitle},{scene:r.kind==="anime"?"screen":"reader",label:sourced?"SOURCE-BASED REVIEW":"ORIGINAL REVIEW"});
     files["assets/reviews/"+coverSlug+".svg"]=coverArt;
     files["assets/reviews/"+coverSlug+".png"]=new Resvg(coverArt).render().asPng();
