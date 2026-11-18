@@ -28,8 +28,8 @@ If No cache preview still shows the old homepage, investigate the **connected re
 - [ ] A newly published article appears in the archive, its category page, RSS, sitemap and news ticker after GitHub Actions completes
 - [ ] All PNG share images load from the live site
 - [ ] Mobile menu, local time and ticker Pause/Resume work on real devices
-- [ ] Verify GA4 Realtime and Clarity on a new US browser; ensure EEA/UK/CH consent defaults and existing visitor opt-outs are honored
-- [ ] Verify regional consent requirements and advertising CMP separately before activating ads
+- [ ] Verify GA4 Realtime and Clarity in browser network tools across countries; confirm one GA4 page_view and one Clarity load
+- [ ] Independently verify regional analytics/cookie consent obligations and Google advertising CMP requirements before operating in regulated markets
 - [ ] Check the exact live source URLs, publication dates, image rights, Search Console and Bing indexing as appropriate
 
 ## References

@@ -78,9 +78,8 @@ function buildSite(articles){
     +'<div class="news-ticker-set" aria-hidden="true">'+items.map(a=>tickerLink(a,true)).join("")+'</div>'
     +'</div></div><button class="news-ticker-toggle" type="button" data-ticker-toggle aria-pressed="false" aria-label="Pause scrolling news headlines">Pause</button></div></nav>';
   // All site routes, articles, reviews, policies and the 404 page use this
-  // shared shell. Keep AdSense and consent defaults here, and keep the
-  // consent-aware GA4/Clarity loaders centralized in assets/privacy.js.
-  // Do NOT paste standalone gtag/Clarity snippets into individual articles.
+  // The shared shell owns the standard GA4 and Clarity tags.
+  // All generated pages inherit one copy; never paste duplicates into articles.
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
     const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(title)}">`:"";
     const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/reviews/")?"Reviews":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
@@ -99,14 +98,21 @@ function buildSite(articles){
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="/assets/styles.css?v=${buildId}">
-<script src="/assets/privacy.js?v=${buildId}" defer></script>
+<!-- Google Analytics 4: standard asynchronous site-wide tag. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G0TNMR0FQL"></script>
 <script>
 window.dataLayer=window.dataLayer||[];
 window.gtag=window.gtag||function(){window.dataLayer.push(arguments)};
-// Allow standard GA4 measurement where permitted; keep ad consent separate.
-window.gtag("consent","default",{analytics_storage:"granted",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
-// Analytics requires prior consent in the EEA, UK, and Switzerland.
-window.gtag("consent","default",{analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]});
+window.gtag("js",new Date());
+window.gtag("config","G-G0TNMR0FQL",{send_page_view:true});
+</script>
+<!-- Microsoft Clarity: standard asynchronous site-wide tag. -->
+<script>
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window,document,"clarity","script","yyqq9cryjc");
 </script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7937216909291905" crossorigin="anonymous"></script>
 ${schemas.map(s=>`<script type="application/ld+json">${ld(s)}</script>`).join("\n")}

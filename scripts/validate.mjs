@@ -293,9 +293,9 @@ for(const pageUrl of urls){
  assert(html.includes('<main id="main">'),"missing main landmark "+file);
  assert(html.includes("<h1>"),"missing h1 "+file);
  assert(html.includes('rel="canonical" href="'+pageUrl+'"'),"wrong canonical "+file);
- assert(html.includes("/assets/privacy.js"),"privacy controls missing "+file);
+ assert(html.includes("gtag/js?id=G-G0TNMR0FQL"),"GA4 tag missing "+file);
  assert(html.includes("/assets/site.js"),"shared runtime missing "+file);
- assert(!html.includes("data-analytics-toggle")&&!html.includes("data-analytics-accept"),"Analytics buttons must not appear "+file);
+ assert(!html.includes("data-analytics-choice")&&!html.includes("data-analytics-toggle"),"Analytics preference UI must not appear "+file);
  for(const [re,array,label] of [
    [/<title>([^<]+)<\/title>/,titles,"title"],
    [/<meta name="description" content="([^"]+)"/,descriptions,"description"],
@@ -379,59 +379,10 @@ const mostRecent=[...newsArticles].sort((a,b)=>b.date.localeCompare(a.date)||(b.
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
 assert(featured&&featured[1]==="/news/"+mostRecent.slug+"/","featured headline should be latest source announcement");
 
-// Normal GA4 collection applies where permitted; restricted regions and recorded opt-outs remain protected.
-function analyticsHarness({legacy=null,optOut=null}={}){
- const stored=new Map();
- if(legacy!==null)stored.set("usa-anime-club-analytics-consent-v1",legacy);
- if(optOut!==null)stored.set("usa-anime-club-analytics-opt-out-v1",optOut);
- const loaded=[];
- const control={handlers:{},attrs:{},textContent:"",
-   setAttribute(name,value){this.attrs[name]=value},
-   addEventListener(name,fn){this.handlers[name]=fn},
-   click(){this.handlers.click?.()}};
- const document={
-   querySelector:selector=>selector==="[data-analytics-toggle]"?control:null,
-   createElement:()=>({}),
-   getElementsByTagName:()=>[{parentNode:{insertBefore:script=>loaded.push(script.src)}}],
-   head:{appendChild:script=>loaded.push(script.src)}
- };
- let reloads=0;
- const window={dataLayer:[],location:{reload:()=>reloads++}};
- window.gtag=(...args)=>window.dataLayer.push(args);
- window.gtag("consent","default",{analytics_storage:"granted",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
- window.gtag("consent","default",{analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]});
- const localStorage={getItem:key=>stored.get(key)??null,setItem:(key,value)=>stored.set(key,value)};
- runInNewContext(read("assets/privacy.js"),{document,window,localStorage,Date,encodeURIComponent});
- const signals=()=>Array.from(window.clarity?.q||[]).filter(args=>args[0]==="consentv2").map(args=>args[1]);
- return {loaded,control,stored,window,signals,getReloads:()=>reloads};
-}
-const fresh=analyticsHarness();
-assert(read("assets/privacy.js").includes("usa-anime-club-analytics-choice-v2"),"Shared runtime must store an explicit analytics choice");
-assert.equal(fresh.loaded.length,2,"New visitors must load both cookieless analytics tags");
-assert(fresh.loaded.some(url=>url.includes("gtag/js?id=G-G0TNMR0FQL")),"GA4 not loaded for new visitor");
-assert(fresh.window.dataLayer.some(args=>args[0]==="config"&&args[1]==="G-G0TNMR0FQL"&&args[2]?.send_page_view===true),"GA4 standard page_view must be enabled");
-assert(fresh.loaded.some(url=>url.includes("clarity.ms/tag/yyqq9cryjc")),"Clarity not loaded for new visitor");
-assert.equal(fresh.loaded.filter(url=>url.includes("gtag/js?id=")).length,1,"Duplicate GA4 tag");
-assert.equal(fresh.loaded.filter(url=>url.includes("clarity.ms/tag/")).length,1,"Duplicate Clarity tag");
-assert.equal(fresh.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="default").length,2,"Global and regional consent defaults must each initialize once");
-assert(fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="default"&&args[2].analytics_storage==="granted"&&!args[2].region),"Global GA4 analytics should use regular measurement");
-assert(fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="default"&&args[2].analytics_storage==="denied"&&args[2].region.includes("GB")&&args[2].region.includes("CH")),"Restricted-region analytics must await consent");
-assert(!fresh.window.dataLayer.some(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="granted"),"New visitor must not be silently granted analytics cookies");
-assert.equal(fresh.signals().length,0,"Clarity should use native regional consent without globally disabling cookies");
-// Retain genuine browser preferences while allowing full tracking for new visitors.
-for(const opts of [{legacy:"declined"},{legacy:"accepted",optOut:"true"},{legacy:"accepted"},{legacy:"basic",optOut:"false"}]){
- const visitor=analyticsHarness(opts);
- assert.equal(visitor.loaded.length,2,"Exactly one GA4 and Clarity tag must load");
- const declined=opts.legacy==="declined"||opts.legacy==="basic"||opts.optOut==="true";
- assert.equal(visitor.window.dataLayer.filter(args=>args[0]==="consent"&&args[1]==="update"&&args[2].analytics_storage==="denied").length,declined?1:0,"Honor recorded analytics opt-outs");
- assert.equal(visitor.signals().length,declined?1:0,"Honor Clarity opt-outs");
- if(declined)assert.equal(visitor.signals()[0].analytics_Storage,"denied","Clarity must not override a decline");
-}
-assert(!read("assets/privacy.js").includes('window.gtag("consent","default"'),"Deferred analytics must not duplicate consent defaults");
-assert(!read("scripts/build.mjs").includes('id="privacy-banner"'),"Analytics consent pop-up must not be generated");
-assert(read("assets/privacy.js").includes('window.gtag("consent","update",{analytics_storage:saved})'),"Returning visitor consent must be applied before GA4 config");
-assert(read("assets/privacy.js").includes('window.gtag("consent","update",{analytics_storage:choice})'),"Consent buttons must update Google Analytics");
-assert(read("assets/privacy.js").includes('clarityConsent(choice)'),"Consent buttons must update Clarity");
+// Legacy fallback remains for cached HTML; newly built pages use normal inline tags.
+const legacyTracking=read("assets/privacy.js");
+assert(legacyTracking.includes("G-G0TNMR0FQL")&&legacyTracking.includes("yyqq9cryjc"),"Legacy tracking IDs must match");
+assert(!legacyTracking.includes("localStorage")&&!legacyTracking.includes('gtag("consent"'),"Legacy runtime must not read saved analytics choices");
 
 
 
@@ -486,11 +437,11 @@ for(const file of readdirSync(resolve(root,"assets/news"))){
 for(const file of readdirSync(resolve(root,"news"),{withFileTypes:true})){
  if(file.isDirectory()&&file.name!=="page"&&file.name!=="category")assert(sourceSlugs.has(file.name),"orphaned article page "+file.name);
 }
-const consentCode=read("assets/privacy.js");
-assert(consentCode.includes("G-G0TNMR0FQL")&&consentCode.includes("yyqq9cryjc"),"Analytics IDs missing from shared consent");
+const legacyTag=read("assets/privacy.js");
+assert(legacyTag.includes("G-G0TNMR0FQL")&&legacyTag.includes("yyqq9cryjc"),"Legacy tag IDs missing");
 for(const loc of urls){
  const html=read(localPath(loc));
- assert(html.includes("/assets/privacy.js"),"Shared analytics code missing from "+loc);
+ assert(html.includes("gtag/js?id=G-G0TNMR0FQL")&&html.includes("clarity.ms/tag/"),"Shared analytics tags missing from "+loc);
  assert(html.includes("/assets/site.js"),"Shared JS missing from "+loc);
 }
 assert(read("index.html").includes("/news/category/web-novels/"),"Web novel navigation missing");
@@ -797,7 +748,7 @@ assert(htaccess.includes("RewriteRule ^news/boruto-two-blue-vortex-chapter-39-re
 assert(!existsSync(resolve(root,"news/"+chapter39PreviewSlug+"/index.html")),"Old Chapter 39 news HTML must be removed to prevent duplicates");
 for(const pageUrl of urls){
  const pageHtml=read(localPath(pageUrl));
- for(const [asset,attr] of [["styles.css","href"],["site.js","src"],["privacy.js","src"]]){
+ for(const [asset,attr] of [["styles.css","href"],["site.js","src"]]){
   assert(pageHtml.includes(attr+'="/assets/'+asset+'?v='+info.buildId+'"'),"Outdated cache revision for "+asset+" on "+pageUrl);
  }
 }
@@ -872,18 +823,13 @@ assert(homeFeatured==="/news/"+orderedPublished[0].slug+"/","Hero did not select
 const archiveCards=[...read("news/index.html").matchAll(/class="news-card" href="(\/news\/[^"]+\/)"/g)].map(x=>x[1]);
 assert.deepEqual(archiveCards,orderedPublished.slice(0,12).map(a=>"/news/"+a.slug+"/"),"Newest articles must precede older reports in first archive page");
 
-// Lock publisher IDs and consent-aware, single-inclusion tracking on EVERY generated route.
+// Require standard GA4, Clarity and AdSense tags exactly once on every HTML route.
 const ga4Id="G-G0TNMR0FQL";
 const clarityId="yyqq9cryjc";
 const adsPublisher="ca-pub-7937216909291905";
 const adsSrc="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+adsPublisher;
-const privacyRuntime=read("assets/privacy.js");
-assert(privacyRuntime.includes('ID="'+ga4Id+'"')&&privacyRuntime.includes('CLARITY="'+clarityId+'"'),"Shared consent runtime uses incorrect GA4 or Clarity project ID");
-assert(privacyRuntime.includes("https://www.googletagmanager.com/gtag/js?id="),"GA4 must load through the shared consent runtime");
-assert(privacyRuntime.includes("https://www.clarity.ms/tag/"),"Clarity must load through the shared consent runtime");
-assert(privacyRuntime.includes('window.gtag("config",ID'),"GA4 configuration must use the shared measurement ID");
-assert(privacyRuntime.includes("send_page_view:true"),"GA4 automatic pageviews must remain enabled");
-assert(!read("assets/site.js").includes("Editorial interaction analytics"),"Do not duplicate GA4 and Clarity native event collection with custom instrumentation");
+const gaSrc="https://www.googletagmanager.com/gtag/js?id="+ga4Id;
+assert(!read("assets/site.js").includes("Editorial interaction analytics"),"Do not duplicate native measurement with custom instrumentation");
 // Validate EVERY committed and newly generated HTML file, even if intentionally
 // noindexed and omitted from the sitemap. This prevents new standalone pages
 // from silently missing the shared tag and privacy controls.
@@ -910,38 +856,33 @@ for(const filePath of documentPaths){
  assert.equal(count('src="'+adsSrc+'"'),1,"AdSense code must occur once in "+filePath);
  assert.equal(count("adsbygoogle.js"),1,"Duplicate AdSense loader in "+filePath);
  assert(html.includes('name="google-adsense-account" content="'+adsPublisher+'"'),"AdSense account missing in "+filePath);
- const consentPos=html.indexOf('window.gtag("consent","default",{analytics_storage:"granted",ad_storage:"denied"');
+ const gaPos=html.indexOf('src="'+gaSrc+'"');
  const adPos=html.indexOf('src="'+adsSrc+'"');
- assert(consentPos>=0&&consentPos<adPos&&adPos<html.indexOf("</head>"),"AdSense consent defaults must precede the ad tag inside head: "+filePath);
- assert.equal(count('window.gtag("consent","default",'),2,"Global and restricted-region consent defaults missing in "+filePath);
-  assert(html.includes('analytics_storage:"denied",region:'),"Restricted-region analytics default missing in "+filePath);
- // Keep page URL measurement identical across homepage, pagination, articles and reviews.
- // The shared GA4 runtime reads the browser's actual URL when sending page_view.
- assert.equal(count('analytics_storage:"granted",ad_storage:"denied"'),1,"Missing standard GA4 default in "+filePath);
- assert(!html.includes('gtm.js?id=G-G0TNMR0FQL'),"GTM container script must not use a GA4 ID: "+filePath);
- assert(!html.includes('gtag("config"')&&!html.includes("gtag('config'"),"No per-page GA4 configuration; use the shared runtime: "+filePath);
- assert(!html.includes("page_location:"),"Never override the measured page URL in "+filePath);
- assert.equal(count('src="/assets/privacy.js?v='+info.buildId+'"'),1,"Shared privacy runtime must occur once in "+filePath);
- assert(html.indexOf('src="/assets/privacy.js?v='+info.buildId+'"')<html.indexOf("</head>"),"Analytics runtime must load from shared document head: "+filePath);
- assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site runtime must occur once in "+filePath);
- assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"Duplicate AdSense account metadata in "+filePath);
- assert(!html.includes("data-analytics-toggle")&&!html.includes("data-analytics-accept"),"Analytics buttons must not appear "+filePath);
- assert.equal(count("www.googletagmanager.com/gtag/js"),0,"GA4 must not bypass analytics consent in "+filePath);
- assert.equal(count("www.clarity.ms/tag/"),0,"Clarity must not bypass analytics consent in "+filePath);
+ assert(gaPos>=0&&gaPos<html.indexOf("</head>"),"GA4 async tag missing from head: "+filePath);
+ assert(adPos>=0&&adPos<html.indexOf("</head>"),"AdSense tag missing from head: "+filePath);
+ assert.equal(count('src="'+gaSrc+'"'),1,"GA4 loader must appear once: "+filePath);
+ assert.equal(count('window.gtag("config","'+ga4Id+'"'),1,"GA4 config must appear once: "+filePath);
+ assert.equal(count('send_page_view:true'),1,"Automatic GA4 page_view must be on: "+filePath);
+ assert.equal(count('})(window,document,"clarity","script","'+clarityId+'")'),1,"Clarity must appear once: "+filePath);
+ assert.equal(count('www.clarity.ms/tag/'),1,"Clarity URL must appear once: "+filePath);
+ assert.equal(count('gtag("consent"'),0,"Do not add custom GA4 consent defaults: "+filePath);
+ assert.equal(count('src="/assets/privacy.js'),0,"Do not include the older tracking loader in new HTML: "+filePath);
+ assert(!html.includes("data-analytics-choice")&&!html.includes("data-analytics-toggle"),"No analytics settings UI: "+filePath);
+ assert.equal(count('src="/assets/site.js?v='+info.buildId+'"'),1,"Shared site JS must load once: "+filePath);
+ assert.equal(count('name="google-adsense-account" content="'+adsPublisher+'"'),1,"AdSense metadata must occur once: "+filePath);
 }
 assert(read("ads.txt").trim()==="google.com, pub-7937216909291905, DIRECT, f08c47fec0942fa0","AdSense ads.txt seller entry missing");
 for(const slug of ["us-state-privacy","european-privacy"]){
  const path=slug+"/index.html";
  const html=read(path);
  assert(urls.includes(base+"/"+slug+"/"),"Regional privacy page missing from XML sitemap: "+slug);
- if(slug==="european-privacy")assert(html.includes('data-analytics-choice="granted"')&&html.includes('data-analytics-choice="denied"'),"European page must provide a genuine analytics consent choice");
- else assert(!html.includes('data-analytics-choice="'),"US state-rights page should not duplicate European cookie consent controls");
+ assert(!html.includes('data-analytics-choice='),"No analytics setting buttons: "+slug);
  assert(html.includes('href="/privacy/"'),"Regional notice must link to Privacy Policy: "+slug);
  assert(read("index.html").includes('href="/'+slug+'/"'),"Regional privacy page must be linked in site footer: "+slug);
 }
 const privacyNotice=read("privacy/index.html");
 assert(privacyNotice.includes("Google AdSense publisher script"),"Privacy policy must disclose AdSense");
-assert(!read("assets/privacy.js").includes("previouslyAccepted")&&!read("assets/privacy.js").includes("OPT_OUT_KEY"),"Obsolete testing controls must not gate GA4 or Clarity");
+assert(!read("assets/privacy.js").includes("localStorage")&&!read("assets/privacy.js").includes('gtag("consent"'),"Legacy runtime must have no local preference gates");
 const robotsRules=read("robots.txt");
 assert(robotsRules.includes("User-agent: *")&&robotsRules.includes("Allow: /"),"robots.txt must permit public pages");
 assert(robotsRules.includes(base+"/sitemap.xml")&&robotsRules.includes(base+"/news-sitemap.xml"),"robots.txt must include both sitemaps");
