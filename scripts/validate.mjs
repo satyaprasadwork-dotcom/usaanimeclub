@@ -936,4 +936,4 @@ for(const a of articles){
 assert(read("about/index.html").includes('id="editor-in-chief"'),"Editor-in-Chief bio anchor absent");
 assert(read("editorial-policy/index.html").includes("Satya Prasad"),"Editorial-policy leadership absent");
 
-console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; privacy consent simulations; SEO uniqueness; sitemap freshness.");
+console.log("PASS: "+urls.length+" pages; "+testedLinks+" internal references; "+schemas+" structured-data blocks; "+articles.length+" news items; standard analytics tag checks; SEO uniqueness; sitemap freshness.");
