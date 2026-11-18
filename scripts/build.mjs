@@ -13,6 +13,15 @@ function buildSite(articles){
   const reviewSeries=JSON.parse(readFileSync(resolve(ROOT,"content/review-series.json"),"utf8"));
   const publishedReviews=JSON.parse(readFileSync(resolve(ROOT,"content/reviews.json"),"utf8"));
   const editorialFormats=JSON.parse(readFileSync(resolve(ROOT,"content/editorial-formats.json"),"utf8"));
+  // Five reviewed, original article illustrations are stored as immutable raster
+  // assets. Articles without a record retain the generated SVG/PNG fallback.
+  const featuredImages=JSON.parse(readFileSync(resolve(ROOT,"content/featured-images.json"),"utf8"));
+  for(const [slug,image] of Object.entries(featuredImages)){
+    if(!articles.some(a=>a.slug===slug))throw Error("Approved featured image has no article: "+slug);
+    if(image.webp!=="assets/editorial-images/"+slug+".webp"||image.jpg!=="assets/editorial-images/"+slug+".jpg")throw Error("Invalid featured image path: "+slug);
+    if(image.source!=="original-ai-generated-editorial"||!image.alt||image.alt.length<30)throw Error("Missing illustration provenance or alt text: "+slug);
+    for(const file of [image.webp,image.jpg])if(!existsSync(resolve(ROOT,file)))throw Error("Approved illustration missing: "+file);
+  }
   // Deterministic build ID: changes whenever generator, content, CSS or runtime changes.
   // No changing timestamps/commit SHA are embedded, so CI regeneration stays stable.
   const buildId=createHash("sha256")
@@ -25,6 +34,8 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"content/review-series.json")))
     .update(readFileSync(resolve(ROOT,"content/reviews.json")))
     .update(readFileSync(resolve(ROOT,"content/editorial-formats.json")))
+    .update(readFileSync(resolve(ROOT,"content/featured-images.json")))
+    .update(Object.values(featuredImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
     .update(readFileSync(resolve(ROOT,"scripts/review-experience.mjs")))
     .update(readFileSync(resolve(ROOT,"scripts/pagination.mjs")))
     .update(JSON.stringify(articles))
@@ -60,6 +71,12 @@ function buildSite(articles){
   const items=articles.filter(a=>a.slug!==chapter39Slug).sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const url=a=>a.slug===chapter39Slug?chapter39Path:"/news/"+a.slug+"/";
+  const imageFor=a=>{
+    const approved=featuredImages[a.slug];
+    return approved
+      ? {visual:"/"+approved.webp,social:"/"+approved.jpg,alt:approved.alt}
+      : {visual:"/assets/news/"+a.slug+".svg",social:"/assets/news/"+a.slug+".png",alt:"Original conceptual illustration for "+a.title};
+  };
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
   const fmtUpdate=t=>new Date(t).toLocaleString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",hour12:true})+" UTC";
   const ld=x=>JSON.stringify(x).replace(/</g,"\\u003c");
@@ -81,7 +98,7 @@ function buildSite(articles){
   // The shared shell owns the standard GA4 and Clarity tags.
   // All generated pages inherit one copy; never paste duplicates into articles.
   function shell({path,title,desc,kw,main,schemas=[],image,article=false,noindex=false}){
-    const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(title)}">`:"";
+    const absolute=BASE+path,ogimage=image?`<meta property="og:image" content="${BASE+image}"><meta property="og:image:type" content="${image.endsWith(".jpg")?"image/jpeg":"image/png"}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:image" content="${BASE+image}"><meta name="twitter:image:alt" content="${e(title)}">`:"";
     const selected=path.startsWith("/news/category/")?({"anime":"Anime","manga":"Manga","manhwa":"Manhwa","web-novels":"Web Novels"}[path.split("/")[3]]||"News"):path.startsWith("/news/")?"News":path.startsWith("/reviews/")?"Reviews":path.startsWith("/about/")?"About":path.startsWith("/contact/")?"Contact":"Latest";
     const nav=[["Latest","/"],["News","/news/"],["Anime","/news/category/anime/"],["Manga","/news/category/manga/"],["Manhwa","/news/category/manhwa/"],["Web Novels","/news/category/web-novels/"],["Reviews","/reviews/"],["About","/about/"]].map(([n,p])=>`<a href="${p}"${n===selected?' aria-current="page"':""}>${n}</a>`).join("");
     return `<!doctype html>
@@ -139,7 +156,7 @@ ${newsTicker}
   function card(a){
     return `<a class="news-card" href="${url(a)}" data-news-category="${e(a.category)}">
 <div class="card-folio"><span class="card-category">${e(a.category)}</span></div>
-<div class="card-media"><img src="/assets/news/${a.slug}.svg" width="1200" height="675" loading="lazy" alt="Original editorial title graphic for ${e(a.title)}"></div>
+<div class="card-media"><img src="${imageFor(a).visual}" width="1200" height="675" loading="lazy" decoding="async" alt="${e(imageFor(a).alt)}"></div>
 <div class="tx"><div class="card-meta"><span>Published</span><time datetime="${a.date}">${fmt(a.date)}</time></div>
 <h3>${e(a.title)}</h3><p class="card-summary">${e(a.description)}</p>
 <div class="card-footer"><span>USA ANIME CLUB</span><span class="card-read">READ STORY</span></div></div></a>`;
@@ -154,7 +171,7 @@ ${newsTicker}
 <a class="text-link" href="/news/">Explore the news archive</a>
 </div></section>
 <section class="front-lead" id="latest"><div class="wrap lead-grid">
-<a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-folio"><span class="card-category">${e(first.category)}</span></div><div class="feature-media"><img src="/assets/news/${first.slug}.svg" width="1200" height="675" alt="USA Anime Club editorial graphic for ${e(first.title)}" fetchpriority="high"></div>
+<a class="feature-card" data-news-category="${e(first.category)}" href="${url(first)}"><div class="feature-folio"><span class="card-category">${e(first.category)}</span></div><div class="feature-media"><img src="${imageFor(first).visual}" width="1200" height="675" alt="${e(imageFor(first).alt)}" fetchpriority="high"></div>
 <div class="feature-copy"><span class="story-kicker"><span class="lead-label">LEAD STORY</span> ${e(first.category)} · ${fmt(first.date)}</span>
 <h2>${e(first.title)}</h2><p>${e(first.description)}</p><span class="read-story">Read the report</span></div></a>
 <aside class="latest-rail" aria-label="More recent anime reports"><div class="rail-title"><div><span class="eyebrow">THE WIRE</span><h2>Latest updates</h2></div><span class="rail-count">${Math.min(3,items.length-1)} STORIES</span></div>
@@ -173,7 +190,7 @@ ${newsTicker}
 <a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
   const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
   const homeDesc="Source-linked anime, manga, manhwa and web-novel reporting for US readers, with release dates and publisher announcements.";
-  files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:`/assets/news/${first.slug}.png`,schemas:[
+  files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:imageFor(first).social,schemas:[
 {"@context":"https://schema.org",...org},
 {"@context":"https://schema.org","@type":"WebSite","@id":BASE+"/#website",url:BASE+"/",name:BRAND,inLanguage:"en-US",publisher:{"@id":BASE+"/#organization"}},
 pageLd("/",homeTitle,homeDesc)]});
@@ -248,7 +265,7 @@ ${pag}</div></section>`;
 
     const evidence=(a.references||[]).filter(r=>r.url&&r.label);
     for(const r of evidence){if(!r.url.startsWith("https://")||!/^\d{4}-\d{2}-\d{2}$/.test(r.date))throw Error("Invalid article reference "+a.slug);}
-    const path=url(a),pic=`/assets/news/${a.slug}.svg`,title=a.title+" | USA Anime Club";
+    const path=url(a),pic=imageFor(a).visual,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     const contents=`<a href="#quick-answer">Quick answer</a>`+a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("")+`<a href="#primary-source">Primary source</a>`;
     const crumbs=a.slug===chapter39Slug?[["Home","/"],["Reviews","/reviews/"],["Manga Chapter Reviews","/reviews/manga/"],["Boruto: Two Blue Vortex","/reviews/manga/boruto-two-blue-vortex/"],[a.title,path]]:[["Home","/"],["News","/news/"],[a.title,path]];
@@ -276,8 +293,8 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
 <section class="related-section" aria-labelledby="related-news"><div class="section-head"><div><span class="eyebrow">KEEP READING</span><h2 id="related-news">Related coverage</h2></div><a class="text-link" href="/news/">All reports</a></div>
 <div class="grid">${relatedStories.map(card).join("")}</div></section>
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
-    const schema={"@context":"https://schema.org","@type":editorialFormats[a.slug]==="news"?"NewsArticle":"Article","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+pic.replace(/\.svg$/,".png")],datePublished:a.date,dateModified:a.modifiedAt||(a.modified||a.date),wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
-    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:pic.replace(/\.svg$/,".png"),schemas:[schema,bc(crumbs)]});
+    const schema={"@context":"https://schema.org","@type":editorialFormats[a.slug]==="news"?"NewsArticle":"Article","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+imageFor(a).social],datePublished:a.date,dateModified:a.modifiedAt||(a.modified||a.date),wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
+    files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:imageFor(a).social,schemas:[schema,bc(crumbs)]});
     // Original 16:9 concept imagery from each story-specific editorial visual brief.
     files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
     files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
