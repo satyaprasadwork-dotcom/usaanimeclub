@@ -207,10 +207,11 @@
   },
   "apothecary-diaries-season-3-us-watch-schedule-dub-status": {
     "scene": "screen",
-    "label": "SEASON THREE",
-    "question": "When are Season 3 subtitles and English-dubbed episodes scheduled in the US?",
-    "action": "Check Friday at 8:00 a.m. PT in the updated Crunchyroll seasonal listing, then confirm the audio options on the individual episode page.",
-    "updated": "2026-11-15"
+    "label": "DUB & SUBTITLES",
+    "question": "Where can US viewers find the current English dub and subtitled Season 3 episodes?",
+    "action": "Use Crunchyroll’s episode-level audio selectors. Season 3 launched October 2, 2026 and its English dub began October 16; the next cour is due April 2027.",
+    "updated": "2026-11-18",
+    "updatedAt": "2026-11-18T05:51:37Z"
   },
   "royal-road-november-2026-writathon-serial-fiction": {
     "scene": "clock",
@@ -601,5 +602,110 @@
     "action": "No. The artwork highlights shadow soldiers; Beyond the System was separately announced as a film.",
     "updated": "2026-11-17",
     "updatedAt": "2026-11-17T10:58:00Z"
+  },
+  "dragon-ball-super-beerus-vs-battle-of-gods-2026": {
+    "scene": "compare",
+    "label": "ENHANCED EDITION",
+    "question": "Is Beerus a completely new Dragon Ball story?",
+    "action": "Compare Toei’s stated reworked footage, fresh sound and reconstructed narrative with Battle of Gods and the original Super opening. Avoid describing it as an entirely new sequel.",
+    "updated": "2026-11-18"
+  },
+  "black-clover-season-2-catch-up-watch-order": {
+    "scene": "reader",
+    "label": "RETURNING VIEWERS",
+    "question": "What should you rewatch before Black Clover Season 2?",
+    "action": "Refresh the Black Bulls, Asta and Yuno’s rivalry and the stakes after the first anime run; this is a catch-up feature, not a second streaming timetable.",
+    "updated": "2026-11-18"
+  },
+  "steel-ball-run-watch-jojo-parts-before": {
+    "scene": "portal",
+    "label": "STARTING JOJO",
+    "question": "Must you complete JoJo Parts 1–6 before Steel Ball Run?",
+    "action": "Steel Ball Run begins a different continuity. Prior parts enrich thematic connections, but you can follow Johnny, Gyro and the race on their own.",
+    "updated": "2026-11-18"
+  },
+  "firefly-wedding-anime-english-manga-us-guide": {
+    "scene": "books",
+    "label": "WATCH OR READ",
+    "question": "Where should a US newcomer start Firefly Wedding?",
+    "action": "The anime streams on Crunchyroll and VIZ publishes the official English manga. Consider the story’s psychological intensity before choosing an edition.",
+    "updated": "2026-11-18"
+  },
+  "blue-box-season-2-netflix-us-manga-guide": {
+    "scene": "screen",
+    "label": "NETFLIX GUIDE",
+    "question": "Where is Blue Box Season 2 available to US viewers?",
+    "action": "Netflix announced weekly Season 2 episodes beginning October 4, 2026. Follow the title’s live episode list for current release timing.",
+    "updated": "2026-11-18"
+  },
+  "one-piece-netflix-november-2026-episodes-guide": {
+    "scene": "screen",
+    "label": "CATALOG CHECK",
+    "question": "Are the reported November Netflix episodes official?",
+    "action": "The Whole Cake Island update was reported by an independent Netflix tracker, not Netflix’s press office. Verify the current catalog within a US Netflix account.",
+    "updated": "2026-11-18"
+  },
+  "apothecary-diaries-late-ladys-treasure-movie-us": {
+    "scene": "cinema",
+    "label": "THEATRICAL STATUS",
+    "question": "Does the December 11 movie release date apply to US theaters?",
+    "action": "December 11, 2026 is the announced Japanese opening. Crunchyroll confirmed broader distribution plans, but check for a separate US theater and ticket announcement.",
+    "updated": "2026-11-18"
+  },
+  "ranma-season-3-netflix-reboot-vs-original": {
+    "scene": "compare",
+    "label": "CLASSIC OR REBOOT",
+    "question": "Does modern Ranma ½ Season 3 continue the 1989 anime?",
+    "action": "The Netflix series is a new manga adaptation. Compare the original and newer series without assuming continuity or identical episode organization.",
+    "updated": "2026-11-18"
+  },
+  "mashle-season-3-january-2027-streaming-guide": {
+    "scene": "calendar",
+    "label": "WINTER 2027",
+    "question": "Is Mashle Season 3 confirmed for January?",
+    "action": "Crunchyroll confirmed streaming the Tri-Magicathlon Divine Visionary Final Exam Arc in January 2027. Do not invent a US release hour before it is announced.",
+    "updated": "2026-11-18"
+  },
+  "jujutsu-kaisen-season-4-culling-game-confirmed": {
+    "scene": "calendar",
+    "label": "SEASON FOUR",
+    "question": "Is a precise Jujutsu Kaisen Season 4 date announced?",
+    "action": "Production of Culling Game Part 2 is confirmed, but use the official series updates rather than speculative day-and-hour claims.",
+    "updated": "2026-11-18"
+  },
+  "chainsaw-man-assassins-arc-after-reze-anime": {
+    "scene": "reader",
+    "label": "NEXT ANIME ARC",
+    "question": "Where does Chainsaw Man’s Assassins Arc sit after Reze?",
+    "action": "The anime continuation is confirmed; stick to the officially described arc premise and avoid revealing manga outcomes or inventing a premiere schedule.",
+    "updated": "2026-11-18"
+  },
+  "even-the-student-council-has-its-holes-anime-ranking": {
+    "scene": "trophy",
+    "label": "FAN POLL",
+    "question": "Does a high Anime Corner placement mean high US viewership?",
+    "action": "No. The poll reflects participating fans rather than verified US watch totals. Use the original poll for its rank and a separate official source for anime details.",
+    "updated": "2026-11-18"
+  },
+  "ramparts-of-ice-season-2-netflix-character-guide": {
+    "scene": "screen",
+    "label": "CHARACTER GUIDE",
+    "question": "How do Koyuki, Minato, Miki and Yota relate in Season 2?",
+    "action": "Netflix confirmed weekly episodes from October 1 Pacific / October 2 Japan. Start with Season 1 if you need the four leads’ history.",
+    "updated": "2026-11-18"
+  },
+  "fool-night-netflix-november-2026-manga": {
+    "scene": "cinema",
+    "label": "NOVEMBER 26",
+    "question": "When does Fool Night premiere on Netflix?",
+    "action": "Netflix’s November 5 announcement says all episodes begin streaming November 26, 2026. The article previews the premise and not yet released episodes.",
+    "updated": "2026-11-18"
+  },
+  "black-butler-netflix-us-canon-watch-order": {
+    "scene": "reader",
+    "label": "CANON WATCH ORDER",
+    "question": "Which Black Butler entries follow the manga, and which diverge?",
+    "action": "Use a spoiler-aware canon guide and independently check US Netflix or Crunchyroll listings; a title page does not prove every season is available.",
+    "updated": "2026-11-18"
   }
 }
