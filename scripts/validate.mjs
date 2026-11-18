@@ -356,7 +356,7 @@ for(const pageUrl of urls){
 }
 unique(titles,"SEO titles");unique(descriptions,"SEO descriptions");unique(keywords,"SEO keywords");
 const expectedNews=newsArticles.filter(a=>{
- const published=Date.parse(a.date+"T12:00:00Z");
+ const published=Date.parse(a.date+"T00:00:00Z");
  return editorialFormats[a.slug]==="news"&&published<=Date.now()&&Date.now()-published<=48*60*60*1000;
 }).map(a=>base+"/news/"+a.slug+"/");
 const newsXml=read("news-sitemap.xml");
