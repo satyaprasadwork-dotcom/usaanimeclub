@@ -180,9 +180,10 @@
   "bocchi-the-rock-hoshi-no-ashiato-2027-prequel-film-us-release": {
     "scene": "cinema",
     "label": "PREQUEL FILM",
-    "question": "Has an overseas theatrical date been confirmed?",
-    "action": "Check the production announcement for the Japan premiere and look for a separate US distributor notice before planning a screening.",
-    "updated": "2026-11-15"
+    "question": "Is Hoshi no Ashiato a new Bocchi the Rock TV season?",
+    "action": "No. The 2027 prequel film follows Nijika and Seika before Kessoku Band; no US theatrical day is confirmed.",
+    "updated": "2026-11-18",
+    "updatedAt": "2026-11-18T06:40:24Z"
   },
   "overgeared-anime-korean-novel-webtoon-crunchyroll-us-streaming": {
     "scene": "screen",
@@ -291,11 +292,12 @@
     "updated": "2026-11-15"
   },
   "sakamoto-days-season-2-january-2027-netflix-release-what-to-know": {
-    "scene": "screen",
-    "label": "JCC RETURNS",
-    "question": "When does Sakamoto Days Season 2 reach US Netflix?",
-    "action": "Netflix confirms January 2027 and an undercover JCC story; the cited notices do not give a specific US premiere day or complete episode schedule.",
-    "updated": "2026-11-15"
+    "scene": "clock",
+    "label": "PREMIERE DATE",
+    "question": "What is new in the November 18 Sakamoto Days update?",
+    "action": "The exact January 18, 2027 Japanese debut and Creepy Nuts opening theme are new; check Netflix separately for a local episode time.",
+    "updated": "2026-11-18",
+    "updatedAt": "2026-11-18T06:40:24Z"
   },
   "cyberpunk-edgerunners-season-2-netflix-availability-what-connects-both-seasons": {
     "scene": "screen",
@@ -706,6 +708,97 @@
     "label": "CANON WATCH ORDER",
     "question": "Which Black Butler entries follow the manga, and which diverge?",
     "action": "Use a spoiler-aware canon guide and independently check US Netflix or Crunchyroll listings; a title page does not prove every season is available.",
+    "updated": "2026-11-18"
+  },
+  "cyberpunk-edgerunners-2-game-awards-2026-best-adaptation-nomination": {
+    "scene": "trophy",
+    "label": "GAME AWARDS",
+    "question": "Did Cyberpunk: Edgerunners 2 win The Game Awards?",
+    "action": "No. It is a Best Adaptation nominee. The award result comes at the December 10, 2026 ceremony.",
+    "updated": "2026-11-18"
+  },
+  "spy-x-family-season-4-second-anime-movie-2027": {
+    "scene": "screen",
+    "label": "TWO PRODUCTIONS",
+    "question": "Are SPY x FAMILY Season 4 and its new movie the same production?",
+    "action": "No. They are separate 2027 projects. US release and streaming schedules require distinct announcements.",
+    "updated": "2026-11-18"
+  },
+  "my-hero-academia-season-6-netflix-us-november-19-2026": {
+    "scene": "screen",
+    "label": "NETFLIX US",
+    "question": "Will Netflix US show My Hero Academia Season 6 on November 19?",
+    "action": "A third-party source reports the November 19 catalog addition; verify directly on a US Netflix account before treating it as live.",
+    "updated": "2026-11-18"
+  },
+  "giant-ojosama-hidive-winter-2027-anime-frontier-premiere": {
+    "scene": "cinema",
+    "label": "TEXAS SCREENING",
+    "question": "Is the December 4 Giant Ojosama premiere a national streaming launch?",
+    "action": "No. December 4 is the Anime Frontier premiere in Texas; HIDIVE's broader US simulcast begins January 2027.",
+    "updated": "2026-11-18"
+  },
+  "otherworldly-munchkin-january-7-2027-trailer-crunchyroll": {
+    "scene": "calendar",
+    "label": "JANUARY 7",
+    "question": "Is the January 7 Otherworldly Munchkin premiere already timed for the US?",
+    "action": "January 7 is Japan's premiere. Check Crunchyroll's US schedule before assuming an exact episode or dub hour.",
+    "updated": "2026-11-18"
+  },
+  "made-in-abyss-awakening-mystery-hidive-anime-frontier-2026": {
+    "scene": "cinema",
+    "label": "NORTH AMERICAN PREMIERE",
+    "question": "Can any US viewer see the new Made in Abyss film on December 5?",
+    "action": "No. December 5 is the Anime Frontier screening. A wider HIDIVE distribution window is separately planned for 2027.",
+    "updated": "2026-11-18"
+  },
+  "the-dangers-in-my-heart-season-3-april-2027-teaser": {
+    "scene": "calendar",
+    "label": "APRIL 2027",
+    "question": "Does The Dangers in My Heart Season 3 have a US streaming date?",
+    "action": "Only April 2027 Japanese TV is confirmed; check the regional streamer later for US licensing and episodes.",
+    "updated": "2026-11-18"
+  },
+  "laid-back-camp-season-4-april-2027-new-trailer": {
+    "scene": "calendar",
+    "label": "SPRING SEQUEL",
+    "question": "Does Laid-Back Camp Season 4 have a confirmed US premiere day?",
+    "action": "April 2027 refers to the Japanese premiere window; verify American streaming schedules closer to launch.",
+    "updated": "2026-11-18"
+  },
+  "little-sharks-day-out-second-film-memories-water-town": {
+    "scene": "cinema",
+    "label": "SECOND FILM",
+    "question": "Does the second Little Shark's Day Out movie have a US release?",
+    "action": "Not yet. The second film is announced, but a US theatrical or streaming date remains unverified.",
+    "updated": "2026-11-18"
+  },
+  "eternal-fools-words-of-wisdom-january-9-2027-trailer": {
+    "scene": "calendar",
+    "label": "JANUARY 9",
+    "question": "Is January 9 the confirmed US premiere hour for Eternal Fool?",
+    "action": "January 9, 2027 is Japan's broadcast date. Check a US platform for regional times.",
+    "updated": "2026-11-18"
+  },
+  "kusunokis-flunking-her-high-school-glow-up-april-2027": {
+    "scene": "calendar",
+    "label": "ROMANCE ADAPTATION",
+    "question": "Which US streamer has confirmed Kusunoki's adaptation?",
+    "action": "The Japanese TV premiere is due April 2027; no verified US streaming service is yet established.",
+    "updated": "2026-11-18"
+  },
+  "mistress-kanan-2-easy-season-2-2027-new-trailer": {
+    "scene": "screen",
+    "label": "2 EASY",
+    "question": "Was Mistress Kanan Season 2 only announced on November 17?",
+    "action": "No. The November 17 announcement introduced the 2 EASY branding, preview video and four new actors.",
+    "updated": "2026-11-18"
+  },
+  "witch-on-the-holy-night-k-manga-english-release-november-2026": {
+    "scene": "books",
+    "label": "MANGA RELEASE",
+    "question": "Is November 20 the US opening for Witch on the Holy Night?",
+    "action": "No. November 20 is the Japanese film opening; K MANGA already released the English chapter on November 10.",
     "updated": "2026-11-18"
   }
 }
