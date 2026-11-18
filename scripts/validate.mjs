@@ -10,6 +10,7 @@ const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 const read=p=>readFileSync(resolve(root,p),"utf8");
 const articles=JSON.parse(read("content/articles.json"));
 const editorialFormats=JSON.parse(read("content/editorial-formats.json"));
+const featuredImages=JSON.parse(read("content/featured-images.json"));
 assert.deepEqual(Object.keys(editorialFormats).sort(),articles.map(a=>a.slug).sort(),"Every article needs a declared format");
 for(const a of articles)assert(["news","feature"].includes(editorialFormats[a.slug]),"Invalid editorial type "+a.slug);
 const base="https://usaanimeclub.com";
@@ -705,27 +706,56 @@ for(const u of urls){
 assert(read("assets/styles.css").includes(".news-ticker.is-paused .news-ticker-track"),"Pause-state CSS missing");
 
 
-// Social cards use rasterized editions of the same original editorial artwork.
-// SVG-only OG cards are unsupported by several social preview crawlers.
+// The 5-image pilot uses original WebP artwork in cards and articles, and JPEG
+// social previews. Unlisted stories retain the generated SVG/PNG fallback.
 function checkPng(path,width,height){
  const data=readFileSync(resolve(root,path));
  assert(data.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),"Invalid PNG signature "+path);
  assert.equal(data.readUInt32BE(16),width,"PNG width mismatch "+path);
  assert.equal(data.readUInt32BE(20),height,"PNG height mismatch "+path);
 }
+function checkApprovedImage(path,type){
+ const data=readFileSync(resolve(root,path));
+ assert(data.length>40000,"Approved illustration unexpectedly small: "+path);
+ if(type==="webp"){
+   assert.equal(data.toString("ascii",0,4),"RIFF","Invalid WebP container "+path);
+   assert.equal(data.toString("ascii",8,12),"WEBP","Invalid WebP signature "+path);
+   assert.equal(data.toString("ascii",12,16),"VP8 ","Expected lossy WebP "+path);
+   assert.equal(data.readUInt16LE(26)&0x3fff,1200,"WebP width mismatch "+path);
+   assert.equal(data.readUInt16LE(28)&0x3fff,675,"WebP height mismatch "+path);
+ }else{
+   assert.equal(data.readUInt16BE(0),0xffd8,"Invalid JPEG signature "+path);
+   assert.equal(data.readUInt16BE(data.length-2),0xffd9,"Invalid JPEG end marker "+path);
+ }
+}
 checkPng("assets/logo.png",256,256);
+assert.equal(Object.keys(featuredImages).length,5,"Pilot must affect exactly five articles");
+for(const slug of Object.keys(featuredImages))assert(articles.some(a=>a.slug===slug),"Orphaned approved image: "+slug);
 for(const a of articles){
- const image="/assets/news/"+a.slug+".png",canonical=base+image;
+ const chosen=featuredImages[a.slug];
+ const image=chosen?"/"+chosen.jpg:"/assets/news/"+a.slug+".png",canonical=base+image;
  checkPng("assets/news/"+a.slug+".png",1200,675);
  const html=read(articlePath(a).slice(1)+"index.html");
  assert(html.includes('property="og:image" content="'+canonical+'"'),"Social OG image incorrect "+a.slug);
  assert(html.includes('name="twitter:image" content="'+canonical+'"'),"Social share image incorrect "+a.slug);
  const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(x=>JSON.parse(x[1]));
  assert(scripts.some(x=>x["@type"]===(editorialFormats[a.slug]==="news"?"NewsArticle":"Article")&&x.image?.includes(canonical)),"Schema image not raster "+a.slug);
+ if(chosen){
+  assert(chosen.webp==="assets/editorial-images/"+a.slug+".webp"&&chosen.jpg==="assets/editorial-images/"+a.slug+".jpg","Invalid image manifest path "+a.slug);
+  assert(chosen.source==="original-ai-generated-editorial"&&chosen.alt?.length>30,"Missing image provenance "+a.slug);
+  checkApprovedImage(chosen.webp,"webp");checkApprovedImage(chosen.jpg,"jpeg");
+  assert(html.includes('class="post-hero" src="/'+chosen.webp+'"'),"Article hero does not use approved artwork "+a.slug);
+  assert(html.includes('property="og:image:type" content="image/jpeg"'),"JPEG social MIME missing "+a.slug);
+ }else{
+  assert(html.includes('class="post-hero" src="/assets/news/'+a.slug+'.svg"'),"Generic article fallback missing "+a.slug);
+ }
 }
 const firstArticle=articles.find(a=>read("index.html").includes('class="feature-card" data-news-category="'+a.category+'" href="/news/'+a.slug+'/'));
 assert(firstArticle,"Cannot identify homepage feature article");
-assert(read("index.html").includes('content="'+base+'/assets/news/'+firstArticle.slug+'.png"'),"Homepage OG social preview not raster");
+const cover=featuredImages[firstArticle.slug];
+const homeImage=cover?"/"+cover.jpg:"/assets/news/"+firstArticle.slug+".png";
+assert(read("index.html").includes('content="'+base+homeImage+'"'),"Homepage social image incorrect");
+if(cover)assert(read("index.html").includes('src="/'+cover.webp+'"'),"Homepage must show the approved cover image");
 for(const name of readdirSync(resolve(root,"assets/news"))){
  if(name.endsWith(".png"))assert(sourceSlugs.has(name.slice(0,-4)),"Orphaned PNG art "+name);
 }
