@@ -744,7 +744,9 @@ for(const a of articles){
   assert(chosen.webp==="assets/editorial-images/"+a.slug+".webp"&&chosen.jpg==="assets/editorial-images/"+a.slug+".jpg","Invalid image manifest path "+a.slug);
   assert(chosen.source==="original-ai-generated-editorial"&&chosen.alt?.length>30,"Missing image provenance "+a.slug);
   checkApprovedImage(chosen.webp,"webp");checkApprovedImage(chosen.jpg,"jpeg");
-  assert(html.includes('class="post-hero" src="/'+chosen.webp+'"'),"Article hero does not use approved artwork "+a.slug);
+  assert(html.includes('class="post-hero" src="/'+chosen.webp+'" width="1200" height="675" alt="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Article hero must use approved artwork with descriptive alt text "+a.slug);
+  assert(html.includes('property="og:image:alt" content="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Open Graph image alt text missing "+a.slug);
+  assert(html.includes('name="twitter:image:alt" content="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Twitter image alt text missing "+a.slug);
   assert(html.includes('property="og:image:type" content="image/jpeg"'),"JPEG social MIME missing "+a.slug);
  }else{
   assert(html.includes('class="post-hero" src="/assets/news/'+a.slug+'.svg"'),"Generic article fallback missing "+a.slug);
