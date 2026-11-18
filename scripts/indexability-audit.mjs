@@ -57,7 +57,7 @@ for(const entry of rows){
 }
 const newsUrls=[...news.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 const newsExpected=articles.filter(a=>{
- const published=Date.parse(a.date+"T12:00:00Z");
+ const published=Date.parse(a.date+"T00:00:00Z");
  return formats[a.slug]==="news"&&published<=Date.now()&&Date.now()-published<=48*60*60*1000;
 }).map(a=>base+"/news/"+a.slug+"/");
 assert.deepEqual(newsUrls.sort(),newsExpected.sort(),"Google News XML includes features/stale URLs or misses news");
