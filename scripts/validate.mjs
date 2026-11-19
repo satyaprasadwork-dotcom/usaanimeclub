@@ -755,7 +755,7 @@ for(const a of articles){
  const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(x=>JSON.parse(x[1]));
  assert(scripts.some(x=>x["@type"]===(editorialFormats[a.slug]==="news"?"NewsArticle":"Article")&&x.image?.includes(canonical)),"Schema image not raster "+a.slug);
  if(chosen){
-  assert(chosen.webp==="assets/editorial-images/"+a.slug+".webp"&&chosen.jpg==="assets/editorial-images/"+a.slug+".jpg","Invalid image manifest path "+a.slug);
+  const revision=chosen.revision??0,suffix=revision?"-rev-"+revision:"";assert(Number.isSafeInteger(revision)&&revision>=0&&chosen.webp==="assets/editorial-images/"+a.slug+suffix+".webp"&&chosen.jpg==="assets/editorial-images/"+a.slug+suffix+".jpg","Invalid image manifest path "+a.slug);
   assert(chosen.source==="original-ai-generated-editorial"&&chosen.alt?.length>30,"Missing image provenance "+a.slug);
   checkApprovedImage(chosen.webp,"webp");checkApprovedImage(chosen.jpg,"jpeg");
   assert(html.includes('class="post-hero" src="/'+chosen.webp+'" width="1200" height="675" alt="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Article hero must use approved artwork with descriptive alt text "+a.slug);
