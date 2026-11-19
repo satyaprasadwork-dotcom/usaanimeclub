@@ -18,7 +18,7 @@ function buildSite(articles){
   const featuredImages=JSON.parse(readFileSync(resolve(ROOT,"content/featured-images.json"),"utf8"));
   for(const [slug,image] of Object.entries(featuredImages)){
     if(!articles.some(a=>a.slug===slug))throw Error("Approved featured image has no article: "+slug);
-    if(image.webp!=="assets/editorial-images/"+slug+".webp"||image.jpg!=="assets/editorial-images/"+slug+".jpg")throw Error("Invalid featured image path: "+slug);
+    const revision=image.revision??0;if(!Number.isSafeInteger(revision)||revision<0)throw Error("Invalid featured image revision: "+slug);const suffix=revision?"-rev-"+revision:"";if(image.webp!=="assets/editorial-images/"+slug+suffix+".webp"||image.jpg!=="assets/editorial-images/"+slug+suffix+".jpg")throw Error("Invalid featured image path: "+slug);
     if(image.source!=="original-ai-generated-editorial"||!image.alt||image.alt.length<30)throw Error("Missing illustration provenance or alt text: "+slug);
     for(const file of [image.webp,image.jpg])if(!existsSync(resolve(ROOT,file)))throw Error("Approved illustration missing: "+file);
   }
