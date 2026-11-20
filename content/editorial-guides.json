@@ -166,9 +166,10 @@
   "winter-2027-anime-confirmed-premieres-us-streaming-status": {
     "scene": "calendar",
     "label": "WINTER 2027",
-    "question": "Which Winter 2027 anime releases have confirmed US streaming platforms?",
-    "action": "Use Crunchyroll's MASHLE and BLESS announcements and VIZ's Hirayasumi Netflix notice; keep Japan-only broadcasts separate.",
-    "updated": "2026-11-15"
+    "question": "Which Winter 2027 anime have confirmed US streaming?",
+    "action": "Crunchyroll has announced MASHLE Season 3, BLESS and Shangri-La Frontier Season 3; VIZ says Hirayasumi will stream internationally on Netflix. Keep Charisma’s Japan-only date separate until a US license is announced.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
   },
   "solo-leveling-season-3-official-status-beyond-the-system-film": {
     "scene": "cinema",
@@ -620,10 +621,11 @@
   },
   "steel-ball-run-watch-jojo-parts-before": {
     "scene": "portal",
-    "label": "STARTING JOJO",
-    "question": "Must you complete JoJo Parts 1–6 before Steel Ball Run?",
-    "action": "Steel Ball Run begins a different continuity. Prior parts enrich thematic connections, but you can follow Johnny, Gyro and the race on their own.",
-    "updated": "2026-11-18"
+    "label": "JOJO ORDER",
+    "question": "Where does Steel Ball Run fit in the JoJo watch order?",
+    "action": "The first-watch release order is Parts 1–6, then Steel Ball Run. Part 7 begins a new continuity and can be watched independently; prior parts add franchise context, not required plot setup.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
   },
   "firefly-wedding-anime-english-manga-us-guide": {
     "scene": "books",
@@ -838,11 +840,11 @@
   },
   "one-piece-vs-naruto-vs-bleach-which-to-watch-first": {
     "scene": "compare",
-    "label": "START HERE",
-    "question": "Which of the Big 3 should I watch first?",
-    "action": "Pick One Piece for a huge ongoing adventure, Naruto for a character-driven coming-of-age story, or Bleach for supernatural action with a more bounded TV run.",
+    "label": "BIG THREE",
+    "question": "Which Big Three anime should I watch first in 2026?",
+    "action": "Choose One Piece for an ongoing epic, Naruto for a completed coming-of-age saga, or Bleach for supernatural sword action. Use episode counts with care because the franchises have different sequel scopes.",
     "updated": "2026-11-20",
-    "updatedAt": "2026-11-20T10:15:42Z"
+    "updatedAt": "2026-11-20T14:24:00Z"
   },
   "dragon-ball-z-vs-kai-differences-which-version-to-watch": {
     "scene": "compare",
@@ -923,6 +925,70 @@
     "action": "Usually you can skip clearly standalone anime-original arcs for a manga-focused watch, but keep mixed episodes unless a reliable guide identifies their canon scenes.",
     "updated": "2026-11-20",
     "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "firefly-wedding-anime-us-episode-schedule-stream-dub": {
+    "scene": "screen",
+    "label": "FRIDAY 9 AM PT",
+    "question": "Where can US viewers watch Firefly Wedding and its English dub?",
+    "action": "Crunchyroll lists the subtitled simulcast Fridays at 9:00 a.m. Pacific and the dub weekly from October 23, 2026. Check the current title page for episode-specific language tracks and delays.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "one-piece-filler-list-episodes-arcs-watch-skip-guide": {
+    "scene": "compare",
+    "label": "FILLER GUIDE",
+    "question": "Which One Piece episodes are safe to skip?",
+    "action": "Skip clearly standalone anime-original blocks only if you want a manga-focused route. Keep mixed episodes unless a detailed, current guide confirms their manga scenes are not needed.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "attack-on-titan-watch-order-seasons-ovas-final-specials": {
+    "scene": "screen",
+    "label": "AOT ORDER",
+    "question": "What is the simplest Attack on Titan watch order?",
+    "action": "Watch the TV seasons in release order through The Final Chapters. The eight OADs are optional extras; place character-focused entries after their relevant introductions to avoid spoilers.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "my-hero-academia-watch-order-seasons-movies-vigilantes-more": {
+    "scene": "screen",
+    "label": "MHA ORDER",
+    "question": "What is the complete main My Hero Academia watch order?",
+    "action": "Watch Seasons 1–7, the Final Season through No.170, then No.170+1 “More.” The four films and Vigilantes are optional companion stories.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "best-short-anime-for-beginners-under-26-episodes": {
+    "scene": "compare",
+    "label": "UNDER 26 EPS",
+    "question": "Which short anime should a beginner start with?",
+    "action": "Choose by mood: ODDTAXI for a mystery, Bocchi the Rock! for comedy and music, A Place Further Than the Universe for a journey, or PLUTO for mature science fiction. Check the US catalog and rating first.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "anime-to-watch-after-frieren-beyond-journeys-end": {
+    "scene": "compare",
+    "label": "AFTER FRIEREN",
+    "question": "What anime should I watch after Frieren?",
+    "action": "For party travel and fantasy ecology try Delicious in Dungeon; for gentle spirits try Natsume’s Book of Friends; for reflective emotion try Violet Evergarden. These are editorial mood matches, not identical stories.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "anime-to-watch-after-jujutsu-kaisen": {
+    "scene": "compare",
+    "label": "AFTER JJK",
+    "question": "What anime is most like Jujutsu Kaisen?",
+    "action": "For dark supernatural action try Chainsaw Man or Hell’s Paradise; for strange humor try Dorohedoro; for psychic fights with more character growth try Mob Psycho 100.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
+  },
+  "dragon-ball-vs-one-piece-which-anime-to-watch-first": {
+    "scene": "compare",
+    "label": "DB OR ONE PIECE",
+    "question": "Should I start Dragon Ball or One Piece?",
+    "action": "Choose original Dragon Ball for a defined 153-episode starting series and a flexible sequel path; choose One Piece for one ongoing crew adventure and a much larger commitment.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:24:00Z"
   },
   "boruto-two-blue-vortex-chapter-40-preview": {
     "scene": "reader",
