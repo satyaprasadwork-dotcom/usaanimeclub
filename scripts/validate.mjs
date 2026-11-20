@@ -12,13 +12,16 @@ const articles=JSON.parse(read("content/articles.json"));
 const editorialFormats=JSON.parse(read("content/editorial-formats.json"));
 const featuredImages=JSON.parse(read("content/featured-images.json"));
 const reviewFeaturedImages=JSON.parse(read("content/review-featured-images.json"));
+const reviews=JSON.parse(read("content/reviews.json"));
 for(const [slug,im] of Object.entries(reviewFeaturedImages)){
   assert.equal(im.webp,"assets/reviews/"+slug+".webp");
   assert.equal(im.jpg,"assets/reviews/"+slug+".jpg");
   assert.equal(im.source,"original-ai-generated-editorial");
   assert(im.alt.length>=30);
   assert(existsSync(resolve(root,im.webp))&&existsSync(resolve(root,im.jpg)),"Missing approved review image: "+slug);
-  const reviewPath="reviews/manga/boruto-two-blue-vortex/"+slug.split("-").slice(-2).join("-")+"/index.html";
+  const review=reviews.find(r=>r.kind+"-"+r.seriesSlug+"-"+r.installmentSlug===slug);
+  assert(review,"Featured review image has no published review: "+slug);
+  const reviewPath="reviews/"+review.kind+"/"+review.seriesSlug+"/"+review.installmentSlug+"/index.html";
   const html=read(reviewPath);
   assert(html.includes('srcset="/'+im.webp+'"'),"WebP missing from "+reviewPath);
   assert(html.includes('src="/'+im.jpg+'"'),"JPEG fallback missing from "+reviewPath);
@@ -36,7 +39,7 @@ unique(urls,"sitemap URLs");
 unique(articles.map(a=>a.slug),"article slugs");
 const chapter39LegacySlug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions"; const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/"; const articlePath=a=>"/news/"+a.slug+"/"; const newsArticles=articles; const expectedArticles=articles.map(a=>base+articlePath(a));
 const series=JSON.parse(read("content/review-series.json"));
-const reviews=JSON.parse(read("content/reviews.json"));
+
 assert(series.length>=6,"The original review series must remain");
 assert(Array.isArray(reviews),"Review records must be an array");
 
