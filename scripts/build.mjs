@@ -17,14 +17,16 @@ function buildSite(articles){
   const reviewSeries=JSON.parse(readFileSync(resolve(ROOT,"content/review-series.json"),"utf8"));
   const publishedReviews=JSON.parse(readFileSync(resolve(ROOT,"content/reviews.json"),"utf8"));
   const editorialFormats=JSON.parse(readFileSync(resolve(ROOT,"content/editorial-formats.json"),"utf8"));
-  // Five reviewed, original article illustrations are stored as immutable raster
-  // assets. Articles without a record retain the generated SVG/PNG fallback.
+  // Original article illustrations may be paired raster assets or SVG wrappers around an embedded generated raster.
   const featuredImages=JSON.parse(readFileSync(resolve(ROOT,"content/featured-images.json"),"utf8"));
   for(const [slug,image] of Object.entries(featuredImages)){
     if(!articles.some(a=>a.slug===slug))throw Error("Approved featured image has no article: "+slug);
-    const revision=image.revision??0;if(!Number.isSafeInteger(revision)||revision<0)throw Error("Invalid featured image revision: "+slug);const suffix=revision?"-rev-"+revision:"";if(image.webp!=="assets/editorial-images/"+slug+suffix+".webp"||image.jpg!=="assets/editorial-images/"+slug+suffix+".jpg")throw Error("Invalid featured image path: "+slug);
+    const revision=image.revision??0;if(!Number.isSafeInteger(revision)||revision<0)throw Error("Invalid featured image revision: "+slug);const suffix=revision?"-rev-"+revision:"";
+    const raster=image.webp==="assets/editorial-images/"+slug+suffix+".webp"&&image.jpg==="assets/editorial-images/"+slug+suffix+".jpg";
+    const svg=image.svg==="assets/editorial-images/"+slug+".svg"&&image.webp===undefined&&image.jpg===undefined;
+    if(!raster&&!svg)throw Error("Invalid featured image path: "+slug);
     if(image.source!=="original-ai-generated-editorial"||!image.alt||image.alt.length<30)throw Error("Missing illustration provenance or alt text: "+slug);
-    for(const file of [image.webp,image.jpg])if(!existsSync(resolve(ROOT,file)))throw Error("Approved illustration missing: "+file);
+    for(const file of svg?[image.svg]:[image.webp,image.jpg])if(!existsSync(resolve(ROOT,file)))throw Error("Approved illustration missing: "+file);
   }
   // Approved, chapter-specific review images; all other review art retains SVG/PNG fallback.
   const reviewFeaturedImages=JSON.parse(readFileSync(resolve(ROOT,"content/review-featured-images.json"),"utf8"));
@@ -49,7 +51,11 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"content/featured-images.json")))
     .update(readFileSync(resolve(ROOT,"content/review-featured-images.json")))
     .update(Object.values(reviewFeaturedImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
-    .update(Object.values(featuredImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
+    .update(Object.values(featuredImages).map(image=>{
+      const paths=image.svg?[image.svg]:[image.webp,image.jpg];
+      const hash=createHash("sha256");for(const path of paths)hash.update(readFileSync(resolve(ROOT,path)));
+      return hash.digest("hex");
+    }).join("|"))
     .update(readFileSync(resolve(ROOT,"scripts/review-experience.mjs")))
     .update(readFileSync(resolve(ROOT,"scripts/pagination.mjs")))
     .update(JSON.stringify(articles))
@@ -84,7 +90,7 @@ function buildSite(articles){
   const imageFor=a=>{
     const approved=featuredImages[a.slug];
     return approved
-      ? {visual:"/"+approved.webp,social:"/"+approved.jpg,alt:approved.alt}
+      ? {visual:"/"+(approved.svg||approved.webp),social:approved.jpg?"/"+approved.jpg:"/assets/news/"+a.slug+".png",alt:approved.alt}
       : {visual:"/assets/news/"+a.slug+".svg",social:"/assets/news/"+a.slug+".png",alt:"Original conceptual illustration for "+a.title};
   };
   const fmt=d=>new Date(d+"T12:00:00Z").toLocaleDateString("en-US",{timeZone:"UTC",month:"long",day:"numeric",year:"numeric"});
@@ -305,9 +311,10 @@ ${evidence.length?`<div class="supporting-sources"><strong>Additional primary re
 <section class="article-preferred-source" aria-label="Google Preferred Sources"><div class="article-preferred-source-copy"><strong>Follow USA Anime Club on Google</strong><p>Choose USA Anime Club as a preferred source for eligible news results.</p></div><a class="preferred-google-link" href="https://www.google.com/preferences/source?q=usaanimeclub.com" target="_blank" rel="noopener noreferrer">Add as a preferred source on Google</a></section></div>`;
     const schema={"@context":"https://schema.org","@type":editorialFormats[a.slug]==="news"?"NewsArticle":"Article","@id":BASE+path+"#article",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:a.title,description:a.description,abstract:a.summary,image:[BASE+imageFor(a).social],datePublished:a.date,dateModified:a.modifiedAt||(a.modified||a.date),wordCount:articleWordCount(a),citation:[a.source,...evidence.map(ref=>ref.url)],about:{"@type":"Thing",name:a.category},author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,inLanguage:"en-US",articleSection:a.category,isAccessibleForFree:true,keywords:a.keywords};
     files[path.slice(1)+"index.html"]=shell({path,title,desc:a.description,kw:a.keywords,main:content,article:true,image:imageFor(a).social,imageAlt:imageFor(a).alt,schemas:[schema,bc(crumbs)]});
-    // Original 16:9 concept imagery from each story-specific editorial visual brief.
-    files["assets/news/"+a.slug+".svg"]=editorialCover(a,a.readerGuide);
-    files["assets/news/"+a.slug+".png"]=new Resvg(files["assets/news/"+a.slug+".svg"]).render().asPng();
+    // Use approved art for both the page fallback and social preview when an image is supplied.
+    const coverSvg=featuredImages[a.slug]?.svg?readFileSync(resolve(ROOT,featuredImages[a.slug].svg),"utf8"):editorialCover(a,a.readerGuide);
+    files["assets/news/"+a.slug+".svg"]=coverSvg;
+    files["assets/news/"+a.slug+".png"]=new Resvg(coverSvg).render().asPng();
   }
   files["assets/logo.png"]=new Resvg(readFileSync(resolve(ROOT,"assets/favicon.svg"),"utf8"),{fitTo:{mode:"width",value:256}}).render().asPng();
   Object.assign(files,buildReviewExperience({BASE,series:reviewSeries,reviews:publishedReviews,articles,files,shell,pageLd,bc,bread,e,fmt,org,editorialCover,Resvg,reviewFeaturedImages}));
