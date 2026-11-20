@@ -233,7 +233,7 @@ for(let i=0;i<narutoBatchSlugs.length;i++){
  const a=articles.find(x=>x.slug===slug);
  assert(a,"Missing Naruto/Boruto article "+slug);
  assert.equal(a.date,"2026-11-15","New publication date must be accurate "+slug);
- assert.equal(a.checkedOn,"2026-11-15","Source recheck date missing "+slug);
+ assert.equal(a.checkedOn,slug==="boruto-manga-reading-order-next-generations-two-blue-vortex-official"?"2026-11-20":"2026-11-15","Source recheck date missing "+slug);
  assert.equal(a.publishSequence,53+i,"Article ordering gap "+slug);
  assert(["Anime","Manga"].includes(a.category),"Article must reuse the approved category system "+slug);
  assert(a.sections.length>=8,"Original topic coverage too shallow "+slug);
