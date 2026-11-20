@@ -242,7 +242,7 @@ body{background:linear-gradient(180deg,#fff 0%,#fff 60%,#fafdff 100%)}
 @media(prefers-reduced-motion:reduce){.topic-grid a:hover{transform:none}}
 
 
-/* Folio cards — an editorial system inspired by independent comics magazines.
+/* Folio cards, an editorial system inspired by independent comics magazines.
    Color is tied to story category, while text stays legible on uncoated-paper white. */
 :root{--story-border:#c9d2de;--story-shadow:7px 7px 0 rgba(30,54,76,.08)}
 [data-news-category="Anime"]{--accent:#2658c1;--accent-dark:#183f8a;--accent-tint:#e9f1ff}
@@ -393,7 +393,7 @@ h1,h2,h3{letter-spacing:-.03em}
  .article-preferred-source-copy{flex-basis:auto}
 }
 
-/* Dynamic newsroom ticker — all story headlines, newest first. */
+/* Dynamic newsroom ticker, all story headlines, newest first. */
 .news-ticker{position:relative;z-index:1;background:#f2f7fc;border-bottom:1px solid #d1dcea}
 .news-ticker-inner{display:flex;align-items:stretch;width:100%;min-width:0;height:46px}
 .news-ticker-label{
