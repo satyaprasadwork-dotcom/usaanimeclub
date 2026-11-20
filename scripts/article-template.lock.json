@@ -1,5 +1,6 @@
 {
-  "version": 9,
-  "templateHash": "3120e9aa",
-  "description": "Source-linked answer-first shared editorial article with approved featured image descriptions in hero alt text."
+  "version": 10,
+  "templateHash": "0fe67e88",
+  "description": "Source-linked answer-first shared editorial article with approved featured images and accessible data tables."
 }
+

@@ -138,7 +138,7 @@ p{margin:0 0 1.15rem}
 .prose{font:400 clamp(1.045rem,1.35vw,1.12rem)/1.86 var(--body);color:#243246}
 .prose h2{font-size:clamp(1.75rem,2.4vw,2.15rem);line-height:1.22;margin:2rem 0 .8rem;color:var(--text)}
 .prose section{scroll-margin-top:140px}
-.prose p{margin:0 0 1.28rem}
+.prose p{margin:0 0 1.28rem}.prose .article-table-wrap{max-width:100%;overflow-x:auto;margin:1.4rem 0 2rem;border:1px solid var(--line);border-radius:10px;background:#fff}.prose .article-table-wrap:focus-visible{outline:3px solid #285bc2;outline-offset:3px}.prose .article-table-wrap table{width:100%;min-width:640px;border-collapse:collapse;font-size:.9rem;line-height:1.55;color:#243246}.prose .article-table-wrap caption{padding:.9rem 1rem;text-align:left;color:var(--text);font-size:.88rem;font-weight:700;line-height:1.45}.prose .article-table-wrap th,.prose .article-table-wrap td{padding:.8rem .9rem;text-align:left;vertical-align:top;border-top:1px solid var(--line)}.prose .article-table-wrap th{background:#eef5fb;color:#162b46;font-size:.76rem;letter-spacing:.035em;text-transform:uppercase}.prose .article-table-wrap tr:nth-child(even) td{background:#fafcff}
 .prose a,.source-note a{color:#285bc2;text-decoration:underline;text-underline-offset:2px}
 /* Keep call-to-action labels readable inside prose; ordinary links stay blue. */
 .prose a.btn,.prose a.btn:visited,.prose a.btn:hover,.prose a.btn:focus-visible{color:#fff;text-decoration:none}
@@ -637,3 +637,4 @@ h1,h2,h3{letter-spacing:-.03em}
 .privacy-choice-actions button{padding:.75rem 1rem;background:#fff;color:#193d70;border:1px solid #92add0;border-radius:8px;cursor:pointer;font:650 .95rem/1.4 var(--body)}
 .privacy-choice-actions button:hover,.privacy-choice-actions button:focus-visible{outline:2px solid #315fc0;outline-offset:2px}
 .privacy-choice-actions button[aria-pressed="true"]{background:#173a70;color:#fff}
+

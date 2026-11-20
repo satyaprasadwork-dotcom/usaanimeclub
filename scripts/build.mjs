@@ -10,6 +10,10 @@ const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),"..");
 function buildSite(articles){
   const BASE="https://usaanimeclub.com",EMAIL="satyaprasadwork@gmail.com",BRAND="USA Anime Club",TODAY=new Date().toISOString().slice(0,10),SITE_START="2026-11-14",files={};
   if(!Array.isArray(articles)||articles.length===0)throw Error("A news site needs at least one publishable article");
+  for(const a of articles)for(const t of a.tables||[]){
+    const headings=new Set(a.sections.map(section=>section[0]));
+    if(typeof t.caption!=="string"||!t.caption.trim()||!headings.has(t.afterSection)||!Array.isArray(t.headers)||t.headers.length<2||t.headers.some(h=>typeof h!=="string"||!h.trim())||!Array.isArray(t.rows)||!t.rows.length||t.rows.some(row=>!Array.isArray(row)||row.length!==t.headers.length||row.some(cell=>typeof cell!=="string"||!cell.trim())))throw Error("Invalid article table: "+a.slug);
+  }
   const reviewSeries=JSON.parse(readFileSync(resolve(ROOT,"content/review-series.json"),"utf8"));
   const publishedReviews=JSON.parse(readFileSync(resolve(ROOT,"content/reviews.json"),"utf8"));
   const editorialFormats=JSON.parse(readFileSync(resolve(ROOT,"content/editorial-formats.json"),"utf8"));
@@ -287,7 +291,7 @@ ${pag}</div></section>`;
 <section class="tldr" id="quick-answer" aria-labelledby="quick-answer-heading"><h2 class="tldr-label" id="quick-answer-heading">QUICK ANSWER</h2><p>${e(a.summary)}</p><p class="answer-source">Source record: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time> <span aria-hidden="true">·</span> <cite><a href="${e(a.source)}" target="_blank" rel="noopener noreferrer">Read the original source</a></cite></p></section>
 <aside class="reader-guide" aria-label="Reader decision guide"><span class="reader-guide-kicker">WHAT TO CHECK NEXT</span><h2>${e(a.readerGuide.question)}</h2><p>${e(a.readerGuide.action)}</p></aside>
 ${itachiMap}
-<div class="prose">${a.sections.map(([h,paras])=>`<section aria-labelledby="${sectionId(h)}"><h2 id="${sectionId(h)}">${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}</section>`).join("")}</div>
+<div class="prose">${a.sections.map(([h,paras])=>{const tables=(a.tables||[]).filter(t=>t.afterSection===h).map(t=>`<div class="article-table-wrap" role="region" aria-label="${e(t.caption)}" tabindex="0"><table><caption>${e(t.caption)}</caption><thead><tr>${t.headers.map(label=>`<th scope="col">${e(label)}</th>`).join("")}</tr></thead><tbody>${t.rows.map(row=>`<tr>${row.map(cell=>`<td>${e(cell)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`).join("");return `<section aria-labelledby="${sectionId(h)}"><h2 id="${sectionId(h)}">${e(h)}</h2>${paras.map(t=>`<p>${e(t)}</p>`).join("")}${tables}</section>`}).join("")}</div>
 <div class="source-note" id="primary-source"><strong>Primary source and reporting notes</strong>
 <p>Based on ${e(a.sourceLabel)}. This report distinguishes confirmed details from information not established by the original source.</p>
 <p class="source-link-row"><a class="source-primary-link" href="${e(a.source)}" target="_blank" rel="noopener noreferrer">View primary source</a><span>Source date / checked: <time datetime="${a.sourceDate}">${fmt(a.sourceDate)}</time>${a.checkedOn?` <span class="source-rechecked">· Rechecked <time datetime="${a.checkedOn}">${fmt(a.checkedOn)}</time></span>`:""}</span></p>
@@ -404,3 +408,4 @@ function checkObsoleteCollectionPages(folder){
 }
 for(const route of ["news/page","news/category","reviews"])checkObsoleteCollectionPages(resolve(ROOT,route));
 if(errors){process.exitCode=1}else console.log((check?"Validated ":"Generated ")+Object.keys(results).length+" website files.");
+

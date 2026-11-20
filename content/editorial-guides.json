@@ -426,10 +426,10 @@
   "boruto-manga-reading-order-next-generations-two-blue-vortex-official": {
     "scene": "reader",
     "label": "BORUTO READING",
-    "question": "Do I start Boruto: Two Blue Vortex after Naruto Next Generations Volume 20?",
-    "action": "Yes. Finish Boruto: Naruto Next Generations Chapter 80 (Volume 20), then begin Boruto: Two Blue Vortex at its Chapter 1 or Volume 1, using VIZ/MANGA Plus official English listings.",
-    "updated": "2026-11-15",
-    "updatedAt": "2026-11-15T15:37:44Z"
+    "question": "Where exactly do I switch to Two Blue Vortex?",
+    "action": "Finish Boruto: Naruto Next Generations through Chapter 80 (Volume 20), then open Boruto: Two Blue Vortex at Chapter 1 (or Volume 1). VIZ listed Chapter 39 on November 19, 2026 when rechecked the following day.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:44:58Z"
   },
   "kishimoto-vs-ikemoto-boruto-two-blue-vortex-creator-writing-art-credits": {
     "scene": "compare",
@@ -819,3 +819,4 @@
     "updatedAt": "2026-11-20T09:28:13Z"
   }
 }
+
