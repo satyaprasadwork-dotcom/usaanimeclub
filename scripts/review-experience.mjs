@@ -40,7 +40,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     }else throw Error("Unrecognized review evidence mode "+slug);
     reviewed.get(found.kind+":"+found.slug).push(r);
   }
-  for(const list of reviewed.values())list.sort((a,b)=>b.publishedOn.localeCompare(a.publishedOn)||b.installmentNumber-a.installmentNumber);
+  for(const list of reviewed.values())list.sort((a,b)=>b.installmentNumber-a.installmentNumber||b.publishedOn.localeCompare(a.publishedOn));
   const renderLink=r=>"/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
   const hasAny=reviews.length>0;
   const pill=k=>'<span class="review-kind-tag">'+(k==="anime"?"ANIME EPISODES":"MANGA CHAPTERS")+'</span>';
