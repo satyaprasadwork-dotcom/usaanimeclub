@@ -492,5 +492,19 @@
     "alt": "Johnny and Gyro escape a dinosaur outbreak as Diego reaches for the Saint's Eyes above the village",
     "width": 1200,
     "height": 675
+  },
+  "manga-kagurabachi-chapter-139": {
+    "jpg": "assets/reviews/manga-kagurabachi-chapter-139.jpg",
+    "source": "original-ai-generated-editorial",
+    "alt": "A battle-worn swordsman brings a prototype blade and pale lilies into a rain-soaked villa siege",
+    "width": 1200,
+    "height": 675
+  },
+  "manga-dandadan-chapter-253": {
+    "jpg": "assets/reviews/manga-dandadan-chapter-253.jpg",
+    "source": "original-ai-generated-editorial",
+    "alt": "Okarun remembers Momo's kindness as a catlike spirit watches over his spiral-marked palm",
+    "width": 1200,
+    "height": 675
   }
 }
