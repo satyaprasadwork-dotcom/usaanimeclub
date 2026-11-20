@@ -145,7 +145,7 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
 // newest-first sorting and an accessible current page marker.
 for(const s of series){
  const items=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug)
-  .sort((a,b)=>b.publishedOn.localeCompare(a.publishedOn)||b.installmentNumber-a.installmentNumber);
+  .sort((a,b)=>b.installmentNumber-a.installmentNumber||b.publishedOn.localeCompare(a.publishedOn));
  const archiveItems=items;
   const basePath="/reviews/"+s.kind+"/"+s.slug+"/";
  const pageCount=getPageCount(archiveItems.length);
