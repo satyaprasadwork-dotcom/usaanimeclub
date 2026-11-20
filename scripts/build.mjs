@@ -51,7 +51,11 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"content/featured-images.json")))
     .update(readFileSync(resolve(ROOT,"content/review-featured-images.json")))
     .update(Object.values(reviewFeaturedImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
-    .update(Object.values(featuredImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
+    .update(Object.values(featuredImages).map(image=>{
+      const paths=image.svg?[image.svg]:[image.webp,image.jpg];
+      const hash=createHash("sha256");for(const path of paths)hash.update(readFileSync(resolve(ROOT,path)));
+      return hash.digest("hex");
+    }).join("|"))
     .update(readFileSync(resolve(ROOT,"scripts/review-experience.mjs")))
     .update(readFileSync(resolve(ROOT,"scripts/pagination.mjs")))
     .update(JSON.stringify(articles))

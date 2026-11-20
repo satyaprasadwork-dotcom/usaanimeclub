@@ -3,25 +3,26 @@
     "slug": "steel-ball-run",
     "kind": "anime",
     "title": "Steel Ball Run",
-    "subtitle": "JoJo's Bizarre Adventure · 2nd–3rd STAGES",
-    "schedule": "Netflix says a new 2nd–3rd STAGES installment releases on Fridays during its announced 11-episode run. The first was scheduled for September 25, 2026.",
-    "latestLabel": "2nd–3rd STAGES rollout began September 25, 2026",
-    "latestDate": "2026-09-25",
+    "subtitle": "JoJo's Bizarre Adventure · US episode reviews (Episodes 1-10)",
+    "schedule": "Netflix released the 47-minute 1st STAGE special on March 19, 2026. Its 11-episode 2nd and 3rd STAGES rollout began September 25 and releases weekly on Fridays. Episode 10 became available November 20; check Netflix for current regional access and audio options.",
+    "latestLabel": "Episode 10 · Frightening Monsters, Part 2 (released November 20)",
+    "latestDate": "2026-11-20",
     "latestUnit": "episode",
     "platform": "Netflix",
     "officialUrl": "https://www.netflix.com/tudum/articles/steel-ball-run-jojos-bizarre-adventure-2nd-3rd-stage-how-to-watch",
-    "sourceLabel": "Netflix Tudum · September 25 release and weekly episode plan",
-    "sourceDate": "2026-09-25",
-    "checkedOn": "2026-11-15",
-    "summary": "The new Steel Ball Run adaptation follows Johnny Joestar and Gyro Zeppeli into the cross-country race. Netflix confirmed 11 episodes for its 2nd–3rd STAGES block, following a separate 47-minute opening installment. Release updates should be checked on Netflix rather than extrapolated into a guaranteed complete calendar.",
+    "sourceLabel": "Netflix weekly Friday plan and Episode 10 release record",
+    "sourceDate": "2026-11-20",
+    "checkedOn": "2026-11-20",
+    "summary": "The 47-minute 1st STAGE special arrived March 19, followed by a separate weekly 2nd and 3rd STAGES rollout starting September 25. Ten numbered episodes have released through November 20. Each released episode now has an original sourced review grounded in official release information, episode records and contemporary discussion.",
     "reviewFocus": [
-      "How each stage changes the stakes of the race",
-      "Direction and visual rhythm of the action",
-      "Johnny and Gyro's development across episodes"
+      "How the race's rules shape character choices",
+      "Johnny and Gyro's partnership under pressure",
+      "When supernatural turns deepen the conflict and when they crowd it"
     ],
     "relatedNewsSlugs": [
       "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us"
-    ]
+    ],
+    "hideOverviewCards": true
   },
   {
     "slug": "the-apothecary-diaries",
