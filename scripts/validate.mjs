@@ -970,7 +970,7 @@ for(const a of articles){
   assert(html.includes(b.question.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Question does not match story "+a.slug);
   assert(html.includes(b.action.replaceAll("&","&amp;").replaceAll("<","&lt;")),"Action does not match story "+a.slug);
   const svg=read("assets/news/"+a.slug+".svg");
-  assert(svg.includes("ORIGINAL EDITORIAL CONCEPT ART"),"Old text-only cover still present "+a.slug);
+  if(!featuredImages[a.slug]?.svg)assert(svg.includes("ORIGINAL EDITORIAL CONCEPT ART"),"Old text-only cover still present "+a.slug);
   assert(!svg.includes(a.title),"Headline should not dominate preview image "+a.slug);
 }
 assert(read("about/index.html").includes('id="editor-in-chief"'),"Editor-in-Chief bio anchor absent");
