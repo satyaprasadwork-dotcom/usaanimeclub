@@ -50,7 +50,7 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"content/editorial-formats.json")))
     .update(readFileSync(resolve(ROOT,"content/featured-images.json")))
     .update(readFileSync(resolve(ROOT,"content/review-featured-images.json")))
-    .update(Object.values(reviewFeaturedImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
+    .update(Object.values(reviewFeaturedImages).map(image=>{const hash=createHash("sha256");for(const p of (image.webp?[image.webp,image.jpg]:[image.jpg]))hash.update(readFileSync(resolve(ROOT,p)));return hash.digest("hex")}).join("|"))
     .update(Object.values(featuredImages).map(image=>{
       const paths=image.svg?[image.svg]:[image.webp,image.jpg];
       const hash=createHash("sha256");for(const path of paths)hash.update(readFileSync(resolve(ROOT,path)));
