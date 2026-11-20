@@ -4,8 +4,8 @@
     "label": "READING MODELS",
     "question": "Which reading platform offers free chapters, and which lets you keep a purchased ebook?",
     "action": "Royal Road largely offers public serials, J-Novel Club sells downloadable DRM-free EPUBs separately from timed Prepub access, and WebNovel unlocks chapters per book.",
-    "updated": "2026-11-15",
-    "updatedAt": "2026-11-15T13:35:29Z"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "j-novel-club-november-2026-new-english-light-novel-licenses-guide": {
     "scene": "books",
@@ -40,7 +40,8 @@
     "label": "RISING STARS",
     "question": "Is the ranking a fixed editorial list or a changing snapshot?",
     "action": "Treat the Rising Stars page as a changing platform ranking; record the date and category before comparing positions.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "shadow-slave-webnovel-official-novel-current-status-reading-access": {
     "scene": "reader",
@@ -54,14 +55,16 @@
     "label": "COMICS FORMATS",
     "question": "Are these labels describing origin, platform or reading layout?",
     "action": "Compare the work's country of origin with its distribution format; a vertical-scroll presentation does not by itself establish its country.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "webtoon-trending-korean-fantasy-comics-november-2026-rankings": {
     "scene": "screen",
     "label": "TRENDING LIST",
     "question": "Is a listed position current, or preserved from an earlier snapshot?",
     "action": "Check WEBTOON's live ranking and category on the day you visit; do not treat a changing list as a permanent popularity measure.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:43:49Z"
   },
   "lookism-webtoon-official-english-episodes-update-guide-november-2026": {
     "scene": "reader",
@@ -105,14 +108,16 @@
     "label": "DECEMBER RELEASES",
     "question": "Does the publisher date apply to the US edition and format you want?",
     "action": "Check the exact volume, ISBN and edition in the VIZ calendar; retailers can show different shipping estimates.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "viz-shonen-jump-vs-manga-plus-official-chapter-access-usa": {
     "scene": "compare",
     "label": "CHAPTER OPTIONS",
     "question": "Do both apps offer the same library and chapter access?",
     "action": "Compare the specific series' US availability and reread limits instead of assuming every Shonen Jump title appears under identical terms.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "sakamoto-days-volume-24-viz-december-2026-english-release": {
     "scene": "books",
@@ -198,7 +203,8 @@
     "label": "FALL SIMULCAST",
     "question": "Is the listed time for subtitles, English dubbing or the initial TV broadcast?",
     "action": "Compare Crunchyroll's North America territory line and its separate subtitle and dub timetable for each title.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "black-clover-season-2-us-crunchyroll-streaming-sub-dub-schedule": {
     "scene": "calendar",
@@ -221,7 +227,8 @@
     "label": "WRITATHON",
     "question": "Who can participate, and what counts toward the challenge?",
     "action": "Check the event rules and deadline on Royal Road rather than treating a community summary as authoritative.",
-    "updated": "2026-11-15"
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T14:43:49Z"
   },
   "j-novel-club-putting-a-price-on-world-peace-english-serial": {
     "scene": "reader",
@@ -335,7 +342,7 @@
     "question": "When are Steel Ball Run installments 10 and 11 expected on Netflix US?",
     "action": "Netflix confirmed eleven weekly Friday installments beginning September 25. Counting forward projects November 27 and December 4 for installments 10 and 11 if there is no break; recheck Netflix because it announced a split-cour rollout.",
     "updated": "2026-11-20",
-    "updatedAt": "2026-11-20T10:41:15Z"
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "frieren-season-3-october-2027-golden-land-arc-official-premiere": {
     "scene": "portal",
@@ -647,7 +654,7 @@
     "question": "Are the reported November Netflix episodes official?",
     "action": "The Whole Cake Island update was reported by an independent Netflix tracker, not Netflix’s press office. Verify the current catalog within a US Netflix account.",
     "updated": "2026-11-20",
-    "updatedAt": "2026-11-20T09:28:13Z"
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "apothecary-diaries-late-ladys-treasure-movie-us": {
     "scene": "cinema",
@@ -740,7 +747,7 @@
     "question": "Will Netflix US show My Hero Academia Season 6 on November 19?",
     "action": "A third-party source reports the November 19 catalog addition; verify directly on a US Netflix account before treating it as live.",
     "updated": "2026-11-20",
-    "updatedAt": "2026-11-20T09:28:13Z"
+    "updatedAt": "2026-11-20T14:34:31Z"
   },
   "giant-ojosama-hidive-winter-2027-anime-frontier-premiere": {
     "scene": "cinema",
