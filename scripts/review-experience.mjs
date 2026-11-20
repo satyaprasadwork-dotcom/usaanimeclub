@@ -46,6 +46,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   const pill=k=>'<span class="review-kind-tag">'+(k==="anime"?"ANIME EPISODES":"MANGA CHAPTERS")+'</span>';
   const seriesCard=s=>'<a class="review-series-card" href="'+seriesUrl(s)+'"><div class="review-card-top">'+pill(s.kind)+'<span class="review-arrow" aria-hidden="true">↗</span></div><h3>'+e(s.title)+'</h3><p class="review-subtitle">'+e(s.subtitle)+'</p><p class="review-card-excerpt">'+e(s.summary)+'</p><div class="review-card-bottom">'+(s.slug==="boruto-two-blue-vortex"?'':'<span>'+e(s.platform)+'</span>')+'<strong>'+reviewed.get(s.kind+":"+s.slug).length+' original reviews</strong></div></a>';
   const reviewCard=r=>'<a class="review-published-card" href="'+renderLink(r)+'"><span class="review-kind-tag">'+e(r.installmentSlug.replace("-"," ").toUpperCase())+'</span><h3>'+e(r.headline)+'</h3><p>'+e(r.verdict)+'</p><span class="review-card-foot">'+(r.reviewMode==="sourced"?"Source-based review by ":"Review by ")+e(r.reviewerName)+' · '+dateFmt(r.publishedOn)+'</span></a>';
+  const chapter40PreviewCard=article=>'<a class="review-published-card" href="/news/'+e(article.slug)+'/"><span class="review-kind-tag">CHAPTER 40 PREVIEW</span><h3>'+e(article.title)+'</h3><p>'+e(article.description)+'</p><span class="review-card-foot">Preview only · original review after official release · '+dateFmt(article.date)+'</span></a>';
   const crosslinks=s=>'<ul class="review-related-list">'+s.relatedNewsSlugs.map(slug=>{const a=news.get(slug);return '<li><a href="/news/'+e(a.slug)+'/">'+e(a.title)+'</a></li>'}).join("")+'</ul>';
   const archives=[
     {path:"/reviews/",name:"Reviews",title:"Anime Episode & Manga Chapter Reviews | USA Anime Club",desc:"Explore anime and manga series with official release sources and spoiler-labeled original episode and chapter criticism.",kw:"anime episode reviews, manga chapter reviews, official US release tracker, critical review archive",listing:series},
@@ -62,7 +63,8 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   for(const s of series){
     const basePath=seriesUrl(s),kindLabel=label(s.kind),list=reviewed.get(s.kind+":"+s.slug);
     const reviewOnly=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex";
-    const archiveItems=list;
+    const chapter40Preview=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex"?news.get("boruto-two-blue-vortex-chapter-40-preview"):null;
+    const archiveItems=chapter40Preview?[{preview:chapter40Preview},...list]:list;
     const focus='<ul class="review-focus-list">'+s.reviewFocus.map(x=>'<li>'+e(x)+'</li>').join("")+'</ul>';
     const relevant='<section class="review-related"><h2>Related USA Anime Club reporting</h2>'+crosslinks(s)+'</section>';
     const totalPages=getPageCount(archiveItems.length);
@@ -70,7 +72,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
       const path=page===1?basePath:basePath+"page/"+page+"/";
       const visible=getPageItems(archiveItems,page);
       const pag=totalPages>1?paginationHtml({basePath,page,total:archiveItems.length,label:s.title+" chapter and episode articles"}):"";
-      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(reviewCard).join("")+'</div></section>':'';
+      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(item=>item.preview?chapter40PreviewCard(item.preview):reviewCard(item)).join("")+'</div></section>':'';
       const breadcrumbs=[["Home","/"],["Reviews","/reviews/"],[kindLabel,"/reviews/"+s.kind+"/"],[s.title,basePath],...(page===1?[]:[["Page "+page,path]])];
       const mainTitle=s.title+(page===1?"":": Page "+page);
       const summary=page===1?s.summary:"Continue browsing "+s.title+" with older, spoiler-labeled chapter and episode analysis. This is page "+page+" of "+totalPages+".";
@@ -82,7 +84,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
       const main=reviewOnly?chapterHub:regularHub;
       const desc=reviewOnly?"Boruto: Two Blue Vortex chapter criticism, story analysis and character development. "+(page>1?"Older chapter reviews, page "+page+".":"Spoiler-labeled chapter reviews and story analysis."):s.title+" official US "+(s.kind==="anime"?"episode":"English chapter")+" release record and source-backed reviews"+(page>1?", page "+page:"")+".";
       const title=s.title+" "+(s.kind==="anime"?"Episode":"Chapter")+" Reviews"+(page>1?": Page "+page:"")+" | USA Anime Club";
-      const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((item,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:item.headline,url:BASE+renderLink(item)}))};
+      const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((item,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:item.preview?item.preview.title:item.headline,url:BASE+(item.preview?"/news/"+item.preview.slug+"/":renderLink(item))}))};
       files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:s.title+" "+(s.kind==="anime"?"episode reviews USA, anime schedule":"manga chapter reviews, official English chapters")+(page>1?", page "+page:""),noindex:list.length===0,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc(breadcrumbs),metaList]});
     }
   }

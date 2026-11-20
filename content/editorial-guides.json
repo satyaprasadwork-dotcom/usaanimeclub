@@ -923,5 +923,13 @@
     "action": "Usually you can skip clearly standalone anime-original arcs for a manga-focused watch, but keep mixed episodes unless a reliable guide identifies their canon scenes.",
     "updated": "2026-11-20",
     "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "boruto-two-blue-vortex-chapter-40-preview": {
+    "scene": "reader",
+    "label": "CHAPTER 40 PREVIEW",
+    "question": "What should Chapter 40 pick up after Chapter 39?",
+    "action": "Preview only. Chapter 39 is available on MANGA Plus; USA Anime Club will publish its original Chapter 40 review after the chapter’s official release.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T12:47:50Z"
   }
 }
