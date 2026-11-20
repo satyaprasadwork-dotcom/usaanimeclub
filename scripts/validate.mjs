@@ -106,8 +106,10 @@ for(const s of series){
  assert(!html.includes("Critical responses and reviews"),"Redundant review heading must be removed "+path);
  if(reviews.some(r=>r.kind===s.kind&&r.seriesSlug===s.slug))assert(html.includes('class="review-published-card"'),"Cards missing from series hub "+path);
  assert(html.includes('rel="canonical" href="'+base+"/reviews/"+s.kind+"/"+s.slug+'/"'),"Incorrect review hub canonical "+path);
- if(s.slug!=="boruto-two-blue-vortex")assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
- if(s.slug!=="boruto-two-blue-vortex")assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
+ if(s.slug!=="boruto-two-blue-vortex"&&s.hideOverviewCards!==true){
+  assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
+  assert(html.includes('datetime="'+s.checkedOn+'"'),"Verification date missing "+path);
+ }
  const activeReviews=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug);
  if(activeReviews.length===0)assert(html.includes('meta name="robots" content="noindex, nofollow"'),"Unreviewed release hub must be noindex "+path);
  else assert(!html.includes('meta name="robots" content="noindex, nofollow"'),"Reviewed hub must be indexable "+path);
