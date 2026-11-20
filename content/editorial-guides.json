@@ -200,19 +200,20 @@
     "updated": "2026-11-15"
   },
   "black-clover-season-2-us-crunchyroll-streaming-sub-dub-schedule": {
-    "scene": "screen",
-    "label": "SUB AND DUB",
-    "question": "Are Black Clover Season 2 subtitled and dubbed episodes scheduled together?",
-    "action": "Crunchyroll currently lists both for Saturday at 8:00 a.m. Pacific; verify the actual language track on each new US episode.",
-    "updated": "2026-11-15"
+    "scene": "calendar",
+    "label": "SUB + DUB",
+    "question": "When do Black Clover Season 2 subtitled and English-dub episodes arrive in the US?",
+    "action": "Crunchyroll lists the sub on Saturdays at 8 a.m. PT. The English dub returned October 17 with weekly episodes, but its announcement does not confirm that same hour; check the dub episode page.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:20:45:00Z"
   },
   "apothecary-diaries-season-3-us-watch-schedule-dub-status": {
-    "scene": "screen",
-    "label": "DUB & SUBTITLES",
-    "question": "Where can US viewers find the current English dub and subtitled Season 3 episodes?",
-    "action": "Use Crunchyroll’s episode-level audio selectors. Season 3 launched October 2, 2026 and its English dub began October 16; the next cour is due April 2027.",
-    "updated": "2026-11-18",
-    "updatedAt": "2026-11-18T05:51:37Z"
+    "scene": "calendar",
+    "label": "FRIDAY TRACKER",
+    "question": "When are The Apothecary Diaries Season 3 sub and dub episodes released?",
+    "action": "Crunchyroll lists the subtitled simulcast on Fridays at 8 a.m. PT. The English dub began October 16 with weekly Friday episodes; the second cour is due in April 2027. Check the episode page for the dub’s exact hour.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:20:45:00Z"
   },
   "royal-road-november-2026-writathon-serial-fiction": {
     "scene": "clock",
@@ -329,11 +330,11 @@
   },
   "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us": {
     "scene": "calendar",
-    "label": "JOJO FRIDAYS",
-    "question": "How many Steel Ball Run 2nd–3rd STAGE episodes are scheduled on Netflix?",
-    "action": "Netflix announced eleven episodes across the 2nd–3rd STAGES, starting September 25, 2026, with Friday releases; confirm later episode times and split-cour gaps on the current title page.",
-    "updated": "2026-11-15",
-    "updatedAt": "2026-11-15T13:41:40Z"
+    "label": "EPISODES 10–11",
+    "question": "When are Steel Ball Run installments 10 and 11 expected on Netflix US?",
+    "action": "Netflix confirmed eleven weekly Friday installments beginning September 25. Counting forward projects November 27 and December 4 for installments 10 and 11 if there is no break; recheck Netflix because it announced a split-cour rollout.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:20:45:00Z"
   },
   "frieren-season-3-october-2027-golden-land-arc-official-premiere": {
     "scene": "portal",
@@ -598,11 +599,12 @@
     "updatedAt": "2026-11-17T10:58:00Z"
   },
   "dragon-ball-super-beerus-vs-battle-of-gods-2026": {
-    "scene": "compare",
-    "label": "ENHANCED EDITION",
-    "question": "Is Beerus a completely new Dragon Ball story?",
-    "action": "Compare Toei’s stated reworked footage, fresh sound and reconstructed narrative with Battle of Gods and the original Super opening. Avoid describing it as an entirely new sequel.",
-    "updated": "2026-11-18"
+    "scene": "calendar",
+    "label": "US RELEASE TRACKER",
+    "question": "When do Dragon Ball Super: Beerus sub and dub episodes stream in the US?",
+    "action": "Crunchyroll lists subtitled episodes Sundays at 9 a.m. PT. The weekly English dub began on Crunchyroll November 12 at 8 a.m. PT Thursdays. Netflix’s US rollout began October 17; check each service for current availability.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:20:45:00Z"
   },
   "black-clover-season-2-catch-up-watch-order": {
     "scene": "reader",
@@ -647,11 +649,12 @@
     "updated": "2026-11-18"
   },
   "ranma-season-3-netflix-reboot-vs-original": {
-    "scene": "compare",
-    "label": "CLASSIC OR REBOOT",
-    "question": "Does modern Ranma ½ Season 3 continue the 1989 anime?",
-    "action": "The Netflix series is a new manga adaptation. Compare the original and newer series without assuming continuity or identical episode organization.",
-    "updated": "2026-11-18"
+    "scene": "calendar",
+    "label": "12 EPISODES",
+    "question": "How many episodes are in Ranma ½ Season 3 and what is its US schedule?",
+    "action": "The official Ranma site lists 12 Season 3 episodes and Netflix streaming from October 3. Current episode trackers project a weekly Saturday run through December 19; confirm dates and English audio in the US Netflix player.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:20:45:00Z"
   },
   "mashle-season-3-january-2027-streaming-guide": {
     "scene": "calendar",
@@ -792,5 +795,13 @@
     "question": "Is November 20 the US opening for Witch on the Holy Night?",
     "action": "No. November 20 is the Japanese film opening; K MANGA already released the English chapter on November 10.",
     "updated": "2026-11-18"
+  },
+  "fall-2026-anime-us-weekly-standouts-streaming-dub-status": {
+    "scene": "compare",
+    "label": "LATEST POLL",
+    "question": "Which Fall 2026 anime are the latest weekly poll standouts for US viewers?",
+    "action": "Anime Corner Week 6 ranked Steel Ball Run first, followed by Firefly Wedding, Even the Student Council Has Its Holes!, The Apothecary Diaries, Black Clover and Ranma. This community poll is not Google or Bing search volume.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:20:45:00Z"
   }
 }
