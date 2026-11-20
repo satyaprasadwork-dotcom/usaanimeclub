@@ -181,6 +181,13 @@ ${newsTicker}
   const shortItem=a=>`<a class="latest-item" data-news-category="${e(a.category)}" href="${url(a)}">
 <span class="story-kicker">${e(a.category)} <span aria-hidden="true">·</span> <time datetime="${a.date}">${fmt(a.date)}</time></span>
 <strong>${e(a.title)}</strong><span class="rail-read">Read article</span></a>`;
+  const homeBooks=[
+    {asin:"B0FQWLQ77Y",title:"The Name I Almost Forgot",description:"A reflective story of silence and memory"},
+    {asin:"B0FND8Y4VX",title:"The Distance Between You and Me",description:"Friendship and loneliness"},
+    {asin:"B0FMLM6B6C",title:"Fading Footprints",description:"Burning memories and heartbreak"},
+    {asin:"B0FMNGB17Q",title:"Nine Years, Goodbye",description:"A journey through heartbreak"},
+    {asin:"B0FM43253C",title:"Between Chapters",description:"New horizons and rediscovery"}
+  ];
   const home=`<section class="front-intro"><div class="wrap">
 <div><span class="eyebrow"><span class="red-dot" aria-hidden="true"></span> THE ANIME NEWS DESK</span><h1>Latest anime news<span class="headline-period">.</span></h1>
 <p class="lead">Anime, manga, manhwa and web-novel news for US readers: dated announcements, credited sources and clear release information.</p></div>
@@ -202,8 +209,13 @@ ${newsTicker}
 <a href="/news/category/manga/"><span class="topic-eyebrow">COVERAGE</span><strong>Manga</strong><span>English manga releases and licensing</span><small>${items.filter(a=>a.category==="Manga").length} reports</small></a>
 <a href="/news/category/manhwa/"><span class="topic-eyebrow">COVERAGE</span><strong>Manhwa</strong><span>Korean comics, webtoons and editions</span><small>${items.filter(a=>a.category==="Manhwa").length} reports</small></a>
 <a href="/news/category/web-novels/"><span class="topic-eyebrow">COVERAGE</span><strong>Web Novels</strong><span>Online fiction and serialized translations</span><small>${items.filter(a=>a.category==="Web Novels").length} reports</small></a></div></div></section>
-<section class="standards-section"><div class="wrap standards-inner"><div><span class="eyebrow">INDEPENDENT BY DESIGN</span><h2>Source first. <em>Readers first.</em></h2><p>We separate confirmed announcements from unanswered questions, identify whether US availability is confirmed, and link to original sources.</p></div>
-<a class="btn alt" href="/editorial-policy/">Our editorial policy</a></div></section>`;
+<section class="book-shelf" aria-labelledby="books-heading"><div class="books-wrap">
+<h2 id="books-heading" class="books-visually-hidden">Books by T. Satya Prasad</h2>
+<div class="books-grid">${homeBooks.map(book=>`<article class="book-item">
+<a class="book-cover" href="https://www.amazon.com/dp/${book.asin}" target="_blank" rel="noopener noreferrer" aria-label="View ${e(book.title)} on Amazon"><img src="https://images-na.ssl-images-amazon.com/images/P/${book.asin}.01._SCLZZZZZZZ_SX500_.jpg" alt="Cover of ${e(book.title)}" loading="lazy" decoding="async"></a>
+<h3>${e(book.title)}</h3><p>${e(book.description)}</p>
+<a class="book-link" href="https://www.amazon.com/dp/${book.asin}" target="_blank" rel="noopener noreferrer">View on Amazon <span aria-hidden="true">↗</span></a>
+</article>`).join("")}</div></div></section>`;
   const homeTitle="USA Anime Club | Anime, Manga, Manhwa & Web Novel News";
   const homeDesc="Source-linked anime, manga, manhwa and web-novel reporting for US readers, with release dates and publisher announcements.";
   files["index.html"]=shell({path:"/",title:homeTitle,desc:homeDesc,kw:"anime news USA, new manga releases, manhwa webtoons, web novels, English releases, official announcements",main:home,image:imageFor(first).social,schemas:[
