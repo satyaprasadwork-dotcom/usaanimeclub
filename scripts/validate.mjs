@@ -701,34 +701,34 @@ for(const u of urls){
 assert(read("assets/styles.css").includes(".news-ticker.is-paused .news-ticker-track"),"Pause-state CSS missing");
 
 
-// Approved article illustrations use original WebP artwork in cards and articles,
-// plus JPEG social previews. Unlisted stories retain the generated SVG/PNG fallback.
+ // Approved article illustrations use paired raster files or an SVG wrapper
+ // containing an original JPEG; all share-image outputs are 1200×675 PNG/JPEG.
 function checkPng(path,width,height){
  const data=readFileSync(resolve(root,path));
  assert(data.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),"Invalid PNG signature "+path);
  assert.equal(data.readUInt32BE(16),width,"PNG width mismatch "+path);
  assert.equal(data.readUInt32BE(20),height,"PNG height mismatch "+path);
 }
-function checkApprovedImage(path,type){
- const data=readFileSync(resolve(root,path));
- assert(data.length>40000,"Approved illustration unexpectedly small: "+path);
+function checkApprovedBytes(data,type,label){
+ assert(data.length>40000,"Approved illustration unexpectedly small: "+label);
  if(type==="webp"){
-   assert.equal(data.toString("ascii",0,4),"RIFF","Invalid WebP container "+path);
-   assert.equal(data.toString("ascii",8,12),"WEBP","Invalid WebP signature "+path);
-   assert.equal(data.toString("ascii",12,16),"VP8 ","Expected lossy WebP "+path);
-   assert.equal(data.readUInt16LE(26)&0x3fff,1200,"WebP width mismatch "+path);
-   assert.equal(data.readUInt16LE(28)&0x3fff,675,"WebP height mismatch "+path);
+   assert.equal(data.toString("ascii",0,4),"RIFF","Invalid WebP container "+label);
+   assert.equal(data.toString("ascii",8,12),"WEBP","Invalid WebP signature "+label);
+   assert.equal(data.toString("ascii",12,16),"VP8 ","Expected lossy WebP "+label);
+   assert.equal(data.readUInt16LE(26)&0x3fff,1200,"WebP width mismatch "+label);
+   assert.equal(data.readUInt16LE(28)&0x3fff,675,"WebP height mismatch "+label);
  }else{
-   assert.equal(data.readUInt16BE(0),0xffd8,"Invalid JPEG signature "+path);
-   assert.equal(data.readUInt16BE(data.length-2),0xffd9,"Invalid JPEG end marker "+path);
+   assert.equal(data.readUInt16BE(0),0xffd8,"Invalid JPEG signature "+label);
+   assert.equal(data.readUInt16BE(data.length-2),0xffd9,"Invalid JPEG end marker "+label);
  }
 }
+function checkApprovedImage(path,type){checkApprovedBytes(readFileSync(resolve(root,path)),type,path);}
 checkPng("assets/logo.png",256,256);
 assert(Object.keys(featuredImages).length>=5,"Approved image library must retain the original five images");
 for(const slug of Object.keys(featuredImages))assert(articles.some(a=>a.slug===slug),"Orphaned approved image: "+slug);
 for(const a of articles){
  const chosen=featuredImages[a.slug];
- const image=chosen?"/"+chosen.jpg:"/assets/news/"+a.slug+".png",canonical=base+image;
+ const image=chosen?(chosen.jpg?"/"+chosen.jpg:"/assets/news/"+a.slug+".png"):"/assets/news/"+a.slug+".png",canonical=base+image;
  checkPng("assets/news/"+a.slug+".png",1200,675);
  const html=read(articlePath(a).slice(1)+"index.html");
  assert(html.includes('property="og:image" content="'+canonical+'"'),"Social OG image incorrect "+a.slug);
@@ -736,13 +736,23 @@ for(const a of articles){
  const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(x=>JSON.parse(x[1]));
  assert(scripts.some(x=>x["@type"]===(editorialFormats[a.slug]==="news"?"NewsArticle":"Article")&&x.image?.includes(canonical)),"Schema image not raster "+a.slug);
  if(chosen){
-  const revision=chosen.revision??0,suffix=revision?"-rev-"+revision:"";assert(Number.isSafeInteger(revision)&&revision>=0&&chosen.webp==="assets/editorial-images/"+a.slug+suffix+".webp"&&chosen.jpg==="assets/editorial-images/"+a.slug+suffix+".jpg","Invalid image manifest path "+a.slug);
+  const revision=chosen.revision??0,suffix=revision?"-rev-"+revision:"";
+  const raster=chosen.webp==="assets/editorial-images/"+a.slug+suffix+".webp"&&chosen.jpg==="assets/editorial-images/"+a.slug+suffix+".jpg"&&chosen.svg===undefined;
+  const svg=chosen.svg==="assets/editorial-images/"+a.slug+".svg"&&chosen.webp===undefined&&chosen.jpg===undefined;
+  assert(Number.isSafeInteger(revision)&&revision>=0&&(raster||svg),"Invalid image manifest path "+a.slug);
   assert(chosen.source==="original-ai-generated-editorial"&&chosen.alt?.length>30,"Missing image provenance "+a.slug);
-  checkApprovedImage(chosen.webp,"webp");checkApprovedImage(chosen.jpg,"jpeg");
-  assert(html.includes('class="post-hero" src="/'+chosen.webp+'" width="1200" height="675" alt="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Article hero must use approved artwork with descriptive alt text "+a.slug);
+  if(raster){
+   checkApprovedImage(chosen.webp,"webp");checkApprovedImage(chosen.jpg,"jpeg");
+  }else{
+   const svgText=read(chosen.svg),embedded=svgText.match(/data:image\/jpeg;base64,([A-Za-z0-9+/=]+)/);
+   assert(svgText.startsWith("<svg")&&embedded,"Approved SVG cover must embed its original JPEG "+a.slug);
+   checkApprovedBytes(Buffer.from(embedded[1],"base64"),"jpeg",chosen.svg);
+  }
+  const visual=chosen.svg||chosen.webp;
+  assert(html.includes('class="post-hero" src="/'+visual+'" width="1200" height="675" alt="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Article hero must use approved artwork with descriptive alt text "+a.slug);
   assert(html.includes('property="og:image:alt" content="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Open Graph image alt text missing "+a.slug);
   assert(html.includes('name="twitter:image:alt" content="'+chosen.alt.replaceAll("&","&amp;")+'"'),"Twitter image alt text missing "+a.slug);
-  assert(html.includes('property="og:image:type" content="image/jpeg"'),"JPEG social MIME missing "+a.slug);
+  assert(html.includes('property="og:image:type" content="'+(chosen.jpg?"image/jpeg":"image/png")+'"'),"Social image MIME missing "+a.slug);
  }else{
   assert(html.includes('class="post-hero" src="/assets/news/'+a.slug+'.svg"'),"Generic article fallback missing "+a.slug);
  }
@@ -750,9 +760,12 @@ for(const a of articles){
 const firstArticle=articles.find(a=>read("index.html").includes('class="feature-card" data-news-category="'+a.category+'" href="/news/'+a.slug+'/'));
 assert(firstArticle,"Cannot identify homepage feature article");
 const cover=featuredImages[firstArticle.slug];
-const homeImage=cover?"/"+cover.jpg:"/assets/news/"+firstArticle.slug+".png";
+const homeImage=cover?(cover.jpg?"/"+cover.jpg:"/assets/news/"+firstArticle.slug+".png"):"/assets/news/"+firstArticle.slug+".png";
 assert(read("index.html").includes('content="'+base+homeImage+'"'),"Homepage social image incorrect");
-if(cover)assert(read("index.html").includes('src="/'+cover.webp+'"'),"Homepage must show the approved cover image");
+if(cover){
+ const homeVisual=cover.svg||cover.webp;
+ assert(read("index.html").includes('src="/'+homeVisual+'"'),"Homepage must show the approved cover image");
+}
 for(const name of readdirSync(resolve(root,"assets/news"))){
  if(name.endsWith(".png"))assert(sourceSlugs.has(name.slice(0,-4)),"Orphaned PNG art "+name);
 }
