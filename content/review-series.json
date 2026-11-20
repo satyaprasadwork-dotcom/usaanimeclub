@@ -146,7 +146,8 @@
     ],
     "relatedNewsSlugs": [
       "kagurabachi-volume-9-us-release-viz-weekly-chapters-guide"
-    ]
+    ],
+    "hideOverviewCards": true
   },
   {
     "slug": "dandadan",
@@ -170,6 +171,7 @@
     ],
     "relatedNewsSlugs": [
       "dandadan-volume-22-english-release-viz-reading-options"
-    ]
+    ],
+    "hideOverviewCards": true
   }
 ]
