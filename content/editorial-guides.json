@@ -200,19 +200,20 @@
     "updated": "2026-11-15"
   },
   "black-clover-season-2-us-crunchyroll-streaming-sub-dub-schedule": {
-    "scene": "screen",
-    "label": "SUB AND DUB",
-    "question": "Are Black Clover Season 2 subtitled and dubbed episodes scheduled together?",
-    "action": "Crunchyroll currently lists both for Saturday at 8:00 a.m. Pacific; verify the actual language track on each new US episode.",
-    "updated": "2026-11-15"
+    "scene": "calendar",
+    "label": "SUB + DUB",
+    "question": "When do Black Clover Season 2 subtitled and English-dub episodes arrive in the US?",
+    "action": "Crunchyroll lists the sub on Saturdays at 8 a.m. PT. The English dub returned October 17 with weekly episodes, but its announcement does not confirm that same hour; check the dub episode page.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:25:26Z"
   },
   "apothecary-diaries-season-3-us-watch-schedule-dub-status": {
-    "scene": "screen",
-    "label": "DUB & SUBTITLES",
-    "question": "Where can US viewers find the current English dub and subtitled Season 3 episodes?",
-    "action": "Use Crunchyroll’s episode-level audio selectors. Season 3 launched October 2, 2026 and its English dub began October 16; the next cour is due April 2027.",
-    "updated": "2026-11-18",
-    "updatedAt": "2026-11-18T05:51:37Z"
+    "scene": "calendar",
+    "label": "FRIDAY TRACKER",
+    "question": "When are The Apothecary Diaries Season 3 sub and dub episodes released?",
+    "action": "Crunchyroll lists the subtitled simulcast on Fridays at 8 a.m. PT. The English dub began October 16 with weekly Friday episodes; the second cour is due in April 2027. Check the episode page for the dub’s exact hour.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:25:26Z"
   },
   "royal-road-november-2026-writathon-serial-fiction": {
     "scene": "clock",
@@ -329,11 +330,11 @@
   },
   "steel-ball-run-jojo-netflix-2nd-3rd-stage-episode-schedule-us": {
     "scene": "calendar",
-    "label": "JOJO FRIDAYS",
-    "question": "How many Steel Ball Run 2nd–3rd STAGE episodes are scheduled on Netflix?",
-    "action": "Netflix announced eleven episodes across the 2nd–3rd STAGES, starting September 25, 2026, with Friday releases; confirm later episode times and split-cour gaps on the current title page.",
+    "label": "EPISODES 10–11",
+    "question": "When are Steel Ball Run installments 10 and 11 expected on Netflix US?",
+    "action": "Netflix confirmed eleven weekly Friday installments beginning September 25. Counting forward projects November 27 and December 4 for installments 10 and 11 if there is no break; recheck Netflix because it announced a split-cour rollout.",
     "updated": "2026-11-20",
-    "updatedAt": "2026-11-20T09:28:13Z"
+    "updatedAt": "2026-11-20T09:25:26Z"
   },
   "frieren-season-3-october-2027-golden-land-arc-official-premiere": {
     "scene": "portal",
@@ -603,12 +604,12 @@
     "updatedAt": "2026-11-20T09:28:13Z"
   },
   "dragon-ball-super-beerus-vs-battle-of-gods-2026": {
-    "scene": "compare",
-    "label": "ENHANCED EDITION",
-    "question": "Is Beerus a completely new Dragon Ball story?",
-    "action": "Compare Toei’s stated reworked footage, fresh sound and reconstructed narrative with Battle of Gods and the original Super opening. Avoid describing it as an entirely new sequel.",
+    "scene": "calendar",
+    "label": "US RELEASE TRACKER",
+    "question": "When do Dragon Ball Super: Beerus sub and dub episodes stream in the US?",
+    "action": "Crunchyroll lists subtitled episodes Sundays at 9 a.m. PT. The weekly English dub began on Crunchyroll November 12 at 8 a.m. PT Thursdays. Netflix’s US rollout began October 17; check each service for current availability.",
     "updated": "2026-11-20",
-    "updatedAt": "2026-11-20T09:28:13Z"
+    "updatedAt": "2026-11-20T09:25:26Z"
   },
   "black-clover-season-2-catch-up-watch-order": {
     "scene": "reader",
@@ -654,11 +655,12 @@
     "updated": "2026-11-18"
   },
   "ranma-season-3-netflix-reboot-vs-original": {
-    "scene": "compare",
-    "label": "CLASSIC OR REBOOT",
-    "question": "Does modern Ranma ½ Season 3 continue the 1989 anime?",
-    "action": "The Netflix series is a new manga adaptation. Compare the original and newer series without assuming continuity or identical episode organization.",
-    "updated": "2026-11-18"
+    "scene": "calendar",
+    "label": "12 EPISODES",
+    "question": "How many episodes are in Ranma ½ Season 3 and what is its US schedule?",
+    "action": "The official Ranma site lists 12 Season 3 episodes and Netflix streaming from October 3. Current episode trackers project a weekly Saturday run through December 19; confirm dates and English audio in the US Netflix player.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:25:26Z"
   },
   "mashle-season-3-january-2027-streaming-guide": {
     "scene": "calendar",
@@ -817,6 +819,109 @@
     "action": "No. November 20 is the Japanese film opening; K MANGA already released the English chapter on November 10.",
     "updated": "2026-11-20",
     "updatedAt": "2026-11-20T09:28:13Z"
+  },
+  "fall-2026-anime-us-weekly-standouts-streaming-dub-status": {
+    "scene": "compare",
+    "label": "LATEST POLL",
+    "question": "Which Fall 2026 anime are the latest weekly poll standouts for US viewers?",
+    "action": "Anime Corner Week 6 ranked Steel Ball Run first, followed by Firefly Wedding, Even the Student Council Has Its Holes!, The Apothecary Diaries, Black Clover and Ranma. This community poll is not Google or Bing search volume.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T09:25:26Z"
+  },
+  "what-does-big-3-mean-one-piece-naruto-bleach-explained": {
+    "scene": "compare",
+    "label": "BIG 3",
+    "question": "What does the Big 3 mean in anime?",
+    "action": "It is a fan shorthand for One Piece, Naruto and Bleach from a shared era of Shonen Jump prominence, not an official award or a quality ranking.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "one-piece-vs-naruto-vs-bleach-which-to-watch-first": {
+    "scene": "compare",
+    "label": "START HERE",
+    "question": "Which of the Big 3 should I watch first?",
+    "action": "Pick One Piece for a huge ongoing adventure, Naruto for a character-driven coming-of-age story, or Bleach for supernatural action with a more bounded TV run.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "dragon-ball-z-vs-kai-differences-which-version-to-watch": {
+    "scene": "compare",
+    "label": "Z OR KAI",
+    "question": "Should I watch Dragon Ball Z or Kai?",
+    "action": "Kai is the streamlined first-watch route; original Z preserves the 291-episode broadcast experience. Include Kai's separate Final Chapters in a full Kai run.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "fullmetal-alchemist-2003-vs-brotherhood-differences-watch-order": {
+    "scene": "compare",
+    "label": "TWO ADAPTATIONS",
+    "question": "Do I need to watch 2003 before Brotherhood?",
+    "action": "No. Brotherhood is a separate manga-based adaptation; watch it alone for the complete manga route, or add 2003 as an alternate story.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "demon-slayer-watch-order-mugen-train-movie-tv-arc": {
+    "scene": "screen",
+    "label": "MUGEN TRAIN",
+    "question": "Do I need the Mugen Train movie and TV arc?",
+    "action": "No. Choose the film or the seven-episode TV version, then continue to Entertainment District, Swordsmith Village, Hashira Training and Infinity Castle.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "jujutsu-kaisen-watch-order-where-jjk-0-fits": {
+    "scene": "screen",
+    "label": "JJK ORDER",
+    "question": "Where does Jujutsu Kaisen 0 go?",
+    "action": "Watch Season 1, then JJK 0, Season 2 and Season 3. The movie is a prequel but release order is the clearest first watch.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "fate-watch-order-beginners-release-order-story-timeline": {
+    "scene": "screen",
+    "label": "FATE ROUTES",
+    "question": "What is a beginner Fate watch order?",
+    "action": "For an anime-first path, watch Unlimited Blade Works TV, the three Heaven's Feel films and then Fate/Zero; this is a recommendation, not a mandated official order.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "naruto-watch-order-original-shippuden-last-boruto": {
+    "scene": "screen",
+    "label": "NARUTO ROUTE",
+    "question": "Where does The Last fit in Naruto?",
+    "action": "Watch Naruto, Shippuden through episode 493, The Last, Shippuden 494–500 and then Boruto. Most other Naruto films are optional.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "hunter-x-hunter-1999-vs-2011-which-version-first": {
+    "scene": "compare",
+    "label": "1999 OR 2011",
+    "question": "Which Hunter x Hunter version should I start with?",
+    "action": "Start with the 148-episode 2011 adaptation for the longest single anime route; choose 1999 plus its OVAs for an alternate, slower early adaptation.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "bleach-watch-order-original-thousand-year-blood-war-filler": {
+    "scene": "screen",
+    "label": "BLEACH ORDER",
+    "question": "What is the Bleach watch order?",
+    "action": "Watch the original 366-episode series, then all four Thousand-Year Blood War parts. Use episode-level mixed/filler labels before skipping blocks.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "anime-sub-vs-dub-which-to-choose-english-release": {
+    "scene": "compare",
+    "label": "SUB OR DUB",
+    "question": "Should I watch anime subbed or dubbed?",
+    "action": "Choose the audio and text tracks that help you enjoy the show; language availability and weekly dub timing vary by title, season and region.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "anime-filler-vs-canon-what-can-you-skip": {
+    "scene": "compare",
+    "label": "FILLER GUIDE",
+    "question": "Can I skip anime filler?",
+    "action": "Usually you can skip clearly standalone anime-original arcs for a manga-focused watch, but keep mixed episodes unless a reliable guide identifies their canon scenes.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
   }
 }
-
