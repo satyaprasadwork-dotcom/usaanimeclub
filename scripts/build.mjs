@@ -74,8 +74,7 @@ function buildSite(articles){
     const paragraphs=a.sections.flatMap(section=>section[1]);
     if(new Set(paragraphs.map(p=>p.trim())).size!==paragraphs.length)throw Error("Article contains duplicate paragraphs: "+a.slug);
   }
-  // Keep the Chapter 39 preview in the chapter archive, not in News.
-  // When the chapter releases, editorial can replace this preview with the finished review.
+  // Keep the published Chapter 39 review in the chapter archive, not in News.
   const chapter39Slug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
   const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/";
   const items=articles.filter(a=>a.slug!==chapter39Slug).sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
