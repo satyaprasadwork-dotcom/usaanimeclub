@@ -72,7 +72,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
       const pag=totalPages>1?paginationHtml({basePath,page,total:archiveItems.length,label:s.title+" chapter and episode articles"}):"";
       const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(reviewCard).join("")+'</div></section>':'';
       const breadcrumbs=[["Home","/"],["Reviews","/reviews/"],[kindLabel,"/reviews/"+s.kind+"/"],[s.title,basePath],...(page===1?[]:[["Page "+page,path]])];
-      const mainTitle=s.title+(page===1?"":" — Page "+page);
+      const mainTitle=s.title+(page===1?"":": Page "+page);
       const summary=page===1?s.summary:"Continue browsing "+s.title+" with older, spoiler-labeled chapter and episode analysis. This is page "+page+" of "+totalPages+".";
       const chapterIntro='<header class="review-series-hero">'+pill(s.kind)+'<h1>'+e(mainTitle)+'</h1><p class="lead">'+e(page===1?s.subtitle:"Chapter reviews · Page "+page+" of "+totalPages)+'</p><p>'+e(summary)+'</p></header>';
       const chapterHub='<div class="review-page wrap">'+bread(breadcrumbs)+chapterIntro+published+(page===1?relevant:"")+'<p class="review-reviewer-note">Our analysis identifies research sources and does not claim firsthand reading of restricted chapters. <a href="/corrections/">Request a correction</a>.</p>'+pag+'</div>';
@@ -81,7 +81,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
       const regularHub='<div class="review-page wrap">'+bread(breadcrumbs)+regularIntro+regularFacts+published+(page===1?relevant:"")+'<p class="review-reviewer-note">Critical commentary identifies its research sources. Personal ratings or firsthand reviews require actual viewing or reading. <a href="/contact/">Contact the editorial desk</a> about corrections or contributions.</p>'+pag+'</div>';
       const main=reviewOnly?chapterHub:regularHub;
       const desc=reviewOnly?"Boruto: Two Blue Vortex chapter criticism, story analysis and character development. "+(page>1?"Older chapter reviews, page "+page+".":"Spoiler-labeled chapter reviews and story analysis."):s.title+" official US "+(s.kind==="anime"?"episode":"English chapter")+" release record and source-backed reviews"+(page>1?", page "+page:"")+".";
-      const title=s.title+" "+(s.kind==="anime"?"Episode":"Chapter")+" Reviews"+(page>1?" — Page "+page:"")+" | USA Anime Club";
+      const title=s.title+" "+(s.kind==="anime"?"Episode":"Chapter")+" Reviews"+(page>1?": Page "+page:"")+" | USA Anime Club";
       const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((item,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:item.headline,url:BASE+renderLink(item)}))};
       files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:s.title+" "+(s.kind==="anime"?"episode reviews USA, anime schedule":"manga chapter reviews, official English chapters")+(page>1?", page "+page:""),noindex:list.length===0,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc(breadcrumbs),metaList]});
     }
