@@ -803,5 +803,101 @@
     "action": "Anime Corner Week 6 ranked Steel Ball Run first, followed by Firefly Wedding, Even the Student Council Has Its Holes!, The Apothecary Diaries, Black Clover and Ranma. This community poll is not Google or Bing search volume.",
     "updated": "2026-11-20",
     "updatedAt": "2026-11-20T09:25:26Z"
+  },
+  "what-does-big-3-mean-one-piece-naruto-bleach-explained": {
+    "scene": "compare",
+    "label": "BIG 3",
+    "question": "What does the Big 3 mean in anime?",
+    "action": "It is a fan shorthand for One Piece, Naruto and Bleach from a shared era of Shonen Jump prominence, not an official award or a quality ranking.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "one-piece-vs-naruto-vs-bleach-which-to-watch-first": {
+    "scene": "compare",
+    "label": "START HERE",
+    "question": "Which of the Big 3 should I watch first?",
+    "action": "Pick One Piece for a huge ongoing adventure, Naruto for a character-driven coming-of-age story, or Bleach for supernatural action with a more bounded TV run.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "dragon-ball-z-vs-kai-differences-which-version-to-watch": {
+    "scene": "compare",
+    "label": "Z OR KAI",
+    "question": "Should I watch Dragon Ball Z or Kai?",
+    "action": "Kai is the streamlined first-watch route; original Z preserves the 291-episode broadcast experience. Include Kai's separate Final Chapters in a full Kai run.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "fullmetal-alchemist-2003-vs-brotherhood-differences-watch-order": {
+    "scene": "compare",
+    "label": "TWO ADAPTATIONS",
+    "question": "Do I need to watch 2003 before Brotherhood?",
+    "action": "No. Brotherhood is a separate manga-based adaptation; watch it alone for the complete manga route, or add 2003 as an alternate story.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "demon-slayer-watch-order-mugen-train-movie-tv-arc": {
+    "scene": "screen",
+    "label": "MUGEN TRAIN",
+    "question": "Do I need the Mugen Train movie and TV arc?",
+    "action": "No. Choose the film or the seven-episode TV version, then continue to Entertainment District, Swordsmith Village, Hashira Training and Infinity Castle.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "jujutsu-kaisen-watch-order-where-jjk-0-fits": {
+    "scene": "screen",
+    "label": "JJK ORDER",
+    "question": "Where does Jujutsu Kaisen 0 go?",
+    "action": "Watch Season 1, then JJK 0, Season 2 and Season 3. The movie is a prequel but release order is the clearest first watch.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "fate-watch-order-beginners-release-order-story-timeline": {
+    "scene": "screen",
+    "label": "FATE ROUTES",
+    "question": "What is a beginner Fate watch order?",
+    "action": "For an anime-first path, watch Unlimited Blade Works TV, the three Heaven's Feel films and then Fate/Zero; this is a recommendation, not a mandated official order.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "naruto-watch-order-original-shippuden-last-boruto": {
+    "scene": "screen",
+    "label": "NARUTO ROUTE",
+    "question": "Where does The Last fit in Naruto?",
+    "action": "Watch Naruto, Shippuden through episode 493, The Last, Shippuden 494–500 and then Boruto. Most other Naruto films are optional.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "hunter-x-hunter-1999-vs-2011-which-version-first": {
+    "scene": "compare",
+    "label": "1999 OR 2011",
+    "question": "Which Hunter x Hunter version should I start with?",
+    "action": "Start with the 148-episode 2011 adaptation for the longest single anime route; choose 1999 plus its OVAs for an alternate, slower early adaptation.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "bleach-watch-order-original-thousand-year-blood-war-filler": {
+    "scene": "screen",
+    "label": "BLEACH ORDER",
+    "question": "What is the Bleach watch order?",
+    "action": "Watch the original 366-episode series, then all four Thousand-Year Blood War parts. Use episode-level mixed/filler labels before skipping blocks.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "anime-sub-vs-dub-which-to-choose-english-release": {
+    "scene": "compare",
+    "label": "SUB OR DUB",
+    "question": "Should I watch anime subbed or dubbed?",
+    "action": "Choose the audio and text tracks that help you enjoy the show; language availability and weekly dub timing vary by title, season and region.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
+  },
+  "anime-filler-vs-canon-what-can-you-skip": {
+    "scene": "compare",
+    "label": "FILLER GUIDE",
+    "question": "Can I skip anime filler?",
+    "action": "Usually you can skip clearly standalone anime-original arcs for a manga-focused watch, but keep mixed episodes unless a reliable guide identifies their canon scenes.",
+    "updated": "2026-11-20",
+    "updatedAt": "2026-11-20T10:15:42Z"
   }
 }
