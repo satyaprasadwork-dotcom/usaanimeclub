@@ -32,9 +32,9 @@ function buildSite(articles){
   const reviewFeaturedImages=JSON.parse(readFileSync(resolve(ROOT,"content/review-featured-images.json"),"utf8"));
   for(const [slug,image] of Object.entries(reviewFeaturedImages)){
     if(!publishedReviews.some(r=>r.kind+"-"+r.seriesSlug+"-"+r.installmentSlug===slug))throw Error("Featured review image has no review: "+slug);
-    if(image.webp!=="assets/reviews/"+slug+".webp"||image.jpg!=="assets/reviews/"+slug+".jpg")throw Error("Invalid review art path: "+slug);
+    if((image.webp!==undefined&&image.webp!=="assets/reviews/"+slug+".webp")||image.jpg!=="assets/reviews/"+slug+".jpg")throw Error("Invalid review art path: "+slug);
     if(image.source!=="original-ai-generated-editorial"||!image.alt||image.alt.length<30)throw Error("Missing review art provenance/alt: "+slug);
-    for(const p of [image.webp,image.jpg])if(!existsSync(resolve(ROOT,p)))throw Error("Approved review art missing: "+p);
+    for(const p of (image.webp?[image.webp,image.jpg]:[image.jpg]))if(!existsSync(resolve(ROOT,p)))throw Error("Approved review art missing: "+p);
   }
   // Deterministic build ID: changes whenever generator, content, CSS or runtime changes.
   // No changing timestamps/commit SHA are embedded, so CI regeneration stays stable.
