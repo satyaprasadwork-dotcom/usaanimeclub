@@ -46,11 +46,6 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   const pill=k=>'<span class="review-kind-tag">'+(k==="anime"?"ANIME EPISODES":"MANGA CHAPTERS")+'</span>';
   const seriesCard=s=>'<a class="review-series-card" href="'+seriesUrl(s)+'"><div class="review-card-top">'+pill(s.kind)+'<span class="review-arrow" aria-hidden="true">↗</span></div><h3>'+e(s.title)+'</h3><p class="review-subtitle">'+e(s.subtitle)+'</p><p class="review-card-excerpt">'+e(s.summary)+'</p><div class="review-card-bottom">'+(s.slug==="boruto-two-blue-vortex"?'':'<span>'+e(s.platform)+'</span>')+'<strong>'+reviewed.get(s.kind+":"+s.slug).length+' original reviews</strong></div></a>';
   const reviewCard=r=>'<a class="review-published-card" href="'+renderLink(r)+'"><span class="review-kind-tag">'+e(r.installmentSlug.replace("-"," ").toUpperCase())+'</span><h3>'+e(r.headline)+'</h3><p>'+e(r.verdict)+'</p><span class="review-card-foot">'+(r.reviewMode==="sourced"?"Source-based review by ":"Review by ")+e(r.reviewerName)+' · '+dateFmt(r.publishedOn)+'</span></a>';
-  // A Chapter 39 article joins the chapter grid as an ordinary card.
-  // When an actual Chapter 39 review is published, the preview card disappears
-  // automatically while its distinct news URL remains available.
-  const chapter39Slug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
-  const chapter39Card=article=>'<a class="review-published-card" href="/reviews/manga/boruto-two-blue-vortex/chapter-39/"><span class="review-kind-tag">CHAPTER 39</span><h3>Chapter 39: Official Preview and What Could Happen</h3><p>What the Kawaki–Himawari scene suggests, where Boruto and Code left off, and the possibilities readers are debating ahead of release.</p><span class="review-card-foot">Preview &amp; predictions by USA Anime Club Editorial · '+dateFmt(article.date)+'</span></a>';
   const crosslinks=s=>'<ul class="review-related-list">'+s.relatedNewsSlugs.map(slug=>{const a=news.get(slug);return '<li><a href="/news/'+e(a.slug)+'/">'+e(a.title)+'</a></li>'}).join("")+'</ul>';
   const archives=[
     {path:"/reviews/",name:"Reviews",title:"Anime Episode & Manga Chapter Reviews | USA Anime Club",desc:"Explore anime and manga series with official release sources and spoiler-labeled original episode and chapter criticism.",kw:"anime episode reviews, manga chapter reviews, official US release tracker, critical review archive",listing:series},
@@ -66,9 +61,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   }
   for(const s of series){
     const basePath=seriesUrl(s),kindLabel=label(s.kind),list=reviewed.get(s.kind+":"+s.slug);
-    const reviewOnly=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex";
-    const chapter39Article=reviewOnly&&!list.some(r=>r.installmentNumber===39)?news.get(chapter39Slug):null;
-    const archiveItems=chapter39Article?[{preview:chapter39Article},...list]:list;
+    const archiveItems=list;
     const focus='<ul class="review-focus-list">'+s.reviewFocus.map(x=>'<li>'+e(x)+'</li>').join("")+'</ul>';
     const relevant='<section class="review-related"><h2>Related USA Anime Club reporting</h2>'+crosslinks(s)+'</section>';
     const totalPages=getPageCount(archiveItems.length);
@@ -76,7 +69,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
       const path=page===1?basePath:basePath+"page/"+page+"/";
       const visible=getPageItems(archiveItems,page);
       const pag=totalPages>1?paginationHtml({basePath,page,total:archiveItems.length,label:s.title+" chapter and episode articles"}):"";
-      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(item=>item.preview?chapter39Card(item.preview):reviewCard(item)).join("")+'</div></section>':'';
+      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(reviewCard).join("")+'</div></section>':'';
       const breadcrumbs=[["Home","/"],["Reviews","/reviews/"],[kindLabel,"/reviews/"+s.kind+"/"],[s.title,basePath],...(page===1?[]:[["Page "+page,path]])];
       const mainTitle=s.title+(page===1?"":" — Page "+page);
       const summary=page===1?s.summary:"Continue browsing "+s.title+" with older, spoiler-labeled chapter and episode analysis. This is page "+page+" of "+totalPages+".";
@@ -88,7 +81,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
       const main=reviewOnly?chapterHub:regularHub;
       const desc=reviewOnly?"Boruto: Two Blue Vortex chapter criticism, story analysis and character development. "+(page>1?"Older chapter reviews, page "+page+".":"Spoiler-labeled chapter reviews and story analysis."):s.title+" official US "+(s.kind==="anime"?"episode":"English chapter")+" release record and source-backed reviews"+(page>1?", page "+page:"")+".";
       const title=s.title+" "+(s.kind==="anime"?"Episode":"Chapter")+" Reviews"+(page>1?" — Page "+page:"")+" | USA Anime Club";
-      const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((item,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:item.preview?item.preview.title:item.headline,url:BASE+(item.preview?"/reviews/manga/boruto-two-blue-vortex/chapter-39/":renderLink(item))}))};
+      const metaList={"@context":"https://schema.org","@type":"ItemList",itemListElement:visible.map((item,i)=>({"@type":"ListItem",position:(page-1)*ARTICLES_PER_PAGE+i+1,name:item.headline,url:BASE+renderLink(item)}))};
       files[path.slice(1)+"index.html"]=shell({path,title,desc,kw:s.title+" "+(s.kind==="anime"?"episode reviews USA, anime schedule":"manga chapter reviews, official English chapters")+(page>1?", page "+page:""),noindex:list.length===0,main,schemas:[pageLd(path,title,desc,"CollectionPage"),bc(breadcrumbs),metaList]});
     }
   }
@@ -103,9 +96,6 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     const previousChapter=chapterPeers.find(q=>q.installmentNumber===r.installmentNumber-1);
     const followingChapter=chapterPeers.find(q=>q.installmentNumber===r.installmentNumber+1);
     const chapterNav=r.kind==="manga"&&(previousChapter||followingChapter)?'<nav class="review-chapter-nav" aria-label="Read adjacent chapter reviews"><h2>Continue through the chapters</h2><div class="review-chapter-links">'+(previousChapter?'<a href="'+renderLink(previousChapter)+'">← Chapter '+previousChapter.installmentNumber+' review</a>':"")+(followingChapter?'<a href="'+renderLink(followingChapter)+'">Chapter '+followingChapter.installmentNumber+' review →</a>':"")+'</div><p><a href="'+seriesUrl(s)+'">Browse every '+e(s.title)+' chapter review</a></p></nav>':"";
-    const nextChapterPreview=r.kind==="manga"&&r.seriesSlug==="boruto-two-blue-vortex"&&r.installmentNumber===38&&!followingChapter&&news.has("boruto-two-blue-vortex-chapter-39-release-date-preview-predictions")
-      ?'<p class="review-reviewer-note"><a href="/reviews/manga/boruto-two-blue-vortex/chapter-39/">Chapter 39 preview and predictions</a></p>'
-      :"";
     const score=sourced||r.score===undefined?"":'<p class="review-score">Reviewer rating: <strong>'+r.score+'/10</strong></p>';
     const sources=sourced?'<section class="review-sources" aria-labelledby="review-sources-heading"><h2 id="review-sources-heading">Research sources and release verification</h2><p>Research checked <time datetime="'+r.researchCheckedOn+'">'+dateFmt(r.researchCheckedOn)+'</time>. The publisher establishes release facts; independent sources inform the analysis above.</p><ul>'+r.references.map(x=>'<li><a href="'+e(x.url)+'" target="_blank" rel="noopener noreferrer">'+e(x.label)+'</a> <time datetime="'+x.date+'">'+dateFmt(x.date)+'</time></li>').join("")+'</ul></section>':'';
     const meta=sourced
@@ -119,7 +109,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     const coverArt=editorialCover({category:r.kind==="anime"?"Anime":"Manga",slug:coverSlug,title:fullTitle},{scene:r.kind==="anime"?"screen":"reader",label:sourced?"SOURCE-BASED REVIEW":"ORIGINAL REVIEW"});
     files["assets/reviews/"+coverSlug+".svg"]=coverArt;
     files["assets/reviews/"+coverSlug+".png"]=new Resvg(coverArt).render().asPng();
-    const main='<article class="review-page review-article wrap">'+bread([["Home","/"],["Reviews","/reviews/"],[label(s.kind),"/reviews/"+s.kind+"/"],[s.title,seriesUrl(s)],[r.headline,path]])+'<header class="review-series-hero">'+pill(s.kind)+'<h1>'+e(fullTitle)+'</h1><p class="lead">'+e(r.description)+'</p><p class="review-article-meta">'+meta+' · Published <time datetime="'+r.publishedOn+'">'+dateFmt(r.publishedOn)+'</time> · Updated <time datetime="'+r.updatedAt+'">'+dateFmt(r.updatedAt.slice(0,10))+'</time></p><p class="editor-credit">Editor-in-Chief: <a href="/about/#editor-in-chief">Satya Prasad</a></p></header>'+coverMarkup+'<p class="review-spoiler-note">Spoiler notice: this article discusses released installment events described by the sources.</p><div class="review-verdict"><span class="eyebrow">'+(sourced?"THE SOURCED TAKEAWAY":"THE VERDICT")+'</span><p>'+e(r.verdict)+'</p>'+score+'</div><div class="prose review-article-prose">'+body+'</div>'+chapterNav+nextChapterPreview+sources+'<section class="source-note"><strong>Official '+(r.kind==="anime"?"episode":"chapter")+' source</strong><p>Only the publisher or authorized streaming service controls access, release times and language options.</p><a href="'+e(r.officialInstallmentUrl)+'" target="_blank" rel="noopener noreferrer">Open the official installment listing</a></section><p class="review-reviewer-note"><a href="/corrections/">Request a factual correction</a> · <a href="'+seriesUrl(s)+'">More '+e(s.title)+' coverage</a></p></article>';
+    const main='<article class="review-page review-article wrap">'+bread([["Home","/"],["Reviews","/reviews/"],[label(s.kind),"/reviews/"+s.kind+"/"],[s.title,seriesUrl(s)],[r.headline,path]])+'<header class="review-series-hero">'+pill(s.kind)+'<h1>'+e(fullTitle)+'</h1><p class="lead">'+e(r.description)+'</p><p class="review-article-meta">'+meta+' · Published <time datetime="'+r.publishedOn+'">'+dateFmt(r.publishedOn)+'</time> · Updated <time datetime="'+r.updatedAt+'">'+dateFmt(r.updatedAt.slice(0,10))+'</time></p><p class="editor-credit">Editor-in-Chief: <a href="/about/#editor-in-chief">Satya Prasad</a></p></header>'+coverMarkup+'<p class="review-spoiler-note">Spoiler notice: this article discusses released installment events described by the sources.</p><div class="review-verdict"><span class="eyebrow">'+(sourced?"THE SOURCED TAKEAWAY":"THE VERDICT")+'</span><p>'+e(r.verdict)+'</p>'+score+'</div><div class="prose review-article-prose">'+body+'</div>'+chapterNav+sources+'<section class="source-note"><strong>Official '+(r.kind==="anime"?"episode":"chapter")+' source</strong><p>Only the publisher or authorized streaming service controls access, release times and language options.</p><a href="'+e(r.officialInstallmentUrl)+'" target="_blank" rel="noopener noreferrer">Open the official installment listing</a></section><p class="review-reviewer-note"><a href="/corrections/">Request a factual correction</a> · <a href="'+seriesUrl(s)+'">More '+e(s.title)+' coverage</a></p></article>';
     const common={"@context":"https://schema.org",mainEntityOfPage:{"@type":"WebPage","@id":BASE+path},headline:fullTitle,name:fullTitle,description:r.description,datePublished:r.publishedOn+"T12:00:00Z",dateModified:r.updatedAt,editor:{"@type":"Person",name:"Satya Prasad",url:BASE+"/about/#editor-in-chief"},publisher:org,image:BASE+socialImg,inLanguage:"en-US"};
     let schema;
     if(sourced){

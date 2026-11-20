@@ -74,12 +74,9 @@ function buildSite(articles){
     const paragraphs=a.sections.flatMap(section=>section[1]);
     if(new Set(paragraphs.map(p=>p.trim())).size!==paragraphs.length)throw Error("Article contains duplicate paragraphs: "+a.slug);
   }
-  // Keep the published Chapter 39 review in the chapter archive, not in News.
-  const chapter39Slug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
-  const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/";
-  const items=articles.filter(a=>a.slug!==chapter39Slug).sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
+  const items=articles.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title));
   const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  const url=a=>a.slug===chapter39Slug?chapter39Path:"/news/"+a.slug+"/";
+  const url=a=>"/news/"+a.slug+"/";
   const imageFor=a=>{
     const approved=featuredImages[a.slug];
     return approved
@@ -277,8 +274,8 @@ ${pag}</div></section>`;
     const path=url(a),pic=imageFor(a).visual,title=a.title+" | USA Anime Club";
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     const contents=`<a href="#quick-answer">Quick answer</a>`+a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("")+`<a href="#primary-source">Primary source</a>`;
-    const crumbs=a.slug===chapter39Slug?[["Home","/"],["Reviews","/reviews/"],["Manga Chapter Reviews","/reviews/manga/"],["Boruto: Two Blue Vortex","/reviews/manga/boruto-two-blue-vortex/"],[a.title,path]]:[["Home","/"],["News","/news/"],[a.title,path]];
-    const reportLabel=a.slug===chapter39Slug?"BORUTO CHAPTERS":"US ANIME NEWS";
+    const crumbs=[["Home","/"],["News","/news/"],[a.title,path]];
+    const reportLabel="US ANIME NEWS";
     const content=`<div class="post-layout">${bread(crumbs)}
 <article><header class="post-head"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">/</span> ${reportLabel}</span>
 <h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
@@ -378,7 +375,7 @@ for(const a of input){
 const results=buildSite(input);const check=process.argv.includes("--check");let errors=0;
 for(const [path,content] of Object.entries(results)){const dst=resolve(ROOT,path),expected=typeof content==="string"?Buffer.from(content,"utf8"):Buffer.from(content);if(check){if(!existsSync(dst)||!readFileSync(dst).equals(expected)){console.error("Outdated:",path);errors++}}else{mkdirSync(dirname(dst),{recursive:true});writeFileSync(dst,expected)}}
 // Purge only obsolete generated article routes and associated SVGs.
-const slugs=new Set(input.filter(a=>a.slug!=="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions").map(a=>a.slug));
+const slugs=new Set(input.map(a=>a.slug));
 for(const entry of readdirSync(resolve(ROOT,"news"),{withFileTypes:true})){
   if(!entry.isDirectory()||entry.name==="page"||entry.name==="category"||slugs.has(entry.name))continue;
   if(check){console.error("Stale article:",entry.name);errors++}

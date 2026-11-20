@@ -34,11 +34,7 @@ const unique=(values,label)=>assert.equal(new Set(values).size,values.length,"du
 assert(urls.length>=articles.length+8,"sitemap omits articles or trust pages");
 unique(urls,"sitemap URLs");
 unique(articles.map(a=>a.slug),"article slugs");
-const chapter39PreviewSlug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions";
-const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/";
-const articlePath=a=>a.slug===chapter39PreviewSlug?chapter39Path:"/news/"+a.slug+"/";
-const newsArticles=articles.filter(a=>a.slug!==chapter39PreviewSlug);
-const expectedArticles=articles.map(a=>base+articlePath(a));
+const chapter39LegacySlug="boruto-two-blue-vortex-chapter-39-release-date-preview-predictions"; const chapter39Path="/reviews/manga/boruto-two-blue-vortex/chapter-39/"; const articlePath=a=>"/news/"+a.slug+"/"; const newsArticles=articles; const expectedArticles=articles.map(a=>base+articlePath(a));
 const series=JSON.parse(read("content/review-series.json"));
 const reviews=JSON.parse(read("content/reviews.json"));
 assert(series.length>=6,"The original review series must remain");
@@ -47,27 +43,9 @@ assert(Array.isArray(reviews),"Review records must be an array");
 const boruto=series.find(s=>s.kind==="manga"&&s.slug==="boruto-two-blue-vortex");
 assert(boruto,"Boruto: Two Blue Vortex must be listed under manga chapter reviews");
 const borutoChapters=reviews.filter(r=>r.kind==="manga"&&r.seriesSlug===boruto.slug).sort((a,b)=>a.installmentNumber-b.installmentNumber);
-assert(borutoChapters.length>=38,"At least thirty-eight published Boruto chapter reviews required");
+assert(borutoChapters.length>=39,"At least thirty-nine published Boruto chapter reviews required");
 assert.deepEqual(borutoChapters.map(r=>r.installmentNumber),Array.from({length:borutoChapters.length},(_,i)=>i+1),"Boruto chapter reviews must be sequential without gaps");
-// Chapter 39 is a sourced preview in the manga chapter sequence, not a fabricated completed review.
-const chapter39Preview=articles.find(a=>a.slug===chapter39PreviewSlug);
-assert(chapter39Preview,"Chapter 39 pre-release article missing");
-assert(chapter39Preview.category==="Manga"&&chapter39Preview.title.includes("Chapter 39 Preview"),"Chapter 39 must remain clearly labeled pre-release");
-assert(chapter39Preview.source==="https://naruto-official.com/en/news/01_2722","Chapter 39 preview needs verified November 13 official source");
-assert(chapter39Preview.sections.reduce((n,x)=>n+x[1].join(" ").trim().split(/\s+/).length,0)>=1200,"Chapter 39 pre-release article needs original depth");
-assert(chapter39Preview.references.some(r=>r.url.includes("viz.com/shonenjump/chapters/boruto-two-blue-vortex")),"Chapter 39 preview must verify current English release listing");
-assert(chapter39Preview.references.some(r=>r.url.includes("reddit.com/")),"Chapter 39 needs sourced, explicitly labeled fan context");
-assert(!reviews.some(r=>r.installmentSlug===chapter39PreviewSlug),"Do not masquerade as a completed Chapter 39 review");
-assert(read("reviews/manga/boruto-two-blue-vortex/chapter-39/index.html").includes('rel="canonical" href="'+base+chapter39Path+'"'),"Chapter 39 chapter canonical missing");
-assert(!urls.includes(base+"/news/"+chapter39PreviewSlug+"/"),"Legacy news URL must not remain canonical or in sitemap");
-const currentBorutoHub=read("reviews/manga/boruto-two-blue-vortex/index.html");
-if(!borutoChapters.some(r=>r.installmentNumber===39)){
- assert(!currentBorutoHub.includes("PRE-RELEASE / NOT A REVIEW"),"Chapter 39 should not use a separate pre-release banner");
- assert(currentBorutoHub.includes('class="review-published-card" href="'+chapter39Path+'"><span class="review-kind-tag">CHAPTER 39</span>'),"Chapter 39 preview must appear as an ordinary first chapter card");
- assert(read("reviews/manga/boruto-two-blue-vortex/chapter-38/index.html").includes(chapter39Path),"Chapter 38 must link to Chapter 39 preview");
-}
-
-for(const r of borutoChapters){
+const chapter39Review=borutoChapters.find(r=>r.installmentNumber===39); assert(chapter39Review,"Chapter 39 published review missing"); assert.equal(chapter39Review.headline,"Sarada Turns the Rescue Into a Team Win","Unexpected Chapter 39 review headline"); assert.equal(chapter39Review.officialInstallmentUrl,"https://www.viz.com/shonenjump/boruto-two-blue-vortex-chapter-39/chapter/52195","Chapter 39 official English installment URL missing"); assert(chapter39Review.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length>=1200,"Chapter 39 review needs original depth"); assert(chapter39Review.references.length>=4&&chapter39Review.references.some(r=>r.url===chapter39Review.officialInstallmentUrl),"Chapter 39 needs dated primary and independent sources"); assert(!articles.some(a=>a.slug===chapter39LegacySlug),"Chapter 39 preview should be replaced by the released review"); assert(urls.includes(base+chapter39Path),"Chapter 39 review missing from sitemap"); assert(!urls.includes(base+"/news/"+chapter39LegacySlug+"/"),"Legacy news URL must not remain canonical or in sitemap"); const currentBorutoHub=read("reviews/manga/boruto-two-blue-vortex/index.html"); assert(currentBorutoHub.includes(chapter39Path)&&currentBorutoHub.includes("Sarada Turns the Rescue Into a Team Win"),"Chapter 39 should appear in Boruto chapter archive"); assert(!currentBorutoHub.includes("Official Preview and What Could Happen")&&!currentBorutoHub.includes("Preview &amp; predictions"),"Stale Chapter 39 preview card remains"); assert(read("reviews/manga/boruto-two-blue-vortex/chapter-38/index.html").includes(chapter39Path),"Chapter 38 must link forward to the Chapter 39 review"); assert(existsSync(resolve(root,"assets/reviews/manga-boruto-two-blue-vortex-chapter-39.webp")),"Chapter 39 featured image missing from review assets"); for(const r of borutoChapters){
  const wordCount=r.sections.flatMap(x=>x[1]).join(" ").trim().split(/\s+/).filter(Boolean).length;
  assert(wordCount>=1000,"Boruto chapter criticism must contain 1000+ analysis words: "+r.installmentSlug);
  assert(r.reviewMode==="sourced"&&!r.firsthandConfirmed&&r.score===undefined,"No invented firsthand rating: "+r.installmentSlug);
@@ -136,11 +114,10 @@ for(const s of series){
   assert(!html.includes("currently lists Chapter 38"),"Boruto review hub must omit latest-release paragraph");
   assert(!html.includes("LATEST VERIFIED ENTRY"),"Boruto archive should not display release status");
   assert(!html.includes("Read the chapters")&&!html.includes("Open the official chapter directory"),"Unwanted chapter-directory block must be absent from Boruto hub");
-  const hasPreview=borutoChapters.every(r=>r.installmentNumber!==39);
-  const expectedCards=borutoChapters.length+(hasPreview?1:0);
+  const expectedCards=borutoChapters.length;
   const allBorutoCards=Array.from({length:getPageCount(expectedCards)},(_,i)=>i===0?html:read("reviews/manga/boruto-two-blue-vortex/page/"+(i+1)+"/index.html"))
     .reduce((total,pageHtml)=>total+(pageHtml.match(/class="review-published-card"/g)||[]).length,0);
-  assert.equal(allBorutoCards,expectedCards,"Boruto series pagination must list every chapter card including the Chapter 39 preview until review publication");
+  assert.equal(allBorutoCards,expectedCards,"Boruto series pagination must list every published chapter card");
  }
 
 }
@@ -164,9 +141,8 @@ for(const page of ["reviews/index.html","reviews/anime/index.html","reviews/mang
 for(const s of series){
  const items=reviews.filter(r=>r.kind===s.kind&&r.seriesSlug===s.slug)
   .sort((a,b)=>b.publishedOn.localeCompare(a.publishedOn)||b.installmentNumber-a.installmentNumber);
- const isBorutoPreview=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex"&&!items.some(r=>r.installmentNumber===39);
- const archiveItems=isBorutoPreview?[{preview:chapter39Preview},...items]:items;
- const basePath="/reviews/"+s.kind+"/"+s.slug+"/";
+ const archiveItems=items;
+  const basePath="/reviews/"+s.kind+"/"+s.slug+"/";
  const pageCount=getPageCount(archiveItems.length);
  const visited=[];
  for(let page=1;page<=pageCount;page++){
@@ -176,7 +152,7 @@ for(const s of series){
   assert(html.includes('rel="canonical" href="'+base+route+'"'),"Incorrect review pagination canonical "+route);
   if(items.length)assert(urls.includes(base+route),"Published review pagination omitted from sitemap "+route);
   const actual=[...html.matchAll(/class="review-published-card" href="([^"]+)"/g)].map(m=>m[1]);
-  const expected=getPageItems(archiveItems,page).map(item=>item.preview?chapter39Path:basePath+item.installmentSlug+"/");
+  const expected=getPageItems(archiveItems,page).map(item=>basePath+item.installmentSlug+"/");
   assert(actual.length<=ARTICLES_PER_PAGE,"Review page exceeds twelve cards "+route);
   assert.deepEqual(actual,expected,"Review chapter order, overlap or missing cards "+route);
   visited.push(...actual);
@@ -388,7 +364,7 @@ for(const loc of foundNews){
 assert(read("robots.txt").includes(base+"/sitemap.xml"),"robots.txt lacks sitemap");
 const rss=read("feed.xml");
 for(const a of newsArticles)assert(rss.includes('<guid isPermaLink="true">'+base+"/news/"+a.slug+"/</guid>"),"RSS omits "+a.slug);
-assert(!rss.includes(base+"/news/"+chapter39PreviewSlug+"/"),"Former Chapter 39 news URL remains in RSS");
+assert(!rss.includes(base+"/news/"+chapter39LegacySlug+"/"),"Former Chapter 39 news URL remains in RSS");
 const homepage=read("index.html");
 const mostRecent=[...newsArticles].sort((a,b)=>b.date.localeCompare(a.date)||(b.publishSequence||0)-(a.publishSequence||0)||b.sourceDate.localeCompare(a.sourceDate)||a.title.localeCompare(b.title))[0];
 const featured=homepage.match(/<a class="feature-card"[^>]* href="([^"]+)"/);
@@ -791,7 +767,7 @@ const htaccess=read(".htaccess");
 assert(htaccess.includes("RewriteRule ^(?:scripts|content|"),"Source directories accessible through hosting");
 assert(htaccess.includes("build-info.json"),"Build marker cache policy missing");
 assert(htaccess.includes("RewriteRule ^news/boruto-two-blue-vortex-chapter-39-release-date-preview-predictions/?$ /reviews/manga/boruto-two-blue-vortex/chapter-39/ [R=301,L]"),"Permanent redirect missing for former Chapter 39 URL");
-assert(!existsSync(resolve(root,"news/"+chapter39PreviewSlug+"/index.html")),"Old Chapter 39 news HTML must be removed to prevent duplicates");
+assert(!existsSync(resolve(root,"news/"+chapter39LegacySlug+"/index.html")),"Old Chapter 39 news HTML must be removed to prevent duplicates");
 for(const pageUrl of urls){
  const pageHtml=read(localPath(pageUrl));
  for(const [asset,attr] of [["styles.css","href"],["site.js","src"]]){
