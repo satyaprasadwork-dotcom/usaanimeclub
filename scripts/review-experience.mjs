@@ -61,6 +61,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   }
   for(const s of series){
     const basePath=seriesUrl(s),kindLabel=label(s.kind),list=reviewed.get(s.kind+":"+s.slug);
+    const reviewOnly=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex";
     const archiveItems=list;
     const focus='<ul class="review-focus-list">'+s.reviewFocus.map(x=>'<li>'+e(x)+'</li>').join("")+'</ul>';
     const relevant='<section class="review-related"><h2>Related USA Anime Club reporting</h2>'+crosslinks(s)+'</section>';
