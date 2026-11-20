@@ -28,13 +28,13 @@ function buildSite(articles){
     if(image.source!=="original-ai-generated-editorial"||!image.alt||image.alt.length<30)throw Error("Missing illustration provenance or alt text: "+slug);
     for(const file of svg?[image.svg]:[image.webp,image.jpg])if(!existsSync(resolve(ROOT,file)))throw Error("Approved illustration missing: "+file);
   }
-  // Approved, chapter-specific review images; all other review art retains SVG/PNG fallback.
+  // Approved, installment-specific review images; older art may include both WebP and JPEG.
   const reviewFeaturedImages=JSON.parse(readFileSync(resolve(ROOT,"content/review-featured-images.json"),"utf8"));
   for(const [slug,image] of Object.entries(reviewFeaturedImages)){
     if(!publishedReviews.some(r=>r.kind+"-"+r.seriesSlug+"-"+r.installmentSlug===slug))throw Error("Featured review image has no review: "+slug);
-    if(image.webp!=="assets/reviews/"+slug+".webp"||image.jpg!=="assets/reviews/"+slug+".jpg")throw Error("Invalid review art path: "+slug);
+    if((image.webp!==undefined&&image.webp!=="assets/reviews/"+slug+".webp")||image.jpg!=="assets/reviews/"+slug+".jpg")throw Error("Invalid review art path: "+slug);
     if(image.source!=="original-ai-generated-editorial"||!image.alt||image.alt.length<30)throw Error("Missing review art provenance/alt: "+slug);
-    for(const p of [image.webp,image.jpg])if(!existsSync(resolve(ROOT,p)))throw Error("Approved review art missing: "+p);
+    for(const p of (image.webp?[image.webp,image.jpg]:[image.jpg]))if(!existsSync(resolve(ROOT,p)))throw Error("Approved review art missing: "+p);
   }
   // Deterministic build ID: changes whenever generator, content, CSS or runtime changes.
   // No changing timestamps/commit SHA are embedded, so CI regeneration stays stable.
@@ -50,7 +50,7 @@ function buildSite(articles){
     .update(readFileSync(resolve(ROOT,"content/editorial-formats.json")))
     .update(readFileSync(resolve(ROOT,"content/featured-images.json")))
     .update(readFileSync(resolve(ROOT,"content/review-featured-images.json")))
-    .update(Object.values(reviewFeaturedImages).map(image=>createHash("sha256").update(readFileSync(resolve(ROOT,image.webp))).update(readFileSync(resolve(ROOT,image.jpg))).digest("hex")).join("|"))
+    .update(Object.values(reviewFeaturedImages).map(image=>{const hash=createHash("sha256");for(const p of (image.webp?[image.webp,image.jpg]:[image.jpg]))hash.update(readFileSync(resolve(ROOT,p)));return hash.digest("hex")}).join("|"))
     .update(Object.values(featuredImages).map(image=>{
       const paths=image.svg?[image.svg]:[image.webp,image.jpg];
       const hash=createHash("sha256");for(const path of paths)hash.update(readFileSync(resolve(ROOT,path)));
