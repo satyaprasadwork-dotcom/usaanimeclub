@@ -108,7 +108,7 @@ for(let n=36;n<=38;n++){
  assert(review.references.some(ref=>ref.url.includes("kyodai.ghost.io/")||ref.url.includes("thegeekiary.com/")),"Chapter "+n+" lacks independent dated critical source");
 }
 
-assert.equal(series.filter(s=>s.kind==="anime").length,3,"Pilot needs three anime series");
+assert.equal(series.filter(s=>s.kind==="anime").length,4,"Four anime review series, including Solo Leveling, must be present");
 assert(series.filter(s=>s.kind==="manga").length>=3,"Original manga review series must remain");
 for(const s of series){
  const path="reviews/"+s.kind+"/"+s.slug+"/index.html";
@@ -116,7 +116,12 @@ for(const s of series){
  const html=read(path);
  assert(!html.includes("What US readers should know")&&!html.includes("review-series-context"),"Redundant series context must be removed "+path);
  assert(!html.includes("Critical responses and reviews"),"Redundant review heading must be removed "+path);
- if(reviews.some(r=>r.kind===s.kind&&r.seriesSlug===s.slug))assert(html.includes('class="review-published-card"'),"Cards missing from series hub "+path);
+ if(reviews.some(r=>r.kind===s.kind&&r.seriesSlug===s.slug)){
+  if(s.kind==="anime"&&s.slug==="solo-leveling"){
+   assert.equal((html.match(/class="review-series-card"/g)||[]).length,2,"Solo Leveling hub must show exactly two season cards");
+   assert(!html.includes('class="review-published-card"'),"Solo Leveling episode cards belong on their season pages");
+  }else assert(html.includes('class="review-published-card"'),"Cards missing from series hub "+path);
+ }
  assert(html.includes('rel="canonical" href="'+base+"/reviews/"+s.kind+"/"+s.slug+'/"'),"Incorrect review hub canonical "+path);
  if(s.slug!=="boruto-two-blue-vortex"&&s.hideOverviewCards!==true){
   assert(html.includes(s.officialUrl.replaceAll("&","&amp;")),"Official primary source missing from hub "+path);
@@ -161,6 +166,29 @@ for(const s of series){
  const chapter40Preview=articles.find(a=>a.slug==="boruto-two-blue-vortex-chapter-40-preview");
  const archiveItems=s.kind==="manga"&&s.slug==="boruto-two-blue-vortex"&&chapter40Preview?[{preview:chapter40Preview},...items]:items;
   const basePath="/reviews/"+s.kind+"/"+s.slug+"/";
+ if(s.kind==="anime"&&s.slug==="solo-leveling"){
+  const hub=read("reviews/anime/solo-leveling/index.html");
+  const seasonRoutes=["/reviews/anime/solo-leveling/season-1/","/reviews/anime/solo-leveling/season-2/"];
+  const visitedEpisodes=[];
+  for(const season of [1,2]){
+   const seasonPath=seasonRoutes[season-1];
+   const seasonReviews=items.filter(r=>season===1?r.installmentNumber<=12:r.installmentNumber>=13)
+    .sort((a,b)=>a.installmentNumber-b.installmentNumber);
+   const seasonFile="reviews/anime/solo-leveling/season-"+season+"/index.html";
+   const seasonHtml=read(seasonFile);
+   assert(urls.includes(base+seasonPath),"Solo Leveling season page missing from sitemap "+seasonPath);
+   assert(seasonHtml.includes('rel="canonical" href="'+base+seasonPath+'"'),"Incorrect Solo Leveling season canonical "+seasonPath);
+   const actual=[...seasonHtml.matchAll(/class="review-published-card" href="([^"]+)"/g)].map(m=>m[1]);
+   const expected=seasonReviews.map(r=>basePath+r.installmentSlug+"/");
+   assert.deepEqual(actual,expected,"Solo Leveling season must list all episode reviews in release order "+seasonPath);
+   assert(seasonHtml.includes("ALL RELEASED EPISODES"),"Season page heading missing "+seasonPath);
+   visitedEpisodes.push(...actual);
+  }
+  assert.equal(visitedEpisodes.length,26,"Solo Leveling must include 25 episodes and the E7.5 special");
+  assert.equal(new Set(visitedEpisodes).size,26,"Solo Leveling season pages must not duplicate episode reviews");
+  assert(hub.includes("12 numbered episodes plus the official E7.5 recap special"),"Season 1 card must identify the released recap special");
+  continue;
+ }
  const pageCount=getPageCount(archiveItems.length);
  const visited=[];
  for(let page=1;page<=pageCount;page++){
@@ -199,7 +227,7 @@ else {
     const path="reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/index.html";
     const html=read(path);
     const seriesInfo=series.find(s=>s.kind===r.kind&&s.slug===r.seriesSlug);
-    const installmentLabel=r.installmentSlug.replace("-"," ").replace(/\b\w/g,ch=>ch.toUpperCase());
+    const installmentLabel=r.kind==="anime"&&r.seriesSlug==="solo-leveling"?"Season "+(r.installmentNumber>12?2:1)+" Episode "+(r.installmentNumber>12?r.installmentNumber-12:r.installmentNumber):r.installmentSlug.replace("-"," ").replace(/\b\w/g,ch=>ch.toUpperCase());
     const expectedReviewTitle=seriesInfo.title+" "+installmentLabel+" Review: "+r.headline;
     assert(html.includes("<title>"+expectedReviewTitle.replaceAll("&","&amp;")+" | USA Anime Club</title>"),"Review page title should use Review, not Critical Response: "+u);
     assert(html.includes("<h1>"+expectedReviewTitle.replaceAll("&","&amp;")+"</h1>"),"Review page H1 should use Review: "+u);

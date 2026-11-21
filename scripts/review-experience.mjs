@@ -24,7 +24,7 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     const found=series.find(s=>s.kind===r.kind&&s.slug===r.seriesSlug);
     const slug="/reviews/"+r.kind+"/"+r.seriesSlug+"/"+r.installmentSlug+"/";
     const prefix=r.kind==="anime"?"episode-":"chapter-";
-    if(!found||!r.installmentSlug?.startsWith(prefix)||!/^((episode|chapter)-[0-9]+)$/.test(r.installmentSlug)||r.installmentSlug!==prefix+r.installmentNumber||reviewPaths.has(slug))throw Error("Invalid or duplicate review installment "+slug);
+    if(!found||!r.installmentSlug?.startsWith(prefix)||!/^((episode-[0-9]+(?:\.5)?|chapter-[0-9]+))$/.test(r.installmentSlug)||r.installmentSlug!==prefix+r.installmentNumber||reviewPaths.has(slug))throw Error("Invalid or duplicate review installment "+slug);
     reviewPaths.add(slug);
     if(!r.reviewerName||r.reviewerName.trim().length<3||!r.publishedOn||!r.updatedAt||r.updatedAt.slice(0,10)<r.publishedOn||!r.headline||!r.verdict||!r.description||!r.officialInstallmentUrl?.startsWith("https://"))throw Error("Review metadata missing "+slug);
     if(!Array.isArray(r.sections)||r.sections.length<3||r.sections.reduce((n,x)=>n+x[1].join(" ").trim().split(/\s+/).length,0)<500)throw Error("Critical analysis requires 500+ original words "+slug);
@@ -45,12 +45,13 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
   const hasAny=reviews.length>0;
   const pill=k=>'<span class="review-kind-tag">'+({anime:"ANIME EPISODES",manga:"MANGA CHAPTERS",manhwa:"MANHWA CHAPTERS"}[k])+'</span>';
   const seriesCard=s=>'<a class="review-series-card" href="'+seriesUrl(s)+'"><div class="review-card-top">'+pill(s.kind)+'<span class="review-arrow" aria-hidden="true">↗</span></div><h3>'+e(s.title)+'</h3><p class="review-subtitle">'+e(s.subtitle)+'</p><p class="review-card-excerpt">'+e(s.summary)+'</p><div class="review-card-bottom">'+(s.slug==="boruto-two-blue-vortex"?'':'<span>'+e(s.platform)+'</span>')+'<strong>'+reviewed.get(s.kind+":"+s.slug).length+' original reviews</strong></div></a>';
-  const reviewCard=r=>'<a class="review-published-card" href="'+renderLink(r)+'"><span class="review-kind-tag">'+e(r.installmentSlug.replace("-"," ").toUpperCase())+'</span><h3>'+e(r.headline)+'</h3><p>'+e(r.verdict)+'</p><span class="review-card-foot">'+(r.reviewMode==="sourced"?"Source-based review by ":"Review by ")+e(r.reviewerName)+' · '+dateFmt(r.publishedOn)+'</span></a>';
+  const displayInstallment=r=>r.kind==="anime"&&r.seriesSlug==="solo-leveling"?"Season "+(r.installmentNumber>12?2:1)+" Episode "+(r.installmentNumber>12?r.installmentNumber-12:r.installmentNumber):r.installmentSlug.replace("-"," ").replace(/\b\w/g,c=>c.toUpperCase());
+  const reviewCard=r=>'<a class="review-published-card" href="'+renderLink(r)+'"><span class="review-kind-tag">'+e(displayInstallment(r).toUpperCase())+'</span><h3>'+e(r.headline)+'</h3><p>'+e(r.verdict)+'</p><span class="review-card-foot">'+(r.reviewMode==="sourced"?"Source-based review by ":"Review by ")+e(r.reviewerName)+' · '+dateFmt(r.publishedOn)+'</span></a>';
   const chapter40PreviewCard=article=>'<a class="review-published-card" href="/news/'+e(article.slug)+'/"><span class="review-kind-tag">CHAPTER 40 PREVIEW</span><h3>'+e(article.title)+'</h3><p>'+e(article.description)+'</p><span class="review-card-foot">Preview only · original review after official release · '+dateFmt(article.date)+'</span></a>';
   const crosslinks=s=>s.relatedNewsSlugs?.length?'<ul class="review-related-list">'+s.relatedNewsSlugs.map(slug=>{const a=news.get(slug);return '<li><a href="/news/'+e(a.slug)+'/">'+e(a.title)+'</a></li>'}).join("")+'</ul>':"";
   const archives=[
     {path:"/reviews/",name:"Reviews",title:"Anime Episode, Manga Chapter & Manhwa Chapter Reviews | USA Anime Club",desc:"Explore anime, manga and manhwa series with official release sources and spoiler-labeled original episode and chapter criticism.",kw:"anime episode reviews, manga chapter reviews, manhwa chapter reviews, official release tracker, critical review archive",listing:series},
-    {path:"/reviews/anime/",name:"Anime Episode Reviews",title:"Anime Episode Reviews & Verified US Schedules | USA Anime Club",desc:"Follow Steel Ball Run, The Apothecary Diaries Season 3 and Black Clover Season 2 with official US episode schedules and independent reviews.",kw:"Steel Ball Run review episodes, Apothecary Diaries season 3 episode reviews, Black Clover season 2 reviews",listing:group("anime")},
+    {path:"/reviews/anime/",name:"Anime Episode Reviews",title:"Anime Episode Reviews & Verified US Schedules | USA Anime Club",desc:"Follow Solo Leveling, Steel Ball Run, The Apothecary Diaries Season 3 and Black Clover Season 2 with official US episode records and source-based reviews.",kw:"Solo Leveling season 1 and 2 episode reviews, Steel Ball Run review episodes, Apothecary Diaries season 3 episode reviews, Black Clover season 2 reviews",listing:group("anime")},
     {path:"/reviews/manga/",name:"Manga Chapter Reviews",title:"Manga Chapter Reviews & Official English Releases | USA Anime Club",desc:"Explore Boruto: Two Blue Vortex, One Piece, Kagurabachi and Dandadan chapter criticism, official US editions and sourced commentary.",kw:"Boruto Two Blue Vortex chapter reviews, One Piece chapter reviews, Kagurabachi reviews, Dandadan chapter reviews, VIZ manga USA",listing:group("manga")},
     {path:"/reviews/manhwa/",name:"Manhwa Chapter Reviews",title:"Manhwa Chapter Reviews & Official English Editions | USA Anime Club",desc:"Follow Solo Leveling from Chapter 1 with spoiler-labeled, source-based manhwa criticism and links to authorized English editions.",kw:"Solo Leveling manhwa chapter reviews, manhwa chapter criticism, official English webtoon",listing:group("manhwa")}
   ];
@@ -68,12 +69,29 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     const archiveItems=chapter40Preview?[{preview:chapter40Preview},...list]:list;
     const focus='<ul class="review-focus-list">'+s.reviewFocus.map(x=>'<li>'+e(x)+'</li>').join("")+'</ul>';
     const relevant=s.relatedNewsSlugs?.length?'<section class="review-related"><h2>Related USA Anime Club reporting</h2>'+crosslinks(s)+'</section>':"";
-    const totalPages=getPageCount(archiveItems.length);
+    const soloLeveling=s.kind==="anime"&&s.slug==="solo-leveling";
+    const seasonGroups=soloLeveling?[
+      {number:1,label:"Season 1",description:"12 numbered episodes plus the official E7.5 recap special.",reviews:list.filter(r=>r.installmentNumber<=12)},
+      {number:2,label:"Season 2",description:"All 13 released episodes from Arise from the Shadow.",reviews:list.filter(r=>r.installmentNumber>=13)}
+    ]:[];
+    const totalPages=soloLeveling?1:getPageCount(archiveItems.length);
+    const seasonChoiceCards=soloLeveling?'<section class="review-feed" aria-label="Choose a Solo Leveling season"><div class="review-grid">'+seasonGroups.map(season=>'<a class="review-series-card" href="'+basePath+'season-'+season.number+'/"><div class="review-card-top"><span class="review-kind-tag">'+season.label.toUpperCase()+'</span><span class="review-arrow" aria-hidden="true">↗</span></div><h3>'+season.label+'</h3><p class="review-subtitle">'+e(season.description)+'</p><p class="review-card-excerpt">Browse '+season.reviews.length+' source-based episode reviews.</p><div class="review-card-bottom"><span>Crunchyroll</span><strong>'+season.reviews.length+' reviews</strong></div></a>').join("")+'</div></section>':"";
+    if(soloLeveling)for(const season of seasonGroups){
+      const seasonPath=basePath+"season-"+season.number+"/";
+      const ordered=season.reviews.slice().sort((a,b)=>a.installmentNumber-b.installmentNumber);
+      const seasonTitle=s.title+" "+season.label+" Episode Reviews";
+      const seasonDesc=season.label+" of Solo Leveling: "+season.description+" Read source-based reviews of every released installment.";
+      const seasonCrumbs=[["Home","/"],["Reviews","/reviews/"],["Anime Episode Reviews","/reviews/anime/"],[s.title,basePath],[season.label,seasonPath]];
+      const seasonCards='<section class="review-feed" aria-label="'+e(season.label)+' episode reviews"><div class="review-grid">'+ordered.map(reviewCard).join("")+'</div></section>';
+      const seasonMain='<div class="review-page wrap">'+bread(seasonCrumbs)+'<header class="review-series-hero">'+pill(s.kind)+'<span class="eyebrow">ALL RELEASED EPISODES</span><h1>'+e(seasonTitle)+'</h1><p class="lead">'+e(season.description)+'</p><p>Each card opens an original, source-based review. Episode listings and official release records are cited on every review.</p></header>'+seasonCards+'<p class="review-reviewer-note"><a href="'+basePath+'">Back to both Solo Leveling seasons</a> · <a href="'+basePath+"season-"+(season.number===1?2:1)+'/">Browse Season '+(season.number===1?2:1)+'</a></p></div>';
+      const seasonList={"@context":"https://schema.org","@type":"ItemList",itemListElement:ordered.map((r,i)=>({"@type":"ListItem",position:i+1,name:displayInstallment(r)+": "+r.headline,url:BASE+renderLink(r)}))};
+      files[seasonPath.slice(1)+"index.html"]=shell({path:seasonPath,title:seasonTitle+" | USA Anime Club",desc:seasonDesc,kw:"Solo Leveling "+season.label+" episode reviews, source-based anime criticism, Crunchyroll",main:seasonMain,schemas:[pageLd(seasonPath,seasonTitle,seasonDesc,"CollectionPage"),bc(seasonCrumbs),seasonList]});
+    }
     for(let page=1;page<=totalPages;page++){
       const path=page===1?basePath:basePath+"page/"+page+"/";
       const visible=getPageItems(archiveItems,page);
       const pag=totalPages>1?paginationHtml({basePath,page,total:archiveItems.length,label:s.title+" chapter and episode articles"}):"";
-      const published=visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(item=>item.preview?chapter40PreviewCard(item.preview):reviewCard(item)).join("")+'</div></section>':'';
+      const published=soloLeveling?seasonChoiceCards:visible.length?'<section class="review-feed" aria-label="Chapter and episode articles"><div class="review-grid">'+visible.map(item=>item.preview?chapter40PreviewCard(item.preview):reviewCard(item)).join("")+'</div></section>':'';
       const breadcrumbs=[["Home","/"],["Reviews","/reviews/"],[kindLabel,"/reviews/"+s.kind+"/"],[s.title,basePath],...(page===1?[]:[["Page "+page,path]])];
       const mainTitle=s.title+(page===1?"":": Page "+page);
       const summary=page===1?s.summary:"Continue browsing "+s.title+" with older, spoiler-labeled chapter and episode analysis. This is page "+page+" of "+totalPages+".";
@@ -93,13 +111,19 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     const s=series.find(s=>s.kind===r.kind&&s.slug===r.seriesSlug);
     const path=renderLink(r);
     const sourced=r.reviewMode==="sourced";
-    const installmentName=r.installmentSlug.replace("-"," ").replace(/\b\w/g,c=>c.toUpperCase());
+    const installmentName=displayInstallment(r);
     const fullTitle=s.title+" "+installmentName+" Review: "+r.headline;
     const body=r.sections.map(([h,ps],i)=>'<section aria-labelledby="review-point-'+i+'"><h2 id="review-point-'+i+'">'+e(h)+'</h2>'+ps.map(p=>'<p>'+e(p)+'</p>').join("")+'</section>').join("");
     const chapterPeers=reviewed.get(s.kind+":"+s.slug);
     const previousChapter=chapterPeers.find(q=>q.installmentNumber===r.installmentNumber-1);
     const followingChapter=chapterPeers.find(q=>q.installmentNumber===r.installmentNumber+1);
-    const chapterNav=r.kind!=="anime"&&(previousChapter||followingChapter)?'<nav class="review-chapter-nav" aria-label="Read adjacent chapter reviews"><h2>Continue through the chapters</h2><div class="review-chapter-links">'+(previousChapter?'<a href="'+renderLink(previousChapter)+'">← Chapter '+previousChapter.installmentNumber+' review</a>':"")+(followingChapter?'<a href="'+renderLink(followingChapter)+'">Chapter '+followingChapter.installmentNumber+' review →</a>':"")+'</div><p><a href="'+seriesUrl(s)+'">Browse every '+e(s.title)+' chapter review</a></p></nav>':"";
+    const soloEpisodeOrder=s.kind==="anime"&&s.slug==="solo-leveling"?chapterPeers.slice().sort((a,b)=>a.installmentNumber-b.installmentNumber):[];
+    const soloIndex=soloEpisodeOrder.findIndex(q=>q.installmentSlug===r.installmentSlug);
+    const soloPrevious=soloEpisodeOrder[soloIndex-1],soloNext=soloEpisodeOrder[soloIndex+1];
+    const episodeLabel=q=>displayInstallment(q)+(q.installmentNumber===7.5?" recap special":"");
+    const soloEpisodeNav=s.kind==="anime"&&s.slug==="solo-leveling"&&(soloPrevious||soloNext)?'<nav class="review-chapter-nav" aria-label="Read adjacent episode reviews"><h2>Continue through the episodes</h2><div class="review-chapter-links">'+(soloPrevious?'<a href="'+renderLink(soloPrevious)+'">← '+e(episodeLabel(soloPrevious))+' review</a>':"")+(soloNext?'<a href="'+renderLink(soloNext)+'">'+e(episodeLabel(soloNext))+' review →</a>':"")+'</div><p><a href="'+seriesUrl(s)+'season-'+(r.installmentNumber>12?2:1)+'/">Browse '+(r.installmentNumber>12?"Season 2":"Season 1")+' reviews</a> · <a href="'+seriesUrl(s)+'">All seasons</a></p></nav>':"";
+    const mangaChapterNav=r.kind!=="anime"&&(previousChapter||followingChapter)?'<nav class="review-chapter-nav" aria-label="Read adjacent chapter reviews"><h2>Continue through the chapters</h2><div class="review-chapter-links">'+(previousChapter?'<a href="'+renderLink(previousChapter)+'">← Chapter '+previousChapter.installmentNumber+' review</a>':"")+(followingChapter?'<a href="'+renderLink(followingChapter)+'">Chapter '+followingChapter.installmentNumber+' review →</a>':"")+'</div><p><a href="'+seriesUrl(s)+'">Browse every '+e(s.title)+' chapter review</a></p></nav>':"";
+    const chapterNav=soloEpisodeNav||mangaChapterNav;
     const score=sourced||r.score===undefined?"":'<p class="review-score">Reviewer rating: <strong>'+r.score+'/10</strong></p>';
     const sources=sourced?'<section class="review-sources" aria-labelledby="review-sources-heading"><h2 id="review-sources-heading">Research sources and release verification</h2><p>Research checked <time datetime="'+r.researchCheckedOn+'">'+dateFmt(r.researchCheckedOn)+'</time>. The publisher establishes release facts; independent sources inform the analysis above.</p><ul>'+r.references.map(x=>'<li><a href="'+e(x.url)+'" target="_blank" rel="noopener noreferrer">'+e(x.label)+'</a> <time datetime="'+x.date+'">'+dateFmt(x.date)+'</time></li>').join("")+'</ul></section>':'';
     const meta=sourced
@@ -119,7 +143,9 @@ export function buildReviewExperience({BASE,series,reviews,articles,shell,pageLd
     if(sourced){
       schema={...common,"@type":"Article",genre:"Source-based critical analysis",author:{"@type":"Organization",name:"USA Anime Club Editorial",url:BASE+"/about/"},articleBody:r.sections.flatMap(x=>x[1]).join(" "),citation:r.references.map(x=>x.url),isBasedOn:r.officialInstallmentUrl};
     }else{
-      schema={...common,"@type":"Review",reviewBody:r.verdict+" "+r.sections.flatMap(x=>x[1]).join(" "),author:{"@type":"Person",name:r.reviewerName},itemReviewed:r.kind==="anime"?{"@type":"TVEpisode",name:s.title+" "+r.installmentSlug,episodeNumber:r.installmentNumber,partOfSeries:{"@type":"TVSeries",name:s.title},url:r.officialInstallmentUrl}:{"@type":"Chapter",name:s.title+" "+r.installmentSlug,position:r.installmentNumber,isPartOf:{"@type":"CreativeWorkSeries",name:s.title},url:r.officialInstallmentUrl}};
+      const episodeSeason=r.kind==="anime"&&r.seriesSlug==="solo-leveling"?(r.installmentNumber>12?2:1):null;
+      const episodeNumber=episodeSeason?(r.installmentNumber>12?r.installmentNumber-12:r.installmentNumber):r.installmentNumber;
+      schema={...common,"@type":"Review",reviewBody:r.verdict+" "+r.sections.flatMap(x=>x[1]).join(" "),author:{"@type":"Person",name:r.reviewerName},itemReviewed:r.kind==="anime"?{"@type":"TVEpisode",name:s.title+" "+displayInstallment(r),episodeNumber,partOfSeries:{"@type":"TVSeries",name:s.title},...(episodeSeason?{partOfSeason:{"@type":"TVSeason",seasonNumber:episodeSeason}}:{}),url:r.officialInstallmentUrl}:{"@type":"Chapter",name:s.title+" "+r.installmentSlug,position:r.installmentNumber,isPartOf:{"@type":"CreativeWorkSeries",name:s.title},url:r.officialInstallmentUrl}};
       if(r.score!==undefined)schema.reviewRating={"@type":"Rating",ratingValue:r.score,bestRating:10,worstRating:1};
     }
     files[path.slice(1)+"index.html"]=shell({path,title:fullTitle+" | USA Anime Club",desc:r.description,kw:s.title+", "+r.installmentSlug+" review, official "+r.kind+" release, source-based critique",main,article:true,image:socialImg,imageAlt:approvedArt?.alt,schemas:[schema,bc([["Home","/"],["Reviews","/reviews/"],[s.title,seriesUrl(s)],[fullTitle,path]])]});

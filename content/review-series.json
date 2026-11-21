@@ -1,5 +1,31 @@
 [
   {
+    "slug": "solo-leveling",
+    "kind": "anime",
+    "title": "Solo Leveling",
+    "subtitle": "Season 1 and Season 2 · episode reviews",
+    "schedule": "Crunchyroll's official series listing includes both released seasons. Season 1 has 12 numbered episodes plus the E7.5 recap special; Season 2 has 13 numbered episodes. Check Crunchyroll for current US availability and audio options.",
+    "latestLabel": "Season 2, Episode 13 · On to the Next Target",
+    "latestDate": "2025-03-29",
+    "latestUnit": "episode",
+    "platform": "Crunchyroll",
+    "officialUrl": "https://www.crunchyroll.com/series/GDKHZEJ0K/solo-leveling",
+    "sourceLabel": "Crunchyroll episode listings and official Solo Leveling story archive",
+    "sourceDate": "2025-03-29",
+    "checkedOn": "2026-11-22",
+    "summary": "The complete released anime currently spans two seasons: 12 numbered Season 1 episodes, its official E7.5 recap special, and 13 Season 2 episodes. Each released installment has an original, source-based review grounded in official release records and episode guides.",
+    "reviewFocus": [
+      "How Jinwoo's choices change as his power grows",
+      "What the System and hunter institutions reward or conceal",
+      "How each season balances personal goals with wider hunter conflicts"
+    ],
+    "relatedNewsSlugs": [
+      "solo-leveling-igris-beru-visual-beyond-the-system",
+      "solo-leveling-season-3-official-status-beyond-the-system-film"
+    ],
+    "hideOverviewCards": true
+  },
+  {
     "slug": "steel-ball-run",
     "kind": "anime",
     "title": "Steel Ball Run",
