@@ -670,3 +670,27 @@ h1,h2,h3{letter-spacing:-.03em}
  .privacy-banner{width:calc(100% - .75rem);padding:.85rem}
 }
 
+
+/* A quiet, always-available link to the USA Anime Club WhatsApp group. */
+.whatsapp-float{
+  position:fixed;
+  right:calc(1rem + env(safe-area-inset-right,0px));
+  bottom:calc(1rem + env(safe-area-inset-bottom,0px));
+  z-index:90;
+  display:grid;
+  place-items:center;
+  width:48px;
+  height:48px;
+  border:2px solid rgba(255,255,255,.96);
+  border-radius:50%;
+  background:linear-gradient(145deg,#0b9880,#08766a);
+  color:#fff;
+  box-shadow:0 7px 20px rgba(15,55,76,.22),0 2px 5px rgba(16,35,68,.16);
+  text-decoration:none;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.whatsapp-float svg{display:block;width:24px;height:24px;fill:currentColor}
+.whatsapp-float:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,55,76,.28),0 3px 7px rgba(16,35,68,.18)}
+.whatsapp-float:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+@media(max-width:620px){.whatsapp-float{right:calc(.8rem + env(safe-area-inset-right,0px));bottom:calc(.8rem + env(safe-area-inset-bottom,0px));width:46px;height:46px}}
+@media(prefers-reduced-motion:reduce){.whatsapp-float{transition:none}}
