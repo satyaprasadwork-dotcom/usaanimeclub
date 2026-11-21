@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import {readFileSync,existsSync} from "node:fs";
 const root=new URL("../",import.meta.url),read=p=>readFileSync(new URL(p,root),"utf8");
 const base="https://usaanimeclub.com";
+const editorialDateParts=Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date()).map(p=>[p.type,p.value]));
+const todayInEditorialTimezone=editorialDateParts.year+"-"+editorialDateParts.month+"-"+editorialDateParts.day;
 const articles=JSON.parse(read("content/articles.json"));
 const reviews=JSON.parse(read("content/reviews.json"));
 const formats=JSON.parse(read("content/editorial-formats.json"));
@@ -53,7 +55,7 @@ for(const entry of rows){
  }else{
    assert(!entry.lastmod,"Collection/policy page claims unverifiable artificial lastmod: "+path);
  }
- if(entry.lastmod){assert(entry.lastmod<=new Date().toISOString().slice(0,10),"Future modification date: "+path);lastmods++;}
+ if(entry.lastmod){assert(entry.lastmod<=todayInEditorialTimezone,"Future modification date in Asia/Kolkata: "+path);lastmods++;}
 }
 const newsUrls=[...news.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 const newsExpected=articles.filter(a=>{

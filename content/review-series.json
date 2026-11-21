@@ -173,5 +173,29 @@
       "dandadan-volume-22-english-release-viz-reading-options"
     ],
     "hideOverviewCards": true
+  },
+  {
+    "slug": "solo-leveling",
+    "kind": "manhwa",
+    "title": "Solo Leveling",
+    "subtitle": "Main-story chapters · beginning at Chapter 1",
+    "schedule": "Tapas lists the comic as a completed 202-episode series. This retrospective uses the original chapter order, beginning with Chapter 1, and links each published review to an authorized English edition. Check the official listing for current access and platform episode labels.",
+    "latestLabel": "Retrospective starts · Chapter 1",
+    "latestDate": "2021-04-05",
+    "latestUnit": "chapter",
+    "platform": "Tapas / Tappytoon / Yen Press",
+    "officialUrl": "https://tapas.io/series/solo-leveling-comic/info",
+    "sourceLabel": "Tapas official comic listing · first English Episode 1 date",
+    "sourceDate": "2021-04-05",
+    "checkedOn": "2026-11-22",
+    "summary": "A chapter-by-chapter, source-based retrospective of the completed manhwa, beginning with Chapter 1. We will move in original chapter order and publish only researched entries, with each review linking to an authorized English edition.",
+    "reviewFocus": [
+      "How rank and labor shape Jinwoo's reason for raiding",
+      "How the supporting hunters make the opening danger credible",
+      "How setup, pacing and chapter endings build expectation"
+    ],
+    "relatedNewsSlugs": [],
+    "hideOverviewCards": true,
+    "retrospective": true
   }
 ]
