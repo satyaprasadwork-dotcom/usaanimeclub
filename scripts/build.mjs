@@ -298,7 +298,7 @@ ${pag}</div></section>`;
     const sectionId=h=>"section-"+h.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     const contents=`<a href="#quick-answer">Quick answer</a>`+a.sections.map(([h])=>`<a href="#${sectionId(h)}">${e(h)}</a>`).join("")+`<a href="#primary-source">Primary source</a>`;
     const crumbs=[["Home","/"],["News","/news/"],[a.title,path]];
-    const reportLabel="US ANIME NEWS";
+    const reportLabel="NEWS";
     const content=`<div class="post-layout">${bread(crumbs)}
 <article><header class="post-head"><span class="story-kicker">${e(a.category)} <span aria-hidden="true">/</span> ${reportLabel}</span>
 <h1>${e(a.title)}</h1><p class="lead">${e(a.description)}</p>
