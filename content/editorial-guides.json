@@ -1004,5 +1004,11 @@
     "action": "Preview only. Chapter 39 is available on MANGA Plus; USA Anime Club will publish its original Chapter 40 review after the chapter’s official release.",
     "updated": "2026-11-20",
     "updatedAt": "2026-11-20T14:10:49Z"
+  },
+  "naruto-shippuden-movie-india-release-dates-blood-prison-road-to-ninja": {
+    "scene": "screen",
+    "label": "INDIA RELEASE TRACKER",
+    "question": "What would count as a confirmed India release date?",
+    "action": "Look for a dated announcement from the Indian distributor or cinema chain, then confirm that the same date appears on a ticketing page for your city. A CBFC certificate by itself does not give a show date."
   }
 }
