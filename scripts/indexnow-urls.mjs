@@ -2,7 +2,7 @@
 // no sitemap, archive, category, author, policy or pagination resubmissions.
 const ROOT="https://usaanimeclub.com";
 const NEWS=/^https:\/\/usaanimeclub\.com\/news\/[a-z0-9-]+\/$/;
-const REVIEW=/^https:\/\/usaanimeclub\.com\/reviews\/(?:anime|manga)\/[a-z0-9-]+\/(?:episode|chapter)-[1-9][0-9]*\/$/;
+const REVIEW=/^https:\/\/usaanimeclub\.com\/reviews\/(?:anime|manga|manhwa)\/[a-z0-9-]+\/(?:episode|chapter)-[1-9][0-9]*\/$/;
 export function isEditorialArticleUrl(url){return NEWS.test(url)||REVIEW.test(url);}
 export function canonicalSitemapUrls(xml){
  const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1].replaceAll("&amp;","&"));
